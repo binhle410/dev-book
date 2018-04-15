@@ -43,6 +43,7 @@
     },
     "autoload": {
         "psr-4": {
+            "Bean\\Bundle\\BookBundle\\": "libraries/bundle/BeanBookBundle/",
             "App\\": "src/"
         }
     },
