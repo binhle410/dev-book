@@ -1,0 +1,41 @@
+{
+  "name": "beancomponent/devtool-bundle",
+  "type": "symfony-bundle",
+  "description": "Dev Tool.",
+  "keywords": [
+    "Symfony DevTool Bundle"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Peter Bean",
+      "email": "peterbean@beancomponent.com"
+    }
+  ],
+  "require": {
+    "php": "^5.6|^7.0"
+  },
+  "require-dev": {
+    "composer/composer": "^1.0",
+    "friendsofphp/php-cs-fixer": "^2.0",
+    "phpunit/phpunit": "^5.0|^6.0",
+    "symfony/phpunit-bridge": "^2.7|^3.0",
+    "symfony/yaml": "^2.7|^3.0|^4.0"
+  },
+  "suggest": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Bean\\Bundle\\DevToolBundle\\": "libraries/bundle/BeanDevToolBundle/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1-dev"
+    }
+  }
+}
