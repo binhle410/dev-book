@@ -12,7 +12,7 @@ class CopyToSourceCommand extends ContainerAwareCommand {
 	protected function configure() {
 		$this
 			// the name of the command (the part after "bin/console")
-			->setName('bean-dev:library:src')
+			->setName('bean-dev:library:copy-to-source')
 			// the short description shown while running "php bin/console list"
 			->setDescription('Extract a Composer Package')
 			// the full command description shown when running the command with
@@ -27,22 +27,25 @@ class CopyToSourceCommand extends ContainerAwareCommand {
 			'============',
 			'List Bundles',
 		]);
-		
-		$bundles = $this->getContainer()->getParameter('kernel.bundles');
+		$container = $this->getContainer();
+		$bundles   = $container->getParameter('kernel.bundles');
 		
 		// outputs a message followed by a "\n"
 		$output->writeln('Whoa!');
 		
+		// let's copy Bundles first
 		foreach($bundles as $bundle) {
 			$reflector  = new \ReflectionClass($bundle);
 			$fn         = $reflector->getFileName();
 			$bundleName = basename($bundle);
 			$bundleDir  = dirname($fn);
-			$output->writeln([ $bundleName, $bundle, $bundleDir ]);
-			$output->writeln('===================');
-			if(in_array($bundleName, [ 'BeanBookBundle', 'BeanDevToolBundle' ])) {
-				$composerJson = file_get_contents($bundleDir . DIRECTORY_SEPARATOR . "composer.json");
-				var_dump(json_decode($composerJson));
+			if(is_dir($container->getParameter('bean_dev_tool.library_workspace') . 'bundle' . DIRECTORY_SEPARATOR . $bundleName)) {
+				$output->writeln([ $bundleName, $bundle, $bundleDir ]);
+				$output->writeln('===================');
+				
+				$output->writeln('===================');
+				$output->writeln('===================');
+				$output->writeln('===================');
 			}
 		}
 		

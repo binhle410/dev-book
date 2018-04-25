@@ -17,8 +17,8 @@ class Configuration implements ConfigurationInterface {
 				//			->arrayNode('classes')->end()
 			//			->end()
 //			->end()// book
-			->scalarNode('library_dest')->end()
-			->scalarNode('library_src')->end()
+			->scalarNode('library_source')->end()
+			->scalarNode('library_workspace')->end()
 			->end();
 		
 		return $treeBuilder;

@@ -8,7 +8,10 @@
         <service id="Bean\Bundle\DevToolBundle\Command\CopyToSourceCommand" public="false">
             <tag name="console.command"/>
         </service>
-        <service id="Bean\Bundle\DevToolBundle\Command\CopyToDestinationCommand" public="false">
+        <service id="Bean\Bundle\DevToolBundle\Command\CopyToWorkspaceCommand" public="false">
+            <tag name="console.command"/>
+        </service>
+        <service id="Bean\Bundle\DevToolBundle\Command\MergeComposerJsonCommand" public="false">
             <tag name="console.command"/>
         </service>
     </services>

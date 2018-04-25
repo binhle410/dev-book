@@ -7,12 +7,12 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CopyToDestinationCommand extends ContainerAwareCommand {
+class CopyToWorkspaceCommand extends ContainerAwareCommand {
 	
 	protected function configure() {
 		$this
 			// the name of the command (the part after "bin/console")
-			->setName('bean-dev:library:dest')
+			->setName('bean-dev:library:copy-to-workspace')
 			// the short description shown while running "php bin/console list"
 			->setDescription('Extract a Composer Package')
 			// the full command description shown when running the command with
@@ -45,8 +45,8 @@ class CopyToDestinationCommand extends ContainerAwareCommand {
 				var_dump(json_decode($composerJson));
 				$output->writeln([
 					' Config ',
-					$this->getContainer()->getParameter('bean_dev_tool.library_src'),
-					$this->getContainer()->getParameter('bean_dev_tool.library_dest'),
+					$this->getContainer()->getParameter('bean_dev_tool.library_source'),
+					$this->getContainer()->getParameter('bean_dev_tool.library_workspace'),
 					' End Config '
 				]);
 			}

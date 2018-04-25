@@ -15,8 +15,8 @@ class BeanDevToolExtension extends ConfigurableExtension {
 		
 		$loader->load('services.xml');
 		
-		$container->setParameter('bean_dev_tool.library_src', $mergedConfig['library_src']);
-		$container->setParameter('bean_dev_tool.library_dest', $mergedConfig['library_dest']);
+		$container->setParameter('bean_dev_tool.library_source', $mergedConfig['library_source']);
+		$container->setParameter('bean_dev_tool.library_workspace', $mergedConfig['library_workspace']);
 
 //		$definition = $container->getDefinition('bean_dev_tool.library_src');
 //		echo $definition;
