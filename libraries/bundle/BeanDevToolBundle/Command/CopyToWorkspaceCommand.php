@@ -41,14 +41,14 @@ class CopyToWorkspaceCommand extends ContainerAwareCommand {
 			$output->writeln([ $bundleName, $bundle, $bundleDir ]);
 			$output->writeln('===================');
 			if(in_array($bundleName, [ 'BeanBookBundle', 'BeanDevToolBundle' ])) {
-				$composerJson = file_get_contents($bundleDir . DIRECTORY_SEPARATOR . "composer.json");
-				var_dump(json_decode($composerJson));
 				$output->writeln([
 					' Config ',
 					$this->getContainer()->getParameter('bean_dev_tool.library_source'),
 					$this->getContainer()->getParameter('bean_dev_tool.library_workspace'),
 					' End Config '
 				]);
+				
+				
 			}
 		}
 		

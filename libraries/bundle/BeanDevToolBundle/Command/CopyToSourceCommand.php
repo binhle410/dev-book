@@ -2,6 +2,7 @@
 
 namespace Bean\Bundle\DevToolBundle\Command;
 
+use Bean\Bundle\DevToolBundle\Service\FileService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -41,8 +42,8 @@ class CopyToSourceCommand extends ContainerAwareCommand {
 			$bundleDir  = dirname($fn);
 			if(is_dir($container->getParameter('bean_dev_tool.library_workspace') . 'bundle' . DIRECTORY_SEPARATOR . $bundleName)) {
 				$output->writeln([ $bundleName, $bundle, $bundleDir ]);
-				$output->writeln('===================');
-				
+				$output->writeln('============ Copy to Source ============');
+				FileService::copyFolder($bundleDir, $container->getParameter('bean_dev_tool.library_source') . $bundleName);
 				$output->writeln('===================');
 				$output->writeln('===================');
 				$output->writeln('===================');
