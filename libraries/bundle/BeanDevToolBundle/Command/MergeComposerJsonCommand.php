@@ -33,51 +33,74 @@ class MergeComposerJsonCommand extends ContainerAwareCommand {
 		
 		// outputs a message followed by a "\n"
 		$output->writeln('Whoa! DIRECTORY_SEPARATOR is ' . DIRECTORY_SEPARATOR);
-		$projectDir   = $container->getParameter('kernel.project_dir');
 		
+		$projectDir     = $container->getParameter('kernel.project_dir');
 		$composerWSPath = $projectDir . DIRECTORY_SEPARATOR . 'composer.json';
 		$composerWSJson = file_get_contents($container->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR . 'composer_original.json');
 		$composerWS     = json_decode($composerWSJson);
-		// let's copy Bundles first
-		foreach($bundles as $bundle) {
-			$reflector   = new \ReflectionClass($bundle);
-			$fn          = $reflector->getFileName();
-			$bundleName  = basename($bundle);
-			$bundleDir   = dirname($fn);
-			$bundleDirFS = str_replace('\\', '/', $bundleDir);
-			
-			$output->writeln('$bundleDirFS is ' . $bundleDirFS);
-			if(is_dir($container->getParameter('bean_dev_tool.library_workspace') . 'bundle' . DIRECTORY_SEPARATOR . $bundleName)) {
-				$output->writeln([ $bundleName, $bundle, $bundleDir ]);
-				$output->writeln('===================');
-				$composerPath = $bundleDir . DIRECTORY_SEPARATOR . "composer.json";
-				$composerJson = file_get_contents($composerPath);
-				$composer     = json_decode($composerJson);
-				
-				JsonService::merge($composer, $composerWS, 'require');
-				JsonService::merge($composer, $composerWS, 'require-dev');
-				
-				$psr4 = $composer->autoload->{'psr-4'};
-				foreach($psr4 as $_ns => $_path) {
-					$psr4->$_ns = str_replace($projectDir . DIRECTORY_SEPARATOR, '', $bundleDir) . DIRECTORY_SEPARATOR;
+		
+		$this->mergeLibraryComposer('bundle', $composerWS, $output);
+		$this->mergeLibraryComposer('component', $composerWS, $output);
+		
+		file_put_contents($composerWSPath, json_encode($composerWS, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+		
+		$output->writeln('===================');
+		$output->writeln('===================');
+		
+	}
+	
+	private function mergeLibraryComposer($type, $composerWS, $output) {
+		$container = $this->getContainer();
+		
+		$registeredLibraries = $container->getParameter(sprintf('bean_dev_tool.%ss', $type));
+		
+		$libraryDirs = glob($container->getParameter('bean_dev_tool.library_workspace') . $type . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
+		
+		foreach($libraryDirs as $libraryDir) {
+			$libraryName = basename($libraryDir);
+			if(count($registeredLibraries) > 0) {
+				if( ! in_array($libraryName, $registeredLibraries)) {
+					$output->writeln('skipping ' . $libraryName);
+					continue;
 				}
-				$composer->autoload->{'psr-4'} = $psr4;
-				JsonService::merge($composer, $composerWS, 'autoload.psr-4');
-				/////////////// TODO: DRY
-//				$psr4 = $composer->{'autoload-dev'}->{'psr-4'};
+			}
+			$libraryDirFS = str_replace('\\', '/', $libraryDir);
+
+//			$output->writeln('$bundleDirFS is ' . $libraryDirFS);
+			
+			$output->writeln([ $libraryName, $libraryDir ]);
+			$output->writeln('===================');
+			$composerPath = $libraryDir . DIRECTORY_SEPARATOR . "composer.json";
+			$composerJson = file_get_contents($composerPath);
+			$composer     = json_decode($composerJson);
+			
+			JsonService::merge($composer, $composerWS, 'require');
+			JsonService::merge($composer, $composerWS, 'require-dev');
+			
+			$psr4 = $composer->autoload->{'psr-4'};
+			$this->fixPsr4($psr4, $libraryDir);
+			
+			$composer->autoload->{'psr-4'} = $psr4;
+			JsonService::merge($composer, $composerWS, 'autoload.psr-4');
+			
+			$psr4 = $composer->{'autoload-dev'}->{'psr-4'};
+			$this->fixPsr4($psr4, $libraryDir);
+
 //				foreach($psr4 as $_ns => $_path) {
 //					$psr4->$_ns = str_replace($projectDirFS, '', $bundleDirFS) . DIRECTORY_SEPARATOR;
 //				}
 //				$composer->{'autoload-dev'}->{'psr-4'} = $psr4;
 //				JsonService::merge($composer, $composerWS, 'autoload-dev', true);
-				
-				file_put_contents($composerWSPath, json_encode($composerWS, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
-				
-				$output->writeln('===================');
-				$output->writeln('===================');
-				$output->writeln('===================');
-			}
+			$output->writeln('===================');
 		}
 		
+	}
+	
+	private function fixPsr4($psr4, $bundleDir) {
+		$projectDir = $this->getContainer()->getParameter('kernel.project_dir');
+		
+		foreach($psr4 as $_ns => $_path) {
+			$psr4->$_ns = str_replace($projectDir . DIRECTORY_SEPARATOR, '', $bundleDir) . DIRECTORY_SEPARATOR . $_path;
+		}
 	}
 }
