@@ -39,19 +39,22 @@ class CopyToWorkspaceCommand extends ContainerAwareCommand {
 		
 		
 		// let's copy Bundles first
-		$bundleDirs = glob($container->getParameter('bean_dev_tool.library_source') . 'bundle' . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
-		foreach($bundleDirs as $bundleDir) {
-			$bundleName = basename($bundleDir);
-//			$bundleDir  = dirname($fn);
-			$output->writeln([ $bundleName, $bundleDir ]);
-			$output->writeln('============ Copy to Workspace ============');
-			
-			$this->fileService->setOutput($output);
-			$this->fileService->copyFolder($bundleDir, $container->getParameter('bean_dev_tool.library_workspace') . 'bundle' . DIRECTORY_SEPARATOR . $bundleName, [ '.git' ]);
-			$output->writeln('===================');
-			$output->writeln('===================');
-			
-		}
+//		$bundleDirs = glob($container->getParameter('bean_dev_tool.library_source') . 'bundle' . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
+//		foreach($bundleDirs as $bundleDir) {
+//			$bundleName = basename($bundleDir);
+////			$bundleDir  = dirname($fn);
+//			$output->writeln([ $bundleName, $bundleDir ]);
+//			$output->writeln('============ Copy to Workspace ============');
+//
+//			$this->fileService->setOutput($output);
+//			$this->fileService->copyFolder($bundleDir, $container->getParameter('bean_dev_tool.library_workspace') . 'bundle' . DIRECTORY_SEPARATOR . $bundleName, [ '.git' ]);
+//			$output->writeln('===================');
+//			$output->writeln('===================');
+//
+//		}
+		$this->fileService->setOutput($output);
+		$this->fileService->copyLibrary('bundle', $container->getParameter('bean_dev_tool.library_source'), $container->getParameter('bean_dev_tool.library_workspace'), [ '.git' ]);
+		
 		
 		// now how about non-bundle elements
 		$output->writeln([
@@ -59,12 +62,14 @@ class CopyToWorkspaceCommand extends ContainerAwareCommand {
 			'List and Copy Components and Sites to Git Source',
 		]);
 		
-		$componentDirs = glob($container->getParameter('bean_dev_tool.library_source') . 'component' . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
-		foreach($componentDirs as $componenDir) {
-			$componentName = basename($componenDir);
-			$output->writeln($componenDir);
-			$this->fileService->copyFolder($componenDir, $container->getParameter('bean_dev_tool.library_workspace') . 'component' . DIRECTORY_SEPARATOR . $componentName, [ '.git' ]);
-		}
+//		$componentDirs = glob($container->getParameter('bean_dev_tool.library_source') . 'component' . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
+//		foreach($componentDirs as $componenDir) {
+//			$componentName = basename($componenDir);
+//			$output->writeln($componenDir);
+//			$this->fileService->copyFolder($componenDir, $container->getParameter('bean_dev_tool.library_workspace') . 'component' . DIRECTORY_SEPARATOR . $componentName, [ '.git' ]);
+//		}
+		$this->fileService->setOutput($output);
+		$this->fileService->copyLibrary('component', $container->getParameter('bean_dev_tool.library_source'), $container->getParameter('bean_dev_tool.library_workspace'), [ '.git' ]);
 		
 		
 		// outputs a message without adding a "\n" at the end of the line
