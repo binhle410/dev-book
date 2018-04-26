@@ -6,7 +6,7 @@ class FileService {
 	
 	public static function copyFolder($src, $dest, $ignoredFolders = array()) {
 		if(in_array(basename($src), $ignoredFolders)) {
-			echo 'skipping ' . $src;
+			echo 'skipping ' . $src.' ';
 			
 			return;
 		}
@@ -16,7 +16,7 @@ class FileService {
 		while(false !== ($file = readdir($dir))) {
 			if(($file != '.') && ($file != '..')) {
 				if(is_dir($src . '/' . $file)) {
-					self::copyFolder($src . '/' . $file, $dest . '/' . $file);
+					self::copyFolder($src . '/' . $file, $dest . '/' . $file, $ignoredFolders);
 				} else {
 					copy($src . '/' . $file, $dest . '/' . $file);
 				}
