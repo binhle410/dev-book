@@ -6,6 +6,8 @@ class FileService {
 	
 	public static function copyFolder($src, $dest, $ignoredFolders = array()) {
 		if(in_array(basename($src), $ignoredFolders)) {
+			echo 'skipping ' . $src;
+			
 			return;
 		}
 		

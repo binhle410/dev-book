@@ -51,8 +51,9 @@ class CopyToSourceCommand extends ContainerAwareCommand {
 		
 		$componentDirs = glob($container->getParameter('bean_dev_tool.library_workspace') . 'component' . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
 		foreach($componentDirs as $componenDir) {
+			$componentName = basename($componenDir);
 			$output->writeln($componenDir);
-			FileService::copyFolder($componenDir, $container->getParameter('bean_dev_tool.library_source').'component', [ '.git' ]);
+			FileService::copyFolder($componenDir, $container->getParameter('bean_dev_tool.library_source') . 'component' . DIRECTORY_SEPARATOR . $componentName, [ '.git' ]);
 		}
 		
 		// outputs a message without adding a "\n" at the end of the line
