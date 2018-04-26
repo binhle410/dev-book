@@ -38,7 +38,7 @@ class CopyToSourceCommand extends ContainerAwareCommand {
 			if(is_dir($container->getParameter('bean_dev_tool.library_workspace') . 'bundle' . DIRECTORY_SEPARATOR . $bundleName)) {
 				$output->writeln([ $bundleName, $bundle, $bundleDir ]);
 				$output->writeln('============ Copy to Source ============');
-				FileService::copyFolder($bundleDir, $container->getParameter('bean_dev_tool.library_source') . $bundleName, [ '.git' ]);
+				FileService::copyFolder($bundleDir, $container->getParameter('bean_dev_tool.library_source') . 'bundle' . DIRECTORY_SEPARATOR . $bundleName, [ '.git' ]);
 				$output->writeln('===================');
 				$output->writeln('===================');
 			}
@@ -52,7 +52,7 @@ class CopyToSourceCommand extends ContainerAwareCommand {
 		$componentDirs = glob($container->getParameter('bean_dev_tool.library_workspace') . 'component' . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
 		foreach($componentDirs as $componenDir) {
 			$output->writeln($componenDir);
-			FileService::copyFolder($componenDir, $container->getParameter('bean_dev_tool.library_source'), [ '.git' ]);
+			FileService::copyFolder($componenDir, $container->getParameter('bean_dev_tool.library_source').'component', [ '.git' ]);
 		}
 		
 		// outputs a message without adding a "\n" at the end of the line

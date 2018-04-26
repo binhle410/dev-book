@@ -56,7 +56,7 @@ class CopyToWorkspaceCommand extends ContainerAwareCommand {
 			'List and Copy Components and Sites to Git Source',
 		]);
 		
-		$componentDirs = glob($container->getParameter('bean_dev_tool.library_source') . 'component' . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
+		$componentDirs = glob($container->getParameter('bean_dev_tool.library_workspace') . 'component' . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
 		foreach($componentDirs as $componenDir) {
 			$output->writeln($componenDir);
 			FileService::copyFolder($container->getParameter('bean_dev_tool.library_source'), $componenDir, [ '.git' ]);
