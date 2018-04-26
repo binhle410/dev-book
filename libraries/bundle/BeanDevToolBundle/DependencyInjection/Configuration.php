@@ -12,11 +12,15 @@ class Configuration implements ConfigurationInterface {
 		
 		$rootNode
 			->children()
-//			->arrayNode('book')
-			//			->children()
-				//			->arrayNode('classes')->end()
-			//			->end()
-//			->end()// book
+			->arrayNode('bundles')
+				->prototype('scalar')->end()
+			
+//						->children()
+//							->arrayNode('classes')->end()
+//						->end()
+			->end()// bundles
+			->arrayNode('components')
+			->end()// components
 			->scalarNode('library_source')->end()
 			->scalarNode('library_workspace')->end()
 			->end();

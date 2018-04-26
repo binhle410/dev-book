@@ -34,7 +34,6 @@ class MergeComposerJsonCommand extends ContainerAwareCommand {
 		// outputs a message followed by a "\n"
 		$output->writeln('Whoa! DIRECTORY_SEPARATOR is ' . DIRECTORY_SEPARATOR);
 		$projectDir   = $container->getParameter('kernel.project_dir');
-		$projectDirFS = str_replace('\\', '/', $projectDir);
 		
 		$composerWSPath = $projectDir . DIRECTORY_SEPARATOR . 'composer.json';
 		$composerWSJson = file_get_contents($container->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR . 'composer_original.json');

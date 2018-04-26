@@ -9,6 +9,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CopyToSourceCommand extends ContainerAwareCommand {
+	/** @var FileService $fileService */
+	private $fileService;
 	
 	protected function configure() {
 		$this
@@ -27,8 +29,10 @@ class CopyToSourceCommand extends ContainerAwareCommand {
 			'============',
 			'List and Copy Bundles to Git Source',
 		]);
-		$container = $this->getContainer();
-		$bundles   = $container->getParameter('kernel.bundles');
+		$container  = $this->getContainer();
+		$bundles    = $container->getParameter('bean_dev_tool.bundles');
+		$components = $container->getParameter('bean_dev_tool.components');
+		$bundles    = $container->getParameter('kernel.bundles');
 		// let's copy Bundles first
 		foreach($bundles as $bundle) {
 			$reflector  = new \ReflectionClass($bundle);
@@ -38,11 +42,13 @@ class CopyToSourceCommand extends ContainerAwareCommand {
 			if(is_dir($container->getParameter('bean_dev_tool.library_workspace') . 'bundle' . DIRECTORY_SEPARATOR . $bundleName)) {
 				$output->writeln([ $bundleName, $bundle, $bundleDir ]);
 				$output->writeln('============ Copy to Source ============');
-				FileService::copyFolder($bundleDir, $container->getParameter('bean_dev_tool.library_source') . 'bundle' . DIRECTORY_SEPARATOR . $bundleName, [ '.git' ]);
+				$this->fileService->copyFolder($bundleDir, $container->getParameter('bean_dev_tool.library_source') . 'bundle' . DIRECTORY_SEPARATOR . $bundleName, [ '.git' ]);
 				$output->writeln('===================');
 				$output->writeln('===================');
 			}
 		}
+		
+		$this->fileService->copyLibrary('bundle', $container->getParameter('bean_dev_tool.library_workspace'), $container->getParameter('bean_dev_tool.library_source'), [ '.git' ]);
 		
 		$output->writeln([
 			'//////////////////////////////////////////////',
@@ -53,11 +59,18 @@ class CopyToSourceCommand extends ContainerAwareCommand {
 		foreach($componentDirs as $componenDir) {
 			$componentName = basename($componenDir);
 			$output->writeln($componenDir);
-			FileService::copyFolder($componenDir, $container->getParameter('bean_dev_tool.library_source') . 'component' . DIRECTORY_SEPARATOR . $componentName, [ '.git' ]);
+			$this->fileService->copyFolder($componenDir, $container->getParameter('bean_dev_tool.library_source') . 'component' . DIRECTORY_SEPARATOR . $componentName, [ '.git' ]);
 		}
 		
 		// outputs a message without adding a "\n" at the end of the line
 		$output->write('/////////////// Fnished \\\\\\\\\\\\\\\\\\\\ ');
+	}
+	
+	/**
+	 * @param FileService $fileService
+	 */
+	public function setFileService(FileService $fileService): void {
+		$this->fileService = $fileService;
 	}
 	
 }

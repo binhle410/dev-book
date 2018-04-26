@@ -9,6 +9,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CopyToWorkspaceCommand extends ContainerAwareCommand {
+	/** @var FileService $fileService */
+	private $fileService;
+	
 	
 	protected function configure() {
 		$this
@@ -42,7 +45,7 @@ class CopyToWorkspaceCommand extends ContainerAwareCommand {
 //			$bundleDir  = dirname($fn);
 			$output->writeln([ $bundleName, $bundleDir ]);
 			$output->writeln('============ Copy to Workspace ============');
-			FileService::copyFolder($bundleDir, $container->getParameter('bean_dev_tool.library_workspace') . 'bundle' . DIRECTORY_SEPARATOR . $bundleName, [ '.git' ]);
+			$this->fileService->copyFolder($bundleDir, $container->getParameter('bean_dev_tool.library_workspace') . 'bundle' . DIRECTORY_SEPARATOR . $bundleName, [ '.git' ]);
 			$output->writeln('===================');
 			$output->writeln('===================');
 			
@@ -58,12 +61,19 @@ class CopyToWorkspaceCommand extends ContainerAwareCommand {
 		foreach($componentDirs as $componenDir) {
 			$componentName = basename($componenDir);
 			$output->writeln($componenDir);
-			FileService::copyFolder($componenDir, $container->getParameter('bean_dev_tool.library_workspace') . 'component' . DIRECTORY_SEPARATOR . $componentName, [ '.git' ]);
+			$this->fileService->copyFolder($componenDir, $container->getParameter('bean_dev_tool.library_workspace') . 'component' . DIRECTORY_SEPARATOR . $componentName, [ '.git' ]);
 		}
 		
 		
 		// outputs a message without adding a "\n" at the end of the line
 		$output->write('//// Finished \\\\\\\\\ ');
+	}
+	
+	/**
+	 * @param FileService $fileService
+	 */
+	public function setFileService(FileService $fileService): void {
+		$this->fileService = $fileService;
 	}
 	
 }

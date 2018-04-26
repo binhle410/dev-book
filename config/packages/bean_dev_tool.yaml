@@ -1,3 +1,6 @@
 bean_dev_tool:
     library_source: E:\wamp31\www\libraries\
     library_workspace: E:\wamp31\www\thuvien\dev-book\libraries\
+    bundles:
+        - BeanDevToolBundle
+        - BeanBookBundle
