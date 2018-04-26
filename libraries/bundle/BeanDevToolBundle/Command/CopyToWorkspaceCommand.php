@@ -71,7 +71,6 @@ class CopyToWorkspaceCommand extends ContainerAwareCommand {
 		$this->fileService->setOutput($output);
 		$this->fileService->copyLibrary('component', $container->getParameter('bean_dev_tool.library_source'), $container->getParameter('bean_dev_tool.library_workspace'), [ '.git' ]);
 		
-		
 		// outputs a message without adding a "\n" at the end of the line
 		$output->write('//// Finished \\\\\\\\\ ');
 	}
