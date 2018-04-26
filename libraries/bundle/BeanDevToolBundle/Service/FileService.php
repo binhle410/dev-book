@@ -2,18 +2,21 @@
 
 namespace Bean\Bundle\DevToolBundle\Service;
 
-
 class FileService {
 	
-	public static function copyFolder($src, $dst) {
+	public static function copyFolder($src, $dest, $ignoredFolders = array()) {
+		if(in_array(basename($src), $ignoredFolders)) {
+			return;
+		}
+		
 		$dir = opendir($src);
-		@mkdir($dst);
+		@mkdir($dest);
 		while(false !== ($file = readdir($dir))) {
 			if(($file != '.') && ($file != '..')) {
 				if(is_dir($src . '/' . $file)) {
-					self::copyFolder($src . '/' . $file, $dst . '/' . $file);
+					self::copyFolder($src . '/' . $file, $dest . '/' . $file);
 				} else {
-					copy($src . '/' . $file, $dst . '/' . $file);
+					copy($src . '/' . $file, $dest . '/' . $file);
 				}
 			}
 		}

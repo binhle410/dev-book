@@ -43,8 +43,7 @@ class CopyToSourceCommand extends ContainerAwareCommand {
 			if(is_dir($container->getParameter('bean_dev_tool.library_workspace') . 'bundle' . DIRECTORY_SEPARATOR . $bundleName)) {
 				$output->writeln([ $bundleName, $bundle, $bundleDir ]);
 				$output->writeln('============ Copy to Source ============');
-				FileService::copyFolder($bundleDir, $container->getParameter('bean_dev_tool.library_source') . $bundleName);
-				$output->writeln('===================');
+				FileService::copyFolder($bundleDir, $container->getParameter('bean_dev_tool.library_source') . $bundleName,['.git']);
 				$output->writeln('===================');
 				$output->writeln('===================');
 			}

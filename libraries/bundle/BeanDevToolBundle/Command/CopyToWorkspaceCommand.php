@@ -2,6 +2,7 @@
 
 namespace Bean\Bundle\DevToolBundle\Command;
 
+use Bean\Bundle\DevToolBundle\Service\FileService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,30 +28,29 @@ class CopyToWorkspaceCommand extends ContainerAwareCommand {
 			'============',
 			'List Bundles',
 		]);
-		
+		$container = $this->getContainer();
 		$bundles = $this->getContainer()->getParameter('kernel.bundles');
 		
 		// outputs a message followed by a "\n"
 		$output->writeln('Whoa!');
 		
+		
+		// let's copy Bundles first
 		foreach($bundles as $bundle) {
-			$reflector = new \ReflectionClass($bundle);
-			$fn = $reflector->getFileName();
+			$reflector  = new \ReflectionClass($bundle);
+			$fn         = $reflector->getFileName();
 			$bundleName = basename($bundle);
-			$bundleDir = dirname($fn);
-			$output->writeln([ $bundleName, $bundle, $bundleDir ]);
-			$output->writeln('===================');
-			if(in_array($bundleName, [ 'BeanBookBundle', 'BeanDevToolBundle' ])) {
-				$output->writeln([
-					' Config ',
-					$this->getContainer()->getParameter('bean_dev_tool.library_source'),
-					$this->getContainer()->getParameter('bean_dev_tool.library_workspace'),
-					' End Config '
-				]);
-				
-				
+			$bundleDir  = dirname($fn);
+			if(is_dir($container->getParameter('bean_dev_tool.library_workspace') . 'bundle' . DIRECTORY_SEPARATOR . $bundleName)) {
+				$output->writeln([ $bundleName, $bundle, $bundleDir ]);
+				$output->writeln('============ Copy to Workspace ============');
+				FileService::copyFolder($bundleDir, $container->getParameter('bean_dev_tool.library_source') . $bundleName,['.git']);
+				$output->writeln('===================');
+				$output->writeln('===================');
 			}
 		}
+		
+		// now how about non-bundle elements
 		
 		// outputs a message without adding a "\n" at the end of the line
 		$output->write('You are about to ');
