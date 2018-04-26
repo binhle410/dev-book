@@ -29,7 +29,7 @@ class CopyToWorkspaceCommand extends ContainerAwareCommand {
 			'List Bundles',
 		]);
 		$container = $this->getContainer();
-		$bundles = $this->getContainer()->getParameter('kernel.bundles');
+		$bundles   = $this->getContainer()->getParameter('kernel.bundles');
 		
 		// outputs a message followed by a "\n"
 		$output->writeln('Whoa!');
@@ -44,17 +44,27 @@ class CopyToWorkspaceCommand extends ContainerAwareCommand {
 			if(is_dir($container->getParameter('bean_dev_tool.library_workspace') . 'bundle' . DIRECTORY_SEPARATOR . $bundleName)) {
 				$output->writeln([ $bundleName, $bundle, $bundleDir ]);
 				$output->writeln('============ Copy to Workspace ============');
-				FileService::copyFolder($bundleDir, $container->getParameter('bean_dev_tool.library_source') . $bundleName,['.git']);
+				FileService::copyFolder($container->getParameter('bean_dev_tool.library_source') . $bundleName, $bundleDir, [ '.git' ]);
 				$output->writeln('===================');
 				$output->writeln('===================');
 			}
 		}
 		
 		// now how about non-bundle elements
+		$output->writeln([
+			'//////////////////////////////////////////////',
+			'List and Copy Components and Sites to Git Source',
+		]);
+		
+		$componentDirs = glob($container->getParameter('bean_dev_tool.library_source') . 'component' . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
+		foreach($componentDirs as $componenDir) {
+			$output->writeln($componenDir);
+			FileService::copyFolder($container->getParameter('bean_dev_tool.library_source'), $componenDir, [ '.git' ]);
+		}
+		
 		
 		// outputs a message without adding a "\n" at the end of the line
-		$output->write('You are about to ');
-		$output->write('create a user.');
+		$output->write('//// Finished \\\\\\\\\ ');
 	}
 	
 }

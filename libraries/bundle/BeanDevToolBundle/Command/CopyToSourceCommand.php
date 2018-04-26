@@ -22,18 +22,13 @@ class CopyToSourceCommand extends ContainerAwareCommand {
 	}
 	
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		// outputs multiple lines to the console (adding "\n" at the end of each line)
 		$output->writeln([
 			'DevTool',
 			'============',
-			'List Bundles',
+			'List and Copy Bundles to Git Source',
 		]);
 		$container = $this->getContainer();
 		$bundles   = $container->getParameter('kernel.bundles');
-		
-		// outputs a message followed by a "\n"
-		$output->writeln('Whoa!');
-		
 		// let's copy Bundles first
 		foreach($bundles as $bundle) {
 			$reflector  = new \ReflectionClass($bundle);
@@ -43,15 +38,25 @@ class CopyToSourceCommand extends ContainerAwareCommand {
 			if(is_dir($container->getParameter('bean_dev_tool.library_workspace') . 'bundle' . DIRECTORY_SEPARATOR . $bundleName)) {
 				$output->writeln([ $bundleName, $bundle, $bundleDir ]);
 				$output->writeln('============ Copy to Source ============');
-				FileService::copyFolder($bundleDir, $container->getParameter('bean_dev_tool.library_source') . $bundleName,['.git']);
+				FileService::copyFolder($bundleDir, $container->getParameter('bean_dev_tool.library_source') . $bundleName, [ '.git' ]);
 				$output->writeln('===================');
 				$output->writeln('===================');
 			}
 		}
 		
+		$output->writeln([
+			'//////////////////////////////////////////////',
+			'List and Copy Components and Sites to Git Source',
+		]);
+		
+		$componentDirs = glob($container->getParameter('bean_dev_tool.library_workspace') . 'component' . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
+		foreach($componentDirs as $componenDir) {
+			$output->writeln($componenDir);
+			FileService::copyFolder($componenDir, $container->getParameter('bean_dev_tool.library_source'), [ '.git' ]);
+		}
+		
 		// outputs a message without adding a "\n" at the end of the line
-		$output->write('You are about to ');
-		$output->write('create a user.');
+		$output->write('/////////////// Fnished \\\\\\\\\\\\\\\\\\\\ ');
 	}
 	
 }
