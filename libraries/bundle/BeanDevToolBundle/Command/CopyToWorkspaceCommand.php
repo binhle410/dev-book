@@ -45,6 +45,8 @@ class CopyToWorkspaceCommand extends ContainerAwareCommand {
 //			$bundleDir  = dirname($fn);
 			$output->writeln([ $bundleName, $bundleDir ]);
 			$output->writeln('============ Copy to Workspace ============');
+			
+			$this->fileService->setOutput($output);
 			$this->fileService->copyFolder($bundleDir, $container->getParameter('bean_dev_tool.library_workspace') . 'bundle' . DIRECTORY_SEPARATOR . $bundleName, [ '.git' ]);
 			$output->writeln('===================');
 			$output->writeln('===================');

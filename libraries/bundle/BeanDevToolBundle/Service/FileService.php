@@ -2,12 +2,15 @@
 
 namespace Bean\Bundle\DevToolBundle\Service;
 
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class FileService {
 	
 	/** @var ContainerInterface $container */
 	private $container;
+	/** @var OutputInterface $output */
+	private $output;
 	
 	function __construct(ContainerInterface $container) {
 		$this->container = $container;
@@ -20,21 +23,23 @@ class FileService {
 	 * @param array $ignoredFolders
 	 */
 	public function copyLibrary($type, $srcPath, $destPath, $ignoredFolders = array()) {
-		$container  = $this->container;
-		$bundles    = $container->getParameter('bean_dev_tool.bundles');
-		$components = $container->getParameter('bean_dev_tool.components');
-		var_dump($bundles);
-		var_dump($components);
+		$container           = $this->container;
+		$registeredLibraries = $container->getParameter(sprintf('bean_dev_tool.%ss', $type));
+		$output              = $this->output;
 		
-		return;
 		$libraryDirs = glob($srcPath . $type . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
 		foreach($libraryDirs as $libraryDir) {
 			$libraryName = basename($libraryDir);
-//			$output->writeln([ $bundleName, $bundleDir ]);
-//			$output->writeln('============ Copy to Workspace ============');
+			if(count($registeredLibraries) > 0) {
+				if( ! in_array($libraryName, $registeredLibraries)) {
+					return;
+				}
+			}
+			$output->writeln([ $libraryName, $libraryDir ]);
+			$output->writeln('============ Copy in Progress ============');
 			$this->copyFolder($libraryDir, $destPath . $type . DIRECTORY_SEPARATOR . $libraryName, $ignoredFolders);
-//			$output->writeln('===================');
-//			$output->writeln('===================');
+			$output->writeln('===================');
+			$output->writeln('===================');
 			
 		}
 	}
@@ -60,5 +65,11 @@ class FileService {
 		closedir($dir);
 	}
 	
+	/**
+	 * @param OutputInterface $output
+	 */
+	public function setOutput(OutputInterface $output): void {
+		$this->output = $output;
+	}
 	
 }

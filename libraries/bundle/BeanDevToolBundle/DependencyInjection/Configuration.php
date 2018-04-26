@@ -20,7 +20,11 @@ class Configuration implements ConfigurationInterface {
 //						->end()
 			->end()// bundles
 			->arrayNode('components')
+			->prototype('scalar')->end()
 			->end()// components
+			->arrayNode('sites')
+				->prototype('scalar')->end()
+			->end()//  sites
 			->scalarNode('library_source')->end()
 			->scalarNode('library_workspace')->end()
 			->end();
