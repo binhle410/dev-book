@@ -36,18 +36,16 @@ class CopyToWorkspaceCommand extends ContainerAwareCommand {
 		
 		
 		// let's copy Bundles first
-		foreach($bundles as $bundle) {
-			$reflector  = new \ReflectionClass($bundle);
-			$fn         = $reflector->getFileName();
-			$bundleName = basename($bundle);
-			$bundleDir  = dirname($fn);
-			if(is_dir($container->getParameter('bean_dev_tool.library_workspace') . 'bundle' . DIRECTORY_SEPARATOR . $bundleName)) {
-				$output->writeln([ $bundleName, $bundle, $bundleDir ]);
-				$output->writeln('============ Copy to Workspace ============');
-				FileService::copyFolder($container->getParameter('bean_dev_tool.library_source') . $bundleName, $bundleDir, [ '.git' ]);
-				$output->writeln('===================');
-				$output->writeln('===================');
-			}
+		$bundleDirs = glob($container->getParameter('bean_dev_tool.library_source') . 'bundle' . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
+		foreach($bundleDirs as $bundleDir) {
+			$bundleName = basename($bundleDir);
+//			$bundleDir  = dirname($fn);
+			$output->writeln([ $bundleName, $bundleDir ]);
+			$output->writeln('============ Copy to Workspace ============');
+			FileService::copyFolder($bundleDir, $container->getParameter('bean_dev_tool.library_workspace') . $bundleName, [ '.git' ]);
+			$output->writeln('===================');
+			$output->writeln('===================');
+			
 		}
 		
 		// now how about non-bundle elements
