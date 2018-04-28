@@ -22,12 +22,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Bean\\Bundle\\BookBundle\\": ""
+      "Bean\\Bundle\\BookBundle\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Bean\\Bundle\\BookBundle\\spec\\": "spec/"
+      "Bean\\Bundle\\BookBundle\\spec\\": "tests/spec/"
     }
   },
   "extra": {

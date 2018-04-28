@@ -24,10 +24,10 @@
 
     },
     "autoload": {
-        "psr-4": { "Bean\\Component\\Book\\": "" }
+        "psr-4": { "Bean\\Component\\Book\\": "src/" }
     },
     "autoload-dev": {
-        "psr-4": { "Bean\\Component\\Book\\spec\\": "spec/" }
+        "psr-4": { "Bean\\Component\\Book\\spec\\": "tests/spec/" }
     },
     "extra": {
         "branch-alias": {

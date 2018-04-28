@@ -24,10 +24,10 @@
 
     },
     "autoload": {
-        "psr-4": { "Bean\\Component\\CreativeWork\\": "" }
+        "psr-4": { "Bean\\Component\\CreativeWork\\": "src/" }
     },
     "autoload-dev": {
-        "psr-4": { "Bean\\Component\\CreativeWork\\spec\\": "spec/" }
+        "psr-4": { "Bean\\Component\\CreativeWork\\spec\\": "tests/spec/" }
     },
     "extra": {
         "branch-alias": {

@@ -48,14 +48,20 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/",
-            "Bean\\Bundle\\BookBundle\\": "libraries\\bundle\\BeanBookBundle\\",
-            "Bean\\Bundle\\DevToolBundle\\": "libraries\\bundle\\BeanDevToolBundle\\",
-            "Bean\\Component\\Book\\": "libraries\\component\\Book\\"
+            "Bean\\Bundle\\BookBundle\\": "libraries\\bundle\\BeanBookBundle\\src/",
+            "Bean\\Bundle\\CreativeWorkBundle\\": "libraries\\bundle\\BeanCreativeWorkBundle\\src/",
+            "Bean\\Bundle\\DevToolBundle\\": "libraries\\bundle\\BeanDevToolBundle\\src/",
+            "Bean\\Component\\Book\\": "libraries\\component\\Book\\src/",
+            "Bean\\Component\\CreativeWork\\": "libraries\\component\\CreativeWork\\src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "App\\Tests\\": "tests/",
+            "Bean\\Bundle\\BookBundle\\spec\\": "libraries\\bundle\\BeanBookBundle\\tests/spec/",
+            "Bean\\Bundle\\CreativeWorkBundle\\spec\\": "libraries\\bundle\\BeanCreativeWorkBundle\\tests/spec/",
+            "Bean\\Component\\Book\\spec\\": "libraries\\component\\Book\\tests/spec/",
+            "Bean\\Component\\CreativeWork\\spec\\": "libraries\\component\\CreativeWork\\tests/spec/"
         }
     },
     "replace": {

@@ -32,7 +32,8 @@ class FileService {
 			$libraryName = basename($libraryDir);
 			if(count($registeredLibraries) > 0) {
 				if( ! in_array($libraryName, $registeredLibraries)) {
-					return;
+					$output->writeln('Skipping Library  ' . $type . ' ' . $libraryName);
+					continue;
 				}
 			}
 			$output->writeln([ $libraryName, $libraryDir ]);
@@ -51,14 +52,19 @@ class FileService {
 			return;
 		}
 		
+		$this->output->writeln('copying ' . $src);
 		$dir = opendir($src);
-		@mkdir($dest);
+		if( ! file_exists($dest)) {
+			mkdir($dest);
+		}
 		while(false !== ($file = readdir($dir))) {
 			if(($file != '.') && ($file != '..')) {
-				if(is_dir($src . '/' . $file)) {
-					$this->copyFolder($src . '/' . $file, $dest . '/' . $file, $ignoredFolders);
+				$destFile = $dest . '/' . $file;
+				$srcFile  = $src . '/' . $file;
+				if(is_dir($srcFile)) {
+					$this->copyFolder($srcFile, $destFile, $ignoredFolders);
 				} else {
-					copy($src . '/' . $file, $dest . '/' . $file);
+					copy($srcFile, $destFile);
 				}
 			}
 		}

@@ -1,9 +1,9 @@
 {
-  "name": "beancomponent/devtool-bundle",
+  "name": "beancomponent/creative-work-bundle",
   "type": "symfony-bundle",
-  "description": "Dev Tool.",
+  "description": "Provides a Bundle Integration for the CreativeWorkBundle.",
   "keywords": [
-    "Symfony DevTool Bundle"
+    "Symfony CreativeWork Bundle"
   ],
   "license": "MIT",
   "authors": [
@@ -16,20 +16,18 @@
     "php": "^5.6|^7.0"
   },
   "require-dev": {
-    "composer/composer": "^1.0",
-    "friendsofphp/php-cs-fixer": "^2.0",
-    "symfony/phpunit-bridge": "^2.7|^3.0|^4.0",
-    "symfony/yaml": "^2.7|^3.0|^4.0"
+
   },
   "suggest": {
   },
   "autoload": {
     "psr-4": {
-      "Bean\\Bundle\\DevToolBundle\\": "src/"
+      "Bean\\Bundle\\CreativeWorkBundle\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
+      "Bean\\Bundle\\CreativeWorkBundle\\spec\\": "tests/spec/"
     }
   },
   "extra": {

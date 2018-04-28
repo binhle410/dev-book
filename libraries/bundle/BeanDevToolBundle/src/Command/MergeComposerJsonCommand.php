@@ -79,12 +79,15 @@ class MergeComposerJsonCommand extends ContainerAwareCommand {
 			
 			$psr4 = $composer->autoload->{'psr-4'};
 			$this->fixPsr4($psr4, $libraryDir);
-			
 			$composer->autoload->{'psr-4'} = $psr4;
 			JsonService::merge($composer, $composerWS, 'autoload.psr-4');
 			
 			$psr4 = $composer->{'autoload-dev'}->{'psr-4'};
 			$this->fixPsr4($psr4, $libraryDir);
+			$composer->{'autoload-dev'}->{'psr-4'} = $psr4;
+			JsonService::merge($composer, $composerWS, 'autoload-dev.psr-4');
+			$psr4 = $composer->{'autoload-dev'}->{'psr-4'};
+
 
 //				foreach($psr4 as $_ns => $_path) {
 //					$psr4->$_ns = str_replace($projectDirFS, '', $bundleDirFS) . DIRECTORY_SEPARATOR;

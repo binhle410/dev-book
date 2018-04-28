@@ -5,3 +5,4 @@ bean_dev_tool:
     bundles:
         - BeanDevToolBundle
         - BeanBookBundle
+        - BeanCreativeWorkBundle
