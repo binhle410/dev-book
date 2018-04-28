@@ -1,8 +1,8 @@
 {
-    "name": "beancomponent/book",
+    "name": "beancomponent/creative-work",
     "type": "php-component",
-    "description": "Provides a Component for Book Domain Model.",
-    "keywords": [ "php book components" ],
+    "description": "Provides a Component for CreativeWork Domain Model.",
+    "keywords": [ "php CreativeWork components" ],
     "license": "MIT",
     "authors": [
         {
@@ -24,10 +24,10 @@
 
     },
     "autoload": {
-        "psr-4": { "Bean\\Component\\Book\\": "" }
+        "psr-4": { "Bean\\Component\\CreativeWork\\": "" }
     },
     "autoload-dev": {
-        "psr-4": { "Bean\\Component\\Book\\spec\\": "spec/" }
+        "psr-4": { "Bean\\Component\\CreativeWork\\spec\\": "spec/" }
     },
     "extra": {
         "branch-alias": {
