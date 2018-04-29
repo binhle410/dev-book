@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <mapped-superclass name="Bean\Component\CreativeWork\Model\CreativeWork">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+
+        </id>
+
+        <field name="headline" type="string" nullable="true"/>
+        <!-- we hardcode the column name to overwrite column naming strategies as we have to define the index on the column name -->
+
+        <!--<indexes>-->
+            <!--<index name="prefix_idx" columns="staticPrefix"/>-->
+        <!--</indexes>-->
+    </mapped-superclass>
+
+</doctrine-mapping>

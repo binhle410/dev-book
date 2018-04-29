@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Bean\Component\Book\Model;
 
-interface BookInterface
+use Bean\Component\CreativeWork\Model\CreativeWorkInterface;
+
+interface BookInterface extends CreativeWorkInterface
 {
  
 

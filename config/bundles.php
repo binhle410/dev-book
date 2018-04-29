@@ -17,5 +17,6 @@ return [
     Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],
     ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle::class => ['all' => true],
 	Bean\Bundle\BookBundle\BeanBookBundle::class => ['all' => true],
+    Bean\Bundle\CreativeWorkBundle\BeanCreativeWorkBundle::class => ['all' => true],
 	Bean\Bundle\DevToolBundle\BeanDevToolBundle::class => ['all' => true]
 ];
