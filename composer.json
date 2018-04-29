@@ -51,6 +51,7 @@
             "Bean\\Bundle\\BookBundle\\": "libraries\\bundle\\BeanBookBundle\\src/",
             "Bean\\Bundle\\CreativeWorkBundle\\": "libraries\\bundle\\BeanCreativeWorkBundle\\src/",
             "Bean\\Bundle\\DevToolBundle\\": "libraries\\bundle\\BeanDevToolBundle\\src/",
+            "Bean\\Bundle\\ThingBundle\\": "libraries\\bundle\\BeanThingBundle\\src/",
             "Bean\\Component\\Book\\": "libraries\\component\\Book\\src/",
             "Bean\\Component\\CreativeWork\\": "libraries\\component\\CreativeWork\\src/",
             "Bean\\Component\\Thing\\": "libraries\\component\\Thing\\src/"
@@ -61,6 +62,7 @@
             "App\\Tests\\": "tests/",
             "Bean\\Bundle\\BookBundle\\spec\\": "libraries\\bundle\\BeanBookBundle\\tests/spec/",
             "Bean\\Bundle\\CreativeWorkBundle\\spec\\": "libraries\\bundle\\BeanCreativeWorkBundle\\tests/spec/",
+            "Bean\\Bundle\\ThingBundle\\spec\\": "libraries\\bundle\\BeanThingBundle\\tests/spec/",
             "Bean\\Component\\Book\\spec\\": "libraries\\component\\Book\\tests/spec/",
             "Bean\\Component\\CreativeWork\\spec\\": "libraries\\component\\CreativeWork\\tests/spec/",
             "Bean\\Component\\Thing\\spec\\": "libraries\\component\\Thing\\tests/spec/"

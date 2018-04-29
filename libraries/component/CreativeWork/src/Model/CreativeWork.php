@@ -2,9 +2,9 @@
 
 namespace Bean\Component\CreativeWork\Model;
 
-class CreativeWork implements CreativeWorkInterface {
-	protected $id;
-	
+use Bean\Component\Thing\Model\Thing;
+
+class CreativeWork extends Thing implements CreativeWorkInterface {
 	protected $headline;
 	
 	/**

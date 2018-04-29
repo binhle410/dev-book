@@ -1,6 +1,6 @@
 <?php
 
-namespace Bean\Bundle\CreativeWorkBundle;
+namespace Bean\Bundle\ThingBundle;
 
 use Doctrine\Common\Persistence\Mapping\Driver\DefaultFileLocator;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\JsonLoginFactory;
@@ -24,7 +24,7 @@ use Doctrine\ODM\PHPCR\Version as PHPCRVersion;
  *
  * @author Binh
  */
-class BeanCreativeWorkBundle extends Bundle {
+class BeanThingBundle extends Bundle {
 	public function build(ContainerBuilder $container) {
 		parent::build($container);
 		$this->buildOrmCompilerPass($container);
@@ -51,13 +51,36 @@ class BeanCreativeWorkBundle extends Bundle {
 		$container->addCompilerPass(
 			DoctrineOrmMappingsPass::createXmlMappingDriver(
 				[
-					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-superclass') => 'Bean\Component\CreativeWork\Model',
+					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-superclass') => 'Bean\Component\Thing\Model',
 				],
-				[ 'bean_creativework.persistence.orm.manager_name' ],
-				'bean_creativework.backend_type_orm_default.superclass',
-				[ 'BeanCreativeWorkBundle' => 'Bean\Component\CreativeWork\Model' ]
+				[ 'bean_thing.persistence.orm.manager_name' ],
+				'bean_thing.backend_type_orm_default.superclass',
+				[ 'BeanThingBundle' => 'Bean\Component\Thing\Model' ]
 			)
 		);
 	}
 	
+	/**
+	 * Builds the compiler pass for the symfony core routing component. The
+	 * compiler pass factory method uses the SymfonyFileLocator which does
+	 * magic with the namespace and thus does not work here.
+	 *
+	 * @param string $compilerClass the compiler class to instantiate
+	 * @param string $driverClass the xml driver class for this backend
+	 * @param string $type the backend type name
+	 *
+	 * @return CompilerPassInterface
+	 */
+	private function buildBaseCompilerPass($compilerClass, $driverClass, $type) {
+		$arguments = [ [ realpath(__DIR__ . '/Resources/config/doctrine-base') ], sprintf('.%s.xml', $type) ];
+		$locator   = new Definition(DefaultFileLocator::class, $arguments);
+		$driver    = new Definition($driverClass, [ $locator ]);
+		
+		return new $compilerClass(
+			$driver,
+			[ 'Symfony\Component\Routing' ],
+			[ sprintf('cmf_routing.dynamic.persistence.%s.manager_name', $type) ],
+			sprintf('cmf_routing.backend_type_%s', $type)
+		);
+	}
 }

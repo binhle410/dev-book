@@ -1,0 +1,38 @@
+{
+  "name": "beancomponent/thing-bundle",
+  "type": "symfony-bundle",
+  "description": "Provides a Bundle Integration for the ThingBundle.",
+  "keywords": [
+    "Symfony Thing Bundle"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Peter Bean",
+      "email": "peterbean@beancomponent.com"
+    }
+  ],
+  "require": {
+    "php": "^5.6|^7.0"
+  },
+  "require-dev": {
+
+  },
+  "suggest": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Bean\\Bundle\\ThingBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Bean\\Bundle\\ThingBundle\\spec\\": "tests/spec/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1-dev"
+    }
+  }
+}

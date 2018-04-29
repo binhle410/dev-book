@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Bean\Component\CreativeWork\Model;
 
-interface CreativeWorkInterface
+use Bean\Component\Thing\Model\ThingInterface;
+
+interface CreativeWorkInterface extends ThingInterface
 {
 	/**
 	 * @return string
