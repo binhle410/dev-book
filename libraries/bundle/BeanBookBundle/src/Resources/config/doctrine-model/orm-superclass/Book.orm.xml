@@ -5,6 +5,13 @@
                           http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <mapped-superclass name="Bean\Component\Book\Model\Book">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+
+        </id>
     </mapped-superclass>
 
 </doctrine-mapping>

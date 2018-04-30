@@ -36,7 +36,7 @@ class Book extends CreativeWork implements BookInterface {
 	 */
 	protected $numberOfPages;
 	
-	public function isAbridged(): bool {
+	public function isAbridged(): ?bool {
 		return $this->abridged;
 	}
 	
@@ -44,7 +44,7 @@ class Book extends CreativeWork implements BookInterface {
 		$this->abridged = $abridged;
 	}
 	
-	public function getBookEdition(): string {
+	public function getBookEdition(): ?string {
 		return $this->bookEdition;
 	}
 	
@@ -52,7 +52,7 @@ class Book extends CreativeWork implements BookInterface {
 		$this->bookEdition = $bookEdition;
 	}
 	
-	public function getBookFormat(): string {
+	public function getBookFormat(): ?string {
 		return $this->bookFormat;
 	}
 	
@@ -60,7 +60,7 @@ class Book extends CreativeWork implements BookInterface {
 		$this->bookFormat = $bookFormat;
 	}
 	
-	public function getIsbn(): string {
+	public function getIsbn(): ?string {
 		return $this->isbn;
 	}
 	
@@ -68,7 +68,7 @@ class Book extends CreativeWork implements BookInterface {
 		$this->isbn = $isbn;
 	}
 	
-	public function getNumberOfPages(): int {
+	public function getNumberOfPages(): ?int {
 		return $this->numberOfPages;
 	}
 	

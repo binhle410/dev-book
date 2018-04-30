@@ -49,7 +49,7 @@ class CreativeWork extends Thing implements CreativeWorkInterface {
 	/**
 	 * @return string
 	 */
-	public function getHeadline(): string {
+	public function getHeadline(): ?string {
 		return $this->headline;
 	}
 	
@@ -84,7 +84,7 @@ class CreativeWork extends Thing implements CreativeWorkInterface {
 	/**
 	 * @return string
 	 */
-	public function getAbout(): string {
+	public function getAbout(): ?string {
 		return $this->about;
 	}
 	
@@ -98,7 +98,7 @@ class CreativeWork extends Thing implements CreativeWorkInterface {
 	/**
 	 * @return string
 	 */
-	public function getFileFormat(): string {
+	public function getFileFormat(): ?string {
 		return $this->fileFormat;
 	}
 	
@@ -112,7 +112,7 @@ class CreativeWork extends Thing implements CreativeWorkInterface {
 	/**
 	 * @return array
 	 */
-	public function getParts(): array {
+	public function getParts(): ?array {
 		return $this->parts;
 	}
 	
@@ -126,7 +126,7 @@ class CreativeWork extends Thing implements CreativeWorkInterface {
 	/**
 	 * @return CreativeWorkInterface
 	 */
-	public function getPartOf(): CreativeWorkInterface {
+	public function getPartOf(): ?CreativeWorkInterface {
 		return $this->partOf;
 	}
 	

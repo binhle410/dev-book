@@ -6,10 +6,11 @@ namespace Bean\Component\Book\Model;
 use Bean\Component\CreativeWork\Model\CreativeWorkInterface;
 
 interface BookInterface extends CreativeWorkInterface {
+	
 	/**
 	 * @return bool
 	 */
-	public function isAbridged(): bool;
+	public function isAbridged(): ?bool;
 	
 	/**
 	 * @param bool $abridged
@@ -19,7 +20,7 @@ interface BookInterface extends CreativeWorkInterface {
 	/**
 	 * @return string
 	 */
-	public function getBookEdition(): string;
+	public function getBookEdition(): ?string;
 	
 	/**
 	 * @param string $bookEdition
@@ -29,7 +30,7 @@ interface BookInterface extends CreativeWorkInterface {
 	/**
 	 * @return string
 	 */
-	public function getBookFormat(): string;
+	public function getBookFormat(): ?string;
 	
 	/**
 	 * @param string $bookFormat
@@ -39,7 +40,7 @@ interface BookInterface extends CreativeWorkInterface {
 	/**
 	 * @return string
 	 */
-	public function getIsbn(): string;
+	public function getIsbn(): ?string;
 	
 	/**
 	 * @param string $isbn
@@ -49,7 +50,7 @@ interface BookInterface extends CreativeWorkInterface {
 	/**
 	 * @return int
 	 */
-	public function getNumberOfPages(): int;
+	public function getNumberOfPages(): ?int;
 	
 	/**
 	 * @param int $numberOfPages

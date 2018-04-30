@@ -1,3 +1,7 @@
+#imports:
+#    - { resource: api_platform/resources.yaml }
+
 api_platform:
     mapping:
-        paths: ['%kernel.project_dir%/src/Entity']
+        paths: ['%kernel.project_dir%/src/Entity', '%kernel.project_dir%/config/api_platform']
+    resource_class_directories: ['%kernel.project_dir%/src/Entity','%kernel.project_dir%/libraries/bundle/BeanBookBundle/src/Doctrine/Orm']

@@ -1,0 +1,8 @@
+resources:
+    Bean\Bundle\BookBundle\Doctrine\Orm\Book: ~
+#    App\Entity\Offer:
+#        shortName: 'Offer'                   # optional
+#        description: 'An offer from my shop' # optional
+#        iri: 'http://schema.org/Offer'       # optional
+#        attributes:                          # optional
+#            pagination_items_per_page: 25    # optional

@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 namespace Bean\Component\Thing\Model;
 
+/**
+ * Class Thing: The most generic type of item.
+ * @package Bean\Component\Thing\Model
+ */
 class Thing implements ThingInterface {
 	
 	protected $id;
@@ -23,10 +27,16 @@ class Thing implements ThingInterface {
 		return $this->id;
 	}
 	
-	public function getName(): string {
+	/**
+	 * @return string
+	 */
+	public function getName(): ?string {
 		return $this->name;
 	}
 	
+	/**
+	 * @param string $name
+	 */
 	public function setName(string $name): void {
 		$this->name = $name;
 	}
@@ -34,7 +44,7 @@ class Thing implements ThingInterface {
 	/**
 	 * @return string
 	 */
-	public function getDescription(): string {
+	public function getDescription(): ?string {
 		return $this->description;
 	}
 	

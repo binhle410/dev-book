@@ -9,7 +9,7 @@ interface CreativeWorkInterface extends ThingInterface {
 	/**
 	 * @return string
 	 */
-	public function getHeadline(): string;
+	public function getHeadline(): ?string;
 	
 	/**
 	 * @param string $headline
@@ -34,7 +34,7 @@ interface CreativeWorkInterface extends ThingInterface {
 	/**
 	 * @return string
 	 */
-	public function getAbout(): string;
+	public function getAbout(): ?string;
 	
 	/**
 	 * @param string $about
@@ -44,7 +44,7 @@ interface CreativeWorkInterface extends ThingInterface {
 	/**
 	 * @return string
 	 */
-	public function getFileFormat(): string;
+	public function getFileFormat(): ?string;
 	
 	/**
 	 * @param string $fileFormat
@@ -54,7 +54,7 @@ interface CreativeWorkInterface extends ThingInterface {
 	/**
 	 * @return array
 	 */
-	public function getParts(): array;
+	public function getParts(): ?array;
 	
 	/**
 	 * @param array $parts
@@ -64,7 +64,7 @@ interface CreativeWorkInterface extends ThingInterface {
 	/**
 	 * @return \Bean\Component\CreativeWork\Model\CreativeWorkInterface
 	 */
-	public function getPartOf(): CreativeWorkInterface;
+	public function getPartOf(): ?CreativeWorkInterface;
 	
 	/**
 	 * @param CreativeWorkInterface $partOf
