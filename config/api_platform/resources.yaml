@@ -1,5 +1,15 @@
 resources:
     Bean\Bundle\BookBundle\Doctrine\Orm\Book: ~
+    Bean\Bundle\BookBundle\Doctrine\Orm\Chapter:
+        attributes:                          # optional
+            normalization_context:
+                groups:
+                    - read_chapter
+            denormalization_context:
+                groups:
+                    - write_chapter
+                    - write_creative_work
+
 #    App\Entity\Offer:
 #        shortName: 'Offer'                   # optional
 #        description: 'An offer from my shop' # optional

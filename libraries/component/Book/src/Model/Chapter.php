@@ -8,8 +8,8 @@ use Bean\Component\CreativeWork\Model\CreativeWork;
 class Chapter extends CreativeWork implements ChapterInterface {
 	
 	/**
-	 * This is not part of schema.org
-	 * A Chapter belongs to a Book.
+	 * NOT part of schema.org.
+	 * A Chapter should belong to a Book.
 	 * @var BookInterface
 	 */
 	protected $book;

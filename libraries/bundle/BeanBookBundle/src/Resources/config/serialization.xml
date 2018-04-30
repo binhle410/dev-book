@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+        http://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd"
+>
+
+    <class name="Bean\Bundle\BookBundle\Doctrine\Orm\Chapter">
+        <attribute name="book">
+            <group>read_chapter</group>
+            <group>write_chapter</group>
+        </attribute>
+
+        <attribute name="pageStart">
+            <group>read_chapter</group>
+            <group>write_chapter</group>
+        </attribute>
+
+        <attribute name="pageEnd">
+            <group>read_chapter</group>
+            <group>write_chapter</group>
+        </attribute>
+
+    </class>
+</serializer>

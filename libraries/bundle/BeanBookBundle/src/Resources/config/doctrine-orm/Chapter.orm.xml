@@ -4,6 +4,8 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
         <entity name="Bean\Bundle\BookBundle\Doctrine\Orm\Chapter" table="book__chapter">
-
+                <many-to-one field="book" target-entity="Bean\Bundle\BookBundle\Doctrine\Orm\Book">
+                        <join-column name="id_book" referenced-column-name="id" nullable="false"/>
+                </many-to-one>
         </entity>
 </doctrine-mapping>
