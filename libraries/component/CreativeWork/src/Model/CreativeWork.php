@@ -10,20 +10,20 @@ class CreativeWork extends Thing implements CreativeWorkInterface {
 	/**
 	 * Indicates a CreativeWork that is (in some sense) a part of this CreativeWork.
 	Inverse property: partOf.
-	 * @var array
+	 * @var array|null
 	 */
 	protected $parts;
 	
 	/**
 	 * Indicates a CreativeWork that this CreativeWork is (in some sense) part of.
 	Inverse property: parts / hasPart.
-	 * @var CreativeWorkInterface
+	 * @var CreativeWorkInterface|null
 	 */
 	protected $partOf;
 	
 	/**
 	 * Headline of the article.
-	 * @var string
+	 * @var string|null
 	 */
 	protected $headline;
 	
@@ -35,19 +35,25 @@ class CreativeWork extends Thing implements CreativeWorkInterface {
 	
 	/**
 	 * The subject matter of the content.
-	 * @var string
+	 * @var string|null
 	 */
 	protected $about;
 	
 	/**
+	 * The textual content of this CreativeWork.
+	 * @var string|null
+	 */
+	protected $text;
+	
+	/**
 	 * Text or URL
 	 * Media type, typically MIME format (see IANA site) of the content e.g. application/zip of a SoftwareApplication binary. In cases where a CreativeWork has several media type representations, 'encoding' can be used to indicate each MediaObject alongside particular fileFormat information. Unregistered or niche file formats can be indicated instead via the most appropriate URL, e.g. defining Web page or a Wikipedia
-	 * @var string
+	 * @var string|null
 	 */
 	protected $fileFormat;
 	
 	/**
-	 * @return string
+	 * @return string|null
 	 */
 	public function getHeadline(): ?string {
 		return $this->headline;
@@ -110,7 +116,7 @@ class CreativeWork extends Thing implements CreativeWorkInterface {
 	}
 	
 	/**
-	 * @return array
+	 * @return array|null
 	 */
 	public function getParts(): ?array {
 		return $this->parts;
@@ -135,5 +141,19 @@ class CreativeWork extends Thing implements CreativeWorkInterface {
 	 */
 	public function setPartOf(CreativeWorkInterface $partOf): void {
 		$this->partOf = $partOf;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getText(): ?string {
+		return $this->text;
+	}
+	
+	/**
+	 * @param null|string $text
+	 */
+	public function setText(?string $text): void {
+		$this->text = $text;
 	}
 }

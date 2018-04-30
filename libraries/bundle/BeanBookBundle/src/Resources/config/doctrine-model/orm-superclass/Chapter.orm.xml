@@ -10,9 +10,5 @@
                 <option name="unsigned">true</option>
             </options>
         </id>
-
-        <many-to-one field="partOf" target-entity="Chapter">
-            <join-column name="id_chapter" referenced-column-name="id" />
-        </many-to-one>
     </mapped-superclass>
 </doctrine-mapping>

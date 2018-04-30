@@ -7,5 +7,12 @@
                 <many-to-one field="book" target-entity="Bean\Bundle\BookBundle\Doctrine\Orm\Book">
                         <join-column name="id_book" referenced-column-name="id" nullable="false"/>
                 </many-to-one>
+
+                <many-to-one field="partOf" target-entity="Chapter" inversed-by="parts">
+                        <join-column name="id_chapter" referenced-column-name="id" />
+                </many-to-one>
+
+                <one-to-many field="parts" target-entity="Chapter" mapped-by="partOf" />
+
         </entity>
 </doctrine-mapping>

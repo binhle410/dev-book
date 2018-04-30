@@ -17,5 +17,9 @@
             <group>read_creative_work</group>
             <group>write_creative_work</group>
         </attribute>
+        <attribute name="text">
+            <group>read_creative_work</group>
+            <group>write_creative_work</group>
+        </attribute>
     </class>
 </serializer>

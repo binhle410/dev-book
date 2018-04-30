@@ -8,5 +8,6 @@
         <field name="headline" type="string" nullable="true"/>
         <field name="locale" type="string" nullable="false"/>
         <field name="about" type="string" nullable="true"/>
+        <field name="text" type="text" nullable="true"/>
     </mapped-superclass>
 </doctrine-mapping>
