@@ -10,5 +10,16 @@
                 <option name="unsigned">true</option>
             </options>
         </id>
+
+        <many-to-one field="book" target-entity="Bean\Component\Book\Model\Book">
+            <join-column name="id_book" referenced-column-name="id" />
+        </many-to-one>
+        <many-to-one field="partOf" target-entity="Chapter">
+            <join-column name="id_chapter" referenced-column-name="id" />
+        </many-to-one>
+
+        <field name="pageStart" type="string" nullable="true"/>
+        <field name="pageEnd" type="string" nullable="true"/>
+
     </mapped-superclass>
 </doctrine-mapping>

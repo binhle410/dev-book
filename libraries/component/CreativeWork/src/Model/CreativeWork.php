@@ -5,7 +5,7 @@ namespace Bean\Component\CreativeWork\Model;
 
 use Bean\Component\Thing\Model\Thing;
 
-class CreativeWork extends Thing implements CreativeWorkInterface {
+abstract class CreativeWork extends Thing implements CreativeWorkInterface {
 	
 	/**
 	 * Indicates a CreativeWork that is (in some sense) a part of this CreativeWork.

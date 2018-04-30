@@ -1,0 +1,6 @@
+bean_creative_work:
+    persistence:
+        orm:
+            enabled:              true
+            manager_name:         null
+            inheritance_strategy: superclass

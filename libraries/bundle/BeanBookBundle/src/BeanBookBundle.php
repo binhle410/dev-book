@@ -66,11 +66,11 @@ class BeanBookBundle extends Bundle {
 		$container->addCompilerPass(
 			DoctrineOrmMappingsPass::createXmlMappingDriver(
 				[
-					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-base') => 'Bean\Component\Book\Model',
-					realpath(__DIR__ . '/Resources/config/doctrine-orm')                  => 'Bean\Bundle\BookBundle\Doctrine\Orm',
+					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-class') => 'Bean\Component\Book\Model',
+					realpath(__DIR__ . '/Resources/config/doctrine-orm/class')                  => 'Bean\Bundle\BookBundle\Doctrine\Orm',
 				],
-				[ 'bean_book.persistence.orm.manager_name' ],
-				'bean_book.backend_type_orm_default.base',
+				[ 'bean_creativework.persistence.orm.manager_name' ],
+				'bean_creativework.backend_type_orm_default.inheritance_class',
 				[ 'BeanBookBundle' => 'Bean\Component\Book\Doctrine\Orm' ]
 			)
 		);
@@ -79,10 +79,10 @@ class BeanBookBundle extends Bundle {
 			DoctrineOrmMappingsPass::createXmlMappingDriver(
 				[
 					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-superclass') => 'Bean\Component\Book\Model',
-					realpath(__DIR__ . '/Resources/config/doctrine-orm')                  => 'Bean\Bundle\BookBundle\Doctrine\Orm',
+					realpath(__DIR__ . '/Resources/config/doctrine-orm/superclass')                  => 'Bean\Bundle\BookBundle\Doctrine\Orm',
 				],
-				[ 'bean_book.persistence.orm.manager_name' ],
-				'bean_book.backend_type_orm_default.superclass',
+				[ 'bean_creativework.persistence.orm.manager_name' ],
+				'bean_creativework.backend_type_orm_default.inheritance_superclass',
 				[ 'BeanBookBundle' => 'Bean\Component\Book\Doctrine\Orm' ]
 			)
 		);

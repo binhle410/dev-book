@@ -56,11 +56,21 @@ class BeanCreativeWorkBundle extends Bundle {
 					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-superclass') => 'Bean\Component\CreativeWork\Model',
 				],
 				[ 'bean_creativework.persistence.orm.manager_name' ],
-				'bean_creativework.backend_type_orm_default.superclass',
+				'bean_creativework.backend_type_orm_default.inheritance_superclass',
 				[ 'BeanCreativeWorkBundle' => 'Bean\Component\CreativeWork\Model' ]
 			)
 		);
 		
+		$container->addCompilerPass(
+			DoctrineOrmMappingsPass::createXmlMappingDriver(
+				[
+					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-class') => 'Bean\Component\CreativeWork\Model',
+				],
+				[ 'bean_creativework.persistence.orm.manager_name' ],
+				'bean_creativework.backend_type_orm_default.inheritance_class',
+				[ 'BeanCreativeWorkBundle' => 'Bean\Component\CreativeWork\Model' ]
+			)
+		);
 		
 
 		

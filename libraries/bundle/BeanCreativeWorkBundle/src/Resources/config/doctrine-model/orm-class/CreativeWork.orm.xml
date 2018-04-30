@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+    <entity name="Bean\Component\CreativeWork\Model\CreativeWork" inheritance-type="JOINED" table="thing__creative_work">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </id>
+
+        <discriminator-column name="discr" type="string" />
+        <discriminator-map>
+
+            <discriminator-mapping value="book" class="Bean\Bundle\BookBundle\Doctrine\Orm\Book" />
+            <discriminator-mapping value="chapter" class="Bean\Bundle\BookBundle\Doctrine\Orm\Chapter" />
+        </discriminator-map>
+
+        <many-to-one field="partOf" target-entity="Bean\Component\CreativeWork\Model\CreativeWork" inversed-by="parts">
+            <join-column name="id_part_of" referenced-column-name="id" />
+        </many-to-one>
+
+        <!--<one-to-many field="parts" target-entity="Bean\Component\CreativeWork\Model\CreativeWork" mapped-by="partOf" />-->
+
+        <field name="headline" type="string" nullable="true"/>
+        <field name="locale" type="string" nullable="false"/>
+        <field name="about" type="string" nullable="true"/>
+        <field name="text" type="text" nullable="true"/>
+    </entity>
+
+</doctrine-mapping>

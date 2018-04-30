@@ -6,6 +6,13 @@ namespace Bean\Component\Book\Model;
 use Bean\Component\CreativeWork\Model\CreativeWork;
 
 class Book extends CreativeWork implements BookInterface {
+	
+	/**
+	 * NOT part of schema.org
+	 * @var array
+	 */
+	protected $chapters;
+	
 	/**
 	 * Indicates whether the book is an abridged edition.
 	 * @var boolean
