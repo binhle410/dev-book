@@ -4,8 +4,30 @@
             xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
         http://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd"
 >
+    <class name="Bean\Component\Book\Model\Chapter">
+        <attribute name="abridged">
+            <group>read_book</group>
+            <group>write_book</group>
+        </attribute>
+        <attribute name="bookEdition">
+            <group>read_book</group>
+            <group>write_book</group>
+        </attribute>
+        <attribute name="bookFormat">
+            <group>read_book</group>
+            <group>write_book</group>
+        </attribute>
+        <attribute name="isbn">
+            <group>read_book</group>
+            <group>write_book</group>
+        </attribute>
+        <attribute name="numberOfPages">
+            <group>read_book</group>
+            <group>write_book</group>
+        </attribute>
+    </class>
 
-    <class name="Bean\Bundle\BookBundle\Doctrine\Orm\Chapter">
+    <class name="Bean\Component\Book\Model\Chapter">
         <attribute name="book">
             <group>read_chapter</group>
             <group>write_chapter</group>
