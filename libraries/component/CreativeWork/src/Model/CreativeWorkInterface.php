@@ -5,8 +5,7 @@ namespace Bean\Component\CreativeWork\Model;
 
 use Bean\Component\Thing\Model\ThingInterface;
 
-interface CreativeWorkInterface extends ThingInterface{
-	
+interface CreativeWorkInterface extends ThingInterface {
 	/**
 	 * @return string
 	 */
@@ -41,4 +40,34 @@ interface CreativeWorkInterface extends ThingInterface{
 	 * @param string $about
 	 */
 	public function setAbout(string $about): void;
+	
+	/**
+	 * @return string
+	 */
+	public function getFileFormat(): string;
+	
+	/**
+	 * @param string $fileFormat
+	 */
+	public function setFileFormat(string $fileFormat): void;
+	
+	/**
+	 * @return array
+	 */
+	public function getParts(): array;
+	
+	/**
+	 * @param array $parts
+	 */
+	public function setParts(array $parts): void;
+	
+	/**
+	 * @return \Bean\Component\CreativeWork\Model\CreativeWorkInterface
+	 */
+	public function getPartOf(): CreativeWorkInterface;
+	
+	/**
+	 * @param CreativeWorkInterface $partOf
+	 */
+	public function setPartOf(CreativeWorkInterface $partOf): void;
 }

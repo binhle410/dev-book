@@ -6,6 +6,21 @@ namespace Bean\Component\CreativeWork\Model;
 use Bean\Component\Thing\Model\Thing;
 
 class CreativeWork extends Thing implements CreativeWorkInterface {
+	
+	/**
+	 * Indicates a CreativeWork that is (in some sense) a part of this CreativeWork.
+	Inverse property: partOf.
+	 * @var array
+	 */
+	protected $parts;
+	
+	/**
+	 * Indicates a CreativeWork that this CreativeWork is (in some sense) part of.
+	Inverse property: parts / hasPart.
+	 * @var CreativeWorkInterface
+	 */
+	protected $partOf;
+	
 	/**
 	 * Headline of the article.
 	 * @var string
@@ -59,6 +74,9 @@ class CreativeWork extends Thing implements CreativeWorkInterface {
 		return $this->locale;
 	}
 	
+	/**
+	 * @param string $locale
+	 */
 	public function setLocale(string $locale): void {
 		$this->locale = $locale;
 	}
@@ -89,5 +107,33 @@ class CreativeWork extends Thing implements CreativeWorkInterface {
 	 */
 	public function setFileFormat(string $fileFormat): void {
 		$this->fileFormat = $fileFormat;
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getParts(): array {
+		return $this->parts;
+	}
+	
+	/**
+	 * @param array $parts
+	 */
+	public function setParts(array $parts): void {
+		$this->parts = $parts;
+	}
+	
+	/**
+	 * @return CreativeWorkInterface
+	 */
+	public function getPartOf(): CreativeWorkInterface {
+		return $this->partOf;
+	}
+	
+	/**
+	 * @param CreativeWorkInterface $partOf
+	 */
+	public function setPartOf(CreativeWorkInterface $partOf): void {
+		$this->partOf = $partOf;
 	}
 }

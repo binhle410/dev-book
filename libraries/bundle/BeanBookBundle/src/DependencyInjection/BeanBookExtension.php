@@ -14,6 +14,7 @@ class BeanBookExtension extends ConfigurableExtension {
 //		$loader = new XmlFileLoader($container, new \Symfony\Component\Config\FileLocator(__DIR__ . '/../Resources/config'));
 		
 		$container->setParameter('bean_book.backend_type_orm', true);
+//		$container->setParameter('bean_book.backend_type_orm_default.base', true);
 		$container->setParameter('bean_book.backend_type_orm_default.superclass', true);
 		$container->setParameter('bean_book.persistence.orm.manager_name', null);
 	}

@@ -59,28 +59,4 @@ class BeanThingBundle extends Bundle {
 			)
 		);
 	}
-	
-	/**
-	 * Builds the compiler pass for the symfony core routing component. The
-	 * compiler pass factory method uses the SymfonyFileLocator which does
-	 * magic with the namespace and thus does not work here.
-	 *
-	 * @param string $compilerClass the compiler class to instantiate
-	 * @param string $driverClass the xml driver class for this backend
-	 * @param string $type the backend type name
-	 *
-	 * @return CompilerPassInterface
-	 */
-	private function buildBaseCompilerPass($compilerClass, $driverClass, $type) {
-		$arguments = [ [ realpath(__DIR__ . '/Resources/config/doctrine-base') ], sprintf('.%s.xml', $type) ];
-		$locator   = new Definition(DefaultFileLocator::class, $arguments);
-		$driver    = new Definition($driverClass, [ $locator ]);
-		
-		return new $compilerClass(
-			$driver,
-			[ 'Symfony\Component\Routing' ],
-			[ sprintf('cmf_routing.dynamic.persistence.%s.manager_name', $type) ],
-			sprintf('cmf_routing.backend_type_%s', $type)
-		);
-	}
 }

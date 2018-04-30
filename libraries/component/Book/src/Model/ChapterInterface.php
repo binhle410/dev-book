@@ -25,4 +25,14 @@ interface ChapterInterface extends CreativeWorkInterface {
 	 * @param int|string $pageStart
 	 */
 	public function setPageStart($pageStart): void;
+	
+	/**
+	 * @return BookInterface
+	 */
+	public function getBook(): BookInterface;
+	
+	/**
+	 * @param BookInterface $book
+	 */
+	public function setBook(BookInterface $book): void;
 }
