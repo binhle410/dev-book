@@ -5,6 +5,10 @@
         http://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd"
 >
     <class name="Bean\Component\CreativeWork\Model\CreativeWork">
+        <attribute name="partOf">
+            <group>read_creative_work</group>
+            <group>write_creative_work</group>
+        </attribute>
         <attribute name="locale">
             <group>read_creative_work</group>
             <group>write_creative_work</group>
