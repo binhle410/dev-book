@@ -25,6 +25,12 @@ resources:
 #                subresource:
 #                    resourceClass: 'Bean\Component\CreativeWork\Model\CreativeWork'
 #                    collection: true
+        itemOperations:
+            get: ~
+            special:
+                method: 'GET'
+                path: '/books/{id}/chapters'
+                controller: 'App\Controller\BeanPlaygroundController'
 
     Bean\Bundle\BookBundle\Doctrine\Orm\Chapter:
         attributes:                          # optional

@@ -2,11 +2,18 @@
 
 namespace App\Controller;
 
+use Bean\Bundle\BookBundle\Doctrine\Orm\Book;
 use Bean\Bundle\BookBundle\Doctrine\Orm\Chapter;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class BeanPlaygroundController extends Controller {
+	
+	public function __invoke(Book $data) {
+		return $data->getChapters();
+	}
+	
 	/**
 	 * @Route("/bean/playground", name="bean_playground")
 	 */
