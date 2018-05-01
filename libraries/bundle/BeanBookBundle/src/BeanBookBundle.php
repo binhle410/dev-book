@@ -66,7 +66,6 @@ class BeanBookBundle extends Bundle {
 		$container->addCompilerPass(
 			DoctrineOrmMappingsPass::createXmlMappingDriver(
 				[
-					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-class') => 'Bean\Component\Book\Model',
 					realpath(__DIR__ . '/Resources/config/doctrine-orm/class')                  => 'Bean\Bundle\BookBundle\Doctrine\Orm',
 				],
 				[ 'bean_creativework.persistence.orm.manager_name' ],
