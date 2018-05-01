@@ -13,7 +13,6 @@
 
         <discriminator-column name="discr" type="string" />
         <discriminator-map>
-
             <discriminator-mapping value="book" class="Bean\Bundle\BookBundle\Doctrine\Orm\Book" />
             <discriminator-mapping value="chapter" class="Bean\Bundle\BookBundle\Doctrine\Orm\Chapter" />
         </discriminator-map>

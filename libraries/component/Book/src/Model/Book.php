@@ -14,6 +14,12 @@ class Book extends CreativeWork implements BookInterface {
 	protected $chapters;
 	
 	/**
+	 * NOT part of schema.org
+	 * @var array
+	 */
+	protected $pages;
+	
+	/**
 	 * Indicates whether the book is an abridged edition.
 	 * @var boolean
 	 */

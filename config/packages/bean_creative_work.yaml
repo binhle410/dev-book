@@ -3,4 +3,4 @@ bean_creative_work:
         orm:
             enabled:              true
             manager_name:         null
-            inheritance_strategy: superclass
+            inheritance_strategy: class

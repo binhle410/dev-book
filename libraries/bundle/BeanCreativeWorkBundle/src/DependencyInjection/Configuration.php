@@ -9,7 +9,7 @@ class Configuration implements ConfigurationInterface {
 	public function getConfigTreeBuilder() {
 		$treeBuilder = new TreeBuilder();
 		$rootNode    = $treeBuilder->root('bean_creative_work');
-		
+		// @formatter:off
 		$rootNode
 			->children()
 				->arrayNode('persistence')
@@ -58,7 +58,7 @@ class Configuration implements ConfigurationInterface {
 					->end() // children
 				->end() // persistence
 			->end(); // children of root
-		
+		// @formatter:on
 		return $treeBuilder;
 	}
 }
