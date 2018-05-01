@@ -4,7 +4,10 @@
             xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
         http://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd"
 >
-    <class name="Bean\Component\Book\Model\Chapter">
+    <class name="Bean\Component\Book\Model\Book">
+        <attribute name="parts">
+            <group>read_book_parts</group>
+        </attribute>
         <attribute name="abridged">
             <group>read_book</group>
             <group>write_book</group>
@@ -42,6 +45,11 @@
             <group>read_chapter</group>
             <group>write_chapter</group>
         </attribute>
+
+        <attribute name="parentChapter">
+            <group>write_chapter</group>
+        </attribute>
+
 
     </class>
 </serializer>

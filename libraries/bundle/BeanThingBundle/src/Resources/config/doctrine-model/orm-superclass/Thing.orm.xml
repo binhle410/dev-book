@@ -6,7 +6,8 @@
 
     <mapped-superclass name="Bean\Component\Thing\Model\Thing">
         <!-- we hardcode the column name to overwrite column naming strategies as we have to define the index on the column name -->
-
+        <field name="name" type="string" nullable="true"/>
+        <field name="description" type="string" nullable="true"/>
         <!--<indexes>-->
             <!--<index name="prefix_idx" columns="staticPrefix"/>-->
         <!--</indexes>-->

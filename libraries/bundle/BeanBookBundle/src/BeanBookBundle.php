@@ -71,7 +71,7 @@ class BeanBookBundle extends Bundle {
 				],
 				[ 'bean_creativework.persistence.orm.manager_name' ],
 				'bean_creativework.backend_type_orm_default.inheritance_class',
-				[ 'BeanBookBundle' => 'Bean\Component\Book\Doctrine\Orm' ]
+				[ 'BeanBookBundle' => 'Bean\Bundle\BookBundle\Doctrine\Orm' ]
 			)
 		);
 		
@@ -83,7 +83,7 @@ class BeanBookBundle extends Bundle {
 				],
 				[ 'bean_creativework.persistence.orm.manager_name' ],
 				'bean_creativework.backend_type_orm_default.inheritance_superclass',
-				[ 'BeanBookBundle' => 'Bean\Component\Book\Doctrine\Orm' ]
+				[ 'BeanBookBundle' => 'Bean\Bundle\BookBundle\Doctrine\Orm' ]
 			)
 		);
 		

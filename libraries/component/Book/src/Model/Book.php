@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Bean\Component\Book\Model;
 
@@ -9,43 +9,42 @@ class Book extends CreativeWork implements BookInterface {
 	
 	/**
 	 * NOT part of schema.org
-	 * @var array
+	 * @var \ArrayAccess|array|null
 	 */
 	protected $chapters;
 	
-	/**
-	 * NOT part of schema.org
-	 * @var array
-	 */
-	protected $pages;
+	public function addChapter(ChapterInterface $chapter) {
+		$this->chapters[] = $chapter;
+		$chapter->setBook($this);
+	}
 	
 	/**
 	 * Indicates whether the book is an abridged edition.
-	 * @var boolean
+	 * @var boolean|null
 	 */
 	protected $abridged;
 	
 	/**
 	 * The edition of the book.
-	 * @var string
+	 * @var string|null
 	 */
 	protected $bookEdition;
 	
 	/**
 	 * The format of the book.
-	 * @var string
+	 * @var string|null
 	 */
 	protected $bookFormat;
 	
 	/**
 	 * The ISBN-13 of the book.
-	 * @var string
+	 * @var string|null
 	 */
 	protected $isbn;
 	
 	/**
 	 * The number of pages in the book.
-	 * @var integer
+	 * @var integer|null
 	 */
 	protected $numberOfPages;
 	

@@ -1,14 +1,50 @@
 resources:
-    Bean\Bundle\BookBundle\Doctrine\Orm\Book: ~
+    Bean\Component\CreativeWork\Model\CreativeWork:
+        attributes:                          # optional
+            normalization_context:
+                groups:
+                    - read_creative_work
+            denormalization_context:
+                groups:
+                    - write_creative_work
+
+    Bean\Bundle\BookBundle\Doctrine\Orm\Book:
+        attributes:                          # optional
+            normalization_context:
+                groups:
+                    - read_book
+                    - read_creative_work
+                    - read_creative_work_partOf
+            denormalization_context:
+                groups:
+                    - write_book
+                    - write_creative_work
+                    - write_creative_work_partOf
+        properties:
+            parts:
+                subresource:
+                    resourceClass: 'Bean\Component\CreativeWork\Model\CreativeWork'
+                    collection: true
+
     Bean\Bundle\BookBundle\Doctrine\Orm\Chapter:
         attributes:                          # optional
             normalization_context:
                 groups:
                     - read_chapter
+                    - read_creative_work
+#                    - read_creative_work_partOf
             denormalization_context:
                 groups:
                     - write_chapter
                     - write_creative_work
+                    - write_creative_work_partOf
+
+        properties:
+            parts:
+                subresource:
+                    resourceClass: 'Bean\Component\CreativeWork\Model\CreativeWork'
+                    collection: true
+
 
 #    App\Entity\Offer:
 #        shortName: 'Offer'                   # optional

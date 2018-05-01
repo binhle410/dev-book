@@ -3,7 +3,19 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
-        <entity name="Bean\Bundle\BookBundle\Doctrine\Orm\Chapter" table="book__chapter">
-                <one-to-many field="parts" target-entity="Bean\Component\CreativeWork\Model\CreativeWork" mapped-by="partOf" />
-        </entity>
+    <entity name="Bean\Bundle\BookBundle\Doctrine\Orm\Chapter" table="book__chapter">
+        <many-to-one field="book" target-entity="Bean\Bundle\BookBundle\Doctrine\Orm\Book">
+            <join-column name="id_book" referenced-column-name="id"/>
+        </many-to-one>
+
+        <many-to-one field="parentChapter" target-entity="Bean\Bundle\BookBundle\Doctrine\Orm\Chapter" inversed-by="subChapters">
+            <join-column name="id_parent_chapter" referenced-column-name="id"/>
+        </many-to-one>
+
+        <one-to-many field="subChapters" target-entity="Bean\Bundle\BookBundle\Doctrine\Orm\Chapter" mapped-by="parentChapter" />
+
+
+        <field name="pageStart" type="string" nullable="true"/>
+        <field name="pageEnd" type="string" nullable="true"/>
+    </entity>
 </doctrine-mapping>

@@ -48,13 +48,36 @@ class BeanThingBundle extends Bundle {
 //		$container->addCompilerPass(
 //			$this->buildBaseCompilerPass(DoctrineOrmMappingsPass::class, ORMXmlDriver::class, 'orm')
 //		);
+		
 		$container->addCompilerPass(
 			DoctrineOrmMappingsPass::createXmlMappingDriver(
 				[
 					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-superclass') => 'Bean\Component\Thing\Model',
 				],
 				[ 'bean_thing.persistence.orm.manager_name' ],
-				'bean_thing.backend_type_orm_default.superclass',
+				'bean_thing.backend_type_orm_default.inheritance_superclass',
+				[ 'BeanThingBundle' => 'Bean\Component\Thing\Model' ]
+			)
+		);
+		
+		$container->addCompilerPass(
+			DoctrineOrmMappingsPass::createXmlMappingDriver(
+				[
+					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-class') => 'Bean\Component\Thing\Model',
+				],
+				[ 'bean_thing.persistence.orm.manager_name' ],
+				'bean_thing.backend_type_orm_default.inheritance_class',
+				[ 'BeanThingBundle' => 'Bean\Component\Thing\Model' ]
+			)
+		);
+		
+		$container->addCompilerPass(
+			DoctrineOrmMappingsPass::createXmlMappingDriver(
+				[
+					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-single') => 'Bean\Component\Thing\Model',
+				],
+				[ 'bean_thing.persistence.orm.manager_name' ],
+				'bean_thing.backend_type_orm_default.inheritance_single',
 				[ 'BeanThingBundle' => 'Bean\Component\Thing\Model' ]
 			)
 		);

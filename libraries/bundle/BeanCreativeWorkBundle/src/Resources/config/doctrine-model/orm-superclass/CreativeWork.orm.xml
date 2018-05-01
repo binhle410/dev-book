@@ -5,6 +5,11 @@
                           http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <mapped-superclass name="Bean\Component\CreativeWork\Model\CreativeWork">
+        <field name="position" type="integer">
+            <options>
+                <option name="default">1</option>
+            </options>
+        </field>
         <field name="headline" type="string" nullable="true"/>
         <field name="locale" type="string" nullable="false"/>
         <field name="about" type="string" nullable="true"/>

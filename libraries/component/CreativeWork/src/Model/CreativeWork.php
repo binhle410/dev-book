@@ -10,7 +10,7 @@ abstract class CreativeWork extends Thing implements CreativeWorkInterface {
 	/**
 	 * Indicates a CreativeWork that is (in some sense) a part of this CreativeWork.
 	Inverse property: partOf.
-	 * @var array|null
+	 * @var \ArrayAccess|array|null
 	 */
 	protected $parts;
 	
@@ -20,6 +20,12 @@ abstract class CreativeWork extends Thing implements CreativeWorkInterface {
 	 * @var CreativeWorkInterface|null
 	 */
 	protected $partOf;
+	
+	/**
+	 * The position of an item in a series or sequence of items.
+	 * @var integer
+	 */
+	protected $position = 1;
 	
 	/**
 	 * Headline of the article.
@@ -116,9 +122,9 @@ abstract class CreativeWork extends Thing implements CreativeWorkInterface {
 	}
 	
 	/**
-	 * @return array|null
+	 * @return \ArrayAccess|array|null
 	 */
-	public function getParts(): ?array {
+	public function getParts() {
 		return $this->parts;
 	}
 	
@@ -155,5 +161,19 @@ abstract class CreativeWork extends Thing implements CreativeWorkInterface {
 	 */
 	public function setText(?string $text): void {
 		$this->text = $text;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getPosition(): int {
+		return $this->position;
+	}
+	
+	/**
+	 * @param int $position
+	 */
+	public function setPosition(int $position): void {
+		$this->position = $position;
 	}
 }

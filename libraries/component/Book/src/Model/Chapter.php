@@ -4,8 +4,37 @@ declare(strict_types = 1);
 namespace Bean\Component\Book\Model;
 
 use Bean\Component\CreativeWork\Model\CreativeWork;
+use Bean\Component\CreativeWork\Model\CreativeWorkInterface;
 
 class Chapter extends CreativeWork implements ChapterInterface {
+	
+	public function setPartOf(CreativeWorkInterface $partOf): void {
+		parent::setPartOf($partOf);
+		if($partOf instanceof BookInterface) {
+			$partOf->addChapter($this);
+		} elseif($partOf instanceof ChapterInterface) {
+			$partOf->addSubChapter($this);
+		}
+	}
+	
+	/**
+	 * NOT part of schema.org.
+	 * A Chapter should belong to a Book.
+	 * @var \ArrayAccess|array|null
+	 */
+	protected $subChapters;
+	
+	public function addSubChapter(ChapterInterface $chapter) {
+		$this->subChapters[] = $chapter;
+		$chapter->setParentChapter($this);
+	}
+	
+	/**
+	 * NOT part of schema.org.
+	 * A Chapter should belong to a Book.
+	 * @var ChapterInterface
+	 */
+	protected $parentChapter;
 	
 	/**
 	 * NOT part of schema.org.
@@ -66,5 +95,33 @@ class Chapter extends CreativeWork implements ChapterInterface {
 	 */
 	public function setBook(BookInterface $book): void {
 		$this->book = $book;
+	}
+	
+	/**
+	 * @return array|\ArrayAccess|null
+	 */
+	public function getSubChapters() {
+		return $this->subChapters;
+	}
+	
+	/**
+	 * @param array|\ArrayAccess|null $subChapters
+	 */
+	public function setSubChapters($subChapters): void {
+		$this->subChapters = $subChapters;
+	}
+	
+	/**
+	 * @return ChapterInterface
+	 */
+	public function getParentChapter(): ChapterInterface {
+		return $this->parentChapter;
+	}
+	
+	/**
+	 * @param ChapterInterface $parentChapter
+	 */
+	public function setParentChapter(ChapterInterface $parentChapter): void {
+		$this->parentChapter = $parentChapter;
 	}
 }

@@ -5,6 +5,7 @@ namespace Bean\Bundle\CreativeWorkBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -26,9 +27,8 @@ class BeanCreativeWorkExtension extends ConfigurableExtension {
 			$hasProvider = $hasContentRepository = true;
 		}
 		if( ! $hasProvider) {
-			throw new InvalidConfigurationException('When the dynamic router is enabled, you need to either enable one of the persistence layers or set the cmf_routing.dynamic.route_provider_service_id option');
+			throw new InvalidConfigurationException('you need to either enable one of the persistence layers for BeanCreativeWorkBundle or remove the bundles altogether.');
 		}
-		
 	}
 	
 	private function loadOrmProvider(array $config, LoaderInterface $loader, ContainerBuilder $container) {
@@ -36,8 +36,9 @@ class BeanCreativeWorkExtension extends ConfigurableExtension {
 		$container->setParameter('bean_creativework.backend_type_orm', true);
 		$container->setParameter('bean_creativework.persistence.orm.manager_name', $config['manager_name']);
 		if(empty($inheritanceStrategy = $config['inheritance_strategy'])) {
-			$container->setParameter('bean_creativework.backend_type_orm_default.inheritance_class', true);
-		} elseif(in_array($inheritanceStrategy, [
+			$inheritanceStrategy = 'class';
+		}
+		if(in_array($inheritanceStrategy, [
 			'superclass',
 			'class',
 			'single'
