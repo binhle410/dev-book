@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Bean\Component\Book\Model;
 
@@ -28,4 +28,14 @@ interface BookInterface extends CreativeWorkInterface {
 	public function getNumberOfPages(): ?int;
 	
 	public function setNumberOfPages(int $numberOfPages): void;
+	
+	/**
+	 * @return array|\ArrayAccess|null
+	 */
+	public function getChapters();
+	
+	/**
+	 * @param array|\ArrayAccess|null $chapters
+	 */
+	public function setChapters($chapters): void;
 }
