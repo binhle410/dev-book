@@ -20,11 +20,11 @@ resources:
                     - write_book
                     - write_creative_work
                     - write_creative_work_partOf
-#        properties:
-#            parts:
-#                subresource:
-#                    resourceClass: 'Bean\Component\CreativeWork\Model\CreativeWork'
-#                    collection: true
+        properties:
+            parts:
+                subresource:
+                    resourceClass: 'Bean\Component\CreativeWork\Model\CreativeWork'
+                    collection: true
 
     Bean\Bundle\BookBundle\Doctrine\Orm\Chapter:
         attributes:                          # optional
@@ -39,11 +39,11 @@ resources:
                     - write_creative_work
                     - write_creative_work_partOf
 
-#        properties:
-#            parts:
-#                subresource:
-#                    resourceClass: 'Bean\Component\CreativeWork\Model\CreativeWork'
-#                    collection: true
+        properties:
+            parts:
+                subresource:
+                    resourceClass: 'Bean\Component\CreativeWork\Model\CreativeWork'
+                    collection: true
 
 
 #    App\Entity\Offer:
