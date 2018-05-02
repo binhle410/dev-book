@@ -29,7 +29,7 @@ resources:
             get: ~
             special:
                 method: 'GET'
-                path: '/books/{id}/chapters'
+                path: '/books/{id}/root-chapters'
                 controller: 'App\Controller\BeanPlaygroundController'
 
     Bean\Bundle\BookBundle\Doctrine\Orm\Chapter:
