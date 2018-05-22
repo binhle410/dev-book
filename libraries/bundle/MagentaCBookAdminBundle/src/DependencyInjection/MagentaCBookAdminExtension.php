@@ -5,6 +5,7 @@ namespace Magenta\Bundle\CBookAdminBundle\DependencyInjection;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseCRUDAdminController;
 use ProxyManager\FileLocator\FileLocator;
+use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -27,7 +28,7 @@ class MagentaCBookAdminExtension extends ConfigurableExtension {
 		
 		$definitions = [];
 		foreach(get_declared_classes() as $class) {
-			if(is_subclass_of($class, BaseCRUDAdminController::class)) {
+			if(is_subclass_of($class, CRUDController::class)) {
 				$container->getDefinition($class)->addTag('controller.service_arguments');
 			} elseif(is_subclass_of($class, BaseAdmin::class)) {
 				if(empty($class::AUTO_CONFIG)) {

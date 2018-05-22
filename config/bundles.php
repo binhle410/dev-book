@@ -26,4 +26,6 @@ return [
     Knp\Bundle\MenuBundle\KnpMenuBundle::class => ['all' => true],
     Sonata\AdminBundle\SonataAdminBundle::class => ['all' => true],
     Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle::class => ['all' => true],
+    Magenta\Bundle\CBookAdminBundle\MagentaCBookAdminBundle::class => ['all' => true, 'test' => true],
+    Magenta\Bundle\CBookModelBundle\MagentaCBookModelBundle::class => ['all' => true, 'test' => true],
 ];

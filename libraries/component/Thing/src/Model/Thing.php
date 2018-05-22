@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Bean\Component\Thing\Model;
 
@@ -10,6 +10,12 @@ namespace Bean\Component\Thing\Model;
 abstract class Thing implements ThingInterface {
 	
 	protected $id;
+	
+	/**
+	 * NOT part of schema.org
+	 * @var boolean|null
+	 */
+	protected $enabled;
 	
 	/**
 	 * The name of the item.
@@ -55,5 +61,18 @@ abstract class Thing implements ThingInterface {
 		$this->description = $description;
 	}
 	
+	/**
+	 * @return bool|null
+	 */
+	public function getEnabled(): ?bool {
+		return $this->enabled;
+	}
+	
+	/**
+	 * @param bool|null $enabled
+	 */
+	public function setEnabled(?bool $enabled): void {
+		$this->enabled = $enabled;
+	}
 	
 }

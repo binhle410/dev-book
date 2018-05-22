@@ -60,6 +60,7 @@
             "Magenta\\Bundle\\CBookModelBundle\\": "libraries\\bundle\\MagentaCBookModelBundle\\src/",
             "Bean\\Component\\Book\\": "libraries\\component\\Book\\src/",
             "Bean\\Component\\CreativeWork\\": "libraries\\component\\CreativeWork\\src/",
+            "Bean\\Component\\Organization\\": "libraries\\component\\Organization\\src/",
             "Bean\\Component\\Thing\\": "libraries\\component\\Thing\\src/"
         }
     },
@@ -75,6 +76,7 @@
             "Magenta\\Bundle\\CBookModelBundle\\Tests\\": "libraries\\bundle\\MagentaCBookModelBundle\\tests/units/",
             "Bean\\Component\\Book\\spec\\": "libraries\\component\\Book\\tests/spec/",
             "Bean\\Component\\CreativeWork\\spec\\": "libraries\\component\\CreativeWork\\tests/spec/",
+            "Bean\\Component\\Organization\\spec\\": "libraries\\component\\Organization\\tests/spec/",
             "Bean\\Component\\Thing\\spec\\": "libraries\\component\\Thing\\tests/spec/"
         }
     },

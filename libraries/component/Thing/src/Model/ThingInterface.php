@@ -1,8 +1,5 @@
 <?php
-declare(strict_types=1);
-
 namespace Bean\Component\Thing\Model;
-
 
 /**
  * Class Thing: The most generic type of item.
@@ -30,4 +27,14 @@ interface ThingInterface {
 	 * @param string $description
 	 */
 	public function setDescription(string $description): void;
+	
+	/**
+	 * @return bool|null
+	 */
+	public function getEnabled(): ?bool;
+	
+	/**
+	 * @param bool|null $enabled
+	 */
+	public function setEnabled(?bool $enabled): void;
 }

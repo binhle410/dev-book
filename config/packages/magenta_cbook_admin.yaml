@@ -1,0 +1,43 @@
+sonata_admin:
+    title: 'Cloud Book'
+    options:
+        title_mode: 'single_text'
+
+    templates:
+        layout: '@MagentaCBookAdmin/standard_layout.html.twig'
+        user_block: '@MagentaCBookAdmin/Core/user_block.html.twig'
+
+    assets:
+        extra_stylesheets:
+            - bundles/sonataadmin/vendor/admin-lte/dist/css/skins/skin-red-light.min.css
+            - bundles/magentacbookadmin/admin.css
+        remove_stylesheets:
+            - bundles/sonataadmin/vendor/admin-lte/dist/css/skins/skin-black.min.css
+    dashboard:
+        blocks: ~
+#            - { type: sonata.admin.block.admin_list, position: left }
+
+        groups:
+            system:
+                label: dashboard.system
+                icon: '<i class="fa fa-users"></i>'
+                items:
+                    - Magenta\Bundle\CBookAdminBundle\Admin\User\UserAdmin
+                    - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\OrganisationAdmin
+#                    - Sonata\MediaBundle\Admin\MediaAdmin
+#                    - sonata.media.admin.media
+#                    - sonata.user.admin.group
+#                    - sonata.classification.admin.context
+#                    - sonata.classification.admin.category
+#                    - sonata.classification.admin.collection
+#                    - sonata.classification.admin.tag
+#                    - sonata.notification.admin.message
+
+    title_logo: https://www.magenta-consulting.com/images/logo.png
+    search: false
+
+
+sonata_block:
+    blocks:
+        sonata.admin.block.admin_list:
+            contexts: [admin]

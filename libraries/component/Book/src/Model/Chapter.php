@@ -20,7 +20,7 @@ class Chapter extends CreativeWork implements ChapterInterface {
 	/**
 	 * NOT part of schema.org.
 	 * A Chapter should belong to a Book.
-	 * @var \ArrayAccess|array|null
+	 * @var \Countable|\IteratorAggregate|\ArrayAccess|array|null
 	 */
 	protected $subChapters;
 	

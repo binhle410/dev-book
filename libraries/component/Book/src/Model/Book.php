@@ -9,7 +9,7 @@ class Book extends CreativeWork implements BookInterface {
 	
 	/**
 	 * NOT part of schema.org
-	 * @var \ArrayAccess|array|null
+	 * @var \Countable|\IteratorAggregate|\ArrayAccess|array|null
 	 */
 	protected $chapters;
 	

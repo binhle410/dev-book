@@ -18,6 +18,7 @@
             <!--<discriminator-mapping value="chapter" class="Bean\Bundle\BookBundle\Doctrine\Orm\Chapter" />-->
         <!--</discriminator-map>-->
 
+        <field name="enabled" type="boolean" nullable="true"/>
         <field name="name" type="string" nullable="true"/>
         <field name="description" type="string" nullable="true"/>
     </entity>

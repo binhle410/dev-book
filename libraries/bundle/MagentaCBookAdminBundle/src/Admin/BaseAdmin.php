@@ -10,8 +10,7 @@ class BaseAdmin extends AbstractAdmin {
 	const AUTO_CONFIG = true;
 	const ENTITY = null;
 	const CONTROLLER = null;
-	/** @var ThanhVien $thanhVien */
-	protected $thanhVien = null;
+	
 	private $isAdmin;
 	
 	protected function isAdmin() {
@@ -24,7 +23,7 @@ class BaseAdmin extends AbstractAdmin {
 	
 	protected $ivoryCkeditor = array();
 	
-	protected $translationDomain = 'BinhLeAdmin'; // default is 'messages'
+	protected $translationDomain = 'CBookAdmin'; // default is 'messages'
 	
 	protected $action = '';
 	protected $actionParams = [];
