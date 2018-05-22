@@ -1,0 +1,50 @@
+{
+  "name": "magenta-consulting/cbook-model-bundle",
+  "type": "symfony-bundle",
+  "description": "Provides a Bundle Integration for the CBook Model.",
+  "keywords": [
+    "Symfony CBookModel Bundle"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Peter Bean",
+      "email": "peterbean@beancomponent.com"
+    }
+  ],
+  "require": {
+    "php": "^7.0",
+    "symfony/security-bundle": "^4.0",
+    "symfony/validator": "^4.0",
+    "symfony/swiftmailer-bundle": "^3.2",
+    "symfony/framework-bundle": "^4.0",
+    "symfony/monolog-bundle": "^3.1",
+    "symfony/lts": "^4@dev"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.2",
+    "swiftmailer/swiftmailer": "^6.0",
+    "symfony/console": "^4.0",
+    "symfony/phpunit-bridge": "^4.0",
+    "symfony/yaml": "^4.0",
+    "phpunit/phpunit": "^6.5"
+  },
+  "suggest": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Magenta\\Bundle\\CBookModelBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Magenta\\Bundle\\CBookModelBundle\\spec\\": "tests/spec/",
+      "Magenta\\Bundle\\CBookModelBundle\\Tests\\": "tests/units/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1-dev"
+    }
+  }
+}

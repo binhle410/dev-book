@@ -19,8 +19,14 @@
         </service>
         <service id="Bean\Bundle\DevToolBundle\Command\MergeComposerJsonCommand" public="false">
             <tag name="console.command"/>
+            <call method="setJsonService">
+                <argument type="service" id="Bean\Bundle\DevToolBundle\Service\JsonService"/>
+            </call>
         </service>
         <service id="Bean\Bundle\DevToolBundle\Service\FileService" public="false">
+            <argument type="service" id="service_container"/>
+        </service>
+        <service id="Bean\Bundle\DevToolBundle\Service\JsonService" public="false">
             <argument type="service" id="service_container"/>
         </service>
 

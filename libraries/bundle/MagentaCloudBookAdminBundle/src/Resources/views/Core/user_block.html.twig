@@ -1,0 +1,47 @@
+{% block user_block %}
+    {% if app.user %}
+        {% set _bg_class          = "bg-light-red" %}
+        {% set _logout_uri        = url('magenta_user_security_logout') %}
+        {% set _logout_text       = 'layout.logout'|trans({}, 'MagentaCBookAdminBundle') %}
+        {#{% set _profile_uri       = sonata_user.userAdmin.isGranted('EDIT', app.user) ? sonata_user.userAdmin.generateUrl('edit', {id: app.user.id}) : sonata_user.userAdmin.generateUrl('show', {id: app.user.id}) %}#}
+        {% set _profile_text      = 'profile_edit'|trans({}, 'MagentaCBookAdminBundle') %}
+        {% set _user_image        = 'https://gooddonegreat.com/app/img/placeholders/avatar-150x150.png' %}
+
+        {#{% set _profile_uri       = url('admin_app_user_user_edit',{ 'id':app.user.id }) %}#}
+        {% set _profile_uri       = '#' %}
+
+        {# Customize this with your profile picture implementation, see below for example #}
+        {#{% set _user_image  = app.user.profilePicture|default(asset(sonata_user.defaultAvatar)) %}#}
+
+        {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+            {% set _bg_class    = "bg-light-green" %}
+            {% set _logout_uri  = url('admin_dashboard',{'_switch_user': '_exit'}) %}
+            {% set _logout_text = '(exit)' %}
+        {% endif %}
+
+        <li class="user-header {{ _bg_class }}">
+            {% if _user_image %}
+                <img src="{{ _user_image }}" class="img-circle" alt="Avatar"/>
+            {% endif %}
+            <p>{{ app.user }}</p>
+        </li>
+        {#
+            Uncomment to add some information
+                <li class="user-body">
+
+                </li>
+        #}
+
+        <li class="user-footer">
+            <div class="pull-left">
+                <a href="{{ _profile_uri }}" class="btn btn-default btn-flat"><i
+                            class="fa fa-user"></i> {{ _profile_text }}</a>
+            </div>
+
+            <div class="pull-right">
+                <a href="{{ _logout_uri }}" class="btn btn-default btn-flat"><i
+                            class="fa fa-sign-out fa-fw"></i> {{ _logout_text }}</a>
+            </div>
+        </li>
+    {% endif %}
+{% endblock %}

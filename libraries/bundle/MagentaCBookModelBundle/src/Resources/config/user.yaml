@@ -1,0 +1,66 @@
+services:
+    magenta_user.user_provider.username:
+        class: Magenta\Bundle\CBookModelBundle\Security\UserProvider
+        public: false
+    magenta_user.user_provider.username_email:
+        class: Magenta\Bundle\CBookModelBundle\Security\EmailUserProvider
+        arguments: ['@magenta_user.user_manager']
+
+    magenta_user.command.create_user:
+        class: Magenta\Bundle\CBookModelBundle\Command\User\CreateUserCommand
+        public: false
+        arguments: ['@magenta_user.util.user_manipulator']
+        tags:
+            - {name: "console.command", command: "magenta:user:create"}
+    magenta_user.command.promote_user:
+        class: Magenta\Bundle\CBookModelBundle\Command\User\PromoteUserCommand
+        arguments: ['@magenta_user.util.user_manipulator']
+        tags:
+            - {name: "console.command", command: "magenta:user:promote"}
+
+    magenta_user.util.user_manipulator:
+        class: Magenta\Bundle\CBookModelBundle\Service\User\UserManipulator
+        public: true
+        arguments: ['@magenta_user.user_manager','@event_dispatcher','@request_stack']
+
+    magenta_user.user_manager:
+        class: Magenta\Bundle\CBookModelBundle\Service\User\UserManager
+        public: true
+        arguments: ['@magenta_user.util.password_updater','@magenta_user.util.canonical_fields_updater','@magenta_user.object_manager','Magenta\Bundle\CBookModelBundle\Entity\User\User']
+
+    magenta_user.object_manager:
+        class: Doctrine\Common\Persistence\ObjectManager
+        arguments: [null]
+
+    magenta_user.util.password_updater:
+        class: Magenta\Bundle\CBookModelBundle\Util\User\PasswordUpdater
+        public: false
+        arguments: ['@security.encoder_factory']
+    magenta_user.util.canonical_fields_updater:
+        class: Magenta\Bundle\CBookModelBundle\Util\User\CanonicalFieldsUpdater
+        public: false
+        arguments: ['@magenta_user.util.canonicalizer','@magenta_user.util.canonicalizer']
+
+    magenta_user.util.canonicalizer:
+        class: Magenta\Bundle\CBookModelBundle\Util\User\Canonicalizer
+        public: false
+
+# fos_user.user_listener - FOS\UserBundle\Doctrine\UserListener
+    magenta_user.user_event_subscriber:
+        class: Magenta\Bundle\CBookModelBundle\Doctrine\User\UserEventSubsriber
+        arguments:
+          - '@magenta_user.util.password_updater'
+          - '@magenta_user.util.canonical_fields_updater'
+        tags: ['doctrine.event_subscriber']
+
+    Magenta\Bundle\CBookModelBundle\Util\CanonicalFieldsUpdater:
+        alias: 'magenta_user.util.canonical_fields_updater'
+        public: false
+    Magenta\Bundle\CBookModelBundle\Util\User\PasswordUpdaterInterface:
+        alias: 'magenta_user.util.password_updater'
+        public: false
+    Magenta\Bundle\CBookModelBundle\Service\User\UserManagerInterface:
+        alias: 'magenta_user.user_manager'
+        public: false
+
+

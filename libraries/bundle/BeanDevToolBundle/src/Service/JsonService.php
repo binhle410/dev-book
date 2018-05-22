@@ -3,7 +3,12 @@
 namespace Bean\Bundle\DevToolBundle\Service;
 
 class JsonService {
-	public static function merge($src, $dest, $key = null, $force = false) {
+	
+	private $names = [];
+	
+	public function merge($src, $dest, $key = null, $force = false) {
+		$this->names[ $src->name ] = true;
+		
 		$isPropExistent = false;
 		if(property_exists($src, $key)) {
 			$isPropExistent = true;
@@ -18,19 +23,31 @@ class JsonService {
 		
 		if($isPropExistent) {
 			//						$composerWS->{'require-dev'} = (object) array_merge((array) $composerWS->{'require-dev'}, (array) $composer->{'require-dev'});
-			self::mergeProperties($properties, $src, $dest, $force);
+			$this->mergeProperties($properties, $src, $dest, $force);
+		}
+		
+		$this->removeDevDependencies($dest);
+	}
+	
+	public function removeDevDependencies($dest) {
+		$key               = "require";
+		$destPropertyArray = (array) ($dest->{$key});
+		foreach($destPropertyArray as $_key => $_value) {
+			if(in_array($_key, $this->names)) {
+				unset($destPropertyArray[ $_key ]);
+			}
 		}
 	}
 	
-	public static function mergeProperties($properties = array(), $src, $dest, $force = false) {
+	public function mergeProperties($properties = array(), $src, $dest, $force = false) {
 		$key = array_shift($properties);
 		if(count($properties) > 0) {
-			self::mergeProperties($properties, $src->$key, $dest->$key, $force);
+			$this->mergeProperties($properties, $src->$key, $dest->$key, $force);
 		}
-		self::mergeProperty($key, $src, $dest, $force);
+		$this->mergeProperty($key, $src, $dest, $force);
 	}
 	
-	public static function mergeProperty($key, $src, $dest, $force = false) {
+	public function mergeProperty($key, $src, $dest, $force = false) {
 		$srcPropertyArray  = (array) ($src->{$key});
 		$destPropertyArray = (array) ($dest->{$key});
 		foreach($srcPropertyArray as $_key => $_value) {

@@ -11,6 +11,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MergeComposerJsonCommand extends ContainerAwareCommand {
 	
+	/** @var JsonService $jsonService */
+	private $jsonService;
+	
+	/**
+	 * @param JsonService $jsonService
+	 */
+	public function setJsonService(JsonService $jsonService): void {
+		$this->jsonService = $jsonService;
+	}
+	
 	protected function configure() {
 		$this
 			// the name of the command (the part after "bin/console")
@@ -56,6 +66,8 @@ class MergeComposerJsonCommand extends ContainerAwareCommand {
 		
 		$libraryDirs = glob($container->getParameter('bean_dev_tool.library_workspace') . $type . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
 		
+		$jsonService = $this->jsonService;
+		
 		foreach($libraryDirs as $libraryDir) {
 			$libraryName = basename($libraryDir);
 			if(count($registeredLibraries) > 0) {
@@ -74,18 +86,18 @@ class MergeComposerJsonCommand extends ContainerAwareCommand {
 			$composerJson = file_get_contents($composerPath);
 			$composer     = json_decode($composerJson);
 			
-			JsonService::merge($composer, $composerWS, 'require');
-			JsonService::merge($composer, $composerWS, 'require-dev');
+			$jsonService->merge($composer, $composerWS, 'require');
+			$jsonService->merge($composer, $composerWS, 'require-dev');
 			
 			$psr4 = $composer->autoload->{'psr-4'};
 			$this->fixPsr4($psr4, $libraryDir);
 			$composer->autoload->{'psr-4'} = $psr4;
-			JsonService::merge($composer, $composerWS, 'autoload.psr-4');
+			$jsonService->merge($composer, $composerWS, 'autoload.psr-4');
 			
 			$psr4 = $composer->{'autoload-dev'}->{'psr-4'};
 			$this->fixPsr4($psr4, $libraryDir);
 			$composer->{'autoload-dev'}->{'psr-4'} = $psr4;
-			JsonService::merge($composer, $composerWS, 'autoload-dev.psr-4');
+			$jsonService->merge($composer, $composerWS, 'autoload-dev.psr-4');
 			$psr4 = $composer->{'autoload-dev'}->{'psr-4'};
 
 
@@ -93,7 +105,7 @@ class MergeComposerJsonCommand extends ContainerAwareCommand {
 //					$psr4->$_ns = str_replace($projectDirFS, '', $bundleDirFS) . DIRECTORY_SEPARATOR;
 //				}
 //				$composer->{'autoload-dev'}->{'psr-4'} = $psr4;
-//				JsonService::merge($composer, $composerWS, 'autoload-dev', true);
+//				$jsonService->merge($composer, $composerWS, 'autoload-dev', true);
 			$output->writeln('===================');
 		}
 		

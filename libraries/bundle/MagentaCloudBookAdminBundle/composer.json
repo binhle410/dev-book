@@ -1,0 +1,40 @@
+{
+  "name": "magenta-consulting/cbook-admin-bundle",
+  "type": "symfony-bundle",
+  "description": "Provides a Bundle Integration for the CBook Admin Model.",
+  "keywords": [
+    "Symfony CBookAdmin Bundle"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Peter Bean",
+      "email": "peterbean@beancomponent.com"
+    }
+  ],
+  "require": {
+    "magenta-consulting/cbook-model-bundle": "^0.1",
+    "sonata-project/doctrine-orm-admin-bundle":  "^3.6",
+    "sonata-project/admin-bundle": "^3.35"
+  },
+  "require-dev": {
+  },
+  "suggest": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Magenta\\Bundle\\CBookAdminBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Magenta\\Bundle\\CBookAdminBundle\\spec\\": "tests/spec/",
+      "Magenta\\Bundle\\CBookAdminBundle\\Tests\\": "tests/units/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1-dev"
+    }
+  }
+}
