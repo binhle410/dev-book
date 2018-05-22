@@ -168,10 +168,6 @@ class OrganisationAdmin extends BaseAdmin {
 	 * @param User $object
 	 */
 	public function preUpdate($object) {
-		
-		$this->getUserManager()->updateCanonicalFields($object);
-		$this->getUserManager()->updatePassword($object);
-		
 		if( ! $object->isEnabled()) {
 			$object->setEnabled(true);
 		}

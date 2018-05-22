@@ -10,12 +10,22 @@ namespace Bean\Component\Thing\Model;
 abstract class Thing implements ThingInterface {
 	
 	protected $id;
+
+	function __construct() {
+		$this->createdAt = new \DateTime();
+	}
 	
 	/**
 	 * NOT part of schema.org
-	 * @var boolean|null
+	 * @var boolean
 	 */
-	protected $enabled;
+	protected $enabled = false;
+	
+	/**
+	 * NOT part of schema.org
+	 * @var \DateTime
+	 */
+	protected $createdAt;
 	
 	/**
 	 * The name of the item.
@@ -62,17 +72,30 @@ abstract class Thing implements ThingInterface {
 	}
 	
 	/**
-	 * @return bool|null
+	 * @return bool
 	 */
-	public function getEnabled(): ?bool {
+	public function isEnabled(): bool {
 		return $this->enabled;
 	}
 	
 	/**
-	 * @param bool|null $enabled
+	 * @param bool $enabled
 	 */
-	public function setEnabled(?bool $enabled): void {
+	public function setEnabled(bool $enabled): void {
 		$this->enabled = $enabled;
 	}
 	
+	/**
+	 * @return \DateTime
+	 */
+	public function getCreatedAt(): \DateTime {
+		return $this->createdAt;
+	}
+	
+	/**
+	 * @param \DateTime $createdAt
+	 */
+	public function setCreatedAt(\DateTime $createdAt): void {
+		$this->createdAt = $createdAt;
+	}
 }

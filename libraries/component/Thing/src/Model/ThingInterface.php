@@ -29,12 +29,22 @@ interface ThingInterface {
 	public function setDescription(string $description): void;
 	
 	/**
-	 * @return bool|null
+	 * @return bool
 	 */
-	public function getEnabled(): ?bool;
+	public function isEnabled(): bool;
 	
 	/**
-	 * @param bool|null $enabled
+	 * @param bool $enabled
 	 */
-	public function setEnabled(?bool $enabled): void;
+	public function setEnabled(bool $enabled): void;
+	
+	/**
+	 * @return \DateTime
+	 */
+	public function getCreatedAt(): \DateTime;
+	
+	/**
+	 * @param \DateTime $createdAt
+	 */
+	public function setCreatedAt(\DateTime $createdAt): void;
 }
