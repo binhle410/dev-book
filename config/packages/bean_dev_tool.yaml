@@ -7,3 +7,5 @@ bean_dev_tool:
         - BeanBookBundle
         - BeanCreativeWorkBundle
         - BeanThingBundle
+        - MagentaCBookAdminBundle
+        - MagentaCBookModelBundle

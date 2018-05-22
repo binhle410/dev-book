@@ -32,11 +32,15 @@ class JsonService {
 	public function removeDevDependencies($dest) {
 		$key               = "require";
 		$destPropertyArray = (array) ($dest->{$key});
-		foreach($destPropertyArray as $_key => $_value) {
-			if(in_array($_key, $this->names)) {
-				unset($destPropertyArray[ $_key ]);
+		$destPropertyArrayKey = array_keys($destPropertyArray);
+
+		foreach($this->names as $name => $val) {
+			if(in_array($name, $destPropertyArrayKey)) {
+				unset($destPropertyArray[ $name ]);
 			}
 		}
+		
+		$dest->{$key} = (object) $destPropertyArray;
 	}
 	
 	public function mergeProperties($properties = array(), $src, $dest, $force = false) {

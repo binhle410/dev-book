@@ -23,7 +23,9 @@
         "symfony/validator": "^4.0",
         "symfony/web-link": "^4.0",
         "symfony/webpack-encore-pack": "*",
-        "symfony/yaml": "^4.0"
+        "symfony/yaml": "^4.0",
+        "sonata-project/doctrine-orm-admin-bundle": "^3.6",
+        "sonata-project/admin-bundle": "^3.35"
     },
     "require-dev": {
         "symfony/browser-kit": "^4.0",
@@ -36,7 +38,10 @@
         "symfony/web-server-bundle": "^4.0",
         "composer/composer": "^1.0",
         "friendsofphp/php-cs-fixer": "^2.0",
-        "symfony/yaml": "^2.7|^3.0|^4.0"
+        "symfony/yaml": "^2.7|^3.0|^4.0",
+        "swiftmailer/swiftmailer": "^6.0",
+        "symfony/console": "^4.0",
+        "phpunit/phpunit": "^6.5"
     },
     "config": {
         "preferred-install": {
@@ -51,6 +56,8 @@
             "Bean\\Bundle\\CreativeWorkBundle\\": "libraries\\bundle\\BeanCreativeWorkBundle\\src/",
             "Bean\\Bundle\\DevToolBundle\\": "libraries\\bundle\\BeanDevToolBundle\\src/",
             "Bean\\Bundle\\ThingBundle\\": "libraries\\bundle\\BeanThingBundle\\src/",
+            "Magenta\\Bundle\\CBookAdminBundle\\": "libraries\\bundle\\MagentaCBookAdminBundle\\src/",
+            "Magenta\\Bundle\\CBookModelBundle\\": "libraries\\bundle\\MagentaCBookModelBundle\\src/",
             "Bean\\Component\\Book\\": "libraries\\component\\Book\\src/",
             "Bean\\Component\\CreativeWork\\": "libraries\\component\\CreativeWork\\src/",
             "Bean\\Component\\Thing\\": "libraries\\component\\Thing\\src/"
@@ -62,6 +69,10 @@
             "Bean\\Bundle\\BookBundle\\spec\\": "libraries\\bundle\\BeanBookBundle\\tests/spec/",
             "Bean\\Bundle\\CreativeWorkBundle\\spec\\": "libraries\\bundle\\BeanCreativeWorkBundle\\tests/spec/",
             "Bean\\Bundle\\ThingBundle\\spec\\": "libraries\\bundle\\BeanThingBundle\\tests/spec/",
+            "Magenta\\Bundle\\CBookAdminBundle\\spec\\": "libraries\\bundle\\MagentaCBookAdminBundle\\tests/spec/",
+            "Magenta\\Bundle\\CBookAdminBundle\\Tests\\": "libraries\\bundle\\MagentaCBookAdminBundle\\tests/units/",
+            "Magenta\\Bundle\\CBookModelBundle\\spec\\": "libraries\\bundle\\MagentaCBookModelBundle\\tests/spec/",
+            "Magenta\\Bundle\\CBookModelBundle\\Tests\\": "libraries\\bundle\\MagentaCBookModelBundle\\tests/units/",
             "Bean\\Component\\Book\\spec\\": "libraries\\component\\Book\\tests/spec/",
             "Bean\\Component\\CreativeWork\\spec\\": "libraries\\component\\CreativeWork\\tests/spec/",
             "Bean\\Component\\Thing\\spec\\": "libraries\\component\\Thing\\tests/spec/"
