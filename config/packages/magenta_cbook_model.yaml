@@ -2,6 +2,8 @@ doctrine:
     dbal:
         types:
             magenta_json: Magenta\Bundle\CBookModelBundle\Doctrine\Types\JsonType
+            json: Sonata\Doctrine\Types\JsonType
+
     orm:
         entity_managers:
             default:

@@ -10,13 +10,14 @@ use JMS\Serializer\Annotation as Serializer;
 /** @ORM\MappedSuperclass */
 class AppGallery extends BaseGallery
 {
-    /**
-     * @var int $id
-     * @ORM\Id
-     * @ORM\Column(type="string", length=24)
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+	/**
+	 * @var int|null
+	 * @ORM\Id
+	 * @ORM\Column(type="integer",options={"unsigned":true})
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
+	protected $id;
+
 
     /**
      * @var User

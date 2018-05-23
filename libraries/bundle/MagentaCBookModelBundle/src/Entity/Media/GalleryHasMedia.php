@@ -37,14 +37,15 @@ class GalleryHasMedia extends BaseGalleryHasMedia
     {
         $this->enabled = true;
     }
+	
+	/**
+	 * @var int|null
+	 * @ORM\Id
+	 * @ORM\Column(type="integer",options={"unsigned":true})
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
+	protected $id;
 
-    /**
-     * @var int $id
-     * @ORM\Id
-     * @ORM\Column(type="string", length=24)
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
 
     /**
      * Get id

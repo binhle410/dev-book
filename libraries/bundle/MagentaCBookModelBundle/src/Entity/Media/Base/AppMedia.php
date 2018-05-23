@@ -11,11 +11,13 @@ use JMS\Serializer\Annotation as Serializer;
 /** @ORM\MappedSuperclass */
 class AppMedia extends BaseMedia {
 	/**
+	 * @var int|null
 	 * @ORM\Id
-	 * @ORM\Column(type="string", length=24)
+	 * @ORM\Column(type="integer",options={"unsigned":true})
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	protected $id;
+
 	
 	function __construct() {
 		$this->enabled             = true;
