@@ -76,7 +76,7 @@ class OrganisationAdmin extends BaseAdmin {
 	public function toString($object) {
 		return $object instanceof User
 			? $object->getEmail()
-			: 'Talent'; // shown in the breadcrumb on the create view
+			: 'Organisation'; // shown in the breadcrumb on the create view
 	}
 	
 	public function createQuery($context = 'list') {
