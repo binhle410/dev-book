@@ -2,6 +2,7 @@
 
 namespace Magenta\Bundle\CBookAdminBundle\DependencyInjection;
 
+use Doctrine\Common\Annotations\AnnotationReader;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseCRUDAdminController;
 use ProxyManager\FileLocator\FileLocator;
@@ -38,12 +39,12 @@ class MagentaCBookAdminExtension extends ConfigurableExtension {
 				
 				$def = new Definition();
 				$def->setClass($class);
-//				$def->addMethodCall()
 				$def->addTag('sonata.admin', [
 					'manager_type'              => 'orm',
 					'label'                     => strtolower(end($className)),
 					'label_translator_strategy' => 'sonata.admin.label.strategy.underscore'
 				]);
+				
 				$code = $class;
 				if(empty($entity = $class::ENTITY)) {
 					$entity = str_replace('Admin\\', 'Entity\\', $code);
@@ -59,10 +60,28 @@ class MagentaCBookAdminExtension extends ConfigurableExtension {
 				}
 				
 				$def->setArguments([ $code, $entity, $controller ]);
+				
 				$definitions[ $code ] = $def;
 			}
 		}
+		
 		$container->addDefinitions($definitions);
+		foreach(get_declared_classes() as $class) {
+			if(is_subclass_of($class, CRUDController::class)) {
+			} elseif(is_subclass_of($class, BaseAdmin::class)) {
+				if(empty($class::AUTO_CONFIG)) {
+					continue;
+				}
+				$className = explode('\\', str_replace('Admin', '', $class));
+				$def = $container->getDefinition($class);
+				if( ! empty($children = $class::CHILDREN)) {
+					foreach($children as $child => $property) {
+						$def->addMethodCall('addChild', [ $container->getDefinition($child), $property ]);
+					}
+				}
+			}
+		}
+
 //		var_dump($container->getDefinitions());
 	}
 }

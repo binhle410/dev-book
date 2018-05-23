@@ -25,8 +25,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class OrgBookAdmin extends BaseAdmin {
 	
-	protected $parentAssociationMapping = 'organisation';
-	
 	protected $action;
 	
 	protected $datagridValues = array(

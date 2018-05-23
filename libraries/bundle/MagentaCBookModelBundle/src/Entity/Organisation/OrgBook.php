@@ -21,4 +21,18 @@ class OrgBook extends BookModel {
 	 * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $organisation;
+	
+	/**
+	 * @return mixed
+	 */
+	public function getOrganisation() {
+		return $this->organisation;
+	}
+	
+	/**
+	 * @param mixed $organisation
+	 */
+	public function setOrganisation($organisation): void {
+		$this->organisation = $organisation;
+	}
 }

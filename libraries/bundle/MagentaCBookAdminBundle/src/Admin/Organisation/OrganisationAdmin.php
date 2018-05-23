@@ -24,6 +24,9 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class OrganisationAdmin extends BaseAdmin {
+	
+	const CHILDREN = [ OrgBookAdmin::class => 'organisation' ];
+	
 	protected $action;
 	
 	protected $datagridValues = array(
@@ -109,7 +112,7 @@ class OrganisationAdmin extends BaseAdmin {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
 //					'impersonate' => array( 'template' => 'admin/user/list__action__impersonate.html.twig' ),
-					'cbook' => array( 'template' => '@MagentaCBookAdmin/Admin/Organisation/Action/list__action__cbooks.html.twig' ),
+					'cbook'  => array( 'template' => '@MagentaCBookAdmin/Admin/Organisation/Action/list__action__cbooks.html.twig' ),
 					'edit'   => array(),
 					'delete' => array(),
 
@@ -138,8 +141,7 @@ class OrganisationAdmin extends BaseAdmin {
 		
 		$formMapper
 			->with('General', [ 'class' => 'col-md-6' ])->end()
-			->with('Profile', [ 'class' => 'col-md-6' ])->end()
-			;
+			->with('Profile', [ 'class' => 'col-md-6' ])->end();
 		
 		
 		$formMapper
@@ -148,7 +150,7 @@ class OrganisationAdmin extends BaseAdmin {
 			->add('name', null, [ 'label' => 'list.label_name' ])
 //                ->add('admin')
 			->end();
-			
+		
 		
 		$formMapper->end();
 	}

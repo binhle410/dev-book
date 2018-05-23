@@ -11,6 +11,11 @@ class BaseAdmin extends AbstractAdmin {
 	const ENTITY = null;
 	const CONTROLLER = null;
 	
+	/**
+	 * sample array [ OrgBookAdmin::class => 'organisation' ];
+	 */
+	const CHILDREN = null;
+	
 	private $isAdmin;
 	
 	protected function isAdmin() {
