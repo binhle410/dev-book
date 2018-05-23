@@ -1,3 +1,5 @@
+breadcrumb:
+    link_org_chapter_list: Section List
 group:
     edit:
         submit: 'Update group'

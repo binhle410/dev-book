@@ -11,6 +11,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class OrgChapter extends ChapterModel {
 	
+	function __construct() {
+		parent::__construct();
+		$this->locale = 'en';
+	}
+	
 	/**
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook", inversedBy="chapters")
 	 * @ORM\JoinColumn(name="id_book", referencedColumnName="id", onDelete="CASCADE")

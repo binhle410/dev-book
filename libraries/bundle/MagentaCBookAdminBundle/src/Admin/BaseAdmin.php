@@ -28,7 +28,7 @@ class BaseAdmin extends AbstractAdmin {
 	
 	protected $ivoryCkeditor = array();
 	
-	protected $translationDomain = 'CBookAdmin'; // default is 'messages'
+	protected $translationDomain = 'MagentaCBookAdminBundle'; // default is 'messages'
 	
 	protected $action = '';
 	protected $actionParams = [];

@@ -19,7 +19,10 @@
     "symfony/swiftmailer-bundle": "^3.2",
     "symfony/framework-bundle": "^4.0",
     "symfony/monolog-bundle": "^3.1",
-    "symfony/lts": "^4@dev"
+    "symfony/lts": "^4@dev",
+
+    "sonata-project/media-bundle": "^3.13"
+
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.2",

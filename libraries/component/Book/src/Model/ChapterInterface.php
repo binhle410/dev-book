@@ -30,9 +30,9 @@ interface ChapterInterface extends CreativeWorkInterface {
 	public function setPageStart($pageStart): void;
 	
 	/**
-	 * @return BookInterface
+	 * @return BookInterface|null
 	 */
-	public function getBook(): BookInterface;
+//	public function getBook(): BookInterface;
 	
 	/**
 	 * @param BookInterface $book
@@ -50,9 +50,9 @@ interface ChapterInterface extends CreativeWorkInterface {
 	public function setSubChapters($subChapters): void;
 	
 	/**
-	 * @return \Bean\Component\Book\Model\ChapterInterface
+	 * @return \Bean\Component\Book\Model\ChapterInterface|null
 	 */
-	public function getParentChapter(): ChapterInterface;
+	public function getParentChapter(): ?ChapterInterface;
 	
 	/**
 	 * @param ChapterInterface $parentChapter

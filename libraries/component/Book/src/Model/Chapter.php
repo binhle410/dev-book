@@ -32,14 +32,14 @@ class Chapter extends CreativeWork implements ChapterInterface {
 	/**
 	 * NOT part of schema.org.
 	 * A Chapter should belong to a Book.
-	 * @var ChapterInterface
+	 * @var ChapterInterface|null
 	 */
 	protected $parentChapter;
 	
 	/**
 	 * NOT part of schema.org.
 	 * A Chapter should belong to a Book.
-	 * @var BookInterface
+	 * @var BookInterface|null
 	 */
 	protected $book;
 	
@@ -84,9 +84,9 @@ class Chapter extends CreativeWork implements ChapterInterface {
 	}
 	
 	/**
-	 * @return BookInterface
+	 * @return BookInterface|null
 	 */
-	public function getBook(): BookInterface {
+	public function getBook(): ?BookInterface {
 		return $this->book;
 	}
 	
@@ -112,9 +112,9 @@ class Chapter extends CreativeWork implements ChapterInterface {
 	}
 	
 	/**
-	 * @return ChapterInterface
+	 * @return ChapterInterface|null
 	 */
-	public function getParentChapter(): ChapterInterface {
+	public function getParentChapter(): ?ChapterInterface {
 		return $this->parentChapter;
 	}
 	

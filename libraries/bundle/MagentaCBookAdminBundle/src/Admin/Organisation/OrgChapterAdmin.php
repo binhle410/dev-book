@@ -2,7 +2,7 @@
 
 namespace Magenta\Bundle\CBookAdminBundle\Admin\Organisation;
 
-use Bean\Component\Book\Model\Book;
+use Bean\Component\Book\Model\Chapter;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
@@ -24,9 +24,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class OrgBookAdmin extends BaseAdmin {
+class OrgChapterAdmin extends BaseAdmin {
 	
-	const CHILDREN = [ OrgChapterAdmin::class => 'book' ];
+	const CHILDREN = [ OrgSubChapterAdmin::class => 'parentChapter' ];
 	
 	protected $action;
 	
@@ -75,16 +75,20 @@ class OrgBookAdmin extends BaseAdmin {
 	}
 	
 	public function toString($object) {
-		return $object instanceof Book
+		return $object instanceof Chapter
 			? $object->getName()
-			: 'Book'; // shown in the breadcrumb on the create view
+			: 'Section'; // shown in the breadcrumb on the create view
 	}
 	
 	public function createQuery($context = 'list') {
-		/** @var ProxyQueryInterface $query */
+		/** @var ProxyQuery $query */
 		$query = parent::createQuery($context);
-		if(empty($this->getParentFieldDescription())) {
-//            $this->filterQueryByPosition($query, 'position', '', '');
+		/** @var QueryBuilder $qb */
+		$qb  = $query->getQueryBuilder();
+		$exp = $qb->expr();
+		
+		if( ! empty($this->CHILDREN)) {
+			$qb->andWhere($exp->isNull($qb->getRootAliases()[0] . '.parentChapter'));
 		}
 
 //        $query->andWhere()
@@ -113,9 +117,9 @@ class OrgBookAdmin extends BaseAdmin {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
 //					'impersonate' => array( 'template' => 'admin/user/list__action__impersonate.html.twig' ),
-					'chapters' => array( 'template' => '@MagentaCBookAdmin/Admin/Organisation/Children/Book/Action/list__action__chapters.html.twig' ),
-					'edit'   => array(),
-					'delete' => array(),
+					'subchapters' => array( 'template' => '@MagentaCBookAdmin/Admin/Organisation/Children/Book/Children/Chapter/Action/list__action__subChapters.html.twig' ),
+					'edit'        => array(),
+					'delete'      => array(),
 
 //                ,
 //                    'view_description' => array('template' => '::admin/product/description.html.twig')
@@ -142,8 +146,7 @@ class OrgBookAdmin extends BaseAdmin {
 		
 		$formMapper
 			->with('General', [ 'class' => 'col-md-6' ])->end()
-			->with('Profile', [ 'class' => 'col-md-6' ])->end()
-			;
+			->with('Profile', [ 'class' => 'col-md-6' ])->end();
 		
 		
 		$formMapper
@@ -152,7 +155,7 @@ class OrgBookAdmin extends BaseAdmin {
 			->add('name', null, [ 'label' => 'list.label_name' ])
 //                ->add('admin')
 			->end();
-			
+		
 		
 		$formMapper->end();
 	}
