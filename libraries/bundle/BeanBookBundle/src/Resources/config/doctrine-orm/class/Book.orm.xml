@@ -6,12 +6,5 @@
     <entity name="Bean\Bundle\BookBundle\Doctrine\Orm\Book" table="book__book">
         <one-to-many field="chapters" target-entity="Bean\Bundle\BookBundle\Doctrine\Orm\Chapter" mapped-by="book" />
 
-        <field name="abridged" type="boolean" nullable="true"/>
-        <field name="numberOfPages" type="integer" nullable="true"/>
-        <field name="bookEdition" type="string" nullable="true"/>
-        <field name="bookFormat" type="string" nullable="true"/>
-        <field name="isbn" type="string" nullable="true"/>
-
-
     </entity>
 </doctrine-mapping>

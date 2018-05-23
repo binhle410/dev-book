@@ -23,7 +23,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class OrganisationAdmin extends BaseAdmin {
+class OrgBookAdmin extends BaseAdmin {
+	
+	protected $parentAssociationMapping = 'organisation';
+	
 	protected $action;
 	
 	protected $datagridValues = array(
@@ -109,7 +112,7 @@ class OrganisationAdmin extends BaseAdmin {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
 //					'impersonate' => array( 'template' => 'admin/user/list__action__impersonate.html.twig' ),
-					'cbook' => array( 'template' => '@MagentaCBookAdmin/Admin/Organisation/Action/list__action__cbooks.html.twig' ),
+					'chapters' => array( 'template' => '@MagentaCBookAdmin/Admin/Organisation/Children/Book/Action/list__action__chapters.html.twig' ),
 					'edit'   => array(),
 					'delete' => array(),
 

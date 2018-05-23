@@ -38,6 +38,7 @@ class MagentaCBookAdminExtension extends ConfigurableExtension {
 				
 				$def = new Definition();
 				$def->setClass($class);
+//				$def->addMethodCall()
 				$def->addTag('sonata.admin', [
 					'manager_type'              => 'orm',
 					'label'                     => strtolower(end($className)),
