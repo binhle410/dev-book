@@ -19,10 +19,13 @@ fos_ck_editor:
             # Display images by default when clicking the image dialog browse button
             filebrowserImageBrowseRouteParameters:
                 provider: sonata.media.provider.image
+                context: book-image # Optional, to upload in a custom context
 
             filebrowserUploadRoute: admin_magenta_cbookmodel_media_media_ckeditor_upload
             filebrowserUploadRouteParameters:
                 provider: sonata.media.provider.file
+                context: book-image # Optional, to upload in a custom context
+
             # Upload file as image when sending a file from the image dialog
             filebrowserImageUploadRoute: admin_magenta_cbookmodel_media_media_ckeditor_upload
             filebrowserImageUploadRouteParameters:

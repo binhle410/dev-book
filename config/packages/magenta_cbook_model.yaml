@@ -41,6 +41,7 @@ sonata_media:
         book-image:
             providers:
                 - sonata.media.provider.image
+                - sonata.media.provider.file
             formats:
                 small: { width: 100 , quality: 70}
                 big:   { width: 500 , quality: 70}
@@ -85,7 +86,7 @@ sonata_media:
             create:         false
             #region:         s3.amazonaws.com # change if not using US Standard region
             storage:        standard # can be one of: standard or reduced
-            acl:            owner_full_control # can be one of: public, private, open, auth_read, owner_read, owner_full_control
+            acl:            public # can be one of: public, private, open, auth_read, owner_read, owner_full_control
 #            encryption:     aes256 # can be aes256 or not set
             cache_control:  max-age=86400 # or any other
 #            meta:
