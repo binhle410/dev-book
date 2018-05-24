@@ -1,8 +1,8 @@
 parameters:
     s3_version: latest
     s3_bucket_name: magenta-consulting
-    s3_access_key: AKIAJEZI3L2G4CH4HXHQ
-    s3_secret_key: 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
+    s3_access_key: '%env(resolve:AWS_S3_ACCESS_KEY)%'
+    s3_secret_key: '%env(resolve:AWS_S3_SECRET_KEY)%'
     s3_region: ap-southeast-1
     s3_directory: '%env(resolve:AWS_S3_DIR)%'
 
