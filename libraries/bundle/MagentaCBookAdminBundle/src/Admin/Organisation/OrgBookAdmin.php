@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\CBookAdminBundle\Admin\Organisation;
 
 use Bean\Component\Book\Model\Book;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
@@ -20,6 +21,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\FormatterBundle\Form\Type\FormatterType;
+use Sonata\FormatterBundle\Form\Type\SimpleFormatterType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -114,8 +117,8 @@ class OrgBookAdmin extends BaseAdmin {
 				'actions' => array(
 //					'impersonate' => array( 'template' => 'admin/user/list__action__impersonate.html.twig' ),
 					'chapters' => array( 'template' => '@MagentaCBookAdmin/Admin/Organisation/Children/Book/Action/list__action__chapters.html.twig' ),
-					'edit'   => array(),
-					'delete' => array(),
+					'edit'     => array(),
+					'delete'   => array(),
 
 //                ,
 //                    'view_description' => array('template' => '::admin/product/description.html.twig')
@@ -142,8 +145,7 @@ class OrgBookAdmin extends BaseAdmin {
 		
 		$formMapper
 			->with('General', [ 'class' => 'col-md-6' ])->end()
-			->with('Profile', [ 'class' => 'col-md-6' ])->end()
-			;
+			->with('Content', [ 'class' => 'col-md-6' ])->end();
 		
 		
 		$formMapper
@@ -152,11 +154,13 @@ class OrgBookAdmin extends BaseAdmin {
 			->add('name', null, [ 'label' => 'list.label_name' ])
 //                ->add('admin')
 			->end();
-			
+		$formMapper->with('Content');
+		$formMapper->add('text', CKEditorType::class, [
+		]);
+		$formMapper->end();
 		
 		$formMapper->end();
 	}
-	
 	
 	/**
 	 * @param User $object

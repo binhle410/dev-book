@@ -17,16 +17,15 @@ class AppMedia extends BaseMedia {
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	protected $id;
-
 	
 	function __construct() {
-		$this->enabled             = true;
+		$this->enabled = true;
 	}
-
 	
 	/**
 	 * @var Organisation
-	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", mappedBy="logo")
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="logo")
+	 * @ORM\JoinColumn(name="id_logo_organisation", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $logoOrganisation;
 	

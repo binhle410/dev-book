@@ -1,3 +1,78 @@
+twig:
+    form_themes:
+        - '@SonataFormatter/Form/formatter.html.twig'
+
+fos_ck_editor:
+    default_config: default
+    configs:
+        default:
+            # default toolbar plus Format button
+            toolbar:
+            - [Bold, Italic, Underline, -, Cut, Copy, Paste,
+              PasteText, PasteFromWord, -, Undo, Redo, -,
+              NumberedList, BulletedList, -, Outdent, Indent, -,
+              Blockquote, -, Image, Link, Unlink, Table]
+            - [Format, Maximize, Source]
+
+            filebrowserBrowseRoute: admin_magenta_cbookmodel_media_media_ckeditor_browser
+            filebrowserImageBrowseRoute: admin_magenta_cbookmodel_media_media_ckeditor_browser
+            # Display images by default when clicking the image dialog browse button
+            filebrowserImageBrowseRouteParameters:
+                provider: sonata.media.provider.image
+
+            filebrowserUploadRoute: admin_magenta_cbookmodel_media_media_ckeditor_upload
+            filebrowserUploadRouteParameters:
+                provider: sonata.media.provider.file
+            # Upload file as image when sending a file from the image dialog
+            filebrowserImageUploadRoute: admin_magenta_cbookmodel_media_media_ckeditor_upload
+            filebrowserImageUploadRouteParameters:
+                provider: sonata.media.provider.image
+                context: book-image # Optional, to upload in a custom context
+                format: big # Optional, media format or original size returned to editor
+
+sonata_formatter:
+    ckeditor:
+        templates:
+            browser: '@SonataFormatter/Ckeditor/browser.html.twig'
+            upload: '@SonataFormatter/Ckeditor/upload.html.twig'
+
+    default_formatter: text
+    formatters:
+        markdown:
+            service: sonata.formatter.text.markdown
+            extensions:
+                - sonata.formatter.twig.control_flow
+                - sonata.formatter.twig.gist
+        #        - sonata.media.formatter.twig #keep this commented unless you are using media bundle.
+
+        text:
+            service: sonata.formatter.text.text
+            extensions:
+                - sonata.formatter.twig.control_flow
+                - sonata.formatter.twig.gist
+        #        - sonata.media.formatter.twig
+
+
+        rawhtml:
+            service: sonata.formatter.text.raw
+            extensions:
+                - sonata.formatter.twig.control_flow
+                - sonata.formatter.twig.gist
+        #        - sonata.media.formatter.twig
+
+
+        richhtml:
+            service: sonata.formatter.text.raw
+            extensions:
+                - sonata.formatter.twig.control_flow
+                - sonata.formatter.twig.gist
+        #        - sonata.media.formatter.twig
+
+
+        twig:
+            service: sonata.formatter.text.twigengine
+            extensions: [] # Twig formatter cannot have extensions
+
 sonata_admin:
     title: 'Cloud Book'
     options:
@@ -24,8 +99,8 @@ sonata_admin:
                 items:
                     - Magenta\Bundle\CBookAdminBundle\Admin\User\UserAdmin
                     - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\OrganisationAdmin
-#                    - Sonata\MediaBundle\Admin\MediaAdmin
-#                    - sonata.media.admin.media
+#                    - Sonata\MediaBundle\Admin\ORM\MediaAdmin
+                    - sonata.media.admin.media
 #                    - sonata.user.admin.group
 #                    - sonata.classification.admin.context
 #                    - sonata.classification.admin.category
@@ -35,7 +110,6 @@ sonata_admin:
 
     title_logo: https://www.magenta-consulting.com/images/logo.png
     search: false
-
 
 sonata_block:
     blocks:

@@ -15,7 +15,11 @@
   "require": {
     "magenta-consulting/cbook-model-bundle": "^0.1",
     "sonata-project/doctrine-orm-admin-bundle":  "^3.6",
-    "sonata-project/admin-bundle": "^3.35"
+    "sonata-project/admin-bundle": "^3.35",
+    "friendsofsymfony/ckeditor-bundle": "^1.0",
+    "sonata-project/formatter-bundle": "^3.5"
+
+
   },
   "require-dev": {
   },

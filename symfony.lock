@@ -11,6 +11,9 @@
             "ref": "b50f8aa321cc40c380dda7605aa5cef66f476802"
         }
     },
+    "aws/aws-sdk-php": {
+        "version": "3.56.6"
+    },
     "cocur/slugify": {
         "version": "v3.1"
     },
@@ -107,6 +110,15 @@
             "ref": "81dee417d2cc60cd1c9d6208dff2ec22a1103e93"
         }
     },
+    "friendsofsymfony/ckeditor-bundle": {
+        "version": "1.0.0"
+    },
+    "guzzlehttp/guzzle": {
+        "version": "6.3.3"
+    },
+    "guzzlehttp/promises": {
+        "version": "v1.3.1"
+    },
     "guzzlehttp/psr7": {
         "version": "1.4.2"
     },
@@ -140,6 +152,9 @@
     "knplabs/gaufrette": {
         "version": "v0.5.0"
     },
+    "knplabs/knp-markdown-bundle": {
+        "version": "1.7.0"
+    },
     "knplabs/knp-menu": {
         "version": "2.3.0"
     },
@@ -149,8 +164,14 @@
     "kriswallsmith/buzz": {
         "version": "v0.16.1"
     },
+    "michelf/php-markdown": {
+        "version": "1.8.0"
+    },
     "monolog/monolog": {
         "version": "1.23.0"
+    },
+    "mtdowling/jmespath.php": {
+        "version": "2.4.0"
     },
     "myclabs/deep-copy": {
         "version": "1.7.0"
@@ -331,6 +352,9 @@
     },
     "sonata-project/exporter": {
         "version": "1.9.0"
+    },
+    "sonata-project/formatter-bundle": {
+        "version": "3.5.0"
     },
     "sonata-project/media-bundle": {
         "version": "3.13",
