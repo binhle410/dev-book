@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\CBookAdminBundle\Admin\Organisation;
 
 use Bean\Component\Book\Model\Chapter;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
@@ -130,6 +131,7 @@ class OrgChapterAdmin extends BaseAdmin {
 		);
 		$listMapper
 			->addIdentifier('name')
+			->add('position', null, [ 'editable' => true ])
 			->add('createdAt');
 		
 		if($this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
@@ -146,16 +148,19 @@ class OrgChapterAdmin extends BaseAdmin {
 		
 		$formMapper
 			->with('General', [ 'class' => 'col-md-6' ])->end()
-			->with('Profile', [ 'class' => 'col-md-6' ])->end();
+			->with('Content', [ 'class' => 'col-md-6' ])->end();
 		
 		
 		$formMapper
 			->with('General')
 //                ->add('username')
 			->add('name', null, [ 'label' => 'list.label_name' ])
-//                ->add('admin')
+			->add('position')
 			->end();
 		
+		$formMapper
+			->with('Content')
+			->add('text', CKEditorType::class, []);
 		
 		$formMapper->end();
 	}
