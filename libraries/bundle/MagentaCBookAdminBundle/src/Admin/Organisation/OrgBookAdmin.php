@@ -157,6 +157,11 @@ class OrgBookAdmin extends BaseAdmin {
 		$formMapper->with('Content');
 		$formMapper->add('text', CKEditorType::class, [
 		]);
+//		$formMapper->add('text', SimpleFormatterType::class, [
+//			'format' => 'richhtml',
+//			'ckeditor_context' => 'default',
+//			'ckeditor_image_format' => 'big',
+//		]);
 		$formMapper->end();
 		
 		$formMapper->end();

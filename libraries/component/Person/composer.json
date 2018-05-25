@@ -1,8 +1,8 @@
 {
-    "name": "beancomponent/organization",
+    "name": "beancomponent/person",
     "type": "php-component",
-    "description": "Provides a Component for Organization Domain Model.",
-    "keywords": [ "php CreativeWork components" ],
+    "description": "Provides a Component for Person Domain Model.",
+    "keywords": [ "php Person components" ],
     "license": "MIT",
     "authors": [
         {
@@ -17,13 +17,12 @@
     "require-dev": {
     },
     "suggest": {
-
     },
     "autoload": {
-        "psr-4": { "Bean\\Component\\Organization\\": "src/" }
+        "psr-4": { "Bean\\Component\\Person\\": "src/" }
     },
     "autoload-dev": {
-        "psr-4": { "Bean\\Component\\Organization\\spec\\": "tests/spec/" }
+        "psr-4": { "Bean\\Component\\Person\\spec\\": "tests/spec/" }
     },
     "extra": {
         "branch-alias": {

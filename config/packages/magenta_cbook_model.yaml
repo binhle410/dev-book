@@ -38,7 +38,7 @@ security:
 sonata_media:
     default_context: default
     contexts:
-        book-image:
+        book_image:
             providers:
                 - sonata.media.provider.image
                 - sonata.media.provider.file
@@ -86,7 +86,7 @@ sonata_media:
             create:         false
             #region:         s3.amazonaws.com # change if not using US Standard region
             storage:        standard # can be one of: standard or reduced
-            acl:            public # can be one of: public, private, open, auth_read, owner_read, owner_full_control
+            acl:            private # this no longer works, private by default can be one of: public, private, open, auth_read, owner_read, owner_full_control
 #            encryption:     aes256 # can be aes256 or not set
             cache_control:  max-age=86400 # or any other
 #            meta:
