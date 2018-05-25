@@ -19,12 +19,13 @@ class Person extends Thing {
 	
 	/**
 	 * Given name. In the U.S., the first name of a Person. This can be used along with familyName instead of the name property.
-	 * @var string
+	 * @var string|null
 	 */
 	protected $givenName;
+	
 	/**
 	 * Family name. In the U.S., the last name of an Person. This can be used along with givenName instead of the name property.
-	 * @var string
+	 * @var string|null
 	 */
 	protected $familyName;
 	
@@ -59,16 +60,16 @@ class Person extends Thing {
 	}
 	
 	/**
-	 * @return string
+	 * @return null|string
 	 */
-	public function getGivenName(): string {
+	public function getGivenName(): ?string {
 		return $this->givenName;
 	}
 	
 	/**
-	 * @return string
+	 * @return null|string
 	 */
-	public function getFamilyName(): string {
+	public function getFamilyName(): ?string {
 		return $this->familyName;
 	}
 	

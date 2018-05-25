@@ -1,7 +1,9 @@
 <?php
+
 namespace Magenta\Bundle\CBookAdminBundle\Admin\User;
 
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
+use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
 use Doctrine\ORM\Query\Expr;
@@ -33,12 +35,6 @@ class UserAdmin extends BaseAdmin {
 		// name of the ordered field (default = the model's id field, if any)
 		'_sort_by'    => 'updatedAt',
 	);
-	
-	public function getNewInstance() {
-		/** @var User $object */
-		$object = parent::getNewInstance();
-		return $object;
-	}
 	
 	/**
 	 * @param string $name
@@ -107,8 +103,8 @@ class UserAdmin extends BaseAdmin {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
 //					'impersonate' => array( 'template' => 'admin/user/list__action__impersonate.html.twig' ),
-					'edit'        => array(),
-					'delete'      => array(),
+					'edit'   => array(),
+					'delete' => array(),
 //					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )
 
 //                ,
@@ -149,7 +145,7 @@ class UserAdmin extends BaseAdmin {
 			->add('plainPassword', TextType::class, [
 				'required' => ( ! $this->getSubject() || is_null($this->getSubject()->getId())),
 			])
-			->add('dob', DatePickerType::class, [
+			->add('person.birthDate', DatePickerType::class, [
 				'years'       => range(1900, $now->format('Y')),
 				'dp_min_date' => '1-1-1900',
 				'dp_max_date' => $now->format('c'),
@@ -157,8 +153,8 @@ class UserAdmin extends BaseAdmin {
 				
 				'required' => false,
 			])
-			->add('firstName', null, [ 'required' => false ])
-			->add('lastName', null, [ 'required' => false ])
+			->add('person.givenName', null, [ 'required' => false ])
+			->add('person.familyName', null, [ 'required' => false ])
 //			->add('biography', TextType::class, [ 'required' => false ])
 //			->add('gender', 'Sonata\UserBundle\Form\Type\UserGenderListType', [
 //				'required'           => true,
@@ -278,6 +274,17 @@ class UserAdmin extends BaseAdmin {
 			$formMapper->end();
 		}
 		
+	}
+	
+	public function getNewInstance() {
+		/** @var User $object */
+		$object = parent::getNewInstance();
+		
+		if(empty($object->getPerson())) {
+			$object->setPerson(new Person());
+		}
+		
+		return $object;
 	}
 	
 	/**
