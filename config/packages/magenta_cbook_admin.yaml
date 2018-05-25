@@ -1,6 +1,7 @@
 twig:
     form_themes:
         - '@SonataFormatter/Form/formatter.html.twig'
+        - '@SonataCore/Form/datepicker.html.twig'
 
 fos_ck_editor:
     default_config: default

@@ -146,8 +146,8 @@ class UserAdmin extends BaseAdmin {
 				'required' => ( ! $this->getSubject() || is_null($this->getSubject()->getId())),
 			])
 			->add('person.birthDate', DatePickerType::class, [
-				'years'       => range(1900, $now->format('Y')),
-				'dp_min_date' => '1-1-1900',
+				'years'       => range(1940, $now->format('Y')),
+				'dp_min_date' => '01/01/1930',
 				'dp_max_date' => $now->format('c'),
 				'format'      => 'dd/MM/yyyy',
 				
