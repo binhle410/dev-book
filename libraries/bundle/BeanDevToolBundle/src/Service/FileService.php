@@ -22,7 +22,7 @@ class FileService {
 	 * @param       $destPath
 	 * @param array $ignoredFolders
 	 */
-	public function copyLibrary($type, $srcPath, $destPath, $ignoredFolders = array()) {
+	public function copyLibrary($type, $srcPath, $destPath, $ignoredFolders = array(), $clearFolder = false) {
 		$container           = $this->container;
 		$registeredLibraries = $container->getParameter(sprintf('bean_dev_tool.%ss', $type));
 		$output              = $this->output;
@@ -38,10 +38,42 @@ class FileService {
 			}
 			$output->writeln([ $libraryName, $libraryDir ]);
 			$output->writeln('============ Copy in Progress ============');
+			if($clearFolder) {
+				$this->clearFolder($destPath . $type . DIRECTORY_SEPARATOR . $libraryName, $ignoredFolders);
+			}
 			$this->copyFolder($libraryDir, $destPath . $type . DIRECTORY_SEPARATOR . $libraryName, $ignoredFolders);
 			$output->writeln('===================');
 			$output->writeln('===================');
 			
+		}
+	}
+	
+	function clearFolder($dir, $ignoredFolders = array()) {
+		if(is_dir($dir)) {
+			echo ' ::: Removing ' . basename($dir);
+			if(in_array(basename($dir), $ignoredFolders)) {
+				echo ' -> Skipping Removal: Do not enter ' . $dir . '; ';
+				
+				return;
+			}
+			$objects = scandir($dir);
+			foreach($objects as $object) {
+				if($object != "." && $object != "..") {
+					$subDir = $dir . "/" . $object;
+					if(filetype($subDir) == "dir") {
+						$this->clearFolder($subDir, $ignoredFolders);
+						if(in_array(basename($subDir), $ignoredFolders)) {
+							echo ' -> Skipping Removal of ' . $subDir . '; ';
+							
+							continue;
+						}
+						rmdir($subDir);
+					} else {
+						unlink($subDir);
+					}
+				}
+			}
+			reset($objects);
 		}
 	}
 	
@@ -54,9 +86,11 @@ class FileService {
 		
 		$this->output->writeln('copying ' . $src);
 		$dir = opendir($src);
+		
 		if( ! file_exists($dest)) {
 			mkdir($dest);
 		}
+		
 		while(false !== ($file = readdir($dir))) {
 			if(($file != '.') && ($file != '..')) {
 				$destFile = $dest . '/' . $file;

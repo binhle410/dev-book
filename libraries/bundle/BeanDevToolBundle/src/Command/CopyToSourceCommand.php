@@ -29,7 +29,7 @@ class CopyToSourceCommand extends ContainerAwareCommand {
 			'============',
 			'List and Copy Bundles to Git Source',
 		]);
-		$container  = $this->getContainer();
+		$container = $this->getContainer();
 //		$bundles    = $container->getParameter('bean_dev_tool.bundles');
 //		$components = $container->getParameter('bean_dev_tool.components');
 //		$bundles    = $container->getParameter('kernel.bundles');
@@ -48,13 +48,13 @@ class CopyToSourceCommand extends ContainerAwareCommand {
 //			}
 //		}
 		$this->fileService->setOutput($output);
-		$this->fileService->copyLibrary('bundle', $container->getParameter('bean_dev_tool.library_workspace'), $container->getParameter('bean_dev_tool.library_source'), [ '.git' ]);
+		$this->fileService->copyLibrary('bundle', $container->getParameter('bean_dev_tool.library_workspace'), $container->getParameter('bean_dev_tool.library_source'), [ '.git' ], true);
 		
 		$output->writeln([
 			'//////////////////////////////////////////////',
 			'List and Copy Components and Sites to Git Source',
 		]);
-		
+
 //		$componentDirs = glob($container->getParameter('bean_dev_tool.library_workspace') . 'component' . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
 //		foreach($componentDirs as $componenDir) {
 //			$componentName = basename($componenDir);
