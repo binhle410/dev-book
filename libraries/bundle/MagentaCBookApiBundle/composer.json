@@ -1,0 +1,39 @@
+{
+  "name": "magenta-consulting/cbook-api-bundle",
+  "type": "symfony-bundle",
+  "description": "Provides a Bundle Integration for the SWarranty Model.",
+  "keywords": [
+    "Symfony CBookApi Bundle"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Peter Bean",
+      "email": "peterbean@beancomponent.com"
+    }
+  ],
+  "require": {
+    "magenta-consulting/swarranty-model-bundle": "^0.1",
+    "api-platform/api-pack": "^1.1"
+  },
+  "require-dev": {
+  },
+  "suggest": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Magenta\\Bundle\\CBookApiBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Magenta\\Bundle\\CBookApiBundle\\spec\\": "tests/spec/",
+      "Magenta\\Bundle\\CBookApiBundle\\Tests\\": "tests/units/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1-dev"
+    }
+  }
+}

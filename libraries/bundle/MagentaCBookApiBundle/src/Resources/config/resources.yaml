@@ -1,0 +1,8 @@
+# api/config/api_platform/resources.yaml
+resources:
+    Magenta\Bundle\CBookModelBundle\Entity\User\User:
+        shortName: 'User'                   # optional
+        description: 'App Users' # optional
+        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional

@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+.pk-input-group .form-control:not(:last-child), .pk-input-group-addon:not(:last-child), .pk-input-group-btn:not(:first-child)>.btn-group:not(:last-child)>.btn, .pk-input-group-btn:not(:first-child)>.btn:not(:last-child):not(.dropdown-toggle), .pk-input-group-btn:not(:last-child)>.btn, .pk-input-group-btn:not(:last-child)>.btn-group>.btn, .pk-input-group-btn:not(:last-child)>.dropdown-toggle, .rounded-right-0{
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.pk-input-group-addon{
+  padding: .5rem .75rem;
+  margin-bottom: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #495057;
+  text-align: center;
+  //background-color: #e9ecef;
+  //border: 1px solid rgba(0,0,0,.15);
+  //border-radius: .25rem;
+}
