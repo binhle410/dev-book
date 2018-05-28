@@ -40,4 +40,7 @@ class OrgSubChapterAdmin extends OrgChapterAdmin {
 			: 'Sub-Section'; // shown in the breadcrumb on the create view
 	}
 	
+	protected function getCustomActionListField() {
+		return [];
+	}
 }

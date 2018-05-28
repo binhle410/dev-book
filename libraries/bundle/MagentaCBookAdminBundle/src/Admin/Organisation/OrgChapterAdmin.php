@@ -111,22 +111,27 @@ class OrgChapterAdmin extends BaseAdmin {
 	
 	}
 	
+	protected function getCustomActionListField() {
+		$actionArray['subchapters'] = array( 'template' => '@MagentaCBookAdmin/Admin/Organisation/Children/Book/Children/Chapter/Action/list__action__subChapters.html.twig' );
+		return $actionArray;
+	}
+	
 	/**
 	 * {@inheritdoc}
 	 */
 	protected function configureListFields(ListMapper $listMapper) {
+		$actionArray = $this->getCustomActionListField();
 		$listMapper->add('_action', 'actions', [
-				'actions' => array(
+				'actions' => array_merge($actionArray, array(
 //					'impersonate' => array( 'template' => 'admin/user/list__action__impersonate.html.twig' ),
-					'subchapters' => array( 'template' => '@MagentaCBookAdmin/Admin/Organisation/Children/Book/Children/Chapter/Action/list__action__subChapters.html.twig' ),
-					'edit'        => array(),
-					'delete'      => array(),
+					'edit'   => array(),
+					'delete' => array(),
 
 //                ,
 //                    'view_description' => array('template' => '::admin/product/description.html.twig')
 //                ,
 //                    'view_tos' => array('template' => '::admin/product/tos.html.twig')
-				)
+				))
 			]
 		);
 		$listMapper
