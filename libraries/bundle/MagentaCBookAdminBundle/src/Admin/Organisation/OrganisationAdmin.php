@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\CBookAdminBundle\Admin\Organisation;
 
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
 use Doctrine\ORM\Query\Expr;
@@ -74,8 +75,8 @@ class OrganisationAdmin extends BaseAdmin {
 	}
 	
 	public function toString($object) {
-		return $object instanceof User
-			? $object->getEmail()
+		return $object instanceof Organisation
+			? $object->getName()
 			: 'Organisation'; // shown in the breadcrumb on the create view
 	}
 	
