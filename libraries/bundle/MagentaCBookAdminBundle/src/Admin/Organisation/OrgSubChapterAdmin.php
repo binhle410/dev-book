@@ -2,6 +2,7 @@
 
 namespace Magenta\Bundle\CBookAdminBundle\Admin\Organisation;
 
+use Bean\Component\Book\Model\Chapter;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgChapter;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
@@ -33,5 +34,10 @@ class OrgSubChapterAdmin extends OrgChapterAdmin {
 	
 	const CHILDREN = null;
 	
+	public function toString($object) {
+		return $object instanceof Chapter
+			? $object->getName()
+			: 'Sub-Section'; // shown in the breadcrumb on the create view
+	}
 	
 }
