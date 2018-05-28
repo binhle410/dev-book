@@ -47,6 +47,10 @@ class OrgChapterAdmin extends BaseAdmin {
 		return $object;
 	}
 	
+	protected function getChildrenConst() {
+		return self::CHILDREN;
+	}
+	
 	/**
 	 * @param string $name
 	 * @param User   $object
@@ -88,7 +92,7 @@ class OrgChapterAdmin extends BaseAdmin {
 		$qb  = $query->getQueryBuilder();
 		$exp = $qb->expr();
 		
-		if( ! empty(self::CHILDREN)) {
+		if( ! empty($this->getChildrenConst())) {
 			$qb->andWhere($exp->isNull($qb->getRootAliases()[0] . '.parentChapter'));
 		}
 
@@ -113,6 +117,7 @@ class OrgChapterAdmin extends BaseAdmin {
 	
 	protected function getCustomActionListField() {
 		$actionArray['subchapters'] = array( 'template' => '@MagentaCBookAdmin/Admin/Organisation/Children/Book/Children/Chapter/Action/list__action__subChapters.html.twig' );
+		
 		return $actionArray;
 	}
 	

@@ -1,7 +1,10 @@
 breadcrumb:
     link_org_chapter_list: Section List
+    link_org_chapter_create: New
+    link_subchapter_list: Children
     link_organisation_list: Org List
     link_org_book_list: Books
+
 group:
     edit:
         submit: 'Update group'

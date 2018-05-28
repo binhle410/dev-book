@@ -27,6 +27,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class OrgSubChapterAdmin extends OrgChapterAdmin {
 	
+	protected $classnameLabel = 'subchapter';
+	
 	protected $baseRouteName = 'subchapter';
 	
 	protected $baseRoutePattern = 'sub-chapter';
@@ -38,6 +40,10 @@ class OrgSubChapterAdmin extends OrgChapterAdmin {
 		return $object instanceof Chapter
 			? $object->getName()
 			: 'Sub-Section'; // shown in the breadcrumb on the create view
+	}
+	
+	protected function getChildrenConst() {
+		return self::CHILDREN;
 	}
 	
 }

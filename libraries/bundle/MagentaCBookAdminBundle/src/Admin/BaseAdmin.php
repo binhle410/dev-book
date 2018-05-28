@@ -33,15 +33,19 @@ class BaseAdmin extends AbstractAdmin {
 	protected $action = '';
 	protected $actionParams = [];
 	
-	public function getTemplate($name)
-	{
+	public function getTemplate($name) {
 		return $this->getTemplateRegistry()->getTemplate($name);
+	}
+	
+	protected function getChildrenConst() {
+		return self::CHILDREN;
 	}
 	
 	/**
 	 * @var integer
 	 */
 	protected $namHoc;
+	
 	/**
 	 * @return int
 	 */
@@ -132,6 +136,7 @@ class BaseAdmin extends AbstractAdmin {
 		return $this->getUserThanhVien()->getChiDoan();
 		
 	}
+	
 	public function getRequest() {
 		if( ! $this->request) {
 //            throw new \RuntimeException('The Request object has not been set');
@@ -139,11 +144,13 @@ class BaseAdmin extends AbstractAdmin {
 		}
 		
 		return $this->request;
-	}/**
- * @param ProxyQuery $query
- *
- * @return ProxyQuery
- */
+	}
+	
+	/**
+	 * @param ProxyQuery $query
+	 *
+	 * @return ProxyQuery
+	 */
 	protected function clearResults(ProxyQuery $query) {
 		/** @var Expr $expr */
 		$expr = $query->getQueryBuilder()->expr();
