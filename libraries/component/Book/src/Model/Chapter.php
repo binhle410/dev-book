@@ -18,6 +18,14 @@ class Chapter extends CreativeWork implements ChapterInterface {
 	}
 	
 	/**
+	 * @param ChapterInterface $parentChapter
+	 */
+	public function setParentChapter(ChapterInterface $parentChapter): void {
+		$this->book = $parentChapter->getBook();
+		$this->parentChapter = $parentChapter;
+	}
+	
+	/**
 	 * NOT part of schema.org.
 	 * A Chapter should belong to a Book.
 	 * @var \Countable|\IteratorAggregate|\ArrayAccess|array|null
@@ -116,12 +124,5 @@ class Chapter extends CreativeWork implements ChapterInterface {
 	 */
 	public function getParentChapter(): ?ChapterInterface {
 		return $this->parentChapter;
-	}
-	
-	/**
-	 * @param ChapterInterface $parentChapter
-	 */
-	public function setParentChapter(ChapterInterface $parentChapter): void {
-		$this->parentChapter = $parentChapter;
 	}
 }

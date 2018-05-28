@@ -1,11 +1,22 @@
 <?php
-declare(strict_types = 1);
+/**
+ * Created by PhpStorm.
+ * User: Binh
+ * Date: 5/28/2018
+ * Time: 11:51 AM
+ */
 
 namespace Bean\Component\Book\Model;
 
 use Bean\Component\CreativeWork\Model\CreativeWorkInterface;
 
-interface ChapterInterface extends CreativeWorkInterface {
+interface ChapterInterface {
+	public function setPartOf(CreativeWorkInterface $partOf): void;
+	
+	/**
+	 * @param ChapterInterface $parentChapter
+	 */
+	public function setParentChapter(ChapterInterface $parentChapter): void;
 	
 	public function addSubChapter(ChapterInterface $chapter);
 	
@@ -32,7 +43,7 @@ interface ChapterInterface extends CreativeWorkInterface {
 	/**
 	 * @return BookInterface|null
 	 */
-//	public function getBook(): BookInterface;
+	public function getBook(): ?BookInterface;
 	
 	/**
 	 * @param BookInterface $book
@@ -53,9 +64,4 @@ interface ChapterInterface extends CreativeWorkInterface {
 	 * @return \Bean\Component\Book\Model\ChapterInterface|null
 	 */
 	public function getParentChapter(): ?ChapterInterface;
-	
-	/**
-	 * @param ChapterInterface $parentChapter
-	 */
-	public function setParentChapter(ChapterInterface $parentChapter): void;
 }

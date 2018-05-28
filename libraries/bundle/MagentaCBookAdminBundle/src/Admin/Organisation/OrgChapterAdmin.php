@@ -88,7 +88,7 @@ class OrgChapterAdmin extends BaseAdmin {
 		$qb  = $query->getQueryBuilder();
 		$exp = $qb->expr();
 		
-		if( ! empty($this->CHILDREN)) {
+		if( ! empty(self::CHILDREN)) {
 			$qb->andWhere($exp->isNull($qb->getRootAliases()[0] . '.parentChapter'));
 		}
 
