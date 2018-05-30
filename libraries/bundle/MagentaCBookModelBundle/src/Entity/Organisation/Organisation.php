@@ -5,6 +5,7 @@ namespace Magenta\Bundle\CBookModelBundle\Entity\Organisation;
 use Bean\Component\Organization\Model\Organization as OrganizationModel;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
 
@@ -28,7 +29,7 @@ class Organisation extends OrganizationModel {
 	}
 	
 	/**
-	 * @var ArrayCollection
+	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook", cascade={"persist","merge"}, orphanRemoval=true, mappedBy="organisation")
 	 */
 	protected $books;
@@ -52,4 +53,19 @@ class Organisation extends OrganizationModel {
 	public function setLogo(Media $logo): void {
 		$this->logo = $logo;
 	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getBooks(): Collection {
+		return $this->books;
+	}
+	
+	/**
+	 * @param Collection $books
+	 */
+	public function setBooks(Collection $books): void {
+		$this->books = $books;
+	}
+	
 }

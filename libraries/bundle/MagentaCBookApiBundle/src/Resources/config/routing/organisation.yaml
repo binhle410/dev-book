@@ -1,0 +1,7 @@
+organisation_books:
+    path:     /organisations/{id}/books
+    controller: Magenta\Bundle\CBookApiBundle\Controller\Organisation\OrgBookController::booksAction
+    defaults:
+        _api_resource_class: 'Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation'
+        _api_item_operation_name: 'books'
+#        _api_collection_operation_name: 'books'

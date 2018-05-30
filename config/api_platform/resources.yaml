@@ -8,18 +8,18 @@ resources:
                 groups:
                     - write_creative_work
 
-    Bean\Bundle\BookBundle\Doctrine\Orm\Book:
-        attributes:                          # optional
-            normalization_context:
-                groups:
-                    - read_book
-                    - read_creative_work
-                    - read_creative_work_partOf
-            denormalization_context:
-                groups:
-                    - write_book
-                    - write_creative_work
-                    - write_creative_work_partOf
+#    Bean\Bundle\BookBundle\Doctrine\Orm\Book:
+#        attributes:                          # optional
+#            normalization_context:
+#                groups:
+#                    - read_book
+#                    - read_creative_work
+#                    - read_creative_work_partOf
+#            denormalization_context:
+#                groups:
+#                    - write_book
+#                    - write_creative_work
+#                    - write_creative_work_partOf
 #        properties:
 #            parts:
 #                subresource:

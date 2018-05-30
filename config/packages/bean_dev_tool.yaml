@@ -9,3 +9,4 @@ bean_dev_tool:
         - BeanThingBundle
         - MagentaCBookAdminBundle
         - MagentaCBookModelBundle
+        - MagentaCBookApiBundle

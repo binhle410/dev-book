@@ -1,4 +1,0 @@
-Magenta\Bundle\SWarrantyModelBundle\Entity\User\User:
-    attributes:
-        firstName:
-            groups: ['read_user','write_user']

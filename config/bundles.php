@@ -27,6 +27,7 @@ return [
     Sonata\AdminBundle\SonataAdminBundle::class => ['all' => true],
     Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle::class => ['all' => true],
     Magenta\Bundle\CBookAdminBundle\MagentaCBookAdminBundle::class => ['all' => true, 'test' => true],
+    Magenta\Bundle\CBookApiBundle\MagentaCBookApiBundle::class => ['all' => true, 'test' => true],
     Magenta\Bundle\CBookModelBundle\MagentaCBookModelBundle::class => ['all' => true, 'test' => true],
     Sonata\EasyExtendsBundle\SonataEasyExtendsBundle::class => ['all' => true],
     JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],

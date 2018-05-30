@@ -2,8 +2,6 @@
 
 namespace Magenta\Bundle\CBookApiBundle\DependencyInjection;
 
-use Magenta\Bundle\CBookApiBundle\Admin\BaseAdmin;
-use Magenta\Bundle\CBookApiBundle\Admin\BaseCRUDAdminController;
 use ProxyManager\FileLocator\FileLocator;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\Alias;
