@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgChapter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class OrgChapterController extends Controller {
@@ -29,5 +30,9 @@ class OrgChapterController extends Controller {
 		);
 		
 		return $chapters->matching($criteria);
+	}
+	
+	public function subChaptersAction(OrgChapter $data): Collection {
+		return $data->getSubChapters();
 	}
 }

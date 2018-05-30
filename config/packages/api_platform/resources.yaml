@@ -46,6 +46,10 @@ resources:
             get_root_chapters:
                 method: 'GET'
                 route_name: 'organisation_book_root_chapters'
+            get_sub_chapters:
+                method: 'GET'
+                route_name: 'organisation_chapter_sub_chapters'
+
 
     Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgChapter:
         attributes:                          # optional

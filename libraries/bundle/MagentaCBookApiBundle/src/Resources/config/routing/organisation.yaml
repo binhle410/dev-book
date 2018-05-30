@@ -20,3 +20,10 @@ organisation_book_root_chapters:
     defaults:
         _api_resource_class: 'Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook'
         _api_item_operation_name: 'get_root_chapters'
+
+organisation_chapter_sub_chapters:
+    path:     /chapters/{id}/sub-chapters
+    controller: Magenta\Bundle\CBookApiBundle\Controller\Organisation\OrgChapterController::subChaptersAction
+    defaults:
+        _api_resource_class: 'Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgChapter'
+        _api_item_operation_name: 'get_sub_chapters'
