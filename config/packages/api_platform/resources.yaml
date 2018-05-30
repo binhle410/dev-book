@@ -15,10 +15,10 @@ resources:
                 groups:
                     - write_organisation
         itemOperations:
-    #        get: ~
+            get: ~
     #        special:
     #            route_name: 'book_special'
-            books:
+            get_books:
                 route_name: 'organisation_books'
 
     Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook:
@@ -36,6 +36,30 @@ resources:
                     - write_book
                     - write_creative_work
                     - write_creative_work_partOf
+                    - write_thing
+        itemOperations:
+            get: ~
+    #        special:
+    #            route_name: 'book_special'
+            get_chapters:
+                route_name: 'organisation_book_chapters'
+            get_root_chapters:
+                method: 'GET'
+                route_name: 'organisation_book_root_chapters'
+
+    Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgChapter:
+        attributes:                          # optional
+            order:
+                id: DESC
+            normalization_context:
+                groups:
+                    - read_chapter
+                    - read_creative_work
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_chapter
+                    - write_creative_work
                     - write_thing
 
     Magenta\Bundle\CBookModelBundle\Entity\User\User:

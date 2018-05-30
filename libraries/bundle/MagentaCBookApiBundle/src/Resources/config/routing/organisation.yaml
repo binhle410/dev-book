@@ -3,5 +3,20 @@ organisation_books:
     controller: Magenta\Bundle\CBookApiBundle\Controller\Organisation\OrgBookController::booksAction
     defaults:
         _api_resource_class: 'Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation'
-        _api_item_operation_name: 'books'
+        _api_item_operation_name: 'get_books'
 #        _api_collection_operation_name: 'books'
+
+organisation_book_chapters:
+    path:     /books/{id}/chapters
+    controller: Magenta\Bundle\CBookApiBundle\Controller\Organisation\OrgChapterController::bookChaptersAction
+    defaults:
+        _api_resource_class: 'Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook'
+        _api_item_operation_name: 'get_chapters'
+#        _api_collection_operation_name: 'books'
+
+organisation_book_root_chapters:
+    path:     /books/{id}/root-chapters
+    controller: Magenta\Bundle\CBookApiBundle\Controller\Organisation\OrgChapterController::bookRootChaptersAction
+    defaults:
+        _api_resource_class: 'Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook'
+        _api_item_operation_name: 'get_root_chapters'

@@ -6,3 +6,4 @@ api_platform:
 api_organisation:
     resource: "@MagentaCBookApiBundle/Resources/config/routing/organisation.yaml"
     prefix: /api
+
