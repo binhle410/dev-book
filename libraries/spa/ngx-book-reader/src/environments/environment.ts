@@ -5,6 +5,7 @@
 export const environment = {
   production: false
 };
+export const apiEndPoint = 'http://127.0.0.1/api';
 
 /*
  * In development mode, to ignore zone related error stack frames such as
