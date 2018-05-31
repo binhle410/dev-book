@@ -7,6 +7,8 @@ Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrganisationMember:
     attributes:
         organization:
             groups: ['read_organisation','write_organisation']
+        person:
+            groups: ['read_app_person','write_app_person']
 
 Magenta\Bundle\CBookModelBundle\Entity\Person\Person:
     attributes:
