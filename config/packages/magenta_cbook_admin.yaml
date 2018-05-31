@@ -25,7 +25,7 @@ fos_ck_editor:
             filebrowserUploadRoute: admin_magenta_cbookmodel_media_media_ckeditor_upload
             filebrowserUploadRouteParameters:
                 provider: sonata.media.provider.file
-                context: book_image # Optional, to upload in a custom context
+                context: book_file # Optional, to upload in a custom context
 
             # Upload file as image when sending a file from the image dialog
             filebrowserImageUploadRoute: admin_magenta_cbookmodel_media_media_ckeditor_upload

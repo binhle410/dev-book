@@ -41,10 +41,13 @@ sonata_media:
         book_image:
             providers:
                 - sonata.media.provider.image
-                - sonata.media.provider.file
             formats:
                 small: { width: 100 , quality: 70}
                 big:   { width: 500 , quality: 70}
+
+        book_file:
+            providers:
+                - sonata.media.provider.file
 
         default:
             providers:
@@ -53,7 +56,6 @@ sonata_media:
                 - sonata.media.provider.image
                 - sonata.media.provider.file
                 - sonata.media.provider.vimeo
-
             formats:
                 small: { width: 100 , quality: 70}
                 big:   { width: 500 , quality: 70}
