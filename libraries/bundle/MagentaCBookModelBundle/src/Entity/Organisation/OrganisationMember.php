@@ -1,5 +1,4 @@
 <?php
-
 namespace Magenta\Bundle\CBookModelBundle\Entity\Organisation;
 
 use Bean\Component\Organization\Model\OrganizationMember as MemberModel;

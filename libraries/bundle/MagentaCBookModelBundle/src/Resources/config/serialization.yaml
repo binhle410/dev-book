@@ -3,7 +3,22 @@
 #        firstName:
 #            groups: ['read_user','write_user']
 
-#Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook:
+Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrganisationMember:
+    attributes:
+        organization:
+            groups: ['read_organisation','write_organisation']
+
+Magenta\Bundle\CBookModelBundle\Entity\Person\Person:
+    attributes:
+        birthDate:
+            groups: ['read_app_person','write_app_person']
+        familyName:
+            groups: ['read_app_person','write_app_person']
+        givenName:
+            groups: ['read_app_person','write_app_person']
+
+
+#Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation:
 #    attributes:
-#        firstName:
-#            groups: ['read_user','write_user']
+#        logo:
+#            groups: ['read_organisation','write_organisation']

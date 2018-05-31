@@ -1,3 +1,289 @@
-<p>
-  book-reader works!
-</p>
+<nav class="navbar navbar-expand-lg fixed-top navbar-light" color-on-scroll="500">
+    <div class="container">
+        <div class="navbar-translate">
+            <!--<a class="navbar-brand" href="/">{{ navBarTitle }}</a>-->
+            <div class="navbar-brand chapter-spy">
+                <span ngbDropdown class="heading d-inline-block dropdown">
+                    <span class="nav-link chapter-dropdown" id="dropdownHeading"
+                          ngbDropdownToggle>{{ bookHeading }}</span>
+                    <span ngbDropdownMenu aria-labelledby="dropdownHeading" class="dropdown-primary dropdown-content">
+                        <a class="dropdown-item">Chapter 1</a>
+                        <a class="dropdown-item">Chapter 2</a>
+                        <a class="dropdown-item">Chapter 3</a>
+                        <a class="dropdown-item">Chapter 4</a>
+                        <a class="dropdown-item">Chapter 5</a>
+                        <a class="dropdown-item">Chapter 6</a>
+                        <a class="dropdown-item">Chapter 7</a>
+                        <a class="dropdown-item">Chapter 8</a>
+                        <a class="dropdown-item">Chapter 9</a>
+                        <a class="dropdown-item">Chapter 10</a>
+                        <a class="dropdown-item">Chapter 11</a>
+                        <a class="dropdown-item">Chapter 12</a>
+                        <a class="dropdown-item">Chapter 13</a>
+                        <a class="dropdown-item">Chapter 14</a>
+                        <a class="dropdown-item">Chapter 15</a>
+                        <a class="dropdown-item">Chapter 16</a>
+                        <a class="dropdown-item">Chapter 17</a>
+                        <a class="dropdown-item">Chapter 18</a>
+                        <a class="dropdown-item">Chapter 19</a>
+                        <a class="dropdown-item">Chapter 20</a>
+                        <a class="dropdown-item">Chapter 21</a>
+                        <a class="dropdown-item">Chapter 22</a>
+                        <a class="dropdown-item">Chapter 23</a>
+                        <a class="dropdown-item">Chapter 24</a>
+                        <a class="dropdown-item">Chapter 25</a>
+                        <a class="dropdown-item">Chapter 26</a>
+                        <a class="dropdown-item">Chapter 27</a>
+                        <a class="dropdown-item">Chapter 28</a>
+                        <a class="dropdown-item">Chapter 29</a>
+                        <a class="dropdown-item">Chapter 30</a>
+                    </span>
+                </span>
+
+                <span *ngIf="inSubChapter" ngbDropdown class="sub-heading d-inline-block dropdown">
+                    <span class="nav-link chapter-dropdown" id="dropdownSubHeading" ngbDropdownToggle>{{ bookSubHeading }}</span>
+                    <span ngbDropdownMenu aria-labelledby="dropdownSubHeading"
+                          class="dropdown-primary dropdown-content">
+                        <a class="dropdown-item">Sub Chapter 2.1</a>
+                        <a class="dropdown-item">Sub Chapter 2.2: This is so hard</a>
+                        <a class="dropdown-item">Sub Chapter 2.3: Karma is a real bitch</a>
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-expand-lg fixed-bottom navbar-light" color-on-scroll="500">
+    <div class="container">
+        <a routerLink="/dashboard" class="btn btn-outline-primary btn-sm btn-border btn-round">HOME</a>
+        <a routerLink="/contacts" class="btn btn-sm btn-outline-primary btn-border btn-round">CONTACTS</a>
+        <button type="button" class="btn btn-sm btn-outline-primary btn-border btn-round" (click)="openToc()">BOOK TOC
+        </button>
+    </div>
+</nav>
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="d-none d-md-block col-md-4 book-chapters">
+                <h3>Table of Contents</h3>
+                <ul>
+                    <li>Chapter 1</li>
+                    <li>Chapter 2
+                        <ul>
+                            <li>Sub Chapter 2.1</li>
+                        </ul>
+                    </li>
+                    <li>Chapter 3
+                        <ul>
+                            <li>Sub Chapter 3.1</li>
+                            <li>Sub Chapter 3.2</li>
+                            <li>Sub Chapter 3.3</li>
+                            <li>Sub Chapter 3.4</li>
+                            <li>Sub Chapter 3.5</li>
+                            <li>Sub Chapter 3.6</li>
+                            <li>Sub Chapter 3.7</li>
+                            <li>Sub Chapter 3.8</li>
+                            <li>Sub Chapter 3.9</li>
+                        </ul>
+                    </li>
+                    <li>Chapter 1</li>
+                    <li>Chapter 2
+                        <ul>
+                            <li>Sub Chapter 2.1</li>
+                        </ul>
+                    </li>
+                    <li>Chapter 3
+                        <ul>
+                            <li>Sub Chapter 3.1</li>
+                            <li>Sub Chapter 3.2</li>
+                            <li>Sub Chapter 3.3</li>
+                            <li>Sub Chapter 3.4</li>
+                            <li>Sub Chapter 3.5</li>
+                            <li>Sub Chapter 3.6</li>
+                            <li>Sub Chapter 3.7</li>
+                            <li>Sub Chapter 3.8</li>
+                            <li>Sub Chapter 3.9</li>
+                        </ul>
+                    </li>
+                    <li>Chapter 1</li>
+                    <li>Chapter 2
+                        <ul>
+                            <li>Sub Chapter 2.1</li>
+                        </ul>
+                    </li>
+                    <li>Chapter 3
+                        <ul>
+                            <li>Sub Chapter 3.1</li>
+                            <li>Sub Chapter 3.2</li>
+                            <li>Sub Chapter 3.3</li>
+                            <li>Sub Chapter 3.4</li>
+                            <li>Sub Chapter 3.5</li>
+                            <li>Sub Chapter 3.6</li>
+                            <li>Sub Chapter 3.7</li>
+                            <li>Sub Chapter 3.8</li>
+                            <li>Sub Chapter 3.9</li>
+                        </ul>
+                    </li>
+                    <li>Chapter 1</li>
+                    <li>Chapter 2
+                        <ul>
+                            <li>Sub Chapter 2.1</li>
+                        </ul>
+                    </li>
+                    <li>Chapter 3
+                        <ul>
+                            <li>Sub Chapter 3.1</li>
+                            <li>Sub Chapter 3.2</li>
+                            <li>Sub Chapter 3.3</li>
+                            <li>Sub Chapter 3.4</li>
+                            <li>Sub Chapter 3.5</li>
+                            <li>Sub Chapter 3.6</li>
+                            <li>Sub Chapter 3.7</li>
+                            <li>Sub Chapter 3.8</li>
+                            <li>Sub Chapter 3.9</li>
+                        </ul>
+                    </li>
+                    <li>Chapter 1</li>
+                    <li>Chapter 2
+                        <ul>
+                            <li>Sub Chapter 2.1</li>
+                        </ul>
+                    </li>
+                    <li>Chapter 3
+                        <ul>
+                            <li>Sub Chapter 3.1</li>
+                            <li>Sub Chapter 3.2</li>
+                            <li>Sub Chapter 3.3</li>
+                            <li>Sub Chapter 3.4</li>
+                            <li>Sub Chapter 3.5</li>
+                            <li>Sub Chapter 3.6</li>
+                            <li>Sub Chapter 3.7</li>
+                            <li>Sub Chapter 3.8</li>
+                            <li>Sub Chapter 3.9</li>
+                        </ul>
+                    </li>
+                    <li>Chapter 1</li>
+                    <li>Chapter 2
+                        <ul>
+                            <li>Sub Chapter 2.1</li>
+                        </ul>
+                    </li>
+                    <li>Chapter 3
+                        <ul>
+                            <li>Sub Chapter 3.1</li>
+                            <li>Sub Chapter 3.2</li>
+                            <li>Sub Chapter 3.3</li>
+                            <li>Sub Chapter 3.4</li>
+                            <li>Sub Chapter 3.5</li>
+                            <li>Sub Chapter 3.6</li>
+                            <li>Sub Chapter 3.7</li>
+                            <li>Sub Chapter 3.8</li>
+                            <li>Sub Chapter 3.9</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-8 book-reader">
+                <h3>Book Title</h3>
+                <i>Subtitle</i>
+                <div scrollSpy [scrollSpyIndex]="{id: 'chapters', selector: 'chapter'}">
+                    <div [scrollSpyIndex]="{id: 'subChapters', selector: 'sub-chapter'}">
+                        <div class="chapter" data-content="Hello Chapter 1">
+                            <p>chapter 1</p>
+                        </div>
+                        <div class="chapter" data-content="Hello Chapter 2">
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <div class="sub-chapter" data-content="Hello SubChapter 2.1">
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                                <p>context 0</p>
+                            </div>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                            <p>context 0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -46,3 +46,14 @@ api_platform:
             mime_types: ['application/ld+json']
 
         # ...
+
+services:
+    bean_thing.name_search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { name: 'partial' } ]
+        tags: [ 'api_platform.filter' ]
+
+    contactable_members.name_search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { person.givenName: 'start', person.familyName: 'start' } ]
+        tags: [ 'api_platform.filter' ]

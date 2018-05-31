@@ -35,6 +35,12 @@ class Organisation extends OrganizationModel {
 	protected $books;
 	
 	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrganisationMember", mappedBy="organization")
+	 */
+	protected $members;
+	
+	/**
 	 * @var Media
 	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Media\Media", mappedBy="logoOrganisation", cascade={"persist","merge"})
 	 */

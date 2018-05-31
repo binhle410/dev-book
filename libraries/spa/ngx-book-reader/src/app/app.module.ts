@@ -11,8 +11,10 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
-import {BookListingComponent, BookListingNgbdModalContent} from './book-listing/book-listing.component';
+import {BookListingComponent} from './book-listing/book-listing.component';
 import { BookReaderComponent } from './book-reader/book-reader.component';
+import { BookModalTocComponent } from './book-modal-toc/book-modal-toc.component';
+import { BookContactComponent } from './book-contact/book-contact.component';
 
 @NgModule({
   declarations: [
@@ -20,10 +22,11 @@ import { BookReaderComponent } from './book-reader/book-reader.component';
     LoginComponent,
     NavbarComponent,
     BookListingComponent,
-    BookListingNgbdModalContent,
-    BookReaderComponent
+    BookReaderComponent,
+    BookModalTocComponent,
+    BookContactComponent
   ],
-    entryComponents: [BookListingNgbdModalContent],
+    entryComponents: [BookModalTocComponent],
     imports: [
     BrowserModule,
     FormsModule,

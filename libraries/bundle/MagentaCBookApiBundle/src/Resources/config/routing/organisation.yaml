@@ -1,3 +1,11 @@
+organisation_contactable_members:
+    path:     /organisations/{id}/contactable-members
+    controller: Magenta\Bundle\CBookApiBundle\Controller\Organisation\OrgMemberController::contactableMembersAction
+    defaults:
+        _api_resource_class: 'Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation'
+        _api_item_operation_name: 'get_contactable_members'
+#        _api_collection_operation_name: 'books'
+
 organisation_books:
     path:     /organisations/{id}/books
     controller: Magenta\Bundle\CBookApiBundle\Controller\Organisation\OrgBookController::booksAction
