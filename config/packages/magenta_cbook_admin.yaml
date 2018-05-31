@@ -16,6 +16,10 @@ fos_ck_editor:
             - [Format, Maximize, Source]
 
             filebrowserBrowseRoute: admin_magenta_cbookmodel_media_media_ckeditor_browser
+            filebrowserBrowseRouteParameters:
+                provider: sonata.media.provider.file
+                context: book_file # Optional, to upload in a custom context
+
             filebrowserImageBrowseRoute: admin_magenta_cbookmodel_media_media_ckeditor_browser
             # Display images by default when clicking the image dialog browse button
             filebrowserImageBrowseRouteParameters:

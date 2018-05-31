@@ -1,4 +1,4 @@
-{% if media.providerName == 'sonata.provider.file' %}
+{% if media.providerName == 'sonata.media.provider.file' %}
     {"fileName":"{{ object.name }}","uploaded":1,"url":"{{ path('magenta_media_view_binary',{'id':object.id,'format':'book_file_reference'}) }}"}
 {% else %}
     {"fileName":"{{ object.name }}","uploaded":1,"url":"{{ path('magenta_media_view_binary',{'id':object.id,'format':'book_image_big'}) }}"}
