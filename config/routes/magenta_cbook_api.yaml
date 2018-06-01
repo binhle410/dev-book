@@ -7,3 +7,9 @@ api_organisation:
     resource: "@MagentaCBookApiBundle/Resources/config/routing/organisation.yaml"
     prefix: /api
 
+gesdinet_jwt_refresh_token:
+    path:     /api/token/refresh
+    defaults: { _controller: gesdinet.jwtrefreshtoken:refresh }
+
+api_login_check:
+    path: /api/login_check

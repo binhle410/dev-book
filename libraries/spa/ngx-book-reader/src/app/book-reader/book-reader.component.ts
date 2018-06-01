@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnInit} from '@angular/core';
 import {ScrollSpyIndexService, ScrollSpyService} from "ngx-scrollspy";
 import {MessageService} from "../model/message.service";
 import {DataTransferService} from "../model/data-transfer.service";
@@ -12,9 +12,39 @@ import {BookModalTocComponent} from "../book-modal-toc/book-modal-toc.component"
 })
 
 export class BookReaderComponent implements OnInit, AfterViewInit {
-    constructor(private modalService: NgbModal, private dataTransfer: DataTransferService, private scrollSpyService: ScrollSpyService, private scrollSpyIndex: ScrollSpyIndexService) {
+    constructor(private hostElement: ElementRef, private modalService: NgbModal, private dataTransfer: DataTransferService, private scrollSpyService: ScrollSpyService, private scrollSpyIndex: ScrollSpyIndexService) {
+
+    }
+test1 = 1;
+    scroll(el) {
+        // console.log('after scroll',el.scrollTop);
+        let parent = el.parentNode;
+        console.log(this.hostElement, el);
+        // console.log('before scroll', el.offsetTop);
+        this.scrollToChapterId = parseInt(el.getAttribute('data-id'));
+        const intersectionObserver = new IntersectionObserver((entries) => {
+            let [entry] = entries;
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    // alert(`${entry.target.id} is visible!!!`);
+                    // console.log('after top', el.offsetTop);
+                }, 500)
+            }
+        });
+// start observing
+        intersectionObserver.observe(el);
+
+        el.scrollIntoView({behavior: "smooth", block: "start"});
+
+        // window.scrollBy(0, -70);
     }
 
+    isScrolledToView(id: number) {
+        console.log('this.scrollToChapterId is ',this.scrollToChapterId,'id param is',id);
+        return this.scrollToChapterId === id;
+    }
+
+    scrollToChapterId = 0;
     bookHeading = 'Your Books on the Cloud';
     bookSubHeading = '';
     inSubChapter = false;

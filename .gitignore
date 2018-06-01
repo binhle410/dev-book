@@ -1,8 +1,5 @@
 ###> IDE ###
 /.idea/
-/public/bundles/
-/var/
-/vendor/
 ###< IDEA ###
 
 
@@ -34,6 +31,6 @@ yarn-error.log
 /.php_cs.cache
 ###< friendsofphp/php-cs-fixer ###
 
-###> phpunit/phpunit ###
-/phpunit.xml
-###< phpunit/phpunit ###
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###

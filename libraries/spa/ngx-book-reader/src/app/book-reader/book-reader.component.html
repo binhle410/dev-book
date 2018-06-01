@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg fixed-top navbar-light" color-on-scroll="500">
+<nav class="navbar navbar-expand-lg sticky-top navbar-light" color-on-scroll="500">
     <div class="container">
         <div class="navbar-translate">
             <!--<a class="navbar-brand" href="/">{{ navBarTitle }}</a>-->
@@ -75,7 +75,7 @@
                     </li>
                     <li>Chapter 3
                         <ul>
-                            <li>Sub Chapter 3.1</li>
+                            <li><span (click)="scroll(view1)">Clickable Sub Chapter 3.1</span></li>
                             <li>Sub Chapter 3.2</li>
                             <li>Sub Chapter 3.3</li>
                             <li>Sub Chapter 3.4</li>
@@ -232,8 +232,8 @@
                             <p>context 0</p>
                             <p>context 0</p>
                             <p>context 0</p>
-                            <div class="sub-chapter" data-content="Hello SubChapter 2.1">
-                                <p>context 0</p>
+                            <div #view1 class="sub-chapter" [class.padding-navbar]="isScrolledToView(21)" data-id="21" data-content="Hello SubChapter 2.1">
+                                <p>SubChapter 2.1</p>
                                 <p>context 0</p>
                                 <p>context 0</p>
                                 <p>context 0</p>
