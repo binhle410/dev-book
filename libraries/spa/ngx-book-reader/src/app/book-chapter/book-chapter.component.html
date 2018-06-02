@@ -1,0 +1,7 @@
+<div>
+  <h4>{{chapter.name}}</h4>
+  <p [innerHtml]="chapter.content"></p>
+  <ng-container *ngIf="chapter.children != null">
+    <app-book-chapter *ngFor='let child of chapter.children' class="sub-chapter" [class.padding-navbar]="isScrolledToView(child.id)" [scrollToChapterId]="scrollToChapterId" [chapter]="child" [attr.data-id]="child.id" [attr.data-content]="child.name"></app-book-chapter>
+  </ng-container>
+</div>

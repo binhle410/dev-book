@@ -4,6 +4,8 @@ import {MessageService} from "../model/message.service";
 import {DataTransferService} from "../model/data-transfer.service";
 import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {BookModalTocComponent} from "../book-modal-toc/book-modal-toc.component";
+import { BookChapterService } from '../model/book-chapter.service';
+import { BookChapter } from '../model/book-chapter';
 
 @Component({
     selector: 'app-book-reader',
@@ -12,8 +14,10 @@ import {BookModalTocComponent} from "../book-modal-toc/book-modal-toc.component"
 })
 
 export class BookReaderComponent implements OnInit, AfterViewInit {
-    constructor(private hostElement: ElementRef, private modalService: NgbModal, private dataTransfer: DataTransferService, private scrollSpyService: ScrollSpyService, private scrollSpyIndex: ScrollSpyIndexService) {
+    chapters: BookChapter[];
 
+    constructor(private bookChapterService: BookChapterService, private hostElement: ElementRef, private modalService: NgbModal, private dataTransfer: DataTransferService, private scrollSpyService: ScrollSpyService, private scrollSpyIndex: ScrollSpyIndexService) {
+        this.chapters = bookChapterService.getBookChapters();
     }
 test1 = 1;
     scroll(el) {
@@ -38,6 +42,12 @@ test1 = 1;
 
         // window.scrollBy(0, -70);
     }
+
+    isSubChapter(id){
+        return false;
+    }
+        ;
+
 
     isScrolledToView(id: number) {
         console.log('this.scrollToChapterId is ',this.scrollToChapterId,'id param is',id);

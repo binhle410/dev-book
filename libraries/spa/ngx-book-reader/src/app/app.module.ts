@@ -5,7 +5,7 @@ import { ScrollSpyModule } from 'ngx-scrollspy';
 import { ScrollSpyIndexModule } from 'ngx-scrollspy';
 import { ScrollSpyAffixModule } from 'ngx-scrollspy';
 
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -15,6 +15,7 @@ import {BookListingComponent} from './book-listing/book-listing.component';
 import { BookReaderComponent } from './book-reader/book-reader.component';
 import { BookModalTocComponent } from './book-modal-toc/book-modal-toc.component';
 import { BookContactComponent } from './book-contact/book-contact.component';
+import { BookChapterComponent } from './book-chapter/book-chapter.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { BookContactComponent } from './book-contact/book-contact.component';
     BookListingComponent,
     BookReaderComponent,
     BookModalTocComponent,
-    BookContactComponent
+    BookContactComponent,
+    BookChapterComponent
   ],
     entryComponents: [BookModalTocComponent],
     imports: [

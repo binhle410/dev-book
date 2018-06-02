@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { DataTransferService } from './data-transfer-service.service';
+import { DataTransferService } from './data-transfer.service';
 
 describe('DataTransferServiceService', () => {
   beforeEach(() => {
