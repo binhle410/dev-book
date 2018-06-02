@@ -1,5 +1,4 @@
 <?php
-
 namespace Magenta\Bundle\CBookAdminBundle\DependencyInjection;
 
 use Doctrine\Common\Annotations\AnnotationReader;
