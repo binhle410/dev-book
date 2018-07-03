@@ -44,34 +44,6 @@ abstract class Thing implements ThingInterface {
 	}
 	
 	/**
-	 * @return string
-	 */
-	public function getName(): ?string {
-		return $this->name;
-	}
-	
-	/**
-	 * @param string $name
-	 */
-	public function setName(string $name): void {
-		$this->name = $name;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getDescription(): ?string {
-		return $this->description;
-	}
-	
-	/**
-	 * @param string $description
-	 */
-	public function setDescription(string $description): void {
-		$this->description = $description;
-	}
-	
-	/**
 	 * @return bool
 	 */
 	public function isEnabled(): bool {
@@ -97,5 +69,33 @@ abstract class Thing implements ThingInterface {
 	 */
 	public function setCreatedAt(\DateTime $createdAt): void {
 		$this->createdAt = $createdAt;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getName(): ?string {
+		return $this->name;
+	}
+	
+	/**
+	 * @param null|string $name
+	 */
+	public function setName(?string $name): void {
+		$this->name = $name;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getDescription(): ?string {
+		return $this->description;
+	}
+	
+	/**
+	 * @param null|string $description
+	 */
+	public function setDescription(?string $description): void {
+		$this->description = $description;
 	}
 }

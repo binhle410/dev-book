@@ -41,6 +41,7 @@ security:
         api:
             pattern:   ^/api
             stateless: true
+            anonymous: true
             provider: magenta_user
             guard:
                 authenticators:
@@ -48,12 +49,9 @@ security:
 
         main:
             anonymous: true
-
             # activate different ways to authenticate
-
             # http_basic: true
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-
             # form_login: true
             # https://symfony.com/doc/current/security/form_login_setup.html
     # Easy way to control access for large sections of your site
