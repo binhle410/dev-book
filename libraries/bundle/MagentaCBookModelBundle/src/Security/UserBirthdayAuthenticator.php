@@ -34,17 +34,21 @@ class UserBirthdayAuthenticator implements SimpleFormAuthenticatorInterface {
 			throw new CustomUserMessageAuthenticationException('Invalid username or password');
 		}
 		
-		$currentUser = $token->getUser();
-		
-		if($currentUser instanceof UserInterface) {
-			if($currentUser->getPassword() !== $user->getPerson()->getBirthDate()->format('Y-m-d')) {
+		$currentUser     = $token->getUser();
+		$isPasswordValid = false;
+		if($currentUser instanceof User) {
+			if($currentUser->getPerson()->getBirthDate()->format('Y-m-d') !== $user->getPerson()->getBirthDate()->format('Y-m-d')) {
 				throw new BadCredentialsException('The credentials were changed from another session.');
 			}
 		} else {
 			if('' === ($givenPassword = $token->getCredentials())) {
 				throw new BadCredentialsException('The given password cannot be empty.');
 			}
-			throw new BadCredentialsException('The given password is invalid.');
+			if($currentUser->getPassword() === $user->getPerson()->getBirthDate()->format('Y-m-d')) {
+				$isPasswordValid = true;
+			} else {
+				throw new BadCredentialsException('The given password is invalid.');
+			}
 		}
 		
 		if($isPasswordValid) {
