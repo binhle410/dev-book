@@ -1,0 +1,67 @@
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: false      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false       # Allows optimizing the container by removing unused services; this also means
+                            # fetching services directly from the container via $container->get() won't work.
+                            # The best practice is to be explicit about your dependencies anyway.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    Magenta\Bundle\CBookMediaApiBundle\:
+        resource: '../../*'
+#        exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    Magenta\Bundle\CBookMediaApiBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
+    Magenta\Bundle\CBookMediaApiBundle\Controller\MediaController:
+        arguments:
+            - '@sonata.media.manager.media'
+            - '@sonata.media.pool'
+            - '@form.factory'
+        calls:
+            - method: setRegistry
+              arguments:
+                  - '@doctrine'
+        tags:
+            - 'controller.service_arguments'
+
+    magenta_serializer_handler.organisation.organisation:
+        class: Magenta\Bundle\CBookMediaApiBundle\Serializer\Organisation\OrganisationSerializerHandler
+        tags: ["jms_serializer.subscribing_handler"]
+        arguments: ["@doctrine"]
+
+    magenta_serializer_handler.customer.warranty:
+        class: Magenta\Bundle\CBookMediaApiBundle\Serializer\Customer\WarrantySerializerHandler
+        tags: ["jms_serializer.subscribing_handler"]
+        arguments: ["@doctrine"]
+
+    magenta_serializer_handler.customer.service_sheet:
+        class: Magenta\Bundle\CBookMediaApiBundle\Serializer\Customer\ServiceSheetSerializerHandler
+        tags: ["jms_serializer.subscribing_handler"]
+        arguments: ["@doctrine"]
+
+    magenta_media_api.form.type.media:
+        class: Magenta\Bundle\CBookMediaApiBundle\Form\Type\ApiMediaType
+        tags: ['sonata_media_api_form_media']
+        arguments: ['@sonata.media.pool','%sonata.media.admin.media.entity%']
+        calls:
+            - method: setLogger
+              arguments:
+                  - '@logger'
+            - method: setOrgTransformer
+              arguments:
+                  - '@magenta_media_api.form.transformer.organisation'
+
+    magenta_media_api.form.transformer.organisation:
+        class: Magenta\Bundle\CBookMediaApiBundle\Form\DataTransformer\OrganisationDataTransformer
+        arguments: ['@doctrine']
+        calls:
+            - method: setLogger
+              arguments:
+                  - '@logger'

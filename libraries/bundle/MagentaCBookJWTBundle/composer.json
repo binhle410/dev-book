@@ -1,5 +1,5 @@
 {
-  "name": "magenta-consulting/cbook-api-bundle",
+  "name": "magenta-consulting/swarranty-jwt-bundle",
   "type": "symfony-bundle",
   "description": "Provides a Bundle Integration for the CBook Model.",
   "keywords": [
@@ -13,10 +13,9 @@
     }
   ],
   "require": {
-    "magenta-consulting/cbook-model-bundle": "^0.1",
-    "lexik/jwt-authentication-bundle": "^2.4",
+    "magenta-consulting/swarranty-model-bundle": "^0.1",
     "gesdinet/jwt-refresh-token-bundle": "^0.4",
-    "api-platform/api-pack": "^1.1"
+    "lexik/jwt-authentication-bundle": "^2.4"
   },
   "require-dev": {
   },
@@ -24,13 +23,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Magenta\\Bundle\\CBookApiBundle\\": "src/"
+      "Magenta\\Bundle\\CBookJWTBundle\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Magenta\\Bundle\\CBookApiBundle\\spec\\": "tests/spec/",
-      "Magenta\\Bundle\\CBookApiBundle\\Tests\\": "tests/units/"
+      "Magenta\\Bundle\\CBookJWTBundle\\spec\\": "tests/spec/",
+      "Magenta\\Bundle\\CBookJWTBundle\\Tests\\": "tests/units/"
     }
   },
   "extra": {

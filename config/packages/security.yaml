@@ -64,5 +64,9 @@ security:
         - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, roles: ROLE_ADMIN }
 
-        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+    #        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY, ips: ['%env(DEV_IP)%'] }
+        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    #        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+
+    # ...
+        - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }

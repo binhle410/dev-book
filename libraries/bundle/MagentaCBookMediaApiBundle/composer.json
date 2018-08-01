@@ -1,5 +1,5 @@
 {
-  "name": "magenta-consulting/cbook-api-bundle",
+  "name": "magenta-consulting/cbook-media-api-bundle",
   "type": "symfony-bundle",
   "description": "Provides a Bundle Integration for the CBook Model.",
   "keywords": [
@@ -14,9 +14,10 @@
   ],
   "require": {
     "magenta-consulting/cbook-model-bundle": "^0.1",
-    "lexik/jwt-authentication-bundle": "^2.4",
-    "gesdinet/jwt-refresh-token-bundle": "^0.4",
-    "api-platform/api-pack": "^1.1"
+    "magenta-consulting/cbook-jwt-bundle": "^0.1",
+    "nelmio/api-doc-bundle": "^2.13",
+    "friendsofsymfony/rest-bundle": "^2.3",
+    "symfony/twig-bundle": "^4.1"
   },
   "require-dev": {
   },
@@ -24,13 +25,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Magenta\\Bundle\\CBookApiBundle\\": "src/"
+      "Magenta\\Bundle\\CBookMediaApiBundle\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Magenta\\Bundle\\CBookApiBundle\\spec\\": "tests/spec/",
-      "Magenta\\Bundle\\CBookApiBundle\\Tests\\": "tests/units/"
+      "Magenta\\Bundle\\CBookMediaApiBundle\\spec\\": "tests/spec/",
+      "Magenta\\Bundle\\CBookMediaApiBundle\\Tests\\": "tests/units/"
     }
   },
   "extra": {
