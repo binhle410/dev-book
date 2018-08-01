@@ -1,15 +1,3 @@
-lexik_jwt_authentication:
-    private_key_path: '%kernel.project_dir%/%env(JWT_PRIVATE_KEY_PATH)%'
-    public_key_path: '%kernel.project_dir%/%env(JWT_PUBLIC_KEY_PATH)%'
-    pass_phrase: '%env(JWT_PASSPHRASE)%'
-    token_ttl:   '%env(JWT_TOKEN_TTL)%'
-
-gesdinet_jwt_refresh_token:
-    ttl: 8640000 # 100 days
-    ttl_update: true
-    firewall: api
-    refresh_token_entity: Magenta\Bundle\CBookApiBundle\Entity\JwtRefreshToken
-
 #api_platform:
 #    mapping:
 #        paths: ['%kernel.project_dir%/config/api_platform']

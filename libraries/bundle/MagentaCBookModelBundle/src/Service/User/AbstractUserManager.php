@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Magenta\Bundle\CBookModelBundle\Service\User;
 
 use Magenta\Bundle\CBookModelBundle\Entity\User\UserInterface;
@@ -19,24 +20,21 @@ use Magenta\Bundle\CBookModelBundle\Util\User\PasswordUpdaterInterface;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-abstract class AbstractUserManager implements UserManagerInterface
-{
+abstract class AbstractUserManager implements UserManagerInterface {
 	private $passwordUpdater;
 	private $canonicalFieldsUpdater;
 	
-	public function __construct(PasswordUpdaterInterface $passwordUpdater, CanonicalFieldsUpdater $canonicalFieldsUpdater)
-	{
-		$this->passwordUpdater = $passwordUpdater;
+	public function __construct(PasswordUpdaterInterface $passwordUpdater, CanonicalFieldsUpdater $canonicalFieldsUpdater) {
+		$this->passwordUpdater        = $passwordUpdater;
 		$this->canonicalFieldsUpdater = $canonicalFieldsUpdater;
 	}
 	
 	/**
 	 * {@inheritdoc}
 	 */
-	public function createUser()
-	{
+	public function createUser() {
 		$class = $this->getClass();
-		$user = new $class();
+		$user  = new $class();
 		
 		return $user;
 	}
@@ -44,27 +42,24 @@ abstract class AbstractUserManager implements UserManagerInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function findUserByEmail($email)
-	{
-		return $this->findUserBy(array('emailCanonical' => $this->canonicalFieldsUpdater->canonicalizeEmail($email)));
+	public function findUserByEmail($email) {
+		return $this->findUserBy(array( 'emailCanonical' => $this->canonicalFieldsUpdater->canonicalizeEmail($email) ));
 	}
 	
 	/**
 	 * {@inheritdoc}
 	 */
-	public function findUserByUsername($username)
-	{
-		return $this->findUserBy(array('usernameCanonical' => $this->canonicalFieldsUpdater->canonicalizeUsername($username)));
+	public function findUserByUsername($username) {
+		return $this->findUserBy(array( 'usernameCanonical' => $this->canonicalFieldsUpdater->canonicalizeUsername($username) ));
 	}
 	
 	/**
 	 * {@inheritdoc}
 	 */
-	public function findUserByUsernameOrEmail($usernameOrEmail)
-	{
-		if (preg_match('/^.+\@\S+\.\S+$/', $usernameOrEmail)) {
+	public function findUserByUsernameOrEmail($usernameOrEmail) {
+		if(preg_match('/^.+\@\S+\.\S+$/', $usernameOrEmail)) {
 			$user = $this->findUserByEmail($usernameOrEmail);
-			if (null !== $user) {
+			if(null !== $user) {
 				return $user;
 			}
 		}
@@ -75,40 +70,35 @@ abstract class AbstractUserManager implements UserManagerInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function findUserByConfirmationToken($token)
-	{
-		return $this->findUserBy(array('confirmationToken' => $token));
+	public function findUserByConfirmationToken($token) {
+		return $this->findUserBy(array( 'confirmationToken' => $token ));
 	}
 	
 	/**
 	 * {@inheritdoc}
 	 */
-	public function updateCanonicalFields(UserInterface $user)
-	{
+	public function updateCanonicalFields(UserInterface $user) {
 		$this->canonicalFieldsUpdater->updateCanonicalFields($user);
 	}
 	
 	/**
 	 * {@inheritdoc}
 	 */
-	public function updatePassword(UserInterface $user)
-	{
+	public function updatePassword(UserInterface $user) {
 		$this->passwordUpdater->hashPassword($user);
 	}
 	
 	/**
 	 * @return PasswordUpdaterInterface
 	 */
-	protected function getPasswordUpdater()
-	{
+	protected function getPasswordUpdater() {
 		return $this->passwordUpdater;
 	}
 	
 	/**
 	 * @return CanonicalFieldsUpdater
 	 */
-	protected function getCanonicalFieldsUpdater()
-	{
+	protected function getCanonicalFieldsUpdater() {
 		return $this->canonicalFieldsUpdater;
 	}
 }

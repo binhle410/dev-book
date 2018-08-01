@@ -6,6 +6,10 @@ services:
         class: Magenta\Bundle\CBookModelBundle\Security\EmailUserProvider
         arguments: ['@magenta_user.user_manager']
 
+    magenta_user.user_provider.org_code_nric:
+        class: Magenta\Bundle\CBookModelBundle\Security\OrgCodeNricUserProvider
+        arguments: ['@magenta_user.user_manager']
+
     magenta_user.command.create_user:
         class: Magenta\Bundle\CBookModelBundle\Command\User\CreateUserCommand
         public: false

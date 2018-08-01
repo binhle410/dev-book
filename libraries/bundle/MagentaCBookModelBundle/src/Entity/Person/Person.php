@@ -35,6 +35,12 @@ class Person extends PersonModel {
 	 * @var string|null
 	 * @ORM\Column(type="string",nullable=true)
 	 */
+	protected $idNumber;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
 	protected $givenName;
 	
 	/**
@@ -55,6 +61,20 @@ class Person extends PersonModel {
 	 */
 	public function setUser(?User $user): void {
 		$this->user = $user;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getIdNumber(): ?string {
+		return $this->idNumber;
+	}
+	
+	/**
+	 * @param null|string $idNumber
+	 */
+	public function setIdNumber(?string $idNumber): void {
+		$this->idNumber = $idNumber;
 	}
 	
 }

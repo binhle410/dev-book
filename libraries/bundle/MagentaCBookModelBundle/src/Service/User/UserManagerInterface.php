@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Magenta\Bundle\CBookModelBundle\Service\User;
 
 use Magenta\Bundle\CBookModelBundle\Entity\User\UserInterface;
@@ -24,8 +25,10 @@ use Magenta\Bundle\CBookModelBundle\Entity\User\UserInterface;
  * @author Thibault Duplessis <thibault.duplessis@gmail.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-interface UserManagerInterface
-{
+interface UserManagerInterface {
+	
+	public function findUserByOrganisationNric($code, $nric);
+	
 	/**
 	 * Creates an empty user instance.
 	 *

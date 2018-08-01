@@ -5,6 +5,8 @@ security:
         magenta_user:
 #            id: fos_user.user_manager
             id: magenta_user.user_provider.username_email
+        magenta_user_org_code_nric:
+            id: magenta_user.user_provider.org_code_nric
 
     firewalls:
         dev:
@@ -35,6 +37,19 @@ security:
                 check_path: /api/login_check
                 username_path: email
                 password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        api_login_org_code_nric:
+            pattern:  ^/api/login
+            stateless: true
+            anonymous: true
+            provider: magenta_user_org_code_nric
+            simple_form:
+                authenticator: ~
+                check_path: /api/login_check_org_code_nric
+#                username_path: username
+#                password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 

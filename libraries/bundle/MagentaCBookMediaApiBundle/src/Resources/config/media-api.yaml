@@ -36,16 +36,6 @@ services:
         tags: ["jms_serializer.subscribing_handler"]
         arguments: ["@doctrine"]
 
-    magenta_serializer_handler.customer.warranty:
-        class: Magenta\Bundle\CBookMediaApiBundle\Serializer\Customer\WarrantySerializerHandler
-        tags: ["jms_serializer.subscribing_handler"]
-        arguments: ["@doctrine"]
-
-    magenta_serializer_handler.customer.service_sheet:
-        class: Magenta\Bundle\CBookMediaApiBundle\Serializer\Customer\ServiceSheetSerializerHandler
-        tags: ["jms_serializer.subscribing_handler"]
-        arguments: ["@doctrine"]
-
     magenta_media_api.form.type.media:
         class: Magenta\Bundle\CBookMediaApiBundle\Form\Type\ApiMediaType
         tags: ['sonata_media_api_form_media']

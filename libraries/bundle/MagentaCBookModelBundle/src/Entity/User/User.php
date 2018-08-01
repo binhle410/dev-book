@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Magenta\Bundle\CBookModelBundle\Repository\User\UserRepository")
  * @ORM\Table(name="user__user")
  */
 class User extends AbstractUser {
@@ -45,4 +45,5 @@ class User extends AbstractUser {
 	public function setPerson(?Person $person): void {
 		$this->person = $person;
 	}
+	
 }

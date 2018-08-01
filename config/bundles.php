@@ -29,6 +29,9 @@ return [
     Magenta\Bundle\CBookAdminBundle\MagentaCBookAdminBundle::class => ['all' => true, 'test' => true],
     Magenta\Bundle\CBookApiBundle\MagentaCBookApiBundle::class => ['all' => true, 'test' => true],
     Magenta\Bundle\CBookModelBundle\MagentaCBookModelBundle::class => ['all' => true, 'test' => true],
+    Magenta\Bundle\CBookMediaApiBundle\MagentaCBookMediaApiBundle::class => ['all' => true, 'test' => true],
+    Magenta\Bundle\CBookJWTBundle\MagentaCBookJWTBundle::class => ['all' => true, 'test' => true],
+	
     Sonata\EasyExtendsBundle\SonataEasyExtendsBundle::class => ['all' => true],
     JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
     Sonata\MediaBundle\SonataMediaBundle::class => ['all' => true],
@@ -37,4 +40,6 @@ return [
     Sonata\FormatterBundle\SonataFormatterBundle::class => ['all' => true],
     Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle::class => ['all' => true],
     Gesdinet\JWTRefreshTokenBundle\GesdinetJWTRefreshTokenBundle::class => ['all' => true],
+    Nelmio\ApiDocBundle\NelmioApiDocBundle::class => ['all' => true],
+    FOS\RestBundle\FOSRestBundle::class => ['all' => true],
 ];

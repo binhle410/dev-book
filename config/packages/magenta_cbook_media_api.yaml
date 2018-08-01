@@ -1,0 +1,48 @@
+#jms_serializer:
+#    metadata:
+#        directories:
+#            FOSUB:
+#                namespace_prefix: "FOS\\UserBundle"
+#                path: "%kernel.root_dir%/serializer/FOSUB"
+
+nelmio_api_doc: ~
+
+#twig:
+#    exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
+
+sensio_framework_extra:
+    router:  { annotations: true }
+    request: { converters: true }
+
+# Read the documentation: https://symfony.com/doc/master/bundles/FOSRestBundle/index.html
+fos_rest:
+#    param_fetcher_listener:  true
+#    allowed_methods_listener:  true
+#    routing_loader: true
+#    view:
+#        view_response_listener:  true
+#    exception:
+#        codes:
+#            App\Exception\MyException: 403
+#        messages:
+#            App\Exception\MyException: Forbidden area.
+    format_listener:
+        rules:
+#            - { path: ^/media-api, priorities: ['html', 'json', '*/*'], fallback_format: html, prefer_extension: true }
+            - { path: "^%env(MEDIA_API_PREFIX)%", prefer_extension: true, fallback_format: json, priorities: [ json, html ] }
+            - { path: ^/, priorities: ['html', 'json', '*/*'], fallback_format: html, prefer_extension: false }
+
+    param_fetcher_listener: true
+    body_listener:          true
+#    format_listener:        true
+    view:
+#        view_response_listener: force
+        view_response_listener:  true
+    body_converter:
+        enabled: true
+        validate: true
+
+services:
+  Sonata\MediaBundle\Controller\Api\MediaController:
+        alias: sonata.media.controller.api.media
+        public: true

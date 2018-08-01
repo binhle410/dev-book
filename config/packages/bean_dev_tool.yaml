@@ -10,3 +10,5 @@ bean_dev_tool:
         - MagentaCBookAdminBundle
         - MagentaCBookModelBundle
         - MagentaCBookApiBundle
+        - MagentaCBookMediaApiBundle
+        - MagentaCBookJWTBundle

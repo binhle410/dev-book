@@ -1,5 +1,5 @@
 {
-  "name": "magenta-consulting/swarranty-jwt-bundle",
+  "name": "magenta-consulting/cbook-jwt-bundle",
   "type": "symfony-bundle",
   "description": "Provides a Bundle Integration for the CBook Model.",
   "keywords": [
@@ -13,7 +13,7 @@
     }
   ],
   "require": {
-    "magenta-consulting/swarranty-model-bundle": "^0.1",
+    "magenta-consulting/cbook-model-bundle": "^0.1",
     "gesdinet/jwt-refresh-token-bundle": "^0.4",
     "lexik/jwt-authentication-bundle": "^2.4"
   },

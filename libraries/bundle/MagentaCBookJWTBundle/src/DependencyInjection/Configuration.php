@@ -8,7 +8,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface {
 	public function getConfigTreeBuilder() {
 		$treeBuilder = new TreeBuilder();
-		$rootNode    = $treeBuilder->root('magenta_swarranty_media_api');
+		$rootNode    = $treeBuilder->root('magenta_cbook_media_api');
 		
 		$rootNode
 			->children()

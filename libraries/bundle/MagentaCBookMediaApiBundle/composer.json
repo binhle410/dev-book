@@ -16,6 +16,7 @@
     "magenta-consulting/cbook-model-bundle": "^0.1",
     "magenta-consulting/cbook-jwt-bundle": "^0.1",
     "nelmio/api-doc-bundle": "^2.13",
+    "symfony/templating": "^4.1",
     "friendsofsymfony/rest-bundle": "^2.3",
     "symfony/twig-bundle": "^4.1"
   },
