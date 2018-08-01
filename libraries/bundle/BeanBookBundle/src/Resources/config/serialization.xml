@@ -49,9 +49,9 @@
         <attribute name="parentChapter">
             <!--
  "The discriminator column \"discr\" is missing for \"Bean\\Bundle\\BookBundle\\Doctrine\\Orm\\Chapter\" using the DQL alias \"parentChapter_a2\"
+
             <group>read_chapter</group>
             -->
-            <group>read_chapter</group>
             <group>write_chapter</group>
         </attribute>
 
