@@ -12,10 +12,10 @@ Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrganisationMember:
         person:
             groups: ['read_app_person','write_app_person']
 
-Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook:
-    attributes:
-        id:
-            groups: ['read_thing']
+#Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook:
+#    attributes:
+#        id:
+#            groups: ['read_thing']
 
 Magenta\Bundle\CBookModelBundle\Entity\Person\Person:
     attributes:
