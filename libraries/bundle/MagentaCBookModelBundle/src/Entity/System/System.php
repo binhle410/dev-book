@@ -14,7 +14,7 @@ class System {
 	 * @ORM\Id
 	 * @ORM\Column(type="string", length=180)
 	 */
-	protected $id = 'magenta.CBook';
+	protected $id = 'magenta.cbook';
 	
 	/**
 	 * @var Collection

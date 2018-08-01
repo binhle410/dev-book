@@ -8,53 +8,121 @@ resources:
                 groups:
                     - write_creative_work
 
-#    Bean\Bundle\BookBundle\Doctrine\Orm\Book:
-#        attributes:                          # optional
-#            normalization_context:
-#                groups:
-#                    - read_book
-#                    - read_creative_work
-#                    - read_creative_work_partOf
-#            denormalization_context:
-#                groups:
-#                    - write_book
-#                    - write_creative_work
-#                    - write_creative_work_partOf
-#        properties:
-#            parts:
-#                subresource:
-#                    resourceClass: 'Bean\Component\CreativeWork\Model\CreativeWork'
-#                    collection: true
-#        itemOperations:
-#            get: ~
-#            special:
-#                method: 'GET'
-#                path: '/books/{id}/root-chapters'
-#                controller: 'App\Controller\BeanPlaygroundController'
+    Magenta\Bundle\CBookModelBundle\Entity\Person\Person:
+        attributes:                          # optional
+            order:
+                id: DESC
+            normalization_context:
+                groups:
+                - read_app_person
+                - read_thing
+            denormalization_context:
+                groups:
+                - write_app_person
+                - write_thing
 
-#    Bean\Bundle\BookBundle\Doctrine\Orm\Chapter:
-#        attributes:                          # optional
-#            normalization_context:
-#                groups:
-#                    - read_chapter
-#                    - read_creative_work
-##                    - read_creative_work_partOf
-#            denormalization_context:
-#                groups:
-#                    - write_chapter
-#                    - write_creative_work
-#                    - write_creative_work_partOf
+    Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrganisationMember:
+        attributes:                          # optional
+            order:
+                id: DESC
+            normalization_context:
+                groups:
+                - read_app_person
+                - read_organisation
+                - read_thing
+            denormalization_context:
+                groups:
+                - write_app_person
+                - write_organisation
+                - write_thing
+        itemOperations:
+            get: ~
+        collectionOperations:
+            get:
+                filters: ['contactable_members.name_search_filter']
+            post: ~
 
-#        properties:
-#            parts:
-#                subresource:
-#                    resourceClass: 'Bean\Component\CreativeWork\Model\CreativeWork'
-#                    collection: true
+    Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation:
+        #        shortName: 'User'                   # optional
+        description: 'Organisations' # optional
+        #        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                - read_organisation
+                - read_thing
+            denormalization_context:
+                groups:
+                - write_organisation
+                - read_thing
+        itemOperations:
+            get: ~
+            #        special:
+            #            route_name: 'book_special'
+            get_books:
+                route_name: 'organisation_books'
+            get_contactable_members:
+                route_name: 'organisation_contactable_members'
+        #                filters: ['contactable_members.name_search_filter']
+        collectionOperations:
+            get:
+                filters: ['bean_thing.name_search_filter']
+            post: ~
 
+    Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook:
+        attributes:                          # optional
+            order:
+                id: DESC
+            normalization_context:
+                groups:
+                - read_book
+                - read_creative_work
+                - read_creative_work_partOf
+                - read_thing
+            denormalization_context:
+                groups:
+                - write_book
+                - write_creative_work
+                - write_creative_work_partOf
+                - write_thing
+        itemOperations:
+            get: ~
+            #        special:
+            #            route_name: 'book_special'
+            get_chapters:
+                route_name: 'organisation_book_chapters'
+            get_root_chapters:
+                method: 'GET'
+                route_name: 'organisation_book_root_chapters'
+            get_sub_chapters:
+                method: 'GET'
+                route_name: 'organisation_chapter_sub_chapters'
 
-#    App\Entity\Offer:
-#        shortName: 'Offer'                   # optional
-#        description: 'An offer from my shop' # optional
-#        iri: 'http://schema.org/Offer'       # optional
-#        attributes:                          # optional
-#            pagination_items_per_page: 25    # optional
+    Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgChapter:
+        attributes:                          # optional
+            order:
+                id: DESC
+            normalization_context:
+                groups:
+                - read_chapter
+                - read_creative_work
+                - read_thing
+            denormalization_context:
+                groups:
+                - write_chapter
+                - write_creative_work
+                - write_thing
+
+    Magenta\Bundle\CBookModelBundle\Entity\User\User:
+        #        shortName: 'User'                   # optional
+        description: 'App Users' # optional
+        #        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                - read_user
+            denormalization_context:
+                groups:
+                - write_user

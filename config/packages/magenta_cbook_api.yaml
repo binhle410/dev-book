@@ -10,9 +10,15 @@ gesdinet_jwt_refresh_token:
     firewall: api
     refresh_token_entity: Magenta\Bundle\CBookApiBundle\Entity\JwtRefreshToken
 
+#api_platform:
+#    mapping:
+#        paths: ['%kernel.project_dir%/config/api_platform']
+#    resource_class_directories:
+#        - '%kernel.project_dir%/libraries/bundle/BeanBookBundle/src'
+
 api_platform:
     mapping:
-        paths: ['%kernel.project_dir%/src/Entity', '%kernel.project_dir%/config/packages/api_platform/resources.yaml']
+        paths: ['%kernel.project_dir%/src/Entity', '%kernel.project_dir%/config/api_platform/resources.yaml']
 
     # The title of the API.
     title: 'CBook API'

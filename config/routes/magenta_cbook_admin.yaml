@@ -16,7 +16,6 @@ magenta_media_view_binary:
     defaults:   { format: reference }
 
 
-
 #fos_user_security:
 #    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 #fos_user_resetting:

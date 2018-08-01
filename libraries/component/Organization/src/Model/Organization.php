@@ -26,5 +26,4 @@ class Organization extends Thing {
 		$this->members = $members;
 	}
 	
-	
 }

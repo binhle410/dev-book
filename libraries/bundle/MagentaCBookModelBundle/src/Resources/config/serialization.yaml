@@ -5,6 +5,8 @@
 
 Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrganisationMember:
     attributes:
+        id:
+            groups: ['read_member']
         organization:
             groups: ['read_organisation','write_organisation']
         person:
@@ -12,6 +14,8 @@ Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrganisationMember:
 
 Magenta\Bundle\CBookModelBundle\Entity\Person\Person:
     attributes:
+        id:
+            groups: ['read_app_person']
         birthDate:
             groups: ['read_app_person','write_app_person']
         familyName:

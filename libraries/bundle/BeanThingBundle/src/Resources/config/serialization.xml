@@ -5,6 +5,9 @@
         http://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd"
 >
     <class name="Bean\Component\Thing\Model\Thing">
+        <attribute name="id">
+            <group>read_thing</group>
+        </attribute>
         <attribute name="name">
             <group>read_thing</group>
             <group>write_thing</group>
