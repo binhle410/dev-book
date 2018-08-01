@@ -15,7 +15,7 @@ Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrganisationMember:
 Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook:
     attributes:
         id:
-            groups: ['read_thing']
+            groups: ['read_thing','read_book']
 
 Magenta\Bundle\CBookModelBundle\Entity\Person\Person:
     attributes:
