@@ -29,6 +29,12 @@ class Organisation extends OrganizationModel {
 	}
 	
 	/**
+	 * @var string
+	 * @ORM\Column(type="string")
+	 */
+	protected $code;
+	
+	/**
 	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook", cascade={"persist","merge"}, orphanRemoval=true, mappedBy="organisation")
 	 */
@@ -72,6 +78,20 @@ class Organisation extends OrganizationModel {
 	 */
 	public function setBooks(Collection $books): void {
 		$this->books = $books;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getCode(): string {
+		return $this->code;
+	}
+	
+	/**
+	 * @param string $code
+	 */
+	public function setCode(string $code): void {
+		$this->code = $code;
 	}
 	
 }

@@ -15,9 +15,12 @@ class OrgCodeNricUserProvider extends UserProvider {
 	 * {@inheritdoc}
 	 */
 	protected function findUser($username) {
-		$usernameExploded = explode($username, '@at@');
-		$companyCode      = $usernameExploded[0];
-		$nric             = $usernameExploded[1];
+		$usernameExploded = explode('@at@', $username);
+		if(count($usernameExploded) != 2) {
+			return null;
+		}
+		$companyCode = $usernameExploded[0];
+		$nric        = $usernameExploded[1];
 		
 		return $this->userManager->findUserByOrganisationCodeNric($companyCode, $nric);
 	}

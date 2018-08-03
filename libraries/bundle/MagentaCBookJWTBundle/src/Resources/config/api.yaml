@@ -18,3 +18,7 @@ services:
     Magenta\Bundle\CBookJWTBundle\Controller\:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
+
+
+    magenta.security.authenticator.user_birthday:
+        class: Magenta\Bundle\CBookModelBundle\Security\UserBirthdayAuthenticator

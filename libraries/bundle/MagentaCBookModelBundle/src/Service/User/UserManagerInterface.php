@@ -27,7 +27,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\User\UserInterface;
  */
 interface UserManagerInterface {
 	
-	public function findUserByOrganisationNric($code, $nric);
+	public function findUserByOrganisationCodeNric($code, $nric);
 	
 	/**
 	 * Creates an empty user instance.

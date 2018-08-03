@@ -8,5 +8,5 @@ gesdinet_jwt_refresh_token:
     ttl: 8640000 # 100 days
     ttl_update: true
     firewall: api
-    refresh_token_entity: Magenta\Bundle\CBookApiBundle\Entity\JwtRefreshToken
+    refresh_token_entity: Magenta\Bundle\CBookJWTBundle\Entity\JwtRefreshToken
 

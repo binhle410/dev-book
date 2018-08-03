@@ -14,14 +14,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\SimpleFormAuthenticatorInterface;
 
-
 class UserBirthdayAuthenticator implements SimpleFormAuthenticatorInterface {
 	
+	public function __construct() {
 	
-	private $encoder;
-	
-	public function __construct(UserPasswordEncoderInterface $encoder) {
-		$this->encoder = $encoder;
 	}
 	
 	public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey) {
@@ -36,6 +32,7 @@ class UserBirthdayAuthenticator implements SimpleFormAuthenticatorInterface {
 		
 		$currentUser     = $token->getUser();
 		$isPasswordValid = false;
+		
 		if($currentUser instanceof User) {
 			if($currentUser->getPerson()->getBirthDate()->format('Y-m-d') !== $user->getPerson()->getBirthDate()->format('Y-m-d')) {
 				throw new BadCredentialsException('The credentials were changed from another session.');
@@ -44,7 +41,8 @@ class UserBirthdayAuthenticator implements SimpleFormAuthenticatorInterface {
 			if('' === ($givenPassword = $token->getCredentials())) {
 				throw new BadCredentialsException('The given password cannot be empty.');
 			}
-			if($currentUser->getPassword() === $user->getPerson()->getBirthDate()->format('Y-m-d')) {
+			$userPassword = $user->getPerson()->getBirthDate()->format('Ymd');
+			if($givenPassword === $userPassword) {
 				$isPasswordValid = true;
 			} else {
 				throw new BadCredentialsException('The given password is invalid.');
@@ -52,20 +50,9 @@ class UserBirthdayAuthenticator implements SimpleFormAuthenticatorInterface {
 		}
 		
 		if($isPasswordValid) {
-			$currentHour = date('G');
-			if($currentHour < 14 || $currentHour > 16) {
-				// CAUTION: this message will be returned to the client
-				// (so don't put any un-trusted messages / error strings here)
-				throw new CustomUserMessageAuthenticationException(
-					'You can only log in between 2 and 4!',
-					array(), // Message Data
-					412 // HTTP 412 Precondition Failed
-				);
-			}
-			
 			return new UsernamePasswordToken(
 				$user,
-				$user->getPassword(),
+				$user->getPerson()->getBirthDate()->format('Y-m-d'),
 				$providerKey,
 				$user->getRoles()
 			);
@@ -73,7 +60,7 @@ class UserBirthdayAuthenticator implements SimpleFormAuthenticatorInterface {
 		
 		// CAUTION: this message will be returned to the client
 		// (so don't put any un-trusted messages / error strings here)
-		throw new CustomUserMessageAuthenticationException('Invalid username or password');
+		throw new CustomUserMessageAuthenticationException('Invalid NRIC or Birthday');
 	}
 	
 	public function supportsToken(TokenInterface $token, $providerKey) {

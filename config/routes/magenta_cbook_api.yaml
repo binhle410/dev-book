@@ -13,3 +13,6 @@ gesdinet_jwt_refresh_token:
 
 api_login_check:
     path: /api/login_check
+
+api_login_check_org_code_nric:
+    path: /api/login_check_org_code_nric

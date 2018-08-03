@@ -1,4 +1,16 @@
 services:
+    _defaults:
+        autowire: false      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false       # Allows optimizing the container by removing unused services; this also means
+        # fetching services directly from the container via $container->get() won't work.
+        # The best practice is to be explicit about your dependencies anyway.
+
+    Magenta\Bundle\CBookModelBundle\Repository\:
+        resource: '../../Repository'
+        autowire: true
+        tags: ['doctrine.repository_service']
+
     magenta_user.user_provider.username:
         class: Magenta\Bundle\CBookModelBundle\Security\UserProvider
         public: false
@@ -67,4 +79,11 @@ services:
         alias: 'magenta_user.user_manager'
         public: false
 
-
+#    magenta.repo.user_user:
+#        autowire: true
+#        class: Magenta\Bundle\CBookModelBundle\Repository\User\UserRepository
+#        arguments:
+#            - '@doctrine'
+#        tags: ['doctrine.repository_service']
+#
+#    Magenta\Bundle\CBookModelBundle\Repository\User\UserRepository: '@magenta.repo.user_user'

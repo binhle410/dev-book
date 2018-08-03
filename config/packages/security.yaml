@@ -28,6 +28,20 @@ security:
             anonymous:          true
             switch_user:        true
 
+        api_login_org_code_nric:
+            pattern:  ^/api/login_check_org_code_nric
+            stateless: true
+            anonymous: true
+            provider: magenta_user_org_code_nric
+            simple_form:
+                authenticator: magenta.security.authenticator.user_birthday
+                check_path: /api/login_check_org_code_nric
+    #                login_path: /api/login_org_code_nric
+    #                username_path: username
+    #                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
         api_login:
             pattern:  ^/api/login
             stateless: true
@@ -40,18 +54,6 @@ security:
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
-        api_login_org_code_nric:
-            pattern:  ^/api/login
-            stateless: true
-            anonymous: true
-            provider: magenta_user_org_code_nric
-            simple_form:
-                authenticator: ~
-                check_path: /api/login_check_org_code_nric
-#                username_path: username
-#                password_path: password
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
         api:
             pattern:   ^/api
