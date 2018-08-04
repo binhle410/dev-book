@@ -3,10 +3,10 @@ namespace Magenta\Bundle\CBookModelBundle\Entity\Organisation;
 
 use Bean\Component\Organization\Model\OrganizationMember as MemberModel;
 
+use Bean\Component\Person\Model\Person;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
-use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
 
 /**
  * @ORM\Entity()
@@ -65,7 +65,7 @@ class OrganisationMember extends MemberModel {
 	/**
 	 * @param Person|null $person
 	 */
-	public function setPerson(Person $person): void {
+	public function setPerson(?Person $person): void {
 		$this->person = $person;
 	}
 }
