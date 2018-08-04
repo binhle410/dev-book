@@ -54,4 +54,18 @@ class OrganisationMember extends MemberModel {
 	public function setContactable(bool $contactable): void {
 		$this->contactable = $contactable;
 	}
+	
+	/**
+	 * @return Person
+	 */
+	public function getPerson(): Person {
+		return $this->person;
+	}
+	
+	/**
+	 * @param Person $person
+	 */
+	public function setPerson(Person $person): void {
+		$this->person = $person;
+	}
 }
