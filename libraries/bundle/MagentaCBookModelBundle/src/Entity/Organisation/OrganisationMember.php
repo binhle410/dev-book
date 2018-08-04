@@ -29,7 +29,7 @@ class OrganisationMember extends MemberModel {
 	protected $organization;
 	
 	/**
-	 * @var Person
+	 * @var Person|null
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Person\Person", inversedBy="members")
 	 * @ORM\JoinColumn(name="id_person", referencedColumnName="id", onDelete="CASCADE")
 	 */
@@ -56,14 +56,14 @@ class OrganisationMember extends MemberModel {
 	}
 	
 	/**
-	 * @return Person
+	 * @return Person|null
 	 */
-	public function getPerson(): Person {
+	public function getPerson(): ?Person {
 		return $this->person;
 	}
 	
 	/**
-	 * @param Person $person
+	 * @param Person|null $person
 	 */
 	public function setPerson(Person $person): void {
 		$this->person = $person;
