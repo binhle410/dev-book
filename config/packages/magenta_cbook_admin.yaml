@@ -107,7 +107,7 @@ sonata_admin:
                 items:
                     - Magenta\Bundle\CBookAdminBundle\Admin\User\UserAdmin
                     - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\OrganisationAdmin
-                    - Magenta\Bundle\SWarrantyAdminBundle\Admin\Organisation\OrganisationMemberAdmin
+                    - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\OrganisationMemberAdmin
 
 #                    - Sonata\MediaBundle\Admin\ORM\MediaAdmin
                     - sonata.media.admin.media
