@@ -7,36 +7,7 @@
                     <span class="nav-link chapter-dropdown" id="dropdownHeading"
                           ngbDropdownToggle>{{ bookHeading }}</span>
                     <span ngbDropdownMenu aria-labelledby="dropdownHeading" class="dropdown-primary dropdown-content">
-                        <a class="dropdown-item">Chapter 1</a>
-                        <a class="dropdown-item">Chapter 2</a>
-                        <a class="dropdown-item">Chapter 3</a>
-                        <a class="dropdown-item">Chapter 4</a>
-                        <a class="dropdown-item">Chapter 5</a>
-                        <a class="dropdown-item">Chapter 6</a>
-                        <a class="dropdown-item">Chapter 7</a>
-                        <a class="dropdown-item">Chapter 8</a>
-                        <a class="dropdown-item">Chapter 9</a>
-                        <a class="dropdown-item">Chapter 10</a>
-                        <a class="dropdown-item">Chapter 11</a>
-                        <a class="dropdown-item">Chapter 12</a>
-                        <a class="dropdown-item">Chapter 13</a>
-                        <a class="dropdown-item">Chapter 14</a>
-                        <a class="dropdown-item">Chapter 15</a>
-                        <a class="dropdown-item">Chapter 16</a>
-                        <a class="dropdown-item">Chapter 17</a>
-                        <a class="dropdown-item">Chapter 18</a>
-                        <a class="dropdown-item">Chapter 19</a>
-                        <a class="dropdown-item">Chapter 20</a>
-                        <a class="dropdown-item">Chapter 21</a>
-                        <a class="dropdown-item">Chapter 22</a>
-                        <a class="dropdown-item">Chapter 23</a>
-                        <a class="dropdown-item">Chapter 24</a>
-                        <a class="dropdown-item">Chapter 25</a>
-                        <a class="dropdown-item">Chapter 26</a>
-                        <a class="dropdown-item">Chapter 27</a>
-                        <a class="dropdown-item">Chapter 28</a>
-                        <a class="dropdown-item">Chapter 29</a>
-                        <a class="dropdown-item">Chapter 30</a>
+                        <a class="dropdown-item" *ngFor="let chapter of chapters" (click)="scrollToChapter(chapter.id, 50)">{{chapter.name}}</a>
                     </span>
                 </span>
 
@@ -44,9 +15,7 @@
                     <span class="nav-link chapter-dropdown" id="dropdownSubHeading" ngbDropdownToggle>{{ bookSubHeading }}</span>
                     <span ngbDropdownMenu aria-labelledby="dropdownSubHeading"
                           class="dropdown-primary dropdown-content">
-                        <a class="dropdown-item">Sub Chapter 2.1</a>
-                        <a class="dropdown-item">Sub Chapter 2.2: This is so hard</a>
-                        <a class="dropdown-item">Sub Chapter 2.3: Karma is a real bitch</a>
+                        <a class="dropdown-item" *ngFor="let chapter of getViewingSubChapters()" (click)="scrollToChapter(chapter.id, 70)">{{chapter.name}}</a>
                     </span>
                 </span>
             </div>
@@ -67,125 +36,16 @@
             <div class="d-none d-md-block col-md-4 book-chapters">
                 <h3>Table of Contents</h3>
                 <ul>
-                    <li>Chapter 1</li>
-                    <li>Chapter 2
+                    <li *ngFor="let chapter of chapters"><span (click)="scrollToChapter(chapter.id, 50)">{{chapter.name}}</span>
                         <ul>
-                            <li>Sub Chapter 2.1</li>
-                        </ul>
-                    </li>
-                    <li>Chapter 3
-                        <ul>
-                            <li><span (click)="scroll(view1)">Clickable Sub Chapter 3.1</span></li>
-                            <li>Sub Chapter 3.2</li>
-                            <li>Sub Chapter 3.3</li>
-                            <li>Sub Chapter 3.4</li>
-                            <li>Sub Chapter 3.5</li>
-                            <li>Sub Chapter 3.6</li>
-                            <li>Sub Chapter 3.7</li>
-                            <li>Sub Chapter 3.8</li>
-                            <li>Sub Chapter 3.9</li>
-                        </ul>
-                    </li>
-                    <li>Chapter 1</li>
-                    <li>Chapter 2
-                        <ul>
-                            <li>Sub Chapter 2.1</li>
-                        </ul>
-                    </li>
-                    <li>Chapter 3
-                        <ul>
-                            <li>Sub Chapter 3.1</li>
-                            <li>Sub Chapter 3.2</li>
-                            <li>Sub Chapter 3.3</li>
-                            <li>Sub Chapter 3.4</li>
-                            <li>Sub Chapter 3.5</li>
-                            <li>Sub Chapter 3.6</li>
-                            <li>Sub Chapter 3.7</li>
-                            <li>Sub Chapter 3.8</li>
-                            <li>Sub Chapter 3.9</li>
-                        </ul>
-                    </li>
-                    <li>Chapter 1</li>
-                    <li>Chapter 2
-                        <ul>
-                            <li>Sub Chapter 2.1</li>
-                        </ul>
-                    </li>
-                    <li>Chapter 3
-                        <ul>
-                            <li>Sub Chapter 3.1</li>
-                            <li>Sub Chapter 3.2</li>
-                            <li>Sub Chapter 3.3</li>
-                            <li>Sub Chapter 3.4</li>
-                            <li>Sub Chapter 3.5</li>
-                            <li>Sub Chapter 3.6</li>
-                            <li>Sub Chapter 3.7</li>
-                            <li>Sub Chapter 3.8</li>
-                            <li>Sub Chapter 3.9</li>
-                        </ul>
-                    </li>
-                    <li>Chapter 1</li>
-                    <li>Chapter 2
-                        <ul>
-                            <li>Sub Chapter 2.1</li>
-                        </ul>
-                    </li>
-                    <li>Chapter 3
-                        <ul>
-                            <li>Sub Chapter 3.1</li>
-                            <li>Sub Chapter 3.2</li>
-                            <li>Sub Chapter 3.3</li>
-                            <li>Sub Chapter 3.4</li>
-                            <li>Sub Chapter 3.5</li>
-                            <li>Sub Chapter 3.6</li>
-                            <li>Sub Chapter 3.7</li>
-                            <li>Sub Chapter 3.8</li>
-                            <li>Sub Chapter 3.9</li>
-                        </ul>
-                    </li>
-                    <li>Chapter 1</li>
-                    <li>Chapter 2
-                        <ul>
-                            <li>Sub Chapter 2.1</li>
-                        </ul>
-                    </li>
-                    <li>Chapter 3
-                        <ul>
-                            <li>Sub Chapter 3.1</li>
-                            <li>Sub Chapter 3.2</li>
-                            <li>Sub Chapter 3.3</li>
-                            <li>Sub Chapter 3.4</li>
-                            <li>Sub Chapter 3.5</li>
-                            <li>Sub Chapter 3.6</li>
-                            <li>Sub Chapter 3.7</li>
-                            <li>Sub Chapter 3.8</li>
-                            <li>Sub Chapter 3.9</li>
-                        </ul>
-                    </li>
-                    <li>Chapter 1</li>
-                    <li>Chapter 2
-                        <ul>
-                            <li>Sub Chapter 2.1</li>
-                        </ul>
-                    </li>
-                    <li>Chapter 3
-                        <ul>
-                            <li>Sub Chapter 3.1</li>
-                            <li>Sub Chapter 3.2</li>
-                            <li>Sub Chapter 3.3</li>
-                            <li>Sub Chapter 3.4</li>
-                            <li>Sub Chapter 3.5</li>
-                            <li>Sub Chapter 3.6</li>
-                            <li>Sub Chapter 3.7</li>
-                            <li>Sub Chapter 3.8</li>
-                            <li>Sub Chapter 3.9</li>
+                            <li *ngFor="let child of chapter.children" (click)="scrollToChapter(child.id, 70)">{{child.name}}</li>
                         </ul>
                     </li>
                 </ul>
             </div>
             <div class="col-md-8 book-reader">
-                <h3>Book Title</h3>
-                <i>Subtitle</i>
+                <h3 *ngIf="book">{{book.name}}</h3>
+                <i *ngIf="book">{{book.description}}</i>
                 <div scrollSpy [scrollSpyIndex]="{id: 'chapters', selector: 'chapter'}">
                     <div [scrollSpyIndex]="{id: 'subChapters', selector: 'sub-chapter'}">
                         <app-book-chapter *ngFor='let chapter of chapters' [class.sub-chapter]="isSubChapter(chapter.id)" [class.chapter]="!isSubChapter(chapter.id)" [class.padding-navbar]="isScrolledToView(chapter.id)" [scrollToChapterId]=[scrollToChapterId] [chapter]="chapter" [attr.data-id]="chapter.id" [attr.data-content]="chapter.name">

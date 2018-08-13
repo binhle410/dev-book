@@ -1,4 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiEndPoint: 'http://dev-book.magentapulse.com/api'
 };
-export const apiEndPoint = 'http://dev-book.magentapulse.com/api';

@@ -7,7 +7,6 @@ import {LocationStrategy, PlatformLocation, Location} from '@angular/common';
 import {NavbarComponent} from './shared/navbar/navbar.component';
 import {ScrollSpyModule, ScrollSpyService} from 'ngx-scrollspy';
 import {DataTransferService} from "./model/data-transfer.service";
-import {apiEndPoint} from "../environments/environment";
 
 @Injectable()
 @Component({
@@ -25,12 +24,27 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     }
 
-    constructor(private scrollSpyService: ScrollSpyService, private renderer: Renderer2, private router: Router,
-                @Inject(DOCUMENT,) private document: any, private element: ElementRef, public location: Location) {
-    }
+    constructor(
+        @Inject(DOCUMENT) private document: any, 
+        private scrollSpyService: ScrollSpyService, 
+        private renderer: Renderer2, 
+        private router: Router,
+        private element: ElementRef, 
+        public location: Location
+    ) { }
 
     ngOnInit() {
-        console.log('apiEndPoint', apiEndPoint);
+        this.readCode();
+    }
+
+    readCode() {
+        const native = this.element.nativeElement;
+        const code = native.getAttribute('code');
+        if (code) {
+            localStorage.setItem('code', code);            
+        } else {
+            localStorage.removeItem('code');
+        }
     }
 
     removeNavbar() {

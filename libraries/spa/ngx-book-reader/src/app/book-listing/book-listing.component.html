@@ -8,18 +8,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1.</td>
-                <td><a routerLink="/books/1/reader">Book 1</a></td>
-            </tr>
-            <tr>
-                <td>2.</td>
-                <td><a routerLink="/books/2/reader">Book 2</a></td>
-            </tr>
-            <tr>
-                <td>3.</td>
-                <td><a routerLink="/books/3/reader">Book 3</a></td>
-            </tr>
+                <tr *ngFor="let book of bookList; let i = index">
+                    <td>{{i + 1}}</td>
+                    <td><a routerLink="/books/{{book.id}}/reader">{{book.name}}</a></td>
+                </tr>
             </tbody>
         </table>
     </div>

@@ -2,7 +2,14 @@ export class BookChapter {
     id: number;
     position: number;
     name: string;
-    content: string;
+    text: string;
+    createdAt: Date;
+    description: string;
+    partOf: any;
+    headline: string;
+    locale: string;
+    about: string;
+
     parent: BookChapter;
     children: BookChapter[];
 }

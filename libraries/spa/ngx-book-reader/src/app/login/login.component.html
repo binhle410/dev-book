@@ -26,11 +26,17 @@
         <div class="text-center logo"><img width="40%" src="https://www.magenta-wellness.com/assets/evoucher/img/logo.jpg" /></div>
         <h2 class="presentation-subtitle text-center">Sign in with your NRIC and Date of Birth</h2>
         <form class="register-form">
+          <div class="input-group form-group-no-border" *ngIf="!coded">
+                      <span class="input-group-addon pk-input-group-addon rounded-right-0">
+                          <i class="nc-icon nc-badge"></i>
+                      </span>
+            <input type="text" name="code" [(ngModel)]="code" class="form-control" placeholder="Company Code">
+          </div>
           <div class="input-group form-group-no-border">
                       <span class="input-group-addon pk-input-group-addon rounded-right-0">
                           <i class="nc-icon nc-badge"></i>
                       </span>
-            <input type="text" class="form-control" placeholder="NRIC/Work Permit Number">
+            <input type="text" name="nric" [(ngModel)]="nric" class="form-control" placeholder="NRIC/Work Permit Number">
           </div>
           <div class="input-group form-group-no-border">
             <div class="input-group date">
@@ -38,10 +44,10 @@
                               <i class="nc-icon nc-calendar-60"></i>
                           </span>
               <input class="form-control" placeholder="Date of Birth"
-                     name="dp" [(ngModel)]="dob" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()">
+                     name="dp" [(ngModel)]="dob" ngbDatepicker #d="ngbDatepicker" [minDate]="{year: 1900, month: 1, day: 1}" (click)="d.toggle()">
             </div>
           </div>
-          <button class="btn btn-danger btn-block btn-round" (click)="test()">Register</button>
+          <button class="btn btn-danger btn-block btn-round" (click)="login()">Register</button>
         </form>
       </div>
     </div>

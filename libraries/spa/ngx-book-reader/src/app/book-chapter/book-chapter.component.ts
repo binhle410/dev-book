@@ -17,7 +17,7 @@ export class BookChapterComponent implements OnInit {
   }
 
   isScrolledToView() {
-    console.log('this.scrollToChapterId is ',this.scrollToChapterId,'id param is', this.chapter.id);
+    // console.log('this.scrollToChapterId is ',this.scrollToChapterId,'id param is', this.chapter.id);
     return this.scrollToChapterId === this.chapter.id;
   }
 }

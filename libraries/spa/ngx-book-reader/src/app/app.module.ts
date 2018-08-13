@@ -16,6 +16,7 @@ import { BookReaderComponent } from './book-reader/book-reader.component';
 import { BookModalTocComponent } from './book-modal-toc/book-modal-toc.component';
 import { BookContactComponent } from './book-contact/book-contact.component';
 import { BookChapterComponent } from './book-chapter/book-chapter.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -28,14 +29,14 @@ import { BookChapterComponent } from './book-chapter/book-chapter.component';
     BookContactComponent,
     BookChapterComponent
   ],
-    entryComponents: [BookModalTocComponent],
-    imports: [
+  entryComponents: [BookModalTocComponent],
+  imports: [
     BrowserModule,
     FormsModule,
     ScrollSpyModule.forRoot(),
     ScrollSpyIndexModule,
     ScrollSpyAffixModule,
-
+    HttpClientModule,
     AppRoutingModule,
     NgbModule.forRoot()
   ],

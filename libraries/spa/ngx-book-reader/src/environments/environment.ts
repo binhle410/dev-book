@@ -3,10 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiEndPoint: 'http://dev-book.magentapulse.com/api'
 };
-export const apiEndPoint = 'http://127.0.0.1:8000/api';
-
 /*
  * In development mode, to ignore zone related error stack frames such as
  * `zone.run`, `zoneDelegate.invokeTask` for easier debugging, you can
