@@ -5,12 +5,20 @@
             <tr>
                 <th width="10%">#</th>
                 <th>Book Title</th>
+                <th width="10%"></th>
             </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let book of bookList; let i = index">
                     <td>{{i + 1}}</td>
-                    <td><a routerLink="/books/{{book.id}}/reader">{{book.name}}</a></td>
+                    <td>
+                        <a *ngIf="book.id != editing" routerLink="/books/{{book.id}}/reader">{{book.name}}</a>
+                        <input [hidden]="book.id != editing" id="edit-{{book.id}}" type="text" [(ngModel)]="book.name" (keyup.enter)="save(book)" (blur)="save(book)" (keyup.esc)="cancel(book)">
+                    </td>
+                    <td style="text-align: center">
+                        <a *ngIf="book.id != editing" (click)="edit(book)"><i class="fas fa-edit"></i></a>
+                        <a *ngIf="book.id == editing" (click)="save(book)" style="color: #51bcda"><i class="fas fa-check"></i></a>
+                    </td>
                 </tr>
             </tbody>
         </table>

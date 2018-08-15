@@ -1,5 +1,10 @@
 <div>
-  <h4 id="chapter-{{chapter.id}}">{{chapter.name}}</h4>
+  <h4 id="chapter-{{chapter.id}}">
+    <span *ngIf="chapter.id != editing">{{chapter.name}}</span>
+    <input [hidden]="chapter.id != editing" (keyup.enter)="save(chapter)" (blur)="save(chapter)" (keyup.esc)="cancel(chapter)" [(ngModel)]="chapter.name" type="text">
+    <a *ngIf="chapter.id != editing" (click)="edit(chapter)"><i class="fas fa-edit"></i></a>
+    <a *ngIf="chapter.id == editing" (click)="save(chapter)"><i class="fas fa-check"></i></a>
+  </h4>
   <p [innerHtml]="chapter.text"></p>
   <ng-container *ngIf="chapter.children != null">
     <app-book-chapter *ngFor='let child of chapter.children' class="sub-chapter" [class.padding-navbar]="isScrolledToView(child.id)" [scrollToChapterId]="scrollToChapterId" [chapter]="child" [attr.data-id]="child.id" [attr.data-content]="child.name"></app-book-chapter>

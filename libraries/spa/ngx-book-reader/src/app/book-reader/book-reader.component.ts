@@ -20,6 +20,8 @@ export class BookReaderComponent implements OnInit, AfterViewInit {
     bookId: number;
     book: Book;
     chapters: BookChapter[];
+    editing: number;
+    beforeEdit: string;
 
     constructor(
         private bookService: BookService,
@@ -176,4 +178,18 @@ test1 = 1;
         this.loadBookInfo();
     }
 
+    edit(chapter: BookChapter) {
+        this.editing = chapter.id;
+        this.beforeEdit = chapter.name;
+    }
+
+    save(chapter: BookChapter) {
+        this.editing = -1;
+        // fetch some api
+    }
+
+    cancel(chapter: BookChapter) {
+        this.editing = -1;
+        chapter.name = this.beforeEdit;
+    }
 }

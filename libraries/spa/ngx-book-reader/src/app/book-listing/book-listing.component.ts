@@ -25,11 +25,8 @@ export class BookListingComponent implements OnInit, AfterViewInit {
     bookSubHeading = '';
     inSubChapter = false;
     bookList: Book[];
-
-    openToc() {
-        const modalRef = this.modalService.open(BookModalTocComponent);
-        modalRef.componentInstance.name = 'World';
-    }
+    editing: number;
+    beforeEdit: string;
 
     ngAfterViewInit() {
 
@@ -42,4 +39,26 @@ export class BookListingComponent implements OnInit, AfterViewInit {
         })
     }
 
+    openToc() {
+        const modalRef = this.modalService.open(BookModalTocComponent);
+        modalRef.componentInstance.name = 'World';
+    }
+
+    edit(book: Book) {
+        this.editing = book.id;
+        this.beforeEdit = book.name;
+        document.getElementById(`edit-${book.id}`).focus();
+        console.log(document.getElementById(`edit-${book.id}`));
+        
+    }
+
+    save(book: Book) {
+        this.editing = -1;
+        // fetch some api
+    }
+
+    cancel(book: Book) {
+        this.editing = -1;
+        book.name = this.beforeEdit;
+    }
 }

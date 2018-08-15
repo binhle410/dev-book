@@ -54,7 +54,6 @@ export class AppComponent implements OnInit, AfterViewInit {
             // console.log('removing navbar');
             return true;
         } else {
-            console.log('keeping navbar ', titlee);
             return false;
         }
     }

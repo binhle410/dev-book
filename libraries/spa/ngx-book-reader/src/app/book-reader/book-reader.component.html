@@ -36,9 +36,20 @@
             <div class="d-none d-md-block col-md-4 book-chapters">
                 <h3>Table of Contents</h3>
                 <ul>
-                    <li *ngFor="let chapter of chapters"><span (click)="scrollToChapter(chapter.id, 50)">{{chapter.name}}</span>
+                    <li *ngFor="let chapter of chapters">
+                        <span>
+                            <span *ngIf="chapter.id != editing" (click)="scrollToChapter(chapter.id, 50)">{{chapter.name}}</span>
+                            <input [hidden]="chapter.id != editing" (keyup.enter)="save(chapter)" (blur)="save(chapter)" (keyup.esc)="cancel(chapter)" [(ngModel)]="chapter.name" type="text">
+                            <a *ngIf="chapter.id != editing" (click)="edit(chapter)"><i class="fas fa-edit"></i></a>
+                            <a *ngIf="chapter.id == editing" (click)="save(chapter)"><i class="fas fa-check"></i></a>
+                        </span>
                         <ul>
-                            <li *ngFor="let child of chapter.children" (click)="scrollToChapter(child.id, 70)">{{child.name}}</li>
+                            <li *ngFor="let child of chapter.children">
+                                <span *ngIf="child.id != editing" (click)="scrollToChapter(child.id, 70)">{{child.name}}</span>
+                                <input [hidden]="child.id != editing" (keyup.enter)="save(child)" (blur)="save(child)" (keyup.esc)="cancel(child)" [(ngModel)]="child.name" type="text">
+                                <a *ngIf="child.id != editing" (click)="edit(child)"><i class="fas fa-edit"></i></a>
+                                <a *ngIf="child.id == editing" (click)="save(child)"><i class="fas fa-check"></i></a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -50,11 +61,6 @@
                     <div [scrollSpyIndex]="{id: 'subChapters', selector: 'sub-chapter'}">
                         <app-book-chapter *ngFor='let chapter of chapters' [class.sub-chapter]="isSubChapter(chapter.id)" [class.chapter]="!isSubChapter(chapter.id)" [class.padding-navbar]="isScrolledToView(chapter.id)" [scrollToChapterId]=[scrollToChapterId] [chapter]="chapter" [attr.data-id]="chapter.id" [attr.data-content]="chapter.name">
                         </app-book-chapter>
-
-
-                        <div #view1 [class.padding-navbar]="isScrolledToView(21)" data-id="21" class="chapter" data-content="Hello Chapter 2">
-                            <h1>Imhere</h1>
-                        </div>    
                     </div>
                 </div>
             </div>
