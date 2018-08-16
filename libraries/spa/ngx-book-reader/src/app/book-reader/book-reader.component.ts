@@ -162,6 +162,7 @@ test1 = 1;
     loadChapters() {
         this.bookChapterService.getBookChapters(this.bookId).subscribe(chapters => {
             this.chapters = chapters;
+            console.log(chapters);
         });
     }
 

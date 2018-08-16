@@ -34,7 +34,6 @@ export class BookListingComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.bookService.all().subscribe(books => {
-            console.log(books);
             this.bookList = books;
         })
     }
@@ -48,8 +47,6 @@ export class BookListingComponent implements OnInit, AfterViewInit {
         this.editing = book.id;
         this.beforeEdit = book.name;
         document.getElementById(`edit-${book.id}`).focus();
-        console.log(document.getElementById(`edit-${book.id}`));
-        
     }
 
     save(book: Book) {

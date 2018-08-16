@@ -1,6 +1,8 @@
 export class BookChapter {
     id: number;
     position: number;
+    chapterNumber: number;
+    subChapterNumber: number;
     name: string;
     text: string;
     createdAt: Date;
