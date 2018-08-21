@@ -83,7 +83,6 @@ test1 = 1;
 
     ngAfterViewInit() {
         this.scrollSpyService.getObservable('window').subscribe((e: any) => {
-            // console.log('e.target.pageYOffset: ', e.target.pageYOffset, 'e.target.scrollY: ', e.target.scrollY, 'e.target.scrollingElement.scrollTop: ', e.target.scrollingElement.scrollTop);
             let currentScrollPosition: number;
             if (typeof e.target.scrollingElement !== 'undefined') {
                 currentScrollPosition = e.target.scrollingElement.scrollTop;
@@ -148,6 +147,10 @@ test1 = 1;
         // let items: any[] = this.scrollSpyIndex.getIndex('contexts');
         // console.log('items í ', items);
 
+    }
+
+    ngOnDestroy() {
+        this.scrollSpyService.deleteObservable('window');
     }
 
     loadBookInfo() {
