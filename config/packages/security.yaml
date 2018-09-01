@@ -16,15 +16,15 @@ security:
         admin:
             context:        main
             provider:       magenta_user
-            pattern:        /admin(.*)
+            pattern:        /system(.*)
             form_login:
-                login_path:     /admin/login
+                login_path:     /system/login
                 use_forward:    false
-                check_path:     /admin/login_check
+                check_path:     /system/login_check
                 failure_path:   null
-                default_target_path: /admin/dashboard
+                default_target_path: /system/dashboard
             logout:
-                path:           /admin/logout
+                path:           /system/logout
             anonymous:          true
             switch_user:        true
 
@@ -75,11 +75,11 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/logout, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/system/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/system/logout, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/system/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/system/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/system, roles: ROLE_ADMIN }
 
     #        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY, ips: ['%env(DEV_IP)%'] }
         - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }

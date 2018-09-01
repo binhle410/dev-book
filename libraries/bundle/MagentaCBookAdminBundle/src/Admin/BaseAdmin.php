@@ -2,6 +2,8 @@
 
 namespace Magenta\Bundle\CBookAdminBundle\Admin;
 
+use Magenta\Bundle\CBookAdminBundle\Admin\Organisation\OrganisationAdmin;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 
@@ -16,7 +18,84 @@ class BaseAdmin extends AbstractAdmin {
 	 */
 	const CHILDREN = null;
 	
+	protected $ivoryCkeditor = array();
+	
+	protected $translationDomain = 'MagentaCBookAdminBundle'; // default is 'messages'
+	
+	protected $action = '';
+	protected $actionParams = [];
+	
+	
 	private $isAdmin;
+	
+	protected function getCurrentOrganisationFromAncestors(BaseAdmin $parent = null) {
+		if(empty($parent)) {
+			return null;
+		}
+		if($parent instanceof OrganisationAdmin) {
+			return $parent->getSubject();
+		}
+		$grandpa = $parent->getParent();
+		if($grandpa instanceof OrganisationAdmin) {
+			return $grandpa->getSubject();
+		} else {
+			return $this->getCurrentOrganisationFromAncestors($grandpa);
+		}
+	}
+	
+	protected function getCurrentOrganisationMember($required = false) {
+		$user   = $this->getLoggedInUser();
+		$person = $user->getPerson();
+		if(empty($person)) {
+			return null;
+		}
+		
+		return $person->getMemberOfOrganisation($this->getCurrentOrganisation());
+	}
+	
+	/**
+	 * @return Organisation|null
+	 */
+	protected
+	function getCurrentOrganisation(
+		$required = true
+	) {
+		if( ! empty($orgId = $this->getRequest()->query->getInt('organisation', 0))) {
+			$org = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Organisation::class)->find($orgId);
+		} else {
+			$org = $this->getCurrentOrganisationFromAncestors($this->getParent());
+		}
+		
+		if(empty($org)) {
+			$user = $this->getLoggedInUser();
+			if(empty($org = $user->getAdminOrganisation())) {
+				if( ! empty($person = $user->getPerson())) {
+					/** @var OrganisationMember $m */
+					$m = $person->getMembers()->first();
+					if( ! empty($m)) {
+						$org = $m->getOrganization();
+					}
+				}
+			}
+		}
+		
+		if(empty($org)) {
+			if($required) {
+				throw new UnauthorizedHttpException('Unauthorised access');
+			}
+		}
+		
+		return $org;
+	}
+	
+	protected
+	function getLoggedInUser() {
+		if($this->user === null) {
+			$this->user = $this->getConfigurationPool()->getContainer()->get(UserService::class)->getUser();
+		}
+		
+		return $this->user;
+	}
 	
 	protected function isAdmin() {
 		if($this->isAdmin === null) {
@@ -25,32 +104,13 @@ class BaseAdmin extends AbstractAdmin {
 		
 		return $this->isAdmin;
 	}
-	
-	protected $ivoryCkeditor = array();
-	
-	protected $translationDomain = 'MagentaCBookAdminBundle'; // default is 'messages'
-	
-	protected $action = '';
-	protected $actionParams = [];
-	
+
 	public function getTemplate($name) {
 		return $this->getTemplateRegistry()->getTemplate($name);
 	}
 	
 	protected function getChildrenConst() {
 		return self::CHILDREN;
-	}
-	
-	/**
-	 * @var integer
-	 */
-	protected $namHoc;
-	
-	/**
-	 * @return int
-	 */
-	public function getNamHoc() {
-		return $this->namHoc;
 	}
 	
 	/**

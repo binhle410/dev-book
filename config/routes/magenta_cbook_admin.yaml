@@ -1,6 +1,15 @@
 magenta_user:
     resource: "@MagentaCBookAdminBundle/Resources/config/routing/all.xml"
-    prefix: /admin
+    prefix: '%SYSTEM_PREFIX%'
+
+admin_area:
+    resource: "@SonataAdminBundle/Resources/config/routing/sonata_admin.xml"
+    prefix: '%SYSTEM_PREFIX%'
+
+_sonata_admin:
+    resource: .
+    type: sonata_admin
+    prefix: '%SYSTEM_PREFIX%'
 
 sonata_media_gallery:
     resource: '@SonataMediaBundle/Resources/config/routing/gallery.xml'
