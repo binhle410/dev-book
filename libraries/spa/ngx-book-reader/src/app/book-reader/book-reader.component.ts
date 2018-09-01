@@ -6,6 +6,9 @@ import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {BookModalTocComponent} from "../book-modal-toc/book-modal-toc.component";
 import { BookChapterService } from '../model/book-chapter.service';
 import { BookChapter } from '../model/book-chapter';
+import { ActivatedRoute } from '@angular/router';
+import { Book } from '../model/book';
+import { BookService } from '../model/book.service';
 
 @Component({
     selector: 'app-book-reader',
@@ -14,11 +17,22 @@ import { BookChapter } from '../model/book-chapter';
 })
 
 export class BookReaderComponent implements OnInit, AfterViewInit {
+    bookId: number;
+    book: Book;
     chapters: BookChapter[];
+    editing: number;
+    beforeEdit: string;
 
-    constructor(private bookChapterService: BookChapterService, private hostElement: ElementRef, private modalService: NgbModal, private dataTransfer: DataTransferService, private scrollSpyService: ScrollSpyService, private scrollSpyIndex: ScrollSpyIndexService) {
-        this.chapters = bookChapterService.getBookChapters();
-    }
+    constructor(
+        private bookService: BookService,
+        private bookChapterService: BookChapterService, 
+        private hostElement: ElementRef, 
+        private modalService: NgbModal, 
+        private dataTransfer: DataTransferService, 
+        private scrollSpyService: ScrollSpyService, 
+        private scrollSpyIndex: ScrollSpyIndexService,
+        private activeRoute: ActivatedRoute
+    ) { }
 test1 = 1;
     scroll(el) {
         // console.log('after scroll',el.scrollTop);
@@ -50,7 +64,8 @@ test1 = 1;
 
 
     isScrolledToView(id: number) {
-        console.log('this.scrollToChapterId is ',this.scrollToChapterId,'id param is',id);
+        // console.log('this.scrollToChapterId is ',this.scrollToChapterId,'id param is',id);
+        this.viewingChapter = id;
         return this.scrollToChapterId === id;
     }
 
@@ -58,15 +73,16 @@ test1 = 1;
     bookHeading = 'Your Books on the Cloud';
     bookSubHeading = '';
     inSubChapter = false;
+    viewingChapter: number;
 
     openToc() {
         const modalRef = this.modalService.open(BookModalTocComponent);
-        modalRef.componentInstance.name = 'World';
+        modalRef.componentInstance.book = this.book;
+        modalRef.componentInstance.chapters = this.chapters;
     }
 
     ngAfterViewInit() {
         this.scrollSpyService.getObservable('window').subscribe((e: any) => {
-            // console.log('e.target.pageYOffset: ', e.target.pageYOffset, 'e.target.scrollY: ', e.target.scrollY, 'e.target.scrollingElement.scrollTop: ', e.target.scrollingElement.scrollTop);
             let currentScrollPosition: number;
             if (typeof e.target.scrollingElement !== 'undefined') {
                 currentScrollPosition = e.target.scrollingElement.scrollTop;
@@ -116,7 +132,7 @@ test1 = 1;
                 }
             }
 
-            console.log('/////////////////////////////', 'subChapters contextData Id is ', contextData);
+            // console.log('/////////////////////////////', 'subChapters contextData Id is ', contextData);
             // this.selectContext$.next(contextId);
             // this.dataTransfer.setbookHeading(contextData);
             if (contextData != undefined && contextData != null && contextData != '') {
@@ -133,8 +149,51 @@ test1 = 1;
 
     }
 
-    ngOnInit() {
+    ngOnDestroy() {
+        this.scrollSpyService.deleteObservable('window');
+    }
+
+    loadBookInfo() {
+        this.activeRoute.params.subscribe(params => {
+            this.bookId = params['id'];
+            this.bookService.get(this.bookId).subscribe(book => this.book = book);
+            this.loadChapters();
+        });
 
     }
 
+    loadChapters() {
+        this.bookChapterService.getBookChapters(this.bookId).subscribe(chapters => {
+            this.chapters = chapters;
+            console.log(chapters);
+        });
+    }
+
+    getViewingSubChapters() : BookChapter[] {
+        return this.chapters.find(chapter => chapter.name == this.bookHeading).children;
+    }
+
+    scrollToChapter(id: number, up: number) {
+        document.querySelector(`#chapter-${id}`).scrollIntoView();
+        window.scrollTo(window.scrollX, window.scrollY - up);
+    }
+
+    ngOnInit() {
+        this.loadBookInfo();
+    }
+
+    edit(chapter: BookChapter) {
+        this.editing = chapter.id;
+        this.beforeEdit = chapter.name;
+    }
+
+    save(chapter: BookChapter) {
+        this.editing = -1;
+        // fetch some api
+    }
+
+    cancel(chapter: BookChapter) {
+        this.editing = -1;
+        chapter.name = this.beforeEdit;
+    }
 }

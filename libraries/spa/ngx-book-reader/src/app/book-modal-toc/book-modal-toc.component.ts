@@ -10,8 +10,15 @@ export class BookModalTocComponent implements OnInit {
 
   ngOnInit() {
   }
-    @Input() name;
+    @Input() book;
+    @Input() chapters;
 
     constructor(public activeModal: NgbActiveModal) {
+    }
+
+    scrollToChapter(id: number, up: number) {
+      document.querySelector(`#chapter-${id}`).scrollIntoView();
+      window.scrollTo(window.scrollX, window.scrollY - up);
+      this.activeModal.close('Scroll to chapter');
     }
 }

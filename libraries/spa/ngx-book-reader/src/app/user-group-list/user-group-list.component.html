@@ -1,0 +1,39 @@
+<div class="section">
+  <div class="container-fluid">
+    <kendo-grid
+        [data]="gridView"
+        [sortable]="{
+          allowUnsort: allowUnsort,
+          mode: multiple ? 'multiple' : 'single'
+          }"
+        selectable="true"
+      >
+      <kendo-grid-checkbox-column></kendo-grid-checkbox-column>
+      <kendo-grid-column title="ID" field="id"></kendo-grid-column>
+      <kendo-grid-column title="Email" field="email"></kendo-grid-column>
+      <kendo-grid-column title="First Name" field="firstName"></kendo-grid-column>
+      <kendo-grid-column title="Last Name" field="lastName"></kendo-grid-column>
+      <kendo-grid-column title="Contact No." field="contactNo"></kendo-grid-column>
+      <kendo-grid-column title="Verification Code" field="verificationCode"></kendo-grid-column>
+      <kendo-grid-column title="Employee Class" field="employeeClass"></kendo-grid-column>
+      <kendo-grid-column title="Date Added" field="dateAdded"></kendo-grid-column>
+      <kendo-grid-column title="Active">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          <input id="active-{{dataItem.id}}" type="checkbox" [(ngModel)]="dataItem.active" class="k-checkbox">
+          <label for="active-{{dataItem.id}}" class="k-checkbox-label"></label>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column title="Cloud Book">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          <a href="{{dataItem.id}}"><i class="fas fa-arrow-right"></i></a>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column title="Action">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          <a href="{{dataItem.id}}"><i class="fas fa-trash"></i></a>
+        </ng-template>
+      </kendo-grid-column>
+    </kendo-grid>
+    <button kendoButton look="outline">Add</button>
+  </div>
+</div>

@@ -1,6 +1,15 @@
 <div>
-  <h4>{{chapter.name}}</h4>
-  <p [innerHtml]="chapter.content"></p>
+  <h4 id="chapter-{{chapter.id}}">
+    <span *ngIf="chapter.id != editing">{{chapter.name}}</span>
+    <input [hidden]="chapter.id != editing" (keyup.enter)="save(chapter)" (keyup.esc)="cancel(chapter)" [(ngModel)]="chapter.id" type="text" style="width: 50px">.
+    <input [hidden]="chapter.id != editing" (keyup.enter)="save(chapter)" (keyup.esc)="cancel(chapter)" [(ngModel)]="chapter.name" type="text">
+  </h4>
+  <p>
+    <a *ngIf="chapter.id != editing" (click)="edit(chapter)"><i class="fas fa-edit"></i></a>
+    <a *ngIf="chapter.id == editing" (click)="save(chapter)"><i class="fas fa-check"></i></a>
+  </p>
+  <editor [hidden]="chapter.id != editing" apiKey="5g5faf78gvk6yfq9bd3bbfjo858kjx1q8o0nbiwtygo2e4er" [(ngModel)]="chapter.text"></editor>
+  <p [hidden]="chapter.id == editing" [innerHtml]="chapter.text"></p>
   <ng-container *ngIf="chapter.children != null">
     <app-book-chapter *ngFor='let child of chapter.children' class="sub-chapter" [class.padding-navbar]="isScrolledToView(child.id)" [scrollToChapterId]="scrollToChapterId" [chapter]="child" [attr.data-id]="child.id" [attr.data-content]="child.name"></app-book-chapter>
   </ng-container>
