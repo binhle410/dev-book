@@ -1,0 +1,9 @@
+magenta_book_index:
+  path:      /{accessCode}/{employeeCode}
+  controller: MagentaCBookAdminBundle:BookReader:index
+  defaults:   { format: reference }
+
+magenta_book_reader:
+  path:      /{accessCode}/{employeeCode}/reader
+  controller: MagentaCBookAdminBundle:BookReader:reader
+  defaults:   { format: reference }

@@ -19,6 +19,10 @@ sonata_media:
     resource: '@SonataMediaBundle/Resources/config/routing/media.xml'
     prefix: /media
 
+magenta_cbook:
+    resource: "@MagentaCBookAdminBundle/Resources/config/routing/book.yaml"
+    prefix: '%CBOOK_PREFIX%'
+
 magenta_media_view_binary:
     path:      /media/view-binary/{id}/{format}
     controller: MagentaCBookAdminBundle:Media:viewBinary

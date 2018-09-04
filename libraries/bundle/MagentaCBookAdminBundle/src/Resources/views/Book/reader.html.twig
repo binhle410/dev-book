@@ -1,0 +1,20 @@
+{% extends '@MagentaCBookAdmin/Book/base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h1>{{ book.name }}</h1>
+        {% for chapter in book.chapters %}
+            <h2 class="chapter-name">{{ chapter.name }}</h2>
+            <div>{{ chapter.text | raw }}</div>
+        {% endfor %}
+    </div>
+{% endblock body %}
+
+{% block javascript %}
+    chapters = $('.chapter-name');
+
+    window.onscroll = (e) => {
+        console.log(e);
+        console.log(chapters);
+    }
+{% endblock javascript %}

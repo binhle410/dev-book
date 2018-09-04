@@ -4,6 +4,7 @@ parameters:
     # environment variables are not available yet.
     # You should not need to change this value.
     SYSTEM_PREFIX: '%env(SYSTEM_PREFIX)%'
+    CBOOK_PREFIX: '%env(CBOOK_PREFIX)%'
 
 twig:
     form_themes:
