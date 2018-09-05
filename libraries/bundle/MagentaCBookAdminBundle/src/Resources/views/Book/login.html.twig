@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ asset('pk2/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('pk2/css/paper-kit.css') }}" />
+    <link rel="stylesheet" href="{{ asset('pk2/css/nucleo-icons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}" />
+    <style>
+        .moving-clouds{
+            position: absolute;
+            z-index: 1;
+            bottom: 0;
+            left: 0;
+            width: 250.625em;
+            height: 43.75em;
+            -webkit-animation: cloudLoop 80s linear infinite;
+            animation: cloudLoop 80s linear infinite;
+        }
+        @keyframes cloudLoop{
+            0% {
+                -webkit-transform:translate3d(0,0,0);
+                transform:translate3d(0,0,0)
+            }
+            100% {
+                -webkit-transform:translate3d(-50%,0,0);
+                transform:translate3d(-50%,0,0)
+            }
+        }
+        .input-group {
+            margin: 10px 0px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="500">
+        <div class="container">
+            <div class="navbar-translate">
+                <a class="navbar-brand" href="http://www.magentapulse.com">Your Books on the Cloud</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="wrapper">
+        <div class="page-header section-dark" style="background-image: url('{{ asset('img/antoine-barres.jpg') }}')">
+            <div class="filter"></div>
+            <div class="content-center" style="z-index: 900;">
+                <div class="container">
+                    <div class="title-brand">
+                        <div class="fog-low">
+                            <img src="{{ asset('img/fog-low.png') }}" alt="">
+                        </div>
+                        <div class="fog-low right">
+                            <img src="{{ asset('img/fog-low.png') }}" alt="">
+                        </div>
+                    </div>
+                    <div class="text-center logo"><img width="40%" style="border-radius: 2vw" src="https://www.magenta-wellness.com/assets/evoucher/img/logo.jpg" /></div>
+                    <h2 class="presentation-subtitle text-center">Sign in with your NRIC and Date of Birth</h2>
+                    <form class="register-form">
+                        <div class="input-group form-group-no-border">
+                              <span class="input-group-addon pk-input-group-addon rounded-right-0">
+                                  <i class="nc-icon nc-badge"></i>
+                              </span>
+                            <input type="text" name="code" class="form-control" placeholder="Company Code">
+                        </div>
+                        <div class="input-group form-group-no-border">
+                                <span class="input-group-addon pk-input-group-addon rounded-right-0">
+                                  <i class="nc-icon nc-badge"></i>
+                                </span>
+                            <input type="text" name="nric" class="form-control" placeholder="NRIC/Work Permit Number">
+                        </div>
+                        <div class="input-group form-group-no-border date">
+                                <span class="input-group-addon pk-input-group-addon">
+                                  <i class="nc-icon nc-calendar-60"></i>
+                                </span>
+                            <input type="date" class="form-control" placeholder="Date of Birth" name="dp">
+                        </div>
+                        <button class="btn btn-danger btn-block btn-round">Register</button>
+                    </form>
+                </div>
+            </div>
+            <div class="moving-clouds" style="background-image: url('{{ asset('img/clouds.png') }}'); "></div>
+        </div>
+    </div>
+</body>
+</html>

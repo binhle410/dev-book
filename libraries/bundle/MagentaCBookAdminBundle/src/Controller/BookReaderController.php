@@ -9,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class BookReaderController extends Controller
 {
+    public function loginAction() {
+        return $this->render('@MagentaCBookAdmin/Book/login.html.twig', []);
+    }
 
     public function indexAction($accessCode, $employeeCode) {
         $b1 = new OrgBook();
@@ -48,6 +51,13 @@ class BookReaderController extends Controller
         $book->setChapters($chapters);
         return $this->render('@MagentaCBookAdmin/Book/reader.html.twig', [
             'book' => $book,
+            'accessCode' => $accessCode,
+            'employeeCode' => $employeeCode
+        ]);
+    }
+
+    public function contactAction($accessCode, $employeeCode) {
+        return $this->render('@MagentaCBookAdmin/Book/contact.html.twig', [
             'accessCode' => $accessCode,
             'employeeCode' => $employeeCode
         ]);

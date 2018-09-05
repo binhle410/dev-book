@@ -32,6 +32,12 @@
             background-color: white;
             font-weight: bold;
         }
+        #toc-modal .modal-title {
+            font-weight: bold;
+        }
+        #toc-modal a {
+            font-size: 14px;
+        }
     </style>
 {% endblock %}
 
@@ -108,6 +114,40 @@
             </div>
         </div>
     </div>
+    <div class="d-md-none" style="position: fixed; width: 100%; bottom: 0px; background-color: white; text-align: center; padding: 5px 0px;">
+        <a class="btn btn-outline-primary btn-sm btn-border btn-round" href="{{ path('magenta_book_index', {'accessCode': accessCode, 'employeeCode': employeeCode}) }}">HOME</a>
+        <a class="btn btn-sm btn-outline-primary btn-border btn-round" href="{{ path('magenta_book_contact', {'accessCode': accessCode, 'employeeCode': employeeCode}) }}">CONTACTS</a>
+        <a class="btn btn-sm btn-outline-primary btn-border btn-round" href="" data-toggle="modal" data-target="#toc-modal">BOOK TOC </a>
+    </div>
+    <div class="modal fade" id="toc-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">{{ book.name }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        {% for i, chapter in book.chapters %}
+                            <li><a href="#chapter-{{ i+1 }}">{{ i+1 }}. {{ chapter.name }}</a></li>
+                            <ul>
+                                {% for ii, sub in chapter.subChapters %}
+                                    <li><a href="#chapter-{{ i+1 }}-{{ ii+1 }}">{{ i+1 }}.{{ ii+1 }}. {{ sub.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <div class="right-side">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascript %}
@@ -127,5 +167,8 @@
         if ($(window).scrollTop() < 50) {
             $('#spy-chapter-navtitle').text('Your book on the cloud');
         }
+    })
+    $('#toc-modal a').click(() => {
+        $('#toc-modal').modal('hide');
     })
 {% endblock %}
