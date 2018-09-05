@@ -4,6 +4,6 @@ magenta_book_index:
   defaults:   { format: reference }
 
 magenta_book_reader:
-  path:      /{accessCode}/{employeeCode}/reader
+  path:      /{accessCode}/{employeeCode}/read
   controller: MagentaCBookAdminBundle:BookReader:reader
   defaults:   { format: reference }

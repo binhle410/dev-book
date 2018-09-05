@@ -1,20 +1,22 @@
 {% extends '@MagentaCBookAdmin/Book/base.html.twig' %}
 
 {% block body %}
-    <table v-if="!reading" class="table table-striped">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Name</th>
-        </tr>
-        </thead>
-        <tbody>
-            {% for i, book in books %}
-                <tr class="hand-hover">
-                    <td>{{ i + 1 }}</td>
-                    <td><a href="{{ employeeCode }}/reader">{{ book.name }}</a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="container">
+        <table v-if="!reading" class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for i, book in books %}
+                    <tr class="hand-hover">
+                        <td>{{ i + 1 }}</td>
+                        <td><a href="{{ path('magenta_book_reader', {'accessCode': accessCode, 'employeeCode': employeeCode}) }}">{{ book.name }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock body %}
