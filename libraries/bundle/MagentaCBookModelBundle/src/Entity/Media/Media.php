@@ -43,7 +43,9 @@ class Media extends AppMedia
     {
     	parent::__construct();
     }
-
+    public function getPublicMediaUrl(){
+    return 'https://product.hstatic.net/1000149700/product/cosplay-nu-thuy-thu-sexy-8_1024x1024.jpg';
+    }
     public function getMediaExtension()
     {
         $ext = $this->getExtension();

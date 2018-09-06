@@ -1,0 +1,19 @@
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   '%MEDIA_API_PREFIX%/doc'
+
+#magenta_media_api_sonata_api_media:
+#    type:         rest
+#    prefix:       /media-api
+#    resource:     "@SonataMediaBundle/Resources/config/routing/api.xml"
+
+magenta_media_api_sonata_gallery:
+    type:         rest
+    prefix:       '%MEDIA_API_PREFIX%'
+    resource:     'Sonata\MediaBundle\Controller\Api\GalleryController'
+
+magenta_media_api_sonata_media:
+    type:         rest
+    prefix:       '%MEDIA_API_PREFIX%'
+    resource:     'Magenta\Bundle\CBookMediaApiBundle\Controller\MediaController'
+
