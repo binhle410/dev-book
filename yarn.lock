@@ -2864,7 +2864,13 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
 
-jquery@>=1.11.0, jquery@>=1.9.1, jquery@^3.3.1:
+jqtree@^1.4.8:
+  version "1.4.8"
+  resolved "https://registry.yarnpkg.com/jqtree/-/jqtree-1.4.8.tgz#026b8c0506879e5f71b881a0a3d92c05b7d2e69c"
+  dependencies:
+    jquery ">=1.9"
+
+jquery@>=1.11.0, jquery@>=1.9, jquery@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
@@ -2948,12 +2954,6 @@ jsprim@^1.2.2:
     extsprintf "1.3.0"
     json-schema "0.2.3"
     verror "1.10.0"
-
-jstree@^3.3.5:
-  version "3.3.5"
-  resolved "https://registry.yarnpkg.com/jstree/-/jstree-3.3.5.tgz#9c578db32d0a643775cddd8020ad5992f4119c13"
-  dependencies:
-    jquery ">=1.9.1"
 
 killable@^1.0.0:
   version "1.0.0"
