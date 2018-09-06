@@ -14,6 +14,9 @@
         #spy-chapter-navtitle, .spy-subchapter-navtitle {
             font-weight: bold;
         }
+        .editing .offset-anchor {
+            margin-top: 0px !important;
+        }
         .offset-anchor {
             padding-top: 75px;
             margin-top: -75px;
@@ -37,6 +40,10 @@
         }
         #toc-modal a {
             font-size: 14px;
+        }
+        #edit-button, #save-button {
+            float: right;
+            font-size: 20px;
         }
     </style>
 {% endblock %}
@@ -100,14 +107,20 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <h1>{{ book.name }}</h1>
+                <div class="editable" data-name="book-name">
+                    <h1>{{ book.name }}</h1>
+                </div>
+                <div style="position: relative; left: 50px; top: -50px;">
+                    <i id="edit-button" class="nc-icon nc-single-copy-04 hand-hover"></i>
+                    <i id="save-button" class="nc-icon nc-check-2 hand-hover" style="display: none;"></i>
+                </div>
                 {% for i, chapter in book.chapters %}
-                    <h2 id="chapter-{{ i+1 }}" class="offset-anchor chapter-name">{{ i+1 }}. {{ chapter.name }}</h2>
-                    <div>{{ chapter.text | raw }}</div>
+                    <div class="editable" data-name="chapter-{{ i+1 }}-name"><h2 id="chapter-{{ i+1 }}" class="offset-anchor chapter-name">{{ i+1 }}. {{ chapter.name }}</h2></div>
+                    <div class="editable"  data-name="chapter-{{ i+1 }}-text">{{ chapter.text | raw }}</div>
                     <div>
                         {% for ii, sub in chapter.subChapters %}
-                            <h3 id="chapter-{{ i+1 }}-{{ ii+1 }}" class="offset-anchor chapter-name">{{ i+1 }}.{{ ii+1 }}. {{ sub.name }}</h3>
-                            <div>{{ sub.text | raw }}</div>
+                            <div class="editable" data-name="chapter-{{ i+1 }}-{{ ii+1 }}-name"><h3 id="chapter-{{ i+1 }}-{{ ii+1 }}" class="offset-anchor chapter-name">{{ i+1 }}.{{ ii+1 }}. {{ sub.name }}</h3></div>
+                            <div class="editable" data-name="chapter-{{ i+1 }}-{{ ii+1 }}-text">{{ sub.text | raw }}</div>
                         {% endfor %}
                     </div>
                 {% endfor %}
@@ -170,5 +183,24 @@
     })
     $('#toc-modal a').click(() => {
         $('#toc-modal').modal('hide');
+    })
+    $('#edit-button').click(() => {
+        $('.editable').froalaEditor({
+            imageUploadURL: '{{ path('bean_playground') }}',
+            toolbarInline: true,
+            toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color', 'emoticons', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo']
+        }).on('froalaEditor.image.uploaded', function (e, editor, response) {
+            console.log(e, editor, response)
+        })
+        $('.editable').addClass('editing');
+        $('#save-button').show()
+        $('#edit-button').hide()
+    })
+    $('#save-button').click(() => {
+        $('.editable').froalaEditor('destroy');
+        $('.editable').removeClass('editing');
+        $('#save-button').hide()
+        $('#edit-button').show()
+        saveBookContentChanges();
     })
 {% endblock %}
