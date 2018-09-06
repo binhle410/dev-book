@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<serializer>
+    <class name="Magenta\Bundle\CBookModelBundle\Entity\Media\Base\AppMedia" exclusion-policy="all"
+           xml-root-name="media">
+
+        <property name="id" type="integer" expose="true" since-version="1.0" groups="sonata_api_read, read_medium"/>
+
+        <property name="publicMediaUrl" type="integer" expose="true" since-version="1.0" groups="sonata_api_read, read_medium"/>
+
+        <property name="logoOrganisation" serialized-name="id_logo_organisation"
+                  type="magenta_organisation_organisation_id" expose="true" since-version="1.0"
+                  groups="sonata_api_read,sonata_api_write"/>
+
+        <property name="receiptImageWarranty" serialized-name="id_receipt_image_warranty"
+                  type="magenta_customer_warranty_id" expose="true" since-version="1.0"
+                  groups="sonata_api_read,sonata_api_write"/>
+
+        <property name="imageServiceSheet" serialized-name="id_image_service_sheet"
+                  type="magenta_customer_service_sheet_id" expose="true" since-version="1.0"
+                  groups="sonata_api_read,sonata_api_write"/>
+
+
+    </class>
+</serializer>

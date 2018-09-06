@@ -97,6 +97,7 @@ sonata_admin:
     templates:
         layout: '@MagentaCBookAdmin/standard_layout.html.twig'
         user_block: '@MagentaCBookAdmin/Core/user_block.html.twig'
+        list: '@MagentaCBookAdmin/CRUD/list.html.twig'
 
     assets:
         extra_stylesheets:
