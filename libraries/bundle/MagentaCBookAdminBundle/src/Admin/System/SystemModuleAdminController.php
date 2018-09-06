@@ -13,5 +13,9 @@ use Magenta\Bundle\CBookAdminBundle\Admin\BaseCRUDAdminController;
 
 class SystemModuleAdminController extends BaseCRUDAdminController
 {
-
+    public function listAction()
+    {
+        $this->admin->setTemplate('list', '@MagentaCBookAdmin/Admin/System/SystemModule/CRUD/list.html.twig');
+        return parent::listAction();
+    }
 }
