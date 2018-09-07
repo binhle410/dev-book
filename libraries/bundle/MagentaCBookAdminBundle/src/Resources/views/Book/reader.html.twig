@@ -117,24 +117,24 @@
         <div class="row">
             <div class="d-none d-md-block col-md-4">
                 <div style="position: fixed">
-                    <h2>Table of content</h2>
+                    <h3>Table of content</h3>
                     <div id="toc-sidebar"></div>
                 </div>
             </div>
             <div class="col-md-8">
                 <div class="editable" data-name="book-name">
-                    <h1>{{ book.name }}</h1>
+                    <h2 style="text-align: center">{{ book.name }}</h2>
                 </div>
                 <div class="admin-buttons">
                     <i id="edit-button" class="fa fa-edit hand-hover"></i>
                     <i id="save-button" class="fa fa-save hand-hover" style="display: none;"></i>
                 </div>
                 {% for i, chapter in book.chapters %}
-                    <div class="editable" data-name="chapter-{{ chapter.id }}-name"><h2 id="chapter-{{ i+1 }}" class="offset-anchor chapter-name">{{ i+1 }}. {{ chapter.name }}</h2></div>
+                    <div class="editable" data-name="chapter-{{ chapter.id }}-name"><h3 id="chapter-{{ i+1 }}" class="offset-anchor chapter-name">{{ i+1 }}. {{ chapter.name }}</h3></div>
                     <div class="editable"  data-name="chapter-{{ chapter.id }}-text">{{ chapter.text | raw }}</div>
                     <div>
                         {% for ii, sub in chapter.subChapters %}
-                            <div class="editable" data-name="chapter-{{ sub.id }}-name"><h3 id="chapter-{{ i+1 }}-{{ ii+1 }}" class="offset-anchor chapter-name">{{ i+1 }}.{{ ii+1 }}. {{ sub.name }}</h3></div>
+                            <div class="editable" data-name="chapter-{{ sub.id }}-name"><h4 id="chapter-{{ i+1 }}-{{ ii+1 }}" class="offset-anchor chapter-name">{{ i+1 }}.{{ ii+1 }}. {{ sub.name }}</h4></div>
                             <div class="editable" data-name="chapter-{{ sub.id }}-text">{{ sub.text | raw }}</div>
                         {% endfor %}
                     </div>
