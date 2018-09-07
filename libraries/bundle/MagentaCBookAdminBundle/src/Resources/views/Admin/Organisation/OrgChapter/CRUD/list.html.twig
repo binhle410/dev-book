@@ -1,4 +1,16 @@
-{% extends '@SonataAdmin/CRUD/list.html.twig' %}
+{% extends '@MagentaCBookAdmin/Book/reader.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/manifest.js') }}"></script>
+    <script src="{{ asset('build/app.js') }}"></script>
+    <script src="{{ asset('pk2/js/paper-kit.js') }}"></script>
+    <script src="{{ asset('froala-editor/froala_editor.pkgd.min.js') }}"></script>
 
+    {{ block('javascripts_book') }}
+{% endblock %}
 
+{% block content %}
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}"/>
+    {{ block('body') }}
+{% endblock content %}

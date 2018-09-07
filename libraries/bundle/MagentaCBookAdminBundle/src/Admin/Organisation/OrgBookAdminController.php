@@ -3,8 +3,8 @@
 namespace Magenta\Bundle\CBookAdminBundle\Admin\Organisation;
 
 
-
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseCRUDAdminController;
+use Symfony\Component\HttpFoundation\Response;
 
 class OrgBookAdminController extends BaseCRUDAdminController
 {
