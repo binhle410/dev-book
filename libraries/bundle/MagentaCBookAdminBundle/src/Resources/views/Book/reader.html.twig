@@ -201,7 +201,12 @@
 
 {% block javascripts_book %}
 <script>
+    window.environment = {
+        apiEndPoint: 'https://localhost/dev-book/public/index.php/bean/playground',
+        mediaApiEndPoint: 'https://localhost/dev-book/public/index.php/bean/playground',
+    }
     $(document).ready(($) => {
+
         var toc = [
             {% for i, chapter in book.chapters %}
             {
@@ -258,7 +263,7 @@
         });
         $('#edit-button').click(() => {
             $('.editable').froalaEditor({
-                imageUploadURL: environment.apiEndPoint,
+                imageUploadURL: environment.mediaApiEndPoint,
                 toolbarInline: true,
                 toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color', 'emoticons', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo']
             }).on('froalaEditor.image.uploaded', function (e, editor, response) {
@@ -269,6 +274,20 @@
             $('#save-button').show()
             $('#edit-button').hide()
         })
+        window.saveBookContentChanges = () => {
+            var form = {};
+            $('.editable').each(function(i) {
+                form[`${$(this).data('name')}`] = $(this).html()
+            })
+            console.log(form)
+            $.post(environment.apiEndPoint, form)
+                .done(function(data) {
+                    console.log(data)
+                })
+                .fail(function(error) {
+                    console.log(error)
+                })
+        }
         $('#save-button').click(() => {
             $('.editable').froalaEditor('destroy');
             $('.editable').removeClass('editing');
