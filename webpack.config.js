@@ -13,7 +13,8 @@ Encore
 
     // uncomment to define the assets of the project
     // .addEntry('js/app', './assets/js/app.js')
-    .createSharedEntry('app', './libraries/component/CBookAsset/src/js/app.js')
+    .addEntry('app', './libraries/component/CBookAsset/src/js/app.js')
+    .addEntry('admin', './libraries/component/CBookAsset/src/js/admin.js')
     .addStyleEntry('css/app', './libraries/component/CBookAsset/src/css/app.scss')
 
     // uncomment if you use Sass/SCSS files
