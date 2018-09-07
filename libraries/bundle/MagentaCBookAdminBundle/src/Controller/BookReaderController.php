@@ -20,6 +20,7 @@ class BookReaderController extends Controller
         $b2->setName('React JS');
         $books = [$b1,$b2];
         return $this->render('@MagentaCBookAdmin/Book/index.html.twig', [
+            'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
             'books' => $books,
             'accessCode' => $accessCode,
             'employeeCode' => $employeeCode
@@ -61,6 +62,7 @@ class BookReaderController extends Controller
         $chapters = [$c1, $c2, $c3];
         $book->chapters = ($chapters);
         return $this->render('@MagentaCBookAdmin/Book/reader.html.twig', [
+            'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
             'book' => $book,
             'accessCode' => $accessCode,
             'employeeCode' => $employeeCode
@@ -69,6 +71,7 @@ class BookReaderController extends Controller
 
     public function contactAction($accessCode, $employeeCode) {
         return $this->render('@MagentaCBookAdmin/Book/contact.html.twig', [
+            'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
             'accessCode' => $accessCode,
             'employeeCode' => $employeeCode
         ]);
