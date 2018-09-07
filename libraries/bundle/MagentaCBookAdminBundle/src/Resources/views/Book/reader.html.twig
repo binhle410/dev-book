@@ -126,8 +126,8 @@
                     <h1>{{ book.name }}</h1>
                 </div>
                 <div class="admin-buttons">
-                    <i id="edit-button" class="nc-icon nc-single-copy-04 hand-hover"></i>
-                    <i id="save-button" class="nc-icon nc-check-2 hand-hover" style="display: none;"></i>
+                    <i id="edit-button" class="fa fa-edit hand-hover"></i>
+                    <i id="save-button" class="fa fa-save hand-hover" style="display: none;"></i>
                 </div>
                 {% for i, chapter in book.chapters %}
                     <div class="editable" data-name="chapter-{{ chapter.id }}-name"><h2 id="chapter-{{ i+1 }}" class="offset-anchor chapter-name">{{ i+1 }}. {{ chapter.name }}</h2></div>
