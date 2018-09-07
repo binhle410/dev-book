@@ -219,6 +219,8 @@
         ]
         $('#toc-sidebar').tree({
             data: toc,
+            closedIcon: $('<i class="nc-icon nc-minimal-right"></i>'),
+            openedIcon: $('<i class="nc-icon nc-minimal-down"></i>'),
             dragAndDrop: false,
             onCreateLi: function(node, $li) {
                 $li.find('.jqtree-title').html(
@@ -228,6 +230,8 @@
         });
         $('#toc-modal .modal-body').tree({
             data: toc,
+            closedIcon: $('<i class="nc-icon nc-minimal-right"></i>'),
+            openedIcon: $('<i class="nc-icon nc-minimal-down"></i>'),
             dragAndDrop: false,
             onCreateLi: function(node, $li) {
                 $li.find('.jqtree-title').html(
