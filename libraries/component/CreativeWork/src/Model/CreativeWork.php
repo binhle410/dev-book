@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Bean\Component\CreativeWork\Model;
 
@@ -9,17 +9,24 @@ abstract class CreativeWork extends Thing implements CreativeWorkInterface {
 	
 	/**
 	 * Indicates a CreativeWork that is (in some sense) a part of this CreativeWork.
-	Inverse property: partOf.
+	 * Inverse property: partOf.
 	 * @var \ArrayAccess|array|null
 	 */
 	protected $parts;
 	
 	/**
 	 * Indicates a CreativeWork that this CreativeWork is (in some sense) part of.
-	Inverse property: parts / hasPart.
+	 * Inverse property: parts / hasPart.
 	 * @var CreativeWorkInterface|null
 	 */
 	protected $partOf;
+	
+	/**
+	 * Derived from version: Number in schema.org
+	 * It also has version: Text
+	 * @var integer
+	 */
+	protected $versionNumber = 1;
 	
 	/**
 	 * The position of an item in a series or sequence of items.

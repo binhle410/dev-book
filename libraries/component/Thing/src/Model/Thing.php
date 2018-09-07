@@ -7,7 +7,7 @@ namespace Bean\Component\Thing\Model;
  * Class Thing: The most generic type of item.
  * @package Bean\Component\Thing\Model
  */
-abstract class Thing implements ThingInterface {
+abstract class Thing {
 	
 	protected $id;
 
@@ -26,6 +26,13 @@ abstract class Thing implements ThingInterface {
 	 * @var \DateTime
 	 */
 	protected $createdAt;
+	
+	/**
+	 * NOT part of schema.org
+	 * A thing may have a status like DRAFT, OPEN, CLOSED, EXPIRED, ARCHIVED
+	 * @var string
+	 */
+	protected $status;
 	
 	/**
 	 * The name of the item.

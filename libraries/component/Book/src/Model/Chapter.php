@@ -27,7 +27,7 @@ class Chapter extends CreativeWork implements ChapterInterface {
 	
 	/**
 	 * NOT part of schema.org.
-	 * A Chapter should belong to a Book.
+	 * A Chapter can have sub-chapters
 	 * @var \Countable|\IteratorAggregate|\ArrayAccess|array|null
 	 */
 	protected $subChapters;
@@ -39,7 +39,7 @@ class Chapter extends CreativeWork implements ChapterInterface {
 	
 	/**
 	 * NOT part of schema.org.
-	 * A Chapter should belong to a Book.
+	 * A Chapter can belong to a a parent chapter.
 	 * @var ChapterInterface|null
 	 */
 	protected $parentChapter;
