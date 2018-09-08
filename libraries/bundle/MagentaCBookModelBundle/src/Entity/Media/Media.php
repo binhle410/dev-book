@@ -33,8 +33,6 @@ use Magenta\Bundle\CBookModelBundle\Entity\Media\Base\AppMedia;
 /**
  * @ORM\Entity
  * @ORM\Table(name="media__media")
- *
- *
  */
 class Media extends AppMedia
 {

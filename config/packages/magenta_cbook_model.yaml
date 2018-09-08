@@ -40,6 +40,22 @@ security:
         magenta_user:
             id: magenta_user.user_provider.username
 
+knp_doctrine_behaviors:
+    blameable:      false
+    geocodable:     ~     # Here null is converted to false
+    loggable:       ~
+    translatable:   true
+    sluggable:      false
+    soft_deletable: false
+
+sonata_classification:
+    class:
+        category: Magenta\Bundle\CBookModelBundle\Entity\Classification\Category
+        collection: Magenta\Bundle\CBookModelBundle\Entity\Classification\Collection
+        context: Magenta\Bundle\CBookModelBundle\Entity\Classification\Context
+        tag: Magenta\Bundle\CBookModelBundle\Entity\Classification\Tag
+        media: Magenta\Bundle\CBookModelBundle\Entity\Media\Media
+
 sonata_media:
     default_context: default
     contexts:
@@ -103,4 +119,6 @@ sonata_media:
         media: Magenta\Bundle\CBookModelBundle\Entity\Media\Media
         gallery: Magenta\Bundle\CBookModelBundle\Entity\Media\Gallery
         gallery_has_media: Magenta\Bundle\CBookModelBundle\Entity\Media\GalleryHasMedia
+        category: Magenta\Bundle\CBookModelBundle\Entity\Classification\Category
+
     db_driver: doctrine_orm # could be doctrine_orm, doctrine_mongodb or doctrine_phpcr
