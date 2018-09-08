@@ -1,0 +1,31 @@
+{
+    "name": "magenta-consulting/cbook-asset",
+    "type": "php-component",
+    "description": "Provides a Component for Encore Asset.",
+    "keywords": [ "php Asset for CBook components" ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Peter Bean",
+            "email": "peterbean@beancomponent.com"
+        }
+    ],
+    "require": {
+        "symfony/webpack-encore-pack": "^1.0"
+    },
+    "require-dev": {
+    },
+    "suggest": {
+    },
+    "autoload": {
+
+    },
+    "autoload-dev": {
+        "psr-4": { "Bean\\Component\\CBookAsset\\spec\\": "tests/spec/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}

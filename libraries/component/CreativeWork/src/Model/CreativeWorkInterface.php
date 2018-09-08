@@ -1,11 +1,14 @@
 <?php
-declare(strict_types=1);
+/**
+ * Created by PhpStorm.
+ * User: Binh
+ * Date: 9/8/2018
+ * Time: 8:04 PM
+ */
 
 namespace Bean\Component\CreativeWork\Model;
 
-use Bean\Component\Thing\Model\ThingInterface;
-
-interface CreativeWorkInterface extends ThingInterface {
+interface CreativeWorkInterface {
 	/**
 	 * @return string|null
 	 */
@@ -82,12 +85,22 @@ interface CreativeWorkInterface extends ThingInterface {
 	public function setText(?string $text): void;
 	
 	/**
-	 * @return int
+	 * @return int|null
 	 */
-	public function getPosition(): int;
+	public function getVersionNumber(): ?int;
 	
 	/**
-	 * @param int $position
+	 * @param int|null $versionNumber
 	 */
-	public function setPosition(int $position): void;
+	public function setVersionNumber(?int $versionNumber): void;
+	
+	/**
+	 * @return int|null
+	 */
+	public function getPosition(): ?int;
+	
+	/**
+	 * @param int|null $position
+	 */
+	public function setPosition(?int $position): void;
 }

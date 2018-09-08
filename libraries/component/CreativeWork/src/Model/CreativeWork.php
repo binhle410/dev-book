@@ -24,13 +24,13 @@ abstract class CreativeWork extends Thing implements CreativeWorkInterface {
 	/**
 	 * Derived from version: Number in schema.org
 	 * It also has version: Text
-	 * @var integer
+	 * @var integer|null
 	 */
 	protected $versionNumber = 1;
 	
 	/**
 	 * The position of an item in a series or sequence of items.
-	 * @var integer
+	 * @var integer|null
 	 */
 	protected $position = 1;
 	
@@ -171,16 +171,30 @@ abstract class CreativeWork extends Thing implements CreativeWorkInterface {
 	}
 	
 	/**
-	 * @return int
+	 * @return int|null
 	 */
-	public function getPosition(): int {
+	public function getVersionNumber(): ?int {
+		return $this->versionNumber;
+	}
+	
+	/**
+	 * @param int|null $versionNumber
+	 */
+	public function setVersionNumber(?int $versionNumber): void {
+		$this->versionNumber = $versionNumber;
+	}
+	
+	/**
+	 * @return int|null
+	 */
+	public function getPosition(): ?int {
 		return $this->position;
 	}
 	
 	/**
-	 * @param int $position
+	 * @param int|null $position
 	 */
-	public function setPosition(int $position): void {
+	public function setPosition(?int $position): void {
 		$this->position = $position;
 	}
 }

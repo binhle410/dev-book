@@ -23,6 +23,7 @@
 
     "beancomponent/book-bundle": "^0.1",
     "sonata-project/media-bundle": "^3.13",
+    "sonata-project/classification-bundle": "^3.7.1",
     "aws/aws-sdk-php": "^3.56"
 
 

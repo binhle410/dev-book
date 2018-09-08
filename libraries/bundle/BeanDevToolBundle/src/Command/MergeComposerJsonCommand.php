@@ -89,18 +89,21 @@ class MergeComposerJsonCommand extends ContainerAwareCommand {
 			$jsonService->merge($composer, $composerWS, 'require');
 			$jsonService->merge($composer, $composerWS, 'require-dev');
 			
-			$psr4 = $composer->autoload->{'psr-4'};
-			$this->fixPsr4($psr4, $libraryDir);
-			$composer->autoload->{'psr-4'} = $psr4;
-			$jsonService->merge($composer, $composerWS, 'autoload.psr-4');
-			
-			$psr4 = $composer->{'autoload-dev'}->{'psr-4'};
-			$this->fixPsr4($psr4, $libraryDir);
-			$composer->{'autoload-dev'}->{'psr-4'} = $psr4;
-			$jsonService->merge($composer, $composerWS, 'autoload-dev.psr-4');
-			$psr4 = $composer->{'autoload-dev'}->{'psr-4'};
+			if(property_exists($composer->autoload, 'psr-4')) {
+				$psr4 = $composer->autoload->{'psr-4'};
+				$this->fixPsr4($psr4, $libraryDir);
+				$composer->autoload->{'psr-4'} = $psr4;
+				$jsonService->merge($composer, $composerWS, 'autoload.psr-4');
+			}
+			if(property_exists($composer->{'autoload-dev'}, 'psr-4')) {
+				$psr4 = $composer->{'autoload-dev'}->{'psr-4'};
+				$this->fixPsr4($psr4, $libraryDir);
+				$composer->{'autoload-dev'}->{'psr-4'} = $psr4;
+				$jsonService->merge($composer, $composerWS, 'autoload-dev.psr-4');
+			}
 
 
+//				$psr4 = $composer->{'autoload-dev'}->{'psr-4'};
 //				foreach($psr4 as $_ns => $_path) {
 //					$psr4->$_ns = str_replace($projectDirFS, '', $bundleDirFS) . DIRECTORY_SEPARATOR;
 //				}

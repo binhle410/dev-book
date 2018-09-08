@@ -15,6 +15,7 @@
                 <option name="default">1</option>
             </options>
         </field>
+        <field name="versionNumber" type="integer" nullable="true"/>
         <field name="headline" type="string" nullable="true"/>
         <field name="locale" type="string" nullable="false"/>
         <field name="about" type="string" nullable="true"/>
