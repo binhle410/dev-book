@@ -66,10 +66,10 @@ class BeanBookBundle extends Bundle {
 		$container->addCompilerPass(
 			DoctrineOrmMappingsPass::createXmlMappingDriver(
 				[
-//					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-class')                  => 'Bean\Component\Book\Model',
-					realpath(__DIR__ . '/Resources/config/doctrine-orm/class')                  => 'Bean\Bundle\BookBundle\Doctrine\Orm',
+//					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-superclass') => 'Bean\Component\Book\Model',
+					realpath(__DIR__ . '/Resources/config/doctrine-orm/class') => 'Bean\Bundle\BookBundle\Doctrine\Orm',
 				],
-				[ 'bean_creativework.persistence.orm.manager_name' ],
+				[ 'bean_book.persistence.orm.manager_name' ],
 				'bean_book.backend_type_orm_default.inheritance_class',
 				[ 'BeanBookBundle' => 'Bean\Bundle\BookBundle\Doctrine\Orm' ]
 			)
@@ -78,26 +78,27 @@ class BeanBookBundle extends Bundle {
 		$container->addCompilerPass(
 			DoctrineOrmMappingsPass::createXmlMappingDriver(
 				[
-					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-superclass') => 'Bean\Component\Book\Model',
-					realpath(__DIR__ . '/Resources/config/doctrine-orm/superclass')                  => 'Bean\Bundle\BookBundle\Doctrine\Orm',
+//					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-superclass') => 'Bean\Component\Book\Model',
+					realpath(__DIR__ . '/Resources/config/doctrine-orm/superclass') => 'Bean\Bundle\BookBundle\Doctrine\Orm',
 				],
-				[ 'bean_creativework.persistence.orm.manager_name' ],
+				[ 'bean_book.persistence.orm.manager_name' ],
 				'bean_book.backend_type_orm_default.inheritance_superclass',
 				[ 'BeanBookBundle' => 'Bean\Bundle\BookBundle\Doctrine\Orm' ]
 			)
 		);
 		
+//		$bookClass = $container->getParameter('bean_book.book_class');
 		$container->addCompilerPass(
 			DoctrineOrmMappingsPass::createXmlMappingDriver(
 				[
 					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-superclass') => 'Bean\Component\Book\Model'
 				],
-				[ 'bean_creativework.persistence.orm.manager_name' ],
+				[ 'bean_book.persistence.orm.manager_name' ],
 				'bean_book.backend_type_orm_custom.inheritance_superclass',
-				[ 'BeanBookBundle' => 'Bean\Bundle\BookBundle\Doctrine\Orm' ]
+				[ 'BeanBookBundle' => '%bean_book.book_class%' ]
 			)
 		);
-		
+	
 	}
 	
 	/**

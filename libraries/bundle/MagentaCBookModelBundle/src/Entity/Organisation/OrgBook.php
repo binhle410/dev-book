@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\CBookModelBundle\Entity\Organisation;
 
 use Bean\Component\Book\Model\Book as BookModel;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,6 +21,12 @@ class OrgBook extends BookModel {
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgChapter", cascade={"persist","merge"}, orphanRemoval=true, mappedBy="book")
 	 */
 	protected $chapters;
+
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Bean\Component\CreativeWork\Model\CreativeWork", cascade={"persist","merge"}, orphanRemoval=true, mappedBy="partOf")
+	 */
+	protected $parts;
 	
 	/**
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="books")

@@ -5,26 +5,27 @@
                           http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
     <mapped-superclass name="Bean\Component\Book\Model\Chapter">
         <!-- we need id field here so that the referenced-column-name works -->
-        <id name="id" type="integer" column="id">
-            <generator strategy="AUTO"/>
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </id>
+        <!-- However, if we replace the default Book Entity with a custom one, we do not need this -->
+        <!--<id name="id" type="integer" column="id">-->
+            <!--<generator strategy="AUTO"/>-->
+            <!--<options>-->
+                <!--<option name="unsigned">true</option>-->
+            <!--</options>-->
+        <!--</id>-->
 
         <!-- Mapping from CreativeWork -->
-        <many-to-one field="partOf" target-entity="Bean\Component\Book\Model\Chapter" inversed-by="parts">
-            <join-column name="id_part_of" referenced-column-name="id" />
-        </many-to-one>
+        <!--<many-to-one field="partOf" target-entity="Bean\Component\Book\Model\Chapter" inversed-by="parts">-->
+            <!--<join-column name="id_part_of" referenced-column-name="id" />-->
+        <!--</many-to-one>-->
 
+        <!-- Many to One should not be in superclass -->
+        <!--<many-to-one field="book" target-entity="Bean\Component\Book\Model\Book">-->
+            <!--<join-column name="id_book" referenced-column-name="id" />-->
+        <!--</many-to-one>-->
 
-        <many-to-one field="book" target-entity="Bean\Component\Book\Model\Book">
-            <join-column name="id_book" referenced-column-name="id" />
-        </many-to-one>
-
-        <many-to-one field="parentChapter" target-entity="Bean\Component\Book\Model\Chapter" inversed-by="parentChapter">
-            <join-column name="id_parent_chapter" referenced-column-name="id"/>
-        </many-to-one>
+        <!--<many-to-one field="parentChapter" target-entity="Bean\Component\Book\Model\Chapter" inversed-by="parentChapter">-->
+            <!--<join-column name="id_parent_chapter" referenced-column-name="id"/>-->
+        <!--</many-to-one>-->
 
         <field name="pageStart" type="string" nullable="true"/>
         <field name="pageEnd" type="string" nullable="true"/>

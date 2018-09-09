@@ -2,6 +2,7 @@
 
 namespace Bean\Bundle\BookBundle\DependencyInjection;
 
+use Bean\Bundle\BookBundle\Doctrine\Orm\Book;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -12,21 +13,13 @@ class Configuration implements ConfigurationInterface {
 		
 		$rootNode
 			->children()
-			->arrayNode('bundles')
-				->prototype('scalar')->end()
-			
-//						->children()
-//							->arrayNode('classes')->end()
-//						->end()
-			->end()// bundles
-			->arrayNode('components')
-			->prototype('scalar')->end()
-			->end()// components
-			->arrayNode('sites')
-				->prototype('scalar')->end()
-			->end()//  sites
-			->scalarNode('library_source')->end()
-			->scalarNode('library_workspace')->end()
+				->arrayNode('class')
+					->children()
+						->scalarNode('book')
+							->defaultValue(Book::class)->end()
+						->end()
+					->end()
+				->end()
 			->end();
 		
 		return $treeBuilder;

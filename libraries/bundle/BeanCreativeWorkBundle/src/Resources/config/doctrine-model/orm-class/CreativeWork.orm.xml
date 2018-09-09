@@ -8,7 +8,12 @@
             <join-column name="id_part_of" referenced-column-name="id" />
         </many-to-one>
 
-        <one-to-many field="parts" target-entity="Bean\Component\CreativeWork\Model\CreativeWork" mapped-by="partOf" />
+        <!--
+        It is illegal to put an inverse side one-to-many or many-to-many association on mapped superclass
+        'Bean\Component\Book\Model\Book#parts'. when
+        CreativeWorkModel is an Entity but BookModel is a superclass and OrgBook is an Entity Subclass.
+        -->
+        <!--<one-to-many field="parts" target-entity="Bean\Component\CreativeWork\Model\CreativeWork" mapped-by="partOf" />-->
 
         <field name="position" type="integer">
             <options>

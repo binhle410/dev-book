@@ -6,12 +6,14 @@
 
     <mapped-superclass name="Bean\Component\Book\Model\Book">
         <!-- we need id field here so that the referenced-column-name works -->
-        <id name="id" type="integer" column="id">
-            <generator strategy="AUTO"/>
-            <options>
-                <option name="unsigned">true</option>
-            </options>
-        </id>
+        <!-- However, if we replace the default Book Entity with a custom one, we do not need this -->
+        <!--<id name="id" type="integer" column="id">-->
+            <!--<generator strategy="AUTO"/>-->
+            <!--<options>-->
+                <!--<option name="unsigned">true</option>-->
+            <!--</options>-->
+        <!--</id>-->
+
         <!-- field parts shall be ignored here -->
         <field name="abridged" type="boolean" nullable="true"/>
         <field name="numberOfPages" type="integer" nullable="true"/>

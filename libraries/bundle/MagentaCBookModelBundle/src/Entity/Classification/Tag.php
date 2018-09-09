@@ -34,7 +34,6 @@ use Sonata\ClassificationBundle\Entity\BaseTag;
  * })
  
  */
-
 class Tag extends AppTag
 {
     function __construct()

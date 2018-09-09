@@ -16,8 +16,13 @@ class BeanBookExtension extends ConfigurableExtension {
 		$container->setParameter('bean_book.backend_type_orm', true);
 //		$container->setParameter('bean_book.backend_type_orm_default.base', true);
 
-		$container->setParameter('bean_book.backend_type_orm_default.inheritance_class', true);
-//		$container->setParameter('bean_book.backend_type_orm_custom.inheritance_superclass', true);
+//		$container->setParameter('bean_book.backend_type_orm_default.inheritance_class', true); // This should be default
+		$container->setParameter('bean_book.backend_type_orm_custom.inheritance_superclass', true);
+
 		$container->setParameter('bean_book.persistence.orm.manager_name', null);
+		
+		$bookClass = $mergedConfig['class']['book'];
+		$container->setParameter('bean_book.book_class', $bookClass);
+		
 	}
 }
