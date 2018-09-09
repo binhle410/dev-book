@@ -3,8 +3,8 @@
 namespace Magenta\Bundle\CBookAdminBundle\Controller;
 
 
-use Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook;
-use Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgChapter;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Book;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Chapter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class BookReaderController extends Controller
@@ -14,9 +14,9 @@ class BookReaderController extends Controller
     }
 
     public function indexAction($accessCode, $employeeCode) {
-        $b1 = new OrgBook();
+        $b1 = new Book();
         $b1->setName('Symfony Encore');
-        $b2 = new OrgBook();
+        $b2 = new Book();
         $b2->setName('React JS');
         $books = [$b1,$b2];
         return $this->render('@MagentaCBookAdmin/Book/index.html.twig', [

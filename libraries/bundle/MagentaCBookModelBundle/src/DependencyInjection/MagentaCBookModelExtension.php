@@ -2,7 +2,11 @@
 
 namespace Magenta\Bundle\CBookModelBundle\DependencyInjection;
 
+use Bean\Component\Thing\Model\Thing;
+use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
+use Magenta\Bundle\CBookModelBundle\Entity\Book\Chapter;
 use ProxyManager\FileLocator\FileLocator;
+use Sonata\EasyExtendsBundle\Mapper\DoctrineCollector;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -43,5 +47,10 @@ class MagentaCBookModelExtension extends ConfigurableExtension {
 		$definition = $container->getDefinition('magenta_user.object_manager');
 		$definition->setFactory(array( new Reference('magenta_user.doctrine_registry'), 'getManager' ));
 		
+		$collector = DoctrineCollector::getInstance();
+		
+//		$collector->addDiscriminator(Thing::class, 'app-book', Book::class);
+//		$collector->addDiscriminator(Thing::class, 'app-chapter', Chapter::class);
+	
 	}
 }

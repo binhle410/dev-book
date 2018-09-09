@@ -1,10 +1,9 @@
 <?php
 
-namespace Magenta\Bundle\CBookAdminBundle\Admin\Organisation;
+namespace Magenta\Bundle\CBookAdminBundle\Admin\Book;
 
-use Bean\Component\Book\Model\Chapter;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
-use Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgChapter;
+use Magenta\Bundle\CBookModelBundle\Entity\Book\Chapter;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
 use Doctrine\ORM\Query\Expr;
@@ -25,14 +24,14 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class OrgSubChapterAdmin extends OrgChapterAdmin {
+class SubChapterAdmin extends ChapterAdmin {
 	
 	protected $classnameLabel = 'subchapter';
 	
 	protected $baseRouteName = 'subchapter';
 	
 	protected $baseRoutePattern = 'sub-chapter';
-	const ENTITY = OrgChapter::class;
+	const ENTITY = Chapter::class;
 	
 	const CHILDREN = null;
 	

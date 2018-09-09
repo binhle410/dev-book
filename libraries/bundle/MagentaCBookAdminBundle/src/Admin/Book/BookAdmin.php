@@ -1,8 +1,8 @@
 <?php
 
-namespace Magenta\Bundle\CBookAdminBundle\Admin\Organisation;
+namespace Magenta\Bundle\CBookAdminBundle\Admin\Book;
 
-use Bean\Component\Book\Model\Chapter;
+use Bean\Component\Book\Model\Book;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
@@ -21,13 +21,15 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\FormatterBundle\Form\Type\FormatterType;
+use Sonata\FormatterBundle\Form\Type\SimpleFormatterType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class OrgChapterAdmin extends BaseAdmin {
+class BookAdmin extends BaseAdmin {
 	
-	const CHILDREN = [ OrgSubChapterAdmin::class => 'parentChapter' ];
+	const CHILDREN = [ ChapterAdmin::class => 'book' ];
 	
 	protected $action;
 	
@@ -45,10 +47,6 @@ class OrgChapterAdmin extends BaseAdmin {
 		$object = parent::getNewInstance();
 		
 		return $object;
-	}
-	
-	protected function getChildrenConst() {
-		return self::CHILDREN;
 	}
 	
 	/**
@@ -80,20 +78,16 @@ class OrgChapterAdmin extends BaseAdmin {
 	}
 	
 	public function toString($object) {
-		return $object instanceof Chapter
+		return $object instanceof Book
 			? $object->getName()
-			: 'Section'; // shown in the breadcrumb on the create view
+			: 'Book'; // shown in the breadcrumb on the create view
 	}
 	
 	public function createQuery($context = 'list') {
-		/** @var ProxyQuery $query */
+		/** @var ProxyQueryInterface $query */
 		$query = parent::createQuery($context);
-		/** @var QueryBuilder $qb */
-		$qb  = $query->getQueryBuilder();
-		$exp = $qb->expr();
-		
-		if( ! empty($this->getChildrenConst())) {
-			$qb->andWhere($exp->isNull($qb->getRootAliases()[0] . '.parentChapter'));
+		if(empty($this->getParentFieldDescription())) {
+//            $this->filterQueryByPosition($query, 'position', '', '');
 		}
 
 //        $query->andWhere()
@@ -104,7 +98,7 @@ class OrgChapterAdmin extends BaseAdmin {
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
 //		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
-		
+	
 	}
 	
 	public function getTemplate($name) {
@@ -115,33 +109,26 @@ class OrgChapterAdmin extends BaseAdmin {
 	
 	}
 	
-	protected function getCustomActionListField() {
-		$actionArray['subchapters'] = array( 'template' => '@MagentaCBookAdmin/Admin/Organisation/Children/Book/Children/Chapter/Action/list__action__subChapters.html.twig' );
-		
-		return $actionArray;
-	}
-	
 	/**
 	 * {@inheritdoc}
 	 */
 	protected function configureListFields(ListMapper $listMapper) {
-		$actionArray = $this->getCustomActionListField();
 		$listMapper->add('_action', 'actions', [
-				'actions' => array_merge($actionArray, array(
+				'actions' => array(
 //					'impersonate' => array( 'template' => 'admin/user/list__action__impersonate.html.twig' ),
-					'edit'   => array(),
-					'delete' => array(),
+					'chapters' => array( 'template' => '@MagentaCBookAdmin/Admin/Book/Book/Action/list__action__chapters.html.twig' ),
+					'edit'     => array(),
+					'delete'   => array(),
 
 //                ,
 //                    'view_description' => array('template' => '::admin/product/description.html.twig')
 //                ,
 //                    'view_tos' => array('template' => '::admin/product/tos.html.twig')
-				))
+				)
 			]
 		);
 		$listMapper
 			->addIdentifier('name')
-			->add('position', null, [ 'editable' => true ])
 			->add('createdAt');
 		
 		if($this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
@@ -165,16 +152,20 @@ class OrgChapterAdmin extends BaseAdmin {
 			->with('General')
 //                ->add('username')
 			->add('name', null, [ 'label' => 'list.label_name' ])
-			->add('position')
+//                ->add('admin')
 			->end();
-		
-		$formMapper
-			->with('Content')
-			->add('text', CKEditorType::class, []);
+		$formMapper->with('Content');
+		$formMapper->add('text', CKEditorType::class, [
+		]);
+//		$formMapper->add('text', SimpleFormatterType::class, [
+//			'format' => 'richhtml',
+//			'ckeditor_context' => 'default',
+//			'ckeditor_image_format' => 'big',
+//		]);
+		$formMapper->end();
 		
 		$formMapper->end();
 	}
-	
 	
 	/**
 	 * @param User $object

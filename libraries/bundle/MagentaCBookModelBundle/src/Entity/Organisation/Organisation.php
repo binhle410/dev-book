@@ -36,7 +36,7 @@ class Organisation extends OrganizationModel {
 	
 	/**
 	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook", cascade={"persist","merge"}, orphanRemoval=true, mappedBy="organisation")
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Book\Book", cascade={"persist","merge"}, orphanRemoval=true, mappedBy="organisation")
 	 */
 	protected $books;
 	

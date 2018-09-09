@@ -1,13 +1,11 @@
 <?php
-
-namespace Magenta\Bundle\CBookAdminBundle\Admin\Organisation;
-
+namespace Magenta\Bundle\CBookAdminBundle\Admin\Book;
 
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseCRUDAdminController;
 use Symfony\Component\HttpFoundation\Response;
-use Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Book;
 
-class OrgChapterAdminController extends BaseCRUDAdminController
+class ChapterAdminController extends BaseCRUDAdminController
 {
     public function renderWithExtraParams($view, array $parameters = [], Response $response = null)
     {

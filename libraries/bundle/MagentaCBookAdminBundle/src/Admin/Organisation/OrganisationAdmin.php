@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\CBookAdminBundle\Admin\Organisation;
 
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
+use Magenta\Bundle\CBookAdminBundle\Admin\Book\BookAdmin;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
@@ -26,7 +27,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class OrganisationAdmin extends BaseAdmin {
 	
-	const CHILDREN = [ OrgBookAdmin::class => 'organisation' ];
+	const CHILDREN = [ BookAdmin::class => 'organisation' ];
 	
 	protected $action;
 	
@@ -95,7 +96,7 @@ class OrganisationAdmin extends BaseAdmin {
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
 //		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
-		
+	
 	}
 	
 	public function getTemplate($name) {

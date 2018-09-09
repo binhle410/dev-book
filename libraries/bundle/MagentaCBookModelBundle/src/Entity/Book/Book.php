@@ -1,6 +1,6 @@
 <?php
 
-namespace Magenta\Bundle\CBookModelBundle\Entity\Organisation;
+namespace Magenta\Bundle\CBookModelBundle\Entity\Book;
 
 use Bean\Component\Book\Model\Book as BookModel;
 use Doctrine\Common\Collections\Collection;
@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="organisation__book")
+ * @ORM\Table(name="book__book")
  */
-class OrgBook extends BookModel {
+class Book extends BookModel {
 	
 	function __construct() {
 		parent::__construct();
@@ -18,7 +18,7 @@ class OrgBook extends BookModel {
 	}
 	
 	/**
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgChapter", cascade={"persist","merge"}, orphanRemoval=true, mappedBy="book")
+	 * @ORM\OneToMany(targetEntity="Chapter", cascade={"persist","merge"}, orphanRemoval=true, mappedBy="book")
 	 */
 	protected $chapters;
 

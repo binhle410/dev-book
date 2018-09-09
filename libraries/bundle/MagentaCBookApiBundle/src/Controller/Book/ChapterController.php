@@ -1,24 +1,24 @@
 <?php
 
-namespace Magenta\Bundle\CBookApiBundle\Controller\Organisation;
+namespace Magenta\Bundle\CBookApiBundle\Controller\Book;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
-use Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook;
-use Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgChapter;
+use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
+use Magenta\Bundle\CBookModelBundle\Entity\Book\Chapter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class OrgChapterController extends Controller {
+class ChapterController extends Controller {
 	
-	public function bookChaptersAction(OrgBook $data): Collection {
+	public function bookChaptersAction(Book $data): Collection {
 		$chapters = $data->getChapters();
 		
 		return $chapters;
 	}
 	
-	public function bookRootChaptersAction(OrgBook $data): Collection {
+	public function bookRootChaptersAction(Book $data): Collection {
 		/** @var ArrayCollection $chapters */
 		$chapters = $data->getChapters();
 		
@@ -32,7 +32,7 @@ class OrgChapterController extends Controller {
 		return $chapters->matching($criteria);
 	}
 	
-	public function subChaptersAction(OrgChapter $data): Collection {
+	public function subChaptersAction(Chapter $data): Collection {
 		return $data->getSubChapters();
 	}
 }
