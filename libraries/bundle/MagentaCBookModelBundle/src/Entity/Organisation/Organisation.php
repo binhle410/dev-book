@@ -7,6 +7,7 @@ use Bean\Component\Organization\Model\Organization as OrganizationModel;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\Category;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
 
 /**
@@ -25,14 +26,52 @@ class Organisation extends OrganizationModel {
 	
 	function __construct() {
 		parent::__construct();
-		$this->books = new ArrayCollection();
+		$this->books        = new ArrayCollection();
+		$this->categories   = new ArrayCollection();
+		$this->memberGroups = new ArrayCollection();
 	}
 	
 	/**
-	 * @var string
-	 * @ORM\Column(type="string")
+	 * @ORM\OneToMany(
+	 *     targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\MemberGroup",
+	 *     mappedBy="organisation", cascade={"persist"}, orphanRemoval=true
+	 * )
+	 * @ORM\OrderBy({"position"="ASC"})
+	 *
+	 * @var Collection $memberGroups ;
 	 */
-	protected $code;
+	protected $memberGroups;
+	
+	public function addMemberGroup(MemberGroup $group) {
+		$this->memberGroups->add($group);
+		$group->setOrganisation($this);
+	}
+	
+	public function removeMemberGroup(MemberGroup $group) {
+		$this->memberGroups->removeElement($group);
+		$group->setOrganisation(null);
+	}
+	
+	/**
+	 * @ORM\OneToMany(
+	 *     targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Classification\Category",
+	 *     mappedBy="organisation", cascade={"persist"}, orphanRemoval=true
+	 * )
+	 * @ORM\OrderBy({"position"="ASC"})
+	 *
+	 * @var Collection $categories ;
+	 */
+	protected $categories;
+	
+	public function addCategory(Category $category) {
+		$this->categories->add($category);
+		$category->setOrganisation($this);
+	}
+	
+	public function removeCategory(Category $category) {
+		$this->categories->removeElement($category);
+		$category->setOrganisation(null);
+	}
 	
 	/**
 	 * @var Collection
@@ -51,6 +90,12 @@ class Organisation extends OrganizationModel {
 	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Media\Media", mappedBy="logoOrganisation", cascade={"persist","merge"})
 	 */
 	protected $logo;
+	
+	/**
+	 * @var string
+	 * @ORM\Column(type="string")
+	 */
+	protected $code;
 	
 	/**
 	 * @return Media

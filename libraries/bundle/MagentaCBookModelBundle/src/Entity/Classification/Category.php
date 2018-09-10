@@ -2,13 +2,15 @@
 
 namespace Magenta\Bundle\CBookModelBundle\Entity\Classification;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Magenta\Bundle\CBookModelBundle\Entity\Book\BookCategory;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Base\AppCategory;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupCategory;
 use Sonata\ClassificationBundle\Entity\BaseCategory as BaseCategory;
 
 //use Gedmo\Mapping\Annotation as Gedmo;
 //use Sonata\TranslationBundle\Model\Gedmo\TranslatableInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
@@ -33,6 +35,44 @@ class Category extends AppCategory {
 	
 	public function __construct() {
 		parent::__construct();
+		$this->bookCategories = new ArrayCollection();
+	}
+	
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupCategory", mappedBy="category")
+	 */
+	protected $groupCategories;
+	
+	public function addGroupCategory(GroupCategory $gc) {
+		$this->groupCategories->add($gc);
+		$gc->setCategory($this);
+	}
+	
+	public function removeGroupCategory(GroupCategory $gc) {
+		$this->groupCategories->add($gc);
+		$gc->setCategory(null);
+	}
+	
+	/**
+	 * @ORM\OneToMany(
+	 *     targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Book\BookCategory",
+	 *     mappedBy="category", cascade={"persist"}, orphanRemoval=true
+	 * )
+	 * @ORM\OrderBy({"position"="ASC"})
+	 *
+	 * @var \Doctrine\Common\Collections\Collection $bookCategories ;
+	 */
+	protected $bookCategories;
+	
+	public function addBookCategory(BookCategory $bc) {
+		$this->bookCategories->add($bc);
+		$bc->setCategory($this);
+	}
+	
+	public function removeBookCategory(BookCategory $bc) {
+		$this->bookCategories->removeElement($bc);
+		$bc->setCategory(null);
 	}
 	
 	/**

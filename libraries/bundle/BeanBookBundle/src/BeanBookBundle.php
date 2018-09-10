@@ -98,6 +98,18 @@ class BeanBookBundle extends Bundle {
 				[ 'BeanBookBundle' => '%bean_book.book_class%' ]
 			)
 		);
+		
+		$container->addCompilerPass(
+			DoctrineOrmMappingsPass::createXmlMappingDriver(
+				[
+//					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-superclass') => 'Bean\Component\Book\Model',
+					realpath(__DIR__ . '/Resources/config/doctrine-orm/class') => 'Magenta\Bundle\CBookModelBundle\Entity\Book',
+				],
+				[ 'bean_book.persistence.orm.manager_name' ],
+				'bean_book.testing1',
+				[ 'BeanBookBundle' => 'Magenta\Bundle\CBookModelBundle\Entity\Book' ]
+			)
+		);
 	
 	}
 	

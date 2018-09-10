@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Magenta\Bundle\CBookModelBundle\Entity\Classification\Base;
 
@@ -25,6 +25,7 @@ class AppCategory extends BaseCategory {
 	
 	public function __construct() {
 		parent::__construct();
+		$this->createdAt = new \DateTime();
 	}
 	
 	/**
@@ -37,6 +38,12 @@ class AppCategory extends BaseCategory {
 	 * @var Category[]
 	 */
 	protected $children;
+	
+	/**
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="categories")
+	 * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
+	 */
+	protected $organisation;
 	
 	/**
 	 * @ORM\ManyToOne(
@@ -61,29 +68,39 @@ class AppCategory extends BaseCategory {
 	 */
 	protected $context;
 	
-	public function getId()
-	{
+	public function getId() {
 		return $this->id;
 	}
 	
-	final public function setMedia(MediaInterface $media = null)
-	{
+	final public function setMedia(MediaInterface $media = null) {
 		parent::setMedia($media);
 	}
 	
 	/**
 	 * @ORM\PrePersist
 	 */
-	public function prePersist(): void
-	{
+	public function prePersist(): void {
 		parent::prePersist();
 	}
 	
 	/**
 	 * @ORM\PreUpdate
 	 */
-	public function preUpdate(): void
-	{
+	public function preUpdate(): void {
 		parent::preUpdate();
+	}
+	
+	/**
+	 * @return mixed
+	 */
+	public function getOrganisation() {
+		return $this->organisation;
+	}
+	
+	/**
+	 * @param mixed $organisation
+	 */
+	public function setOrganisation($organisation): void {
+		$this->organisation = $organisation;
 	}
 }

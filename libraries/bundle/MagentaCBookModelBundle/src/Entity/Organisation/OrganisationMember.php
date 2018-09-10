@@ -1,4 +1,5 @@
 <?php
+
 namespace Magenta\Bundle\CBookModelBundle\Entity\Organisation;
 
 use Bean\Component\Organization\Model\OrganizationMember as MemberModel;
@@ -6,6 +7,7 @@ use Bean\Component\Organization\Model\OrganizationMember as MemberModel;
 use Bean\Component\Person\Model\Person;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\Collection;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
 
 /**
@@ -20,6 +22,26 @@ class OrganisationMember extends MemberModel {
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	protected $id;
+	
+	public function __construct() {
+		$this->groupMembers = new ArrayCollection();
+	}
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupMember", mappedBy="member")
+	 */
+	protected $groupMembers;
+	
+	public function addGroupMember(GroupMember $gm) {
+		$this->groupMembers->add($gm);
+		$gm->setMember($this);
+	}
+	
+	public function removeGroupMember(GroupMember $gm) {
+		$this->groupMembers->removeElement($gm);
+		$gm->setMember(null);
+	}
 	
 	/**
 	 * @var Organisation

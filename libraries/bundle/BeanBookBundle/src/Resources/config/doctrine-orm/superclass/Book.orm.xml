@@ -3,8 +3,8 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
-        <mapped-superclass name="Bean\Bundle\BookBundle\Doctrine\Orm\Book">
-            <one-to-many field="parts" target-entity="Bean\Component\Book\Model\Book" mapped-by="partOf" />
-            <!--<one-to-many field="chapters" target-entity="Chapter" mapped-by="book" />-->
-        </mapped-superclass>
+    <entity name="Bean\Bundle\BookBundle\Doctrine\Orm\Book" table="book__book">
+        <one-to-many field="parts" target-entity="Bean\Bundle\BookBundle\Doctrine\Orm\Book" mapped-by="partOf"/>
+        <!--<one-to-many field="chapters" target-entity="Chapter" mapped-by="book" />-->
+    </entity>
 </doctrine-mapping>

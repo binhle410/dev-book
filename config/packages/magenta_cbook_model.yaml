@@ -14,7 +14,8 @@ parameters:
     # BookBundle
 bean_book:
     class:
-        book: Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook
+        book: Magenta\Bundle\CBookModelBundle\Entity\Book\Book
+#        book: Bean\Bundle\BookBundle\Doctrine\Orm\Book
 
 doctrine:
     dbal:
