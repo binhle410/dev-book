@@ -150,6 +150,7 @@ class OrganisationAdmin extends BaseAdmin {
 			->with('General')
 //                ->add('username')
 			->add('name', null, [ 'label' => 'list.label_name' ])
+			->add('code', null, [ 'label' => 'list.label_code' ])
 //                ->add('admin')
 			->end();
 		

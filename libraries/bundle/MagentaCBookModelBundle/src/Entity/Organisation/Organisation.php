@@ -92,6 +92,12 @@ class Organisation extends OrganizationModel {
 	protected $logo;
 	
 	/**
+	 * @var string|null
+	 * @ORM\Column(type="string")
+	 */
+	protected $name;
+	
+	/**
 	 * @var string
 	 * @ORM\Column(type="string")
 	 */
@@ -138,5 +144,4 @@ class Organisation extends OrganizationModel {
 	public function setCode(string $code): void {
 		$this->code = $code;
 	}
-	
 }
