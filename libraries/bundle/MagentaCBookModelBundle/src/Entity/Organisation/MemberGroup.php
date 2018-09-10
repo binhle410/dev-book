@@ -91,6 +91,12 @@ class MemberGroup {
 	protected $organisation;
 	
 	/**
+	 * @var string
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $name;
+	
+	/**
 	 * @return Organisation
 	 */
 	public function getOrganisation(): Organisation {
@@ -102,5 +108,19 @@ class MemberGroup {
 	 */
 	public function setOrganisation(Organisation $organisation): void {
 		$this->organisation = $organisation;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getName(): string {
+		return $this->name;
+	}
+	
+	/**
+	 * @param string $name
+	 */
+	public function setName(string $name): void {
+		$this->name = $name;
 	}
 }
