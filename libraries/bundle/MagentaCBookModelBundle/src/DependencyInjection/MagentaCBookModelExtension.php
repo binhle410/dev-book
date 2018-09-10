@@ -49,8 +49,10 @@ class MagentaCBookModelExtension extends ConfigurableExtension {
 		
 		$collector = DoctrineCollector::getInstance();
 		
-//		$collector->addDiscriminator(Thing::class, 'app-book', Book::class);
-//		$collector->addDiscriminator(Thing::class, 'app-chapter', Chapter::class);
-	
+		$collector->addDiscriminator(Thing::class, 'app-book', Book::class);
+		$collector->addDiscriminator(Thing::class, 'app-chapter', Chapter::class);
+		$collector->addDiscriminator(Thing::class, 'model-book', 'Bean\Component\Book\Model\Book');
+		$collector->addDiscriminator(Thing::class, 'model-chapter', 'Bean\Component\Book\Model\Chapter');
+		
 	}
 }

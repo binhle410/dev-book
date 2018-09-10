@@ -70,7 +70,7 @@ resources:
                 filters: ['bean_thing.name_search_filter']
             post: ~
 
-    Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook:
+    Magenta\Bundle\CBookModelBundle\Entity\Book\Book:
         attributes:                          # optional
             order:
                 id: DESC
@@ -99,7 +99,7 @@ resources:
                 method: 'GET'
                 route_name: 'organisation_chapter_sub_chapters'
 
-    Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgChapter:
+    Magenta\Bundle\CBookModelBundle\Entity\Book\Chapter:
         attributes:                          # optional
             order:
                 id: DESC
