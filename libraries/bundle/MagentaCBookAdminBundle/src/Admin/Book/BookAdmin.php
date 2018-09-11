@@ -116,7 +116,7 @@ class BookAdmin extends BaseAdmin {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
 //					'impersonate' => array( 'template' => 'admin/user/list__action__impersonate.html.twig' ),
-					'chapters' => array( 'template' => '@MagentaCBookAdmin/Admin/Book/Book/Action/list__action__chapters.html.twig' ),
+					'chapters' => array( 'template' => '@MagentaCBookAdmin/Admin/Book/Book/Action/list_chapters.html.twig' ),
 					'edit'     => array(),
 					'delete'   => array(),
 

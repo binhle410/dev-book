@@ -55,35 +55,35 @@ class Book extends BookModel {
 	 */
 	protected $organisation;
 	
-	/**
-	 * @var boolean|null
-	 * @ORM\Column(type="boolean", nullable=true)
-	 */
-	protected $abridged;
-	
-	/**
-	 * @var integer|null
-	 * @ORM\Column(type="integer", nullable=true)
-	 */
-	protected $numberOfPages;
-	
-	/**
-	 * @var string|null
-	 * @ORM\Column(type="string", nullable=true)
-	 */
-	protected $bookEdition;
-	
-	/**
-	 * @var string|null
-	 * @ORM\Column(type="string", nullable=true)
-	 */
-	protected $bookFormat;
-	
-	/**
-	 * @var string|null
-	 * @ORM\Column(type="string", nullable=true)
-	 */
-	protected $isbn;
+//	/**
+//	 * @var boolean|null
+//	 * @ORM\Column(type="boolean", nullable=true)
+//	 */
+//	protected $abridged;
+//
+//	/**
+//	 * @var integer|null
+//	 * @ORM\Column(type="integer", nullable=true)
+//	 */
+//	protected $numberOfPages;
+//
+//	/**
+//	 * @var string|null
+//	 * @ORM\Column(type="string", nullable=true)
+//	 */
+//	protected $bookEdition;
+//
+//	/**
+//	 * @var string|null
+//	 * @ORM\Column(type="string", nullable=true)
+//	 */
+//	protected $bookFormat;
+//
+//	/**
+//	 * @var string|null
+//	 * @ORM\Column(type="string", nullable=true)
+//	 */
+//	protected $isbn;
 	
 	/**
 	 * @return mixed

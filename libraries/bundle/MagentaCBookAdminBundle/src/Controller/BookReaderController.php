@@ -2,9 +2,8 @@
 
 namespace Magenta\Bundle\CBookAdminBundle\Controller;
 
-
-use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Book;
-use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Chapter;
+use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
+use Magenta\Bundle\CBookModelBundle\Entity\Book\Chapter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class BookReaderController extends Controller

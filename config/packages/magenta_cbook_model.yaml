@@ -11,7 +11,13 @@ parameters:
     PDF_API_BASE_URL:  '%env(resolve:PDF_API_BASE_URL)%'
     PDF_DOWNLOAD_PREFIX: '%env(resolve:PDF_DOWNLOAD_PREFIX)%'
 
-    # BookBundle
+# BookBundle
+bean_thing:
+    persistence:
+        orm:
+            enabled:              true
+            manager_name:         null
+            inheritance_strategy: custom
 bean_book:
     class:
         book: Magenta\Bundle\CBookModelBundle\Entity\Book\Book

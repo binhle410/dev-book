@@ -88,6 +88,8 @@ layout:
     login: 'Log in'
     register: Register
     logged_in_as: 'Logged in as %username%'
+    start_editing: Start editing
+    save: Save
 
 form:
     group_name: 'Group name'

@@ -1,6 +1,0 @@
-bean_thing:
-    persistence:
-        orm:
-            enabled:              true
-            manager_name:         null
-            inheritance_strategy: class

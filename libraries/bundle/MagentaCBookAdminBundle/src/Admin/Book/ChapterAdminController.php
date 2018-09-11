@@ -56,7 +56,7 @@ class ChapterAdminController extends BaseCRUDAdminController
     }
     public function listAction()
     {
-        $this->admin->setTemplate('list', '@MagentaCBookAdmin/Admin/Organisation/OrgChapter/CRUD/list.html.twig');
+        $this->admin->setTemplate('list', '@MagentaCBookAdmin/Admin/Book/Children/Chapter/CRUD/list.html.twig');
         return parent::listAction();
     }
 }

@@ -5,76 +5,97 @@
         nav {
             height: 70px;
         }
+
         .spy-subchapter-navtitle {
             font-size: 0.8em;
         }
+
         .navbar-brand {
             margin: 0px !important;
         }
+
         #spy-chapter-navtitle, .spy-subchapter-navtitle {
             font-weight: bold;
         }
+
         .editing .offset-anchor {
             margin-top: 0px !important;
         }
+
         .offset-anchor {
             padding-top: 75px;
             margin-top: -75px;
         }
+
         .dropdown.show .dropdown-menu, .dropdown .dropdown-menu {
             background-color: white !important;
             box-shadow: 0 2px rgba(17, 16, 15, 0.1), 0 2px 10px rgba(17, 16, 15, 0.1);
         }
+
         .dropdown.show .dropdown-menu .dropdown-item:hover, .dropdown.show .dropdown-menu .dropdown-item:focus, .dropdown .dropdown-menu .dropdown-item:hover, .dropdown .dropdown-menu .dropdown-item:focus {
             background-color: #66615B;
         }
+
         .btn-neutral:hover, .btn-neutral:focus, .btn-neutral:active, .btn-neutral.active, .show > .btn-neutral.dropdown-toggle {
             color: unset;
         }
+
         .dropdown-item.active, .dropdown-item:active {
             background-color: white;
             font-weight: bold;
         }
+
         #toc-modal .modal-title {
             font-weight: bold;
         }
+
         #toc-modal .modal-body {
             padding: 20px;
         }
+
         #toc-modal a {
             font-size: 14px;
         }
+
         #edit-button, #save-button {
             float: right;
             font-size: 20px;
         }
+
         #toc-sidebar ul {
             list-style-type: none;
         }
+
         #toc-sidebar a {
             cursor: pointer;
         }
+
         .admin-buttons {
             position: fixed;
             right: 3vw;
             top: 100px;
         }
+
         .pagination {
             width: 280px;
             margin: auto;
         }
+
         .bottom-nav {
             height: 50px;
         }
+
         @media (max-width: 767px) {
             .admin-buttons {
                 position: relative;
                 top: -70px;
             }
+
             .pagination {
                 width: 280px;
                 margin: auto;
             }
+
             .bottom-nav {
                 height: 90px;
             }
@@ -100,18 +121,19 @@
     </div>
 
     {% for i, chapter in book.chapters %}
-            <div class="dropdown subchapter-nav" id="chapter-{{ i+1 }}-nav" style="display: none">
-                <a href="#" class="btn-neutral dropdown-toggle" data-toggle="dropdown">
-                    <span class="spy-subchapter-navtitle"></span>
-                    <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li class="dropdown-header">Choose sub-chapter</li>
-                    {% for ii, sub in chapter.subChapters %}
-                        <a class="sub dropdown-item" href="#chapter-{{ i+1 }}-{{ ii+1 }}">{{ i+1 }}.{{ ii+1 }}. {{ sub.name }}</a>
-                    {% endfor %}
-                </ul>
-            </div>
+        <div class="dropdown subchapter-nav" id="chapter-{{ i+1 }}-nav" style="display: none">
+            <a href="#" class="btn-neutral dropdown-toggle" data-toggle="dropdown">
+                <span class="spy-subchapter-navtitle"></span>
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li class="dropdown-header">Choose sub-chapter</li>
+                {% for ii, sub in chapter.subChapters %}
+                    <a class="sub dropdown-item" href="#chapter-{{ i+1 }}-{{ ii+1 }}">{{ i+1 }}.{{ ii+1 }}
+                        . {{ sub.name }}</a>
+                {% endfor %}
+            </ul>
+        </div>
     {% endfor %}
 {% endblock %}
 
@@ -129,15 +151,19 @@
                     <h2 style="text-align: center">{{ book.name }}</h2>
                 </div>
                 <div class="admin-buttons">
-                    <i id="edit-button" class="fa fa-edit hand-hover"></i>
-                    <i id="save-button" class="fa fa-save hand-hover" style="display: none;"></i>
+                    {#<i id="edit-button" class="fa fa-edit hand-hover"></i>#}
+                    {#<i id="save-button" class="fa fa-save hand-hover" style="display: none;"></i>#}
                 </div>
                 {% for i, chapter in book.chapters %}
-                    <div class="editable" data-name="chapter-{{ chapter.id }}-name"><h3 id="chapter-{{ i+1 }}" class="offset-anchor chapter-name">{{ i+1 }}. {{ chapter.name }}</h3></div>
-                    <div class="editable"  data-name="chapter-{{ chapter.id }}-text">{{ chapter.text | raw }}</div>
+                    <div class="editable" data-name="chapter-{{ chapter.id }}-name"><h3 id="chapter-{{ i+1 }}"
+                                                                                        class="offset-anchor chapter-name">{{ i+1 }}
+                            . {{ chapter.name }}</h3></div>
+                    <div class="editable" data-name="chapter-{{ chapter.id }}-text">{{ chapter.text | raw }}</div>
                     <div>
                         {% for ii, sub in chapter.subChapters %}
-                            <div class="editable" data-name="chapter-{{ sub.id }}-name"><h4 id="chapter-{{ i+1 }}-{{ ii+1 }}" class="offset-anchor chapter-name">{{ i+1 }}.{{ ii+1 }}. {{ sub.name }}</h4></div>
+                            <div class="editable" data-name="chapter-{{ sub.id }}-name"><h4
+                                        id="chapter-{{ i+1 }}-{{ ii+1 }}" class="offset-anchor chapter-name">{{ i+1 }}
+                                    .{{ ii+1 }}. {{ sub.name }}</h4></div>
                             <div class="editable" data-name="chapter-{{ sub.id }}-text">{{ sub.text | raw }}</div>
                         {% endfor %}
                     </div>
@@ -173,10 +199,14 @@
             </div>
         </div>
     </div>
-    <div class="d-md-none" style="position: fixed; width: 100%; bottom: 0px; background-color: white; text-align: center; padding: 5px 0px;">
-        <a class="btn btn-outline-primary btn-sm btn-border btn-round" href="{{ path('magenta_book_index', {'accessCode': accessCode, 'employeeCode': employeeCode}) }}">HOME</a>
-        <a class="btn btn-sm btn-outline-primary btn-border btn-round" href="{{ path('magenta_book_contact', {'accessCode': accessCode, 'employeeCode': employeeCode}) }}">CONTACTS</a>
-        <a class="btn btn-sm btn-outline-primary btn-border btn-round" href="" data-toggle="modal" data-target="#toc-modal">BOOK TOC </a>
+    <div class="d-md-none"
+         style="position: fixed; width: 100%; bottom: 0px; background-color: white; text-align: center; padding: 5px 0px;">
+        <a class="btn btn-outline-primary btn-sm btn-border btn-round"
+           href="{{ path('magenta_book_index', {'accessCode': accessCode, 'employeeCode': employeeCode}) }}">HOME</a>
+        <a class="btn btn-sm btn-outline-primary btn-border btn-round"
+           href="{{ path('magenta_book_contact', {'accessCode': accessCode, 'employeeCode': employeeCode}) }}">CONTACTS</a>
+        <a class="btn btn-sm btn-outline-primary btn-border btn-round" href="" data-toggle="modal"
+           data-target="#toc-modal">BOOK TOC </a>
     </div>
     <div class="modal fade" id="toc-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -200,119 +230,139 @@
 {% endblock %}
 
 {% block javascripts_book %}
-<script>
-    window.environment = {
-        apiEndPoint: 'https://localhost/dev-book/public/index.php/bean/playground',
-        mediaApiEndPoint: 'https://localhost/dev-book/public/index.php/bean/playground',
-    }
-    $(document).ready(($) => {
-
-        var toc = [
-            {% for i, chapter in book.chapters %}
-            {
-                name: '{{ chapter.name }}',
-                href: '#chapter-{{ i+1 }}',
-                chapterId: '{{ chapter.id }}',
-                children: [
-                    {% for ii, sub in chapter.subChapters %}
-                    {
-                        name: '{{ sub.name }}',
-                        href: '#chapter-{{ i+1 }}-{{ ii+1 }}',
-                        chapterId: '{{ sub.id }}',
-                    },
-                    {% endfor %}
-                ]
-            },
-            {% endfor %}
-        ]
-        $('#toc-sidebar').tree({
-            data: toc,
-            closedIcon: $('<i class="nc-icon nc-minimal-right"></i>'),
-            openedIcon: $('<i class="nc-icon nc-minimal-down"></i>'),
-            dragAndDrop: false,
-            onCreateLi: function(node, $li) {
-                $li.find('.jqtree-title').html(
-                    `<a href="${node.href}">${node.name}</a>`
-                );
-            }
-        });
-        $('#toc-modal .modal-body').tree({
-            data: toc,
-            closedIcon: $('<i class="nc-icon nc-minimal-right"></i>'),
-            openedIcon: $('<i class="nc-icon nc-minimal-down"></i>'),
-            dragAndDrop: false,
-            onCreateLi: function(node, $li) {
-                $li.find('.jqtree-title').html(
-                    `<a href="${node.href}" class="chapter-link">${node.name}</a>`
-                );
-            }
-        });
-        $('#toc-modal a.chapter-link').click(() => {
-            $('#toc-modal').modal('hide');
-        })
-        $('#toc-sidebar').on('tree.move', function(event) {
-            event.preventDefault();
-            event.move_info.do_move();
-            data = {
-                'moved_node': event.move_info.moved_node.chapterId,
-                'target_node': event.move_info.target_node.chapterId,
-                'position': event.move_info.position,
-                'previous_parent': event.move_info.previous_parent.chapterId
-            }
-            $.post(environment.apiEndPoint, data)
-        });
-        $('#edit-button').click(() => {
-            $('.editable').froalaEditor({
-                imageUploadURL: environment.mediaApiEndPoint,
-                toolbarInline: true,
-                toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color', 'emoticons', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo']
-            }).on('froalaEditor.image.uploaded', function (e, editor, response) {
-                console.log(e, editor, response)
-            })
-            $('.editable').addClass('editing');
-            $('#toc-sidebar').tree('setOption', 'dragAndDrop', true);
-            $('#save-button').show()
-            $('#edit-button').hide()
-        })
-        window.saveBookContentChanges = () => {
-            var form = {};
-            $('.editable').each(function(i) {
-                form[`${$(this).data('name')}`] = $(this).html()
-            })
-            console.log(form)
-            $.post(environment.apiEndPoint, form)
-                .done(function(data) {
-                    console.log(data)
-                })
-                .fail(function(error) {
-                    console.log(error)
-                })
+    <script>
+        window.environment = {
+            apiEndPoint: 'https://localhost/dev-book/public/index.php/bean/playground',
+            mediaApiEndPoint: 'https://localhost/dev-book/public/index.php/bean/playground',
         }
-        $('#save-button').click(() => {
-            $('.editable').froalaEditor('destroy');
-            $('.editable').removeClass('editing');
-            $('#toc-sidebar').tree('setOption', 'dragAndDrop', false);
-            $('#save-button').hide()
-            $('#edit-button').show()
-            saveBookContentChanges();
-        })
-        $('body').scrollspy({ target: '#cbook-navbar', offset: 75 })
-        $(window).scroll ((e) => {
-            var currentChapter = $('.dropdown-item.active:not(.sub)').text();
-            if (currentChapter) {
-                $('#spy-chapter-navtitle').text(currentChapter)
-            } else {
-                var href = $('.dropdown-item.active').attr('href');
-                var id = href.substring(0, href.lastIndexOf('-'));
-                $('#spy-chapter-navtitle').text($(id).text());
+        $(document).ready(($) => {
+
+            var toc = [
+                {% for i, chapter in book.chapters %}
+                {
+                    name: '{{ chapter.name }}',
+                    href: '#chapter-{{ i+1 }}',
+                    chapterId: '{{ chapter.id }}',
+                    children: [
+                        {% for ii, sub in chapter.subChapters %}
+                        {
+                            name: '{{ sub.name }}',
+                            href: '#chapter-{{ i+1 }}-{{ ii+1 }}',
+                            chapterId: '{{ sub.id }}',
+                        },
+                        {% endfor %}
+                    ]
+                },
+                {% endfor %}
+            ]
+
+            $('#toc-sidebar').tree({
+                data: toc,
+                closedIcon: $('<i class="fa fa-arrow-circle-right"></i>'),
+                openedIcon: $('<i class="fa fa-arrow-circle-down"></i>'),
+                dragAndDrop: false,
+                onCreateLi: function (node, $li) {
+                    $li.find('.jqtree-title').html(
+                        `<a href="${node.href}">${node.name}</a>  <i class="fa fa-plus-circle" aria-hidden="true"> </i>`
+                    );
+                }
+            });
+
+            $('#toc-sidebar').on(
+                'tree.click',
+                function(event) {
+                    // The clicked node is 'event.node'
+                    // var node = event.node;
+                    // alert(node.name);
+                }
+            );
+
+            $('#toc-modal .modal-body').tree({
+                data: toc,
+                closedIcon: $('<i class="nc-icon nc-minimal-right"></i>'),
+                openedIcon: $('<i class="nc-icon nc-minimal-down"></i>'),
+                dragAndDrop: false,
+                onCreateLi: function (node, $li) {
+                    $li.find('.jqtree-title').html(
+                        `<a href="${node.href}" class="chapter-link">${node.name}</a>`
+                    );
+                }
+            });
+            $('#toc-modal a.chapter-link').click(() => {
+                $('#toc-modal').modal('hide');
+            })
+            $('#toc-sidebar').on('tree.move', function (event) {
+                event.preventDefault();
+                event.move_info.do_move();
+                data = {
+                    'moved_node': event.move_info.moved_node.chapterId,
+                    'target_node': event.move_info.target_node.chapterId,
+                    'position': event.move_info.position,
+                    'previous_parent': event.move_info.previous_parent.chapterId
+                }
+                $.post(environment.apiEndPoint, data)
+            });
+
+            $('#edit-button').click(() => {
+                $('.editable').froalaEditor({
+                    imageUploadURL: environment.mediaApiEndPoint,
+                    toolbarInline: true,
+                    quickInsertButtons: ['image','video', 'table', 'ol', 'ul', 'hr'],
+                    toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color', 'emoticons', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo']
+                }).on('froalaEditor.image.uploaded', function (e, editor, response) {
+                    console.log(e, editor, response)
+                })
+                $('.editable').addClass('editing');
+                $('#toc-sidebar').tree('setOption', 'dragAndDrop', true);
+                $('#save-button').show()
+                $('#edit-button').hide()
+            })
+
+            window.saveBookContentChanges = () => {
+                var form = {};
+                $('.editable').each(function (i) {
+                    form[`${$(this).data('name')}`] = $(this).html()
+                })
+                console.log(form)
+                $.post(environment.apiEndPoint, form)
+                    .done(function (data) {
+                        console.log(data)
+                    })
+                    .fail(function (error) {
+                        console.log(error)
+                    })
             }
-            $('.subchapter-nav').hide();
-            $('.sub.dropdown-item.active').parents('.subchapter-nav').show();
-            $('.sub.dropdown-item.active').parents('.subchapter-nav').find('.spy-subchapter-navtitle').text($('.sub.dropdown-item.active').text());
-            if ($(window).scrollTop() < 50) {
-                $('#spy-chapter-navtitle').text('Your book on the cloud');
-            }
+
+            $('#save-button').click(() => {
+                $('.editable').froalaEditor('destroy');
+                $('.editable').removeClass('editing');
+                $('#toc-sidebar').tree('setOption', 'dragAndDrop', false);
+                $('#save-button').hide()
+                $('#edit-button').show()
+                saveBookContentChanges();
+            })
+
+            $('body').scrollspy({target: '#cbook-navbar', offset: 75})
+            $(window).scroll((e) => {
+                var currentChapter = $('.dropdown-item.active:not(.sub)').text();
+                if (currentChapter) {
+                    $('#spy-chapter-navtitle').text(currentChapter)
+                } else {
+                    if (typeof href != "undefined") {
+                        var href = $('.dropdown-item.active').attr('href');
+                        var id = href.substring(0, href.lastIndexOf('-'));
+                        $('#spy-chapter-navtitle').text($(id).text());
+                    }else{
+                        // console.log('jquery lookup of (\'.dropdown-item.active\') is not found');
+                    }
+                }
+                $('.subchapter-nav').hide();
+                $('.sub.dropdown-item.active').parents('.subchapter-nav').show();
+                $('.sub.dropdown-item.active').parents('.subchapter-nav').find('.spy-subchapter-navtitle').text($('.sub.dropdown-item.active').text());
+                if ($(window).scrollTop() < 50) {
+                    $('#spy-chapter-navtitle').text('Your book on the cloud');
+                }
+            })
         })
-    })
-</script>
+    </script>
 {% endblock %}

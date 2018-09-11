@@ -40,10 +40,19 @@ use Doctrine\ODM\PHPCR\Version as PHPCRVersion;
 class MagentaCBookModelBundle extends Bundle {
 	public function build(ContainerBuilder $container) {
 		parent::build($container);
+		$container->addCompilerPass(
+			DoctrineOrmMappingsPass::createXmlMappingDriver(
+				[
+					realpath(__DIR__ . '/Resources/config/doctrine-model/thing') => 'Bean\Component\Thing\Model',
+				],
+				[ 'bean_thing.persistence.orm.manager_name' ],
+				'bean_thing.backend_type_orm_custom',
+				[ 'BeanThingBundle' => 'Bean\Component\Thing\Model' ]
+			)
+		);
 	}
 	
 	public function registerCommands(Application $application) {
-		// noop
 	}
 	
 }

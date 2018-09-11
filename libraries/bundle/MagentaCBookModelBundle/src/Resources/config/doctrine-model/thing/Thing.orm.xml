@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+    <entity name="Bean\Component\Thing\Model\Thing" inheritance-type="JOINED" table="thing__thing">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </id>
+
+        <discriminator-column name="discr" type="string" />
+        <discriminator-map>
+            <discriminator-mapping value="creative-work" class="Bean\Component\CreativeWork\Model\CreativeWork" />
+            <discriminator-mapping value="organisation" class="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation" />
+            <discriminator-mapping value="person" class="Magenta\Bundle\CBookModelBundle\Entity\Person\Person" />
+            <discriminator-mapping value="app-book" class="Magenta\Bundle\CBookModelBundle\Entity\Book\Book" />
+            <discriminator-mapping value="app-chapter" class="Magenta\Bundle\CBookModelBundle\Entity\Book\Chapter" />
+        </discriminator-map>
+
+        <field name="createdAt" type="datetime"/>
+        <field name="enabled" type="boolean"/>
+        <field name="name" type="string" nullable="true"/>
+        <field name="description" type="string" nullable="true"/>
+    </entity>
+
+</doctrine-mapping>
