@@ -101,16 +101,35 @@ class Category extends AppCategory {
 	
 	public function setName($name) {
 		if($this->getCurrentLocale() === $this->getDefaultLocale()) {
-			$this->name = $name;
+			parent::setName($name);
 			
 			return $this;
 		}
 		$this->translate(null, true)->setName($name);
+		$this->translate(null, true)->setSlug($name);
 		
 		return $this;
 	}
 	
-	protected $description;
+	public function getSlug() {
+		if($this->getCurrentLocale() === $this->getDefaultLocale()) {
+			return $this->slug;
+		}
+		
+		return $this->translate(null, true)->getSlug();
+	}
+	
+	public function setSlug($slug) {
+		if($this->getCurrentLocale() === $this->getDefaultLocale()) {
+			parent::setSlug($slug);
+			
+			return $this;
+		}
+		$this->translate(null, true)->setSlug($slug);
+		
+		return $this;
+	}
+	
 	
 	public function getDescription() {
 		if($this->getCurrentLocale() === $this->getDefaultLocale()) {

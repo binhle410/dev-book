@@ -29,6 +29,12 @@ abstract class Thing implements ThingInterface {
 	
 	/**
 	 * NOT part of schema.org
+	 * @var \DateTime|null
+	 */
+	protected $updatedAt;
+	
+	/**
+	 * NOT part of schema.org
 	 * A thing may have a status like DRAFT, OPEN, CLOSED, EXPIRED, ARCHIVED
 	 * @var string
 	 */
@@ -60,7 +66,7 @@ abstract class Thing implements ThingInterface {
 	/**
 	 * @param bool $enabled
 	 */
-	public function setEnabled(bool $enabled): void {
+	public function setEnabled($enabled): void {
 		$this->enabled = $enabled;
 	}
 	
@@ -74,8 +80,22 @@ abstract class Thing implements ThingInterface {
 	/**
 	 * @param \DateTime $createdAt
 	 */
-	public function setCreatedAt(\DateTime $createdAt): void {
+	public function setCreatedAt(?\DateTime $createdAt = null): void {
 		$this->createdAt = $createdAt;
+	}
+	
+	/**
+	 * @return \DateTime
+	 */
+	public function getUpdatedAt(): \DateTime {
+		return $this->updatedAt;
+	}
+	
+	/**
+	 * @param \DateTime $updatedAt
+	 */
+	public function setUpdatedAt(?\DateTime $updatedAt = null): void {
+		$this->updatedAt = $updatedAt;
 	}
 	
 	/**
@@ -84,11 +104,13 @@ abstract class Thing implements ThingInterface {
 	public function getName(): ?string {
 		return $this->name;
 	}
+
+	
 	
 	/**
 	 * @param null|string $name
 	 */
-	public function setName(?string $name): void {
+	public function setName($name): void {
 		$this->name = $name;
 	}
 	
@@ -102,7 +124,7 @@ abstract class Thing implements ThingInterface {
 	/**
 	 * @param null|string $description
 	 */
-	public function setDescription(?string $description): void {
+	public function setDescription($description): void {
 		$this->description = $description;
 	}
 }

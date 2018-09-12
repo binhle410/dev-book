@@ -24,6 +24,7 @@
         "symfony/web-link": "^4.0",
         "symfony/webpack-encore-pack": "*",
         "symfony/yaml": "^4.0",
+        "sonata-project/media-bundle": "^0.1",
         "sonata-project/doctrine-orm-admin-bundle": "^3.6",
         "sonata-project/admin-bundle": "^3.35",
         "friendsofsymfony/ckeditor-bundle": "^1.0",
@@ -33,7 +34,6 @@
         "nelmio/api-doc-bundle": "^2.13",
         "symfony/templating": "^4.1",
         "friendsofsymfony/rest-bundle": "^2.3",
-        "sonata-project/media-bundle": "^3.13",
         "sonata-project/classification-bundle": "^3.7.1",
         "knplabs/doctrine-behaviors": "^1.5",
         "aws/aws-sdk-php": "^3.56"
@@ -66,6 +66,7 @@
             "Bean\\Bundle\\BookBundle\\": "libraries\\bundle\\BeanBookBundle\\src/",
             "Bean\\Bundle\\CreativeWorkBundle\\": "libraries\\bundle\\BeanCreativeWorkBundle\\src/",
             "Bean\\Bundle\\DevToolBundle\\": "libraries\\bundle\\BeanDevToolBundle\\src/",
+            "Bean\\Bundle\\SonataMediaBundle\\": "libraries\\bundle\\BeanSonataMediaBundle\\src/",
             "Bean\\Bundle\\ThingBundle\\": "libraries\\bundle\\BeanThingBundle\\src/",
             "Magenta\\Bundle\\CBookAdminBundle\\": "libraries\\bundle\\MagentaCBookAdminBundle\\src/",
             "Magenta\\Bundle\\CBookApiBundle\\": "libraries\\bundle\\MagentaCBookApiBundle\\src/",
@@ -74,6 +75,7 @@
             "Magenta\\Bundle\\CBookModelBundle\\": "libraries\\bundle\\MagentaCBookModelBundle\\src/",
             "Bean\\Component\\Book\\": "libraries\\component\\Book\\src/",
             "Bean\\Component\\CreativeWork\\": "libraries\\component\\CreativeWork\\src/",
+            "Bean\\Component\\Media\\": "libraries\\component\\Media\\src/",
             "Bean\\Component\\Organization\\": "libraries\\component\\Organization\\src/",
             "Bean\\Component\\Person\\": "libraries\\component\\Person\\src/",
             "Bean\\Component\\Thing\\": "libraries\\component\\Thing\\src/"
@@ -84,6 +86,7 @@
             "App\\Tests\\": "tests/",
             "Bean\\Bundle\\BookBundle\\spec\\": "libraries\\bundle\\BeanBookBundle\\tests/spec/",
             "Bean\\Bundle\\CreativeWorkBundle\\spec\\": "libraries\\bundle\\BeanCreativeWorkBundle\\tests/spec/",
+            "Bean\\Bundle\\SonataMediaBundle\\spec\\": "libraries\\bundle\\BeanSonataMediaBundle\\tests/spec/",
             "Bean\\Bundle\\ThingBundle\\spec\\": "libraries\\bundle\\BeanThingBundle\\tests/spec/",
             "Magenta\\Bundle\\CBookAdminBundle\\spec\\": "libraries\\bundle\\MagentaCBookAdminBundle\\tests/spec/",
             "Magenta\\Bundle\\CBookAdminBundle\\Tests\\": "libraries\\bundle\\MagentaCBookAdminBundle\\tests/units/",
@@ -98,6 +101,7 @@
             "Bean\\Component\\Book\\spec\\": "libraries\\component\\Book\\tests/spec/",
             "Bean\\Component\\CBookAsset\\spec\\": "libraries\\component\\CBookAsset\\tests/spec/",
             "Bean\\Component\\CreativeWork\\spec\\": "libraries\\component\\CreativeWork\\tests/spec/",
+            "Bean\\Component\\Media\\spec\\": "libraries\\component\\Media\\tests/spec/",
             "Bean\\Component\\Organization\\spec\\": "libraries\\component\\Organization\\tests/spec/",
             "Bean\\Component\\Person\\spec\\": "libraries\\component\\Person\\tests/spec/",
             "Bean\\Component\\Thing\\spec\\": "libraries\\component\\Thing\\tests/spec/"

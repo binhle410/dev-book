@@ -4,6 +4,7 @@ bean_dev_tool:
     components: ~
     bundles:
         - BeanDevToolBundle
+        - BeanSonataMediaBundle
         - BeanBookBundle
         - BeanCreativeWorkBundle
         - BeanThingBundle

@@ -1,4 +1,5 @@
 <?php
+
 namespace Magenta\Bundle\CBookAdminBundle\DependencyInjection;
 
 use Doctrine\Common\Annotations\AnnotationReader;
@@ -29,7 +30,9 @@ class MagentaCBookAdminExtension extends ConfigurableExtension {
 		$definitions = [];
 		foreach(get_declared_classes() as $class) {
 			if(is_subclass_of($class, CRUDController::class)) {
-				$container->getDefinition($class)->addTag('controller.service_arguments');
+				if($container->hasDefinition($class)) {
+					$container->getDefinition($class)->addTag('controller.service_arguments');
+				}
 			} elseif(is_subclass_of($class, BaseAdmin::class)) {
 				if(empty($class::AUTO_CONFIG)) {
 					continue;
@@ -72,7 +75,7 @@ class MagentaCBookAdminExtension extends ConfigurableExtension {
 					continue;
 				}
 				$className = explode('\\', str_replace('Admin', '', $class));
-				$def = $container->getDefinition($class);
+				$def       = $container->getDefinition($class);
 				if( ! empty($children = $class::CHILDREN)) {
 					foreach($children as $child => $property) {
 						$def->addMethodCall('addChild', [ $container->getDefinition($child), $property ]);

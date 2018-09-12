@@ -30,50 +30,50 @@ use Magenta\Bundle\CBookModelBundle\Entity\Media\Base\AppMedia;
  *
  * @author <yourname> <youremail>
  */
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="media__media")
  */
-class Media extends AppMedia
-{
-
-    function __construct()
-    {
-    	parent::__construct();
-    }
-    public function getPublicMediaUrl(){
-    return 'https://product.hstatic.net/1000149700/product/cosplay-nu-thuy-thu-sexy-8_1024x1024.jpg';
-    }
-    public function getMediaExtension()
-    {
-        $ext = $this->getExtension();
-        if (empty($ext)) {
-            $metadata = $this->getProviderMetadata();
-            if (isset($metadata['provider_name'])) {
-                $ext = strtolower($metadata['provider_name']);
-            }
-            /**
-             *
-             * if (isset($metadata['filename'])) {
-             * $filename = $metadata['filename'];
-             * $ext = pathinfo($filename, PATHINFO_EXTENSION);
-             * }
-             */
-        }
-        return $ext;
-    }
-
-    public function setEnabled($enabled)
-    {
-        parent::setEnabled($enabled);
-        if ($enabled === false) {
-            if (($galleryItems = $this->galleryHasMedias) instanceof Collection) {
-                foreach ($galleryItems as $item) {
-                    $item->setEnabled($enabled);
-                }
-            }
-        }
-    }
-
-
+class Media extends AppMedia {
+	
+	function __construct() {
+		parent::__construct();
+	}
+	
+	public function getPublicMediaUrl() {
+		return 'https://product.hstatic.net/1000149700/product/cosplay-nu-thuy-thu-sexy-8_1024x1024.jpg';
+	}
+	
+	public function getMediaExtension() {
+		$ext = $this->getExtension();
+		if(empty($ext)) {
+			$metadata = $this->getProviderMetadata();
+			if(isset($metadata['provider_name'])) {
+				$ext = strtolower($metadata['provider_name']);
+			}
+			/**
+			 *
+			 * if (isset($metadata['filename'])) {
+			 * $filename = $metadata['filename'];
+			 * $ext = pathinfo($filename, PATHINFO_EXTENSION);
+			 * }
+			 */
+		}
+		
+		return $ext;
+	}
+	
+	public function setEnabled($enabled): void {
+		parent::setEnabled($enabled);
+		if($enabled === false) {
+			if(($galleryItems = $this->galleryHasMedias) instanceof Collection) {
+				foreach($galleryItems as $item) {
+					$item->setEnabled($enabled);
+				}
+			}
+		}
+	}
+	
+	
 }

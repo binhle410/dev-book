@@ -2,14 +2,16 @@
 
 namespace Magenta\Bundle\CBookModelBundle\Entity\Media\Base;
 
+use Bean\Bundle\SonataMediaBundle\Doctrine\Orm\BaseMedia;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
-use Sonata\MediaBundle\Entity\BaseMedia;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Sonata\MediaBundle\Model\MediaInterface;
 
 /** @ORM\MappedSuperclass */
-class AppMedia extends BaseMedia {
+class AppMedia extends BaseMedia implements MediaInterface {
+	
 	/**
 	 * @var int|null
 	 * @ORM\Id
@@ -19,6 +21,7 @@ class AppMedia extends BaseMedia {
 	protected $id;
 	
 	function __construct() {
+		parent::__construct();
 		$this->enabled = true;
 	}
 	
@@ -52,53 +55,4 @@ class AppMedia extends BaseMedia {
 		$this->logoOrganisation = $logoOrganisation;
 	}
 	
-	
-	/**
-	 * @param ArrayCollection $resumeCandidates
-	 */
-	public function setResumeCandidates($resumeCandidates) {
-		$this->resumeCandidates = $resumeCandidates;
-	}
-	
-	/**
-	 * @return Media
-	 */
-	public function getThumbnail() {
-		return $this->thumbnail;
-	}
-	
-	/**
-	 * @param Media $thumbnail
-	 */
-	public function setThumbnail($thumbnail) {
-		$this->thumbnail = $thumbnail;
-	}
-	
-	/**
-	 * @return User
-	 */
-	public function getAvatarUser() {
-		return $this->avatarUser;
-	}
-	
-	/**
-	 * @param User $avatarUser
-	 */
-	public function setAvatarUser($avatarUser) {
-		$this->avatarUser = $avatarUser;
-	}
-	
-	/**
-	 * @return ArrayCollection
-	 */
-	public function getMediaH5PContent() {
-		return $this->mediaH5PContent;
-	}
-	
-	/**
-	 * @param ArrayCollection $mediaH5PContent
-	 */
-	public function setMediaH5PContent($mediaH5PContent) {
-		$this->mediaH5PContent = $mediaH5PContent;
-	}
 }

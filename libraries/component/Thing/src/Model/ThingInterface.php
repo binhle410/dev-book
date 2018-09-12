@@ -24,7 +24,7 @@ interface ThingInterface {
 	/**
 	 * @param bool $enabled
 	 */
-	public function setEnabled(bool $enabled): void;
+	public function setEnabled($enabled): void;
 	
 	/**
 	 * @return \DateTime
@@ -32,9 +32,21 @@ interface ThingInterface {
 	public function getCreatedAt(): \DateTime;
 	
 	/**
+	 * To be compatible with Sonata MediaInterface
 	 * @param \DateTime $createdAt
 	 */
-	public function setCreatedAt(\DateTime $createdAt): void;
+	public function setCreatedAt(?\DateTime $createdAt = null): void;
+	
+	/**
+	 * @return \DateTime
+	 */
+	public function getUpdatedAt(): \DateTime;
+	
+	/**
+	 * To be compatible with Sonata MediaInterface
+	 * @param \DateTime $updatedAt
+	 */
+	public function setUpdatedAt(?\DateTime $updatedAt = null): void;
 	
 	/**
 	 * @return null|string
@@ -42,9 +54,10 @@ interface ThingInterface {
 	public function getName(): ?string;
 	
 	/**
+	 * To be compatible with Sonata MediaInterface
 	 * @param null|string $name
 	 */
-	public function setName(?string $name): void;
+	public function setName($name): void;
 	
 	/**
 	 * @return null|string
@@ -52,7 +65,8 @@ interface ThingInterface {
 	public function getDescription(): ?string;
 	
 	/**
+	 * To be compatible with Sonata MediaInterface
 	 * @param null|string $description
 	 */
-	public function setDescription(?string $description): void;
+	public function setDescription($description): void;
 }

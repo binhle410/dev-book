@@ -37,6 +37,11 @@ class CategoryTranslation
      * @ORM\Column(type="string", length=255)
      */
     protected $name;
+	
+	/**
+	 * @ORM\Column(type="string", length=255)
+	 */
+    protected $slug;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -76,4 +81,18 @@ class CategoryTranslation
     {
         $this->description = $description;
     }
+	
+	/**
+	 * @return mixed
+	 */
+	public function getSlug() {
+		return $this->slug;
+	}
+	
+	/**
+	 * @param mixed $slug
+	 */
+	public function setSlug($slug): void {
+		$this->slug = $slug;
+	}
 }

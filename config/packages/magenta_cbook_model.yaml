@@ -11,6 +11,9 @@ parameters:
     PDF_API_BASE_URL:  '%env(resolve:PDF_API_BASE_URL)%'
     PDF_DOWNLOAD_PREFIX: '%env(resolve:PDF_DOWNLOAD_PREFIX)%'
 
+    sonata.media.admin.media.class: Magenta\Bundle\CBookAdminBundle\Admin\Media\MediaAdmin
+    sonata.media.admin.media.controller: Magenta\Bundle\CBookAdminBundle\Admin\Media\MediaAdminController
+
 # BookBundle
 bean_thing:
     persistence:

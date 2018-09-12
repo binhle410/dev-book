@@ -4,6 +4,7 @@ namespace Magenta\Bundle\CBookAdminBundle\Admin;
 
 use Magenta\Bundle\CBookAdminBundle\Admin\Organisation\OrganisationAdmin;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
+use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 
