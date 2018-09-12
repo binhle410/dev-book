@@ -64,6 +64,18 @@ class OrganisationMember extends MemberModel {
 	protected $contactable = true;
 	
 	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $code;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $pin;
+	
+	/**
 	 * @return bool
 	 */
 	public function isContactable(): bool {
@@ -89,5 +101,33 @@ class OrganisationMember extends MemberModel {
 	 */
 	public function setPerson(?Person $person): void {
 		$this->person = $person;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getCode(): ?string {
+		return $this->code;
+	}
+	
+	/**
+	 * @param null|string $code
+	 */
+	public function setCode(?string $code): void {
+		$this->code = $code;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getPin(): ?string {
+		return $this->pin;
+	}
+	
+	/**
+	 * @param null|string $pin
+	 */
+	public function setPin(?string $pin): void {
+		$this->pin = $pin;
 	}
 }
