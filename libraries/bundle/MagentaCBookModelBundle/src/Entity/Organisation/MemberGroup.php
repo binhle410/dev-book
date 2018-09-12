@@ -31,40 +31,23 @@ class MemberGroup {
 	
 	public function __construct() {
 		$this->groupMembers    = new ArrayCollection();
-		$this->groupCategories = new ArrayCollection();
 	}
 	
-	/**
-	 * @var \Doctrine\Common\Collections\Collection
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupCategory", mappedBy="group")
-	 */
-	protected $groupCategories;
-	
-	public function addGroupCategory(GroupCategory $gc) {
-		$this->groupCategories->add($gc);
-		$gc->setGroup($this);
-	}
-	
-	public function removeGroupCategory(GroupCategory $gc) {
-		$this->groupCategories->add($gc);
-		$gc->setGroup(null);
-	}
-	
-	/**
-	 * @var \Doctrine\Common\Collections\Collection
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Book\BookCategoryGroup", mappedBy="group")
-	 */
-	protected $bookCategoryGroups;
-	
-	public function addBookCategoryGroup(BookCategoryGroup $bkg) {
-		$this->bookCategoryGroups->add($bkg);
-		$bkg->setGroup($this);
-	}
-	
-	public function removeBookCategoryGroup(BookCategoryGroup $bkg) {
-		$this->bookCategoryGroups->removeElement($bkg);
-		$bkg->setGroup(null);
-	}
+//	/**
+//	 * @var \Doctrine\Common\Collections\Collection
+//	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Book\BookCategoryGroup", mappedBy="group")
+//	 */
+//	protected $bookCategoryGroups;
+//
+//	public function addBookCategoryGroup(BookCategoryGroup $bkg) {
+//		$this->bookCategoryGroups->add($bkg);
+//		$bkg->setGroup($this);
+//	}
+//
+//	public function removeBookCategoryGroup(BookCategoryGroup $bkg) {
+//		$this->bookCategoryGroups->removeElement($bkg);
+//		$bkg->setGroup(null);
+//	}
 	
 	/**
 	 * @var Collection

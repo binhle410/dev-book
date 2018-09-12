@@ -5,6 +5,7 @@ namespace Magenta\Bundle\CBookModelBundle\Entity\Book;
 use Bean\Component\Book\Model\Book as BookModel;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\BookCategoryItem;
 
 /**
  * @ORM\Entity()
@@ -19,22 +20,22 @@ class Book extends BookModel {
 	
 	/**
 	 * @ORM\OneToMany(
-	 *     targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Book\BookCategory",
+	 *     targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Classification\BookCategoryItem",
 	 *     mappedBy="book", cascade={"persist"}, orphanRemoval=true
 	 * )
 	 * @ORM\OrderBy({"position"="ASC"})
 	 *
-	 * @var \Doctrine\Common\Collections\Collection $bookCategories ;
+	 * @var \Doctrine\Common\Collections\Collection $bookCategoryItems ;
 	 */
-	protected $bookCategories;
+	protected $bookCategoryItems;
 	
-	public function addBookCategory(BookCategory $bc) {
-		$this->bookCategories->add($bc);
+	public function addBookCategoryItem(BookCategoryItem $bc) {
+		$this->bookCategoryItems->add($bc);
 		$bc->setBook($this);
 	}
 	
-	public function removeBookCategory(BookCategory $bc) {
-		$this->bookCategories->removeElement($bc);
+	public function removeBookCategoryItem(BookCategoryItem $bc) {
+		$this->bookCategoryItems->removeElement($bc);
 		$bc->setBook(null);
 	}
 	

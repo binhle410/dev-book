@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\BookCategory;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Base\AppCategory;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupCategory;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\MemberGroup;
 use Sonata\ClassificationBundle\Entity\BaseCategory as BaseCategory;
 
 //use Gedmo\Mapping\Annotation as Gedmo;
@@ -40,39 +41,61 @@ class Category extends AppCategory {
 	
 	/**
 	 * @var \Doctrine\Common\Collections\Collection
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupCategory", mappedBy="category")
+	 * @ORM\ManyToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\MemberGroup")
+	 * @ORM\JoinTable(name="classification__category__categories_groups__granted",
+	 *      joinColumns={@ORM\JoinColumn(name="id_category", referencedColumnName="id")},
+	 *      inverseJoinColumns={@ORM\JoinColumn(name="id_group", referencedColumnName="id")}
+	 *      )
+
 	 */
-	protected $groupCategories;
+	protected $accessGrantedGroups;
 	
-	public function addGroupCategory(GroupCategory $gc) {
-		$this->groupCategories->add($gc);
-		$gc->setCategory($this);
+	public function addAccesGrantedGroup(MemberGroup $gc) {
+		$this->accessGrantedGroups->add($gc);
 	}
 	
-	public function removeGroupCategory(GroupCategory $gc) {
-		$this->groupCategories->add($gc);
-		$gc->setCategory(null);
+	public function removeAccesGrantedGroup(MemberGroup $gc) {
+		$this->accessGrantedGroups->add($gc);
+	}
+	
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 * @ORM\ManyToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\MemberGroup")
+	 * @ORM\JoinTable(name="classification__category__categories_groups__denied",
+	 *      joinColumns={@ORM\JoinColumn(name="id_category", referencedColumnName="id")},
+	 *      inverseJoinColumns={@ORM\JoinColumn(name="id_group", referencedColumnName="id")}
+	 *      )
+	 
+	 */
+	protected $accessDeniedGroups;
+	
+	public function addAccesDeniedGroup(MemberGroup $gc) {
+		$this->accessDeniedGroups->add($gc);
+	}
+	
+	public function removeAccesDeniedGroup(MemberGroup $gc) {
+		$this->accessDeniedGroups->add($gc);
 	}
 	
 	/**
 	 * @ORM\OneToMany(
-	 *     targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Book\BookCategory",
+	 *     targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem",
 	 *     mappedBy="category", cascade={"persist"}, orphanRemoval=true
 	 * )
 	 * @ORM\OrderBy({"position"="ASC"})
 	 *
 	 * @var \Doctrine\Common\Collections\Collection $bookCategories ;
 	 */
-	protected $bookCategories;
+	protected $items;
 	
-	public function addBookCategory(BookCategory $bc) {
-		$this->bookCategories->add($bc);
-		$bc->setCategory($this);
+	public function addItem(CategoryItem $item) {
+		$this->items->add($item);
+		$item->setCategory($this);
 	}
 	
-	public function removeBookCategory(BookCategory $bc) {
-		$this->bookCategories->removeElement($bc);
-		$bc->setCategory(null);
+	public function removeItem(CategoryItem $item) {
+		$this->items->removeElement($item);
+		$item->setCategory(null);
 	}
 	
 	/**

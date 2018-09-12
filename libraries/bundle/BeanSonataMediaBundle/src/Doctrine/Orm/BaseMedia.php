@@ -3,9 +3,14 @@
 namespace Bean\Bundle\SonataMediaBundle\Doctrine\Orm;
 
 use Bean\Component\Media\Model\MediaObject;
-use Sonata\ClassificationBundle\Model\CategoryInterface;
 use Sonata\MediaBundle\Model\GalleryHasMediaInterface;
 use Sonata\MediaBundle\Model\MediaInterface as SonataMediaInterface;
+
+use Imagine\Image\Box;
+use Sonata\ClassificationBundle\Model\CategoryInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 abstract class BaseMedia extends MediaObject implements SonataMediaInterface {
 	
