@@ -90,9 +90,9 @@ class User extends AbstractUser {
 					break;
 			}
 			
-			if($this->adminOrganisation === $org) {
-				return true;
-			}
+//			if($this->adminOrganisation === $org) {
+//				return true;
+//			}
 		}
 		if( ! empty($member)) {
 			$_permission = $permission;
