@@ -210,15 +210,15 @@ class BaseAdmin extends AbstractAdmin {
 		
 		if(empty($org)) {
 			$user = $this->getLoggedInUser();
-			if(empty($org = $user->getAdminOrganisation())) {
-				if( ! empty($person = $user->getPerson())) {
-					/** @var IndividualMember $m */
-					$m = $person->getMembers()->first();
-					if( ! empty($m)) {
-						$org = $m->getOrganization();
-					}
-				}
-			}
+//			if(empty($org = $user->getAdminOrganisation())) {
+//				if( ! empty($person = $user->getPerson())) {
+//					/** @var IndividualMember $m */
+//					$m = $person->getMembers()->first();
+//					if( ! empty($m)) {
+//						$org = $m->getOrganization();
+//					}
+//				}
+//			}
 		}
 		
 		if(empty($org)) {

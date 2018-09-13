@@ -87,3 +87,8 @@ services:
 #        tags: ['doctrine.repository_service']
 #
 #    Magenta\Bundle\CBookModelBundle\Repository\User\UserRepository: '@magenta.repo.user_user'
+    Magenta\Bundle\CBookModelBundle\Service\User\UserService:
+        class: Magenta\Bundle\CBookModelBundle\Service\User\UserService
+        arguments:
+        - '@service_container'
+        public: true
