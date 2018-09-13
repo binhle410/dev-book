@@ -15,7 +15,7 @@ class Person extends PersonModel {
 	
 	/**
 	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrganisationMember", mappedBy="person")
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember", mappedBy="person")
 	 */
 	protected $members;
 	

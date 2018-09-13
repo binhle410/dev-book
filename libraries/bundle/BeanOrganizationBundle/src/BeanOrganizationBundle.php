@@ -1,6 +1,6 @@
 <?php
 
-namespace Bean\Bundle\BookBundle;
+namespace Bean\Bundle\OrganizationBundle;
 
 use Doctrine\Common\Persistence\Mapping\Driver\DefaultFileLocator;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\JsonLoginFactory;
@@ -37,7 +37,7 @@ use Doctrine\ODM\PHPCR\Version as PHPCRVersion;
  *
  * @author Binh
  */
-class BeanBookBundle extends Bundle {
+class BeanOrganizationBundle extends Bundle {
 	public function build(ContainerBuilder $container) {
 		parent::build($container);
 		$this->buildOrmCompilerPass($container);
@@ -67,7 +67,7 @@ class BeanBookBundle extends Bundle {
 			DoctrineOrmMappingsPass::createXmlMappingDriver(
 				[
 //					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-superclass') => 'Bean\Component\Book\Model',
-					realpath(__DIR__ . '/Resources/config/doctrine-orm/class') => 'Bean\Bundle\BookBundle\Doctrine\Orm',
+					realpath(__DIR__ . '/Resources/config/doctrine-orm/class') => 'Bean\Bundle\OrganizationBundle\Doctrine\Orm',
 				],
 				[ 'bean_book.persistence.orm.manager_name' ],
 				'bean_book.backend_type_orm_default.inheritance_class',
@@ -79,7 +79,7 @@ class BeanBookBundle extends Bundle {
 			DoctrineOrmMappingsPass::createXmlMappingDriver(
 				[
 //					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-superclass') => 'Bean\Component\Book\Model',
-					realpath(__DIR__ . '/Resources/config/doctrine-orm/superclass') => 'Bean\Bundle\BookBundle\Doctrine\Orm',
+					realpath(__DIR__ . '/Resources/config/doctrine-orm/superclass') => 'Bean\Bundle\OrganizationBundle\Doctrine\Orm',
 				],
 				[ 'bean_book.persistence.orm.manager_name' ],
 				'bean_book.backend_type_orm_default.inheritance_superclass',
@@ -91,11 +91,11 @@ class BeanBookBundle extends Bundle {
 		$container->addCompilerPass(
 			DoctrineOrmMappingsPass::createXmlMappingDriver(
 				[
-					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-superclass') => 'Bean\Component\Book\Model'
+					realpath(__DIR__ . '/Resources/config/doctrine-model/orm-superclass') => 'Bean\Component\Organization\Model'
 				],
-				[ 'bean_book.persistence.orm.manager_name' ],
-				'bean_book.backend_type_orm_custom.inheritance_superclass',
-				[ 'BeanBookBundle' => '%bean_book.book_class%' ]
+				[ 'bean_organization.persistence.orm.manager_name' ],
+				'bean_organization.backend_type_orm_custom.inheritance_superclass',
+				[ 'BeanOrganizationBundle' => '%bean_organization.organization_class%' ]
 			)
 		);
 	}

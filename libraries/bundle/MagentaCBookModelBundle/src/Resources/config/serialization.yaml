@@ -3,7 +3,7 @@
 #        firstName:
 #            groups: ['read_user','write_user']
 
-Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrganisationMember:
+Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember:
     attributes:
         id:
             groups: ['read_member']

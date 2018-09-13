@@ -19,6 +19,7 @@ return [
 	Bean\Bundle\BookBundle\BeanBookBundle::class                             => [ 'all' => true ],
 	Bean\Bundle\CreativeWorkBundle\BeanCreativeWorkBundle::class             => [ 'all' => true ],
 	Bean\Bundle\ThingBundle\BeanThingBundle::class                           => [ 'all' => true ],
+	Bean\Bundle\OrganizationBundle\BeanOrganizationBundle::class             => [ 'all' => true ],
 	Bean\Bundle\DevToolBundle\BeanDevToolBundle::class                       => [ 'all' => true ],
 	Sonata\DatagridBundle\SonataDatagridBundle::class                        => [ 'all' => true ],
 	Sonata\CoreBundle\SonataCoreBundle::class                                => [ 'all' => true ],

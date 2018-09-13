@@ -2,7 +2,7 @@
 
 namespace Magenta\Bundle\CBookModelBundle\Entity\Organisation;
 
-use Bean\Component\Organization\Model\OrganizationMember as MemberModel;
+use Bean\Component\Organization\Model\IndividualMember as MemberModel;
 
 use Bean\Component\Person\Model\Person;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,9 +12,9 @@ use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="organisation__member")
+ * @ORM\Table(name="organisation__individual_member")
  */
-class OrganisationMember extends MemberModel {
+class IndividualMember extends MemberModel {
 	/**
 	 * @var int|null
 	 * @ORM\Id
@@ -24,22 +24,22 @@ class OrganisationMember extends MemberModel {
 	protected $id;
 	
 	public function __construct() {
-		$this->groupMembers = new ArrayCollection();
+		$this->groupIndividuals = new ArrayCollection();
 	}
 	
 	/**
 	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupMember", mappedBy="member")
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupIndividual", mappedBy="member")
 	 */
-	protected $groupMembers;
+	protected $groupIndividuals;
 	
-	public function addGroupMember(GroupMember $gm) {
-		$this->groupMembers->add($gm);
+	public function addGroupIndividual(GroupIndividual $gm) {
+		$this->groupIndividuals->add($gm);
 		$gm->setMember($this);
 	}
 	
-	public function removeGroupMember(GroupMember $gm) {
-		$this->groupMembers->removeElement($gm);
+	public function removeGroupIndividual(GroupIndividual $gm) {
+		$this->groupIndividuals->removeElement($gm);
 		$gm->setMember(null);
 	}
 	

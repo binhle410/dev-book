@@ -9,9 +9,10 @@ use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="organisation__member_groups_members")
+ * @ORM\Table(name="organisation__individual_member_group__groups_individuals")
  */
-class GroupMember {
+class GroupIndividual {
+	
 	/**
 	 * @var int|null
 	 * @ORM\Id
@@ -28,44 +29,44 @@ class GroupMember {
 	}
 	
 	/**
-	 * @var MemberGroup
-	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\MemberGroup", inversedBy="groupMembers")
+	 * @var IndividualGroup
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup", inversedBy="groupIndividuals")
 	 * @ORM\JoinColumn(name="id_group", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $group;
 	
 	/**
-	 * @var OrganisationMember
-	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrganisationMember", inversedBy="groupMembers")
+	 * @var IndividualMember
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember", inversedBy="groupIndividuals")
 	 * @ORM\JoinColumn(name="id_member", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $member;
 	
 	/**
-	 * @return MemberGroup
+	 * @return IndividualGroup
 	 */
-	public function getGroup(): MemberGroup {
+	public function getGroup(): IndividualGroup {
 		return $this->group;
 	}
 	
 	/**
-	 * @param MemberGroup $group
+	 * @param IndividualGroup $group
 	 */
-	public function setGroup(MemberGroup $group): void {
+	public function setGroup(IndividualGroup $group): void {
 		$this->group = $group;
 	}
 	
 	/**
-	 * @return OrganisationMember
+	 * @return IndividualMember
 	 */
-	public function getMember(): OrganisationMember {
+	public function getMember(): IndividualMember {
 		return $this->member;
 	}
 	
 	/**
-	 * @param OrganisationMember $member
+	 * @param IndividualMember $member
 	 */
-	public function setMember(OrganisationMember $member): void {
+	public function setMember(IndividualMember $member): void {
 		$this->member = $member;
 	}
 	

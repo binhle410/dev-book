@@ -6,6 +6,7 @@ namespace Bean\Component\Person\Model;
 use Bean\Component\Thing\Model\Thing;
 
 class Person extends Thing {
+	
 	/**
 	 * NOT part of schema.org
 	 * @var \Countable|\IteratorAggregate|\ArrayAccess|array|null

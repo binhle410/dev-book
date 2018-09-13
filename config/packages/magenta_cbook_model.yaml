@@ -21,6 +21,12 @@ bean_thing:
             enabled:              true
             manager_name:         null
             inheritance_strategy: custom
+
+bean_organization:
+    class:
+        organization: Magenta\Bundle\CBookModelBundle\Entity\Organization\Organization
+        individual_member: Magenta\Bundle\CBookModelBundle\Entity\Organization\IndividualMember
+
 bean_book:
     class:
         book: Magenta\Bundle\CBookModelBundle\Entity\Book\Book

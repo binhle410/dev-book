@@ -30,10 +30,11 @@ class CategoryAdmin extends SonataCategoryAdmin {
 			           'required' => false,
 		           ])
 		           ->add('accessGrantedGroups', ModelType::class, [
+			           'btn_add'  => false,
 			           'required' => false,
-			           'property'=>'name',
-			           'multiple'=>true
-			       
+			           'property' => 'name',
+			           'multiple' => true
+		
 		           ])
 		           ->end();
 	}

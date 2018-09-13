@@ -1,6 +1,6 @@
 <?php
 
-namespace Magenta\Bundle\CBookApiBundle\Controller\Book;
+namespace Magenta\Bundle\CBookApiBundle\Controller\Organisation;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -8,7 +8,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class OrganisationMemberController extends Controller {
+class IndividualMemberController extends Controller {
 	
 	public function contactableMembersAction(Organisation $data): Collection {
 		

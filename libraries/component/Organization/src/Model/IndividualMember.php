@@ -6,7 +6,7 @@ namespace Bean\Component\Organization\Model;
 use Bean\Component\Person\Model\Person;
 use Bean\Component\Thing\Model\Thing;
 
-class OrganizationMember {
+class IndividualMember implements IndividualMemberInterface {
 	
 	/**
 	 * @var mixed

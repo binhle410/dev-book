@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\BookCategory;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Base\AppCategory;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupCategory;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\MemberGroup;
 use Sonata\ClassificationBundle\Entity\BaseCategory as BaseCategory;
 
@@ -41,7 +42,7 @@ class Category extends AppCategory {
 	
 	/**
 	 * @var \Doctrine\Common\Collections\Collection
-	 * @ORM\ManyToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\MemberGroup")
+	 * @ORM\ManyToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup")
 	 * @ORM\JoinTable(name="classification__category__categories_groups__granted",
 	 *      joinColumns={@ORM\JoinColumn(name="id_category", referencedColumnName="id")},
 	 *      inverseJoinColumns={@ORM\JoinColumn(name="id_group", referencedColumnName="id")}
@@ -50,17 +51,17 @@ class Category extends AppCategory {
 	 */
 	protected $accessGrantedGroups;
 	
-	public function addAccesGrantedGroup(MemberGroup $gc) {
+	public function addAccesGrantedGroup(IndividualGroup $gc) {
 		$this->accessGrantedGroups->add($gc);
 	}
 	
-	public function removeAccesGrantedGroup(MemberGroup $gc) {
+	public function removeAccesGrantedGroup(IndividualGroup $gc) {
 		$this->accessGrantedGroups->add($gc);
 	}
 	
 	/**
 	 * @var \Doctrine\Common\Collections\Collection
-	 * @ORM\ManyToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\MemberGroup")
+	 * @ORM\ManyToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup")
 	 * @ORM\JoinTable(name="classification__category__categories_groups__denied",
 	 *      joinColumns={@ORM\JoinColumn(name="id_category", referencedColumnName="id")},
 	 *      inverseJoinColumns={@ORM\JoinColumn(name="id_group", referencedColumnName="id")}
@@ -69,11 +70,11 @@ class Category extends AppCategory {
 	 */
 	protected $accessDeniedGroups;
 	
-	public function addAccesDeniedGroup(MemberGroup $gc) {
+	public function addAccesDeniedGroup(IndividualGroup $gc) {
 		$this->accessDeniedGroups->add($gc);
 	}
 	
-	public function removeAccesDeniedGroup(MemberGroup $gc) {
+	public function removeAccesDeniedGroup(IndividualGroup $gc) {
 		$this->accessDeniedGroups->add($gc);
 	}
 	

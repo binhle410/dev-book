@@ -33,6 +33,7 @@ interface ThingInterface {
 	
 	/**
 	 * To be compatible with Sonata MediaInterface
+	 * @deprecated will change when MediaInterface updates adapts to latest PHP 7.2+
 	 * @param \DateTime $createdAt
 	 */
 	public function setCreatedAt(?\DateTime $createdAt = null): void;
@@ -44,6 +45,7 @@ interface ThingInterface {
 	
 	/**
 	 * To be compatible with Sonata MediaInterface
+	 * @deprecated will change when MediaInterface updates adapts to latest PHP 7.2+
 	 * @param \DateTime $updatedAt
 	 */
 	public function setUpdatedAt(?\DateTime $updatedAt = null): void;
@@ -55,6 +57,7 @@ interface ThingInterface {
 	
 	/**
 	 * To be compatible with Sonata MediaInterface
+	 * @deprecated will change when MediaInterface updates adapts to latest PHP 7.2+
 	 * @param null|string $name
 	 */
 	public function setName($name): void;
@@ -66,6 +69,7 @@ interface ThingInterface {
 	
 	/**
 	 * To be compatible with Sonata MediaInterface
+	 * @deprecated will change when MediaInterface updates adapts to latest PHP 7.2+
 	 * @param null|string $description
 	 */
 	public function setDescription($description): void;

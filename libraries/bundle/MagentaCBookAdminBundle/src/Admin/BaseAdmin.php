@@ -2,32 +2,173 @@
 
 namespace Magenta\Bundle\CBookAdminBundle\Admin;
 
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Query\Expr;
 use Magenta\Bundle\CBookAdminBundle\Admin\Organisation\OrganisationAdmin;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
+use Magenta\Bundle\CBookModelBundle\Entity\System\DecisionMakingInterface;
+use Magenta\Bundle\CBookModelBundle\Entity\System\FullTextSearchInterface;
+use Magenta\Bundle\CBookModelBundle\Entity\System\SystemModule;
+use Bean\Component\Thing;
+
+use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\DoctrineORMAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
 
 class BaseAdmin extends AbstractAdmin {
 	
 	const AUTO_CONFIG = true;
 	const ENTITY = null;
 	const CONTROLLER = null;
-	
-	/**
-	 * sample array [ OrgBookAdmin::class => 'organisation' ];
-	 */
 	const CHILDREN = null;
 	
-	protected $ivoryCkeditor = array();
-	
-	protected $translationDomain = 'MagentaCBookAdminBundle'; // default is 'messages'
-	
-	protected $action = '';
-	protected $actionParams = [];
-	
+	const ADMIN_CODE = null;
 	
 	private $isAdmin;
+	private $user;
+	
+	protected
+		$translationDomain = 'MagentaCBookAdminBundle'; // default is 'messages'
+	
+	protected
+		$action = '';
+	protected
+		$actionParams = [];
+	
+	protected function getTemplateType($name) {
+		$_name = strtoupper($name);
+		if($_name === 'EDIT') {
+			if(empty($subject = $this->getSubject()) || empty($subject->getId())) {
+				return 'CREATE';
+			} else {
+				return 'EDIT';
+			}
+		}
+		
+		return $_name;
+	}
+	
+	/**
+	 * @deprecated since 3.34, will be dropped in 4.0. Use TemplateRegistry services instead
+	 *
+	 * @param string $name
+	 *
+	 * @return null|string
+	 */
+	public function getTemplate($name) {
+		return $this->getTemplateRegistry()->getTemplate($name);
+	}
+	
+	protected function configureDatagridFilters(DatagridMapper $filter) {
+		parent::configureDatagridFilters($filter);
+		if(is_subclass_of($this->getClass(), FullTextSearchInterface::class)) {
+			$filter->add('fullText', null, [
+				'label'       => 'form.label_full_text_search',
+				'show_filter' => true
+			]);
+		}
+	}
+	
+	protected function configureRoutes(RouteCollection $collection) {
+		parent::configureRoutes($collection);
+		$collection->add('decide', $this->getRouterIdParameter() . '/decide/{action}');
+	}
+	
+	protected function buildShow() {
+		parent::buildShow();
+		/** @var FieldDescription $fieldDescription */
+		foreach($this->showFieldDescriptions as $fieldDescription) {
+			switch($fieldDescription->getMappingType()) {
+//				case ClassMetadata::MANY_TO_ONE:
+//					$fieldDescription->setTemplate(
+//						'@SonataAdmin/CRUD/Association/list_many_to_one.html.twig'
+//					);
+//
+//					break;
+				case ClassMetadata::ONE_TO_ONE:
+					$fieldDescription->setTemplate(
+						'@MagentaCBookAdmin/CRUD/Association/show_one_to_one.html.twig'
+					);
+					
+					break;
+				case ClassMetadata::ONE_TO_MANY:
+					$fieldDescription->setTemplate(
+						'@MagentaCBookAdmin/CRUD/Association/show_one_to_many.html.twig'
+					);
+					break;
+//				case ClassMetadata::MANY_TO_MANY:
+//					$fieldDescription->setTemplate(
+//						'@SonataAdmin/CRUD/Association/list_many_to_many.html.twig'
+//					);
+//
+//					break;
+			}
+		}
+	}
+	
+	protected
+	function buildList() {
+		parent::buildList();
+		/** @var FieldDescription $fieldDescription */
+		foreach($this->listFieldDescriptions as $fieldDescription) {
+			switch($fieldDescription->getMappingType()) {
+				case ClassMetadata::MANY_TO_ONE:
+					$fieldDescription->setTemplate(
+						'@MagentaCBookAdmin/CRUD/Association/list_many_to_one.html.twig'
+					);
+					break;
+				case ClassMetadata::ONE_TO_ONE:
+					$fieldDescription->setTemplate(
+						'@MagentaCBookAdmin/CRUD/Association/list_one_to_one.html.twig'
+					);
+					
+					break;
+				case ClassMetadata::ONE_TO_MANY:
+					$fieldDescription->setTemplate(
+						'@MagentaCBookAdmin/CRUD/Association/list_one_to_many.html.twig'
+					);
+					break;
+//				case ClassMetadata::MANY_TO_MANY:
+//					$fieldDescription->setTemplate(
+//						'@SonataAdmin/CRUD/Association/list_many_to_many.html.twig'
+//					);
+//
+//					break;
+			}
+		}
+		
+		return;
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getExportFormats() {
+		return [
+			'xls'
+		];
+	}
+
+//	public function generateUrl($name, array $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_PATH) {
+//		if( ! empty($orgId = $this->getRequest()->query->getInt('organisation', 0))) {
+//			$org = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Organisation::class)->find($orgId);
+//			if( ! empty($org)) {
+//				$parameters['organisation'] = $orgId;
+//			}
+//		}
+//
+////
+//		return parent::generateUrl($name, $parameters, $absolute);
+//	}
 	
 	protected function getCurrentOrganisationFromAncestors(BaseAdmin $parent = null) {
 		if(empty($parent)) {
@@ -44,7 +185,7 @@ class BaseAdmin extends AbstractAdmin {
 		}
 	}
 	
-	protected function getCurrentOrganisationMember($required = false) {
+	protected function getCurrentIndividualMember($required = false) {
 		$user   = $this->getLoggedInUser();
 		$person = $user->getPerson();
 		if(empty($person)) {
@@ -71,7 +212,7 @@ class BaseAdmin extends AbstractAdmin {
 			$user = $this->getLoggedInUser();
 			if(empty($org = $user->getAdminOrganisation())) {
 				if( ! empty($person = $user->getPerson())) {
-					/** @var OrganisationMember $m */
+					/** @var IndividualMember $m */
 					$m = $person->getMembers()->first();
 					if( ! empty($m)) {
 						$org = $m->getOrganization();
@@ -98,31 +239,18 @@ class BaseAdmin extends AbstractAdmin {
 		return $this->user;
 	}
 	
-	protected function isAdmin() {
+	protected
+	function isAdmin() {
 		if($this->isAdmin === null) {
 			$this->isAdmin = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
 		}
 		
 		return $this->isAdmin;
 	}
+	
 
-	public function getTemplate($name) {
-		return $this->getTemplateRegistry()->getTemplate($name);
-	}
-	
-	protected function getChildrenConst() {
-		return self::CHILDREN;
-	}
-	
-	/**
-	 * @param int $namHoc
-	 */
-	public function setNamHoc($namHoc) {
-		$this->namHoc = $namHoc;
-	}
-	
-	
-	public function getAction() {
+	public
+	function getAction() {
 		if(empty($this->action)) {
 			$request = $this->getRequest();
 			if( ! empty($action = $request->query->get('action'))) {
@@ -135,7 +263,10 @@ class BaseAdmin extends AbstractAdmin {
 		return $this->action;
 	}
 	
-	public function getActionParam($key) {
+	public
+	function getActionParam(
+		$key
+	) {
 		if(array_key_exists($key, $this->actionParams)) {
 			return $this->actionParams[ $key ];
 		}
@@ -146,59 +277,43 @@ class BaseAdmin extends AbstractAdmin {
 	/**
 	 * @return array
 	 */
-	public function getActionParams() {
+	public
+	function getActionParams() {
 		return $this->actionParams;
 	}
 	
 	/**
 	 * @param array $actionParams
 	 */
-	public function setActionParams($actionParams) {
+	public
+	function setActionParams(
+		$actionParams
+	) {
 		$this->actionParams = $actionParams;
 	}
 	
-	public function setAction($action) {
+	public
+	function setAction(
+		$action
+	) {
 		$this->action = $action;
 	}
 	
-	public function toString($object) {
+	public
+	function toString(
+		$object
+	) {
 		if(method_exists($object, 'getTitle')) {
 			return $object->getTitle();
 		} elseif(method_exists($object, 'getName')) {
 			return $object->getName();
 		}
 		
-		if($object instanceof PhanBo) {
-			return $object->getThanhVien()->getName();
-		}
-		
-		if($object instanceof DoiNhomGiaoLy) {
-			$str = 'Đội của ';
-			$str .= $object->getTenCacTruongPhuTrach();
-			
-			return $str;
-		}
-		
 		return parent::toString($object);
 	}
 	
-	protected function getUserThanhVien() {
-		if(empty($this->thanhVien)) {
-			$container       = $this->getConfigurationPool()->getContainer();
-			$user            = $container->get(UserService::class)->getUser();
-			$this->thanhVien = $user->getThanhVien();
-		}
-		
-		return $this->thanhVien;
-	}
-	
-	protected function getUserChiDoan() {
-		
-		return $this->getUserThanhVien()->getChiDoan();
-		
-	}
-	
-	public function getRequest() {
+	public
+	function getRequest() {
 		if( ! $this->request) {
 //            throw new \RuntimeException('The Request object has not been set');
 			$this->request = $this->getConfigurationPool()->getContainer()->get('request_stack')->getCurrentRequest();
@@ -207,12 +322,131 @@ class BaseAdmin extends AbstractAdmin {
 		return $this->request;
 	}
 	
+	protected function getAccess() {
+		return array_merge(parent::getAccess(), [
+			'decide'            => 'DECIDE',
+			'decide_everything' => 'DECIDE_ALL',
+			'approve'           => 'DECISION_' . DecisionMakingInterface::DECISION_APPROVE,
+			'reject'            => 'DECISION_' . DecisionMakingInterface::DECISION_REJECT,
+			'reset'            => 'DECISION_' . DecisionMakingInterface::DECISION_RESET
+		]);
+	}
+	
+	public
+	function isGranted(
+		$name, $object = null
+	) {
+		$container = $this->getConfigurationPool()->getContainer();
+		$user      = $container->get(UserService::class)->getUser();
+		$isAdmin   = $container->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
+
+//        $pos = $container->get(UserService::class)->getPosition();
+		if($isAdmin) {
+//			if(is_array($name)) {
+//				foreach($name as $action) {
+//					$_name = strtoupper($name);
+//				}
+//			}
+			if(in_array($name, [ 'LIST', 'EDIT', 'DELETE', 'CREATE', 'VIEW' ])) {
+				if($name === 'CREATE') {
+					return ! empty($this->getCurrentOrganisation(false));
+				}
+				
+				return true;
+			}
+			
+		}
+		
+		$org    = $this->getCurrentOrganisation(false);
+		$member = $this->getCurrentIndividualMember(false);
+		if(is_array($name)) {
+			$isGranted = true;
+			foreach($name as $action) {
+				$_isGranted = $user->isGranted($action, $object, $this->getClass(), $member, $org);
+				$isGranted  = $isGranted && $_isGranted;
+			}
+			
+			return $isGranted;
+		}
+		
+		return $user->isGranted($name, $object, $this->getClass(), $member, $org);
+
+//		return parent::isGranted($name, $object);
+	}
+	
+	protected
+	function getFilterByOrganisationQueryForModel(
+		$class
+	) {
+		/** @var ProxyQuery $productQuery */
+		$brandQuery = $this->getModelManager()->createQuery($class);
+		/** @var Expr $expr */
+		$expr         = $brandQuery->expr();
+		$orgFieldName = 'organisation';
+		if($class === IndividualMember::class) {
+			$orgFieldName = 'organization';
+		}
+		$brandQuery->andWhere($expr->eq('o.' . $orgFieldName, $this->getCurrentOrganisation()->getId()));
+		
+		return $brandQuery;
+	}
+	
+	public
+	function createQuery(
+		$context = 'list'
+	) {
+		$query    = parent::createQuery($context);
+		$parentFD = $this->getParentFieldDescription();
+		if($this->isAdmin()) {
+//			if($this->getRequest()->attributes->get('_route') !== 'sonata_admin_retrieve_autocomplete_items') {
+			// admin should see everything except in embeded forms
+			if(in_array($this->getClass(), [
+					Organisation::class,
+					User::class
+				]) || ! empty($parentFD) && $parentFD->getType() !== ModelAutocompleteType::class) {
+				return $query;
+			}
+		}
+		
+		$organisation = $this->getCurrentOrganisation();
+		
+		if( ! empty($organisation)) { // && ! empty($organisation)
+			$this->filterQueryByOrganisation($query, $organisation);
+		} else {
+			// TODO: change this so that 1 person can manage multiple organisations
+			$this->clearResults($query);
+		}
+		
+		return $query;
+//        $query->andWhere()
+	}
+	
+	protected
+	function filterQueryByOrganisation(
+		ProxyQuery $query, Organisation $organisation
+	) {
+		$pool      = $this->getConfigurationPool();
+		$request   = $this->getRequest();
+		$container = $pool->getContainer();
+		/** @var Expr $expr */
+		$expr     = $query->getQueryBuilder()->expr();
+		$orgField = 'organisation';
+		if($this->getClass() === IndividualMember::class) {
+			$orgField = 'organization';
+		}
+		
+		return $query->andWhere($expr->eq('o.' . $orgField, $organisation->getId()));
+	}
+	
 	/**
 	 * @param ProxyQuery $query
 	 *
 	 * @return ProxyQuery
 	 */
-	protected function clearResults(ProxyQuery $query) {
+	protected
+	function clearResults(
+		ProxyQuery $query
+	) {
 		/** @var Expr $expr */
 		$expr = $query->getQueryBuilder()->expr();
 		$query->andWhere($expr->eq($expr->literal(true), $expr->literal(false)));
@@ -220,10 +454,16 @@ class BaseAdmin extends AbstractAdmin {
 		return $query;
 	}
 	
-	protected function verifyDirectParent($parent) {
+	protected
+	function verifyDirectParent(
+		$parent
+	) {
 	}
 	
-	protected function isDirectParentAccess($parentClass, $subjectAdminCodes = array()) {
+	protected
+	function isDirectParentAccess(
+		$parentClass, $subjectAdminCodes = array()
+	) {
 		$parentAdmin          = $this->getParent();
 		$isDirectParentAccess = false;
 		if( ! empty($parentAdmin)) {
@@ -237,13 +477,17 @@ class BaseAdmin extends AbstractAdmin {
 		return $isDirectParentAccess;
 	}
 	
-	protected function isAppendFormElement() {
+	protected
+	function isAppendFormElement() {
 		$request = $this->getRequest();
 		
 		return $request->attributes->get('_route') === 'sonata_admin_append_form_element';
 	}
 	
-	protected function filterByParentClass(ProxyQuery $query, $parentClass, $subjectAdminCodes = array()) {
+	protected
+	function filterByParentClass(
+		ProxyQuery $query, $parentClass, $subjectAdminCodes = array()
+	) {
 		$pool      = $this->getConfigurationPool();
 		$request   = $this->getRequest();
 		$container = $pool->getContainer();
@@ -293,17 +537,32 @@ class BaseAdmin extends AbstractAdmin {
 		return $this->clearResults($query);
 	}
 	
-	/**
-	 * @return array
-	 */
-	public function getIvoryCkeditor() {
-		return $this->ivoryCkeditor;
+	public
+	function getSystemModules() {
+		$registry = $this->getConfigurationPool()->getContainer()->get('doctrine');
+		$modules  = $registry->getRepository(SystemModule::class)->findAll();
+		
+		return $modules;
 	}
 	
 	/**
-	 * @param array $ivoryCkeditor
+	 * @param mixed $object
 	 */
-	public function setIvoryCkeditor($ivoryCkeditor) {
-		$this->ivoryCkeditor = $ivoryCkeditor;
+	public
+	function preValidate(
+		$object
+	) {
+		if($object instanceof Thing) {
+			$object->setOrganisation($this->getCurrentOrganisation());
+		} elseif($object instanceof ThingChildInterface) {
+			$object->getThing()->setOrganisation($this->getCurrentOrganisation());
+		}
+	}
+	
+	public function preUpdate($object) {
+		parent::preUpdate($object);
+		if(method_exists($object, 'setUpdatedAt')) {
+			$object->setUpdatedAt(new \DateTime());
+		}
 	}
 }

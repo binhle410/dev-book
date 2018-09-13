@@ -5,15 +5,14 @@ namespace Magenta\Bundle\CBookModelBundle\Entity\Organisation;
 use Bean\Component\Person\Model\Person;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Magenta\Bundle\CBookModelBundle\Entity\Book\BookCategoryGroup;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Collection;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="organisation__member_group")
+ * @ORM\Table(name="organisation__individual_member_group")
  */
-class MemberGroup {
+class IndividualGroup {
 	/**
 	 * @var int|null
 	 * @ORM\Id
@@ -30,7 +29,7 @@ class MemberGroup {
 	}
 	
 	public function __construct() {
-		$this->groupMembers    = new ArrayCollection();
+		$this->groupIndividuals    = new ArrayCollection();
 	}
 	
 //	/**
@@ -51,24 +50,24 @@ class MemberGroup {
 	
 	/**
 	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupMember", mappedBy="group")
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupIndividual", mappedBy="group")
 	 */
-	protected $groupMembers;
+	protected $groupIndividuals;
 	
-	public function addGroupMember(GroupMember $gm) {
-		$this->groupMembers->add($gm);
+	public function addGroupIndividual(GroupIndividual $gm) {
+		$this->groupIndividuals->add($gm);
 		$gm->setGroup($this);
 	}
 	
-	public function removeGroupMember(GroupMember $gm) {
-		$this->groupMembers->removeElement($gm);
+	public function removeGroupIndividual(GroupIndividual $gm) {
+		$this->groupIndividuals->removeElement($gm);
 		$gm->setGroup(null);
 	}
 	
 	
 	/**
 	 * @var Organisation
-	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="memberGroups")
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="individualGroups")
 	 * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $organisation;

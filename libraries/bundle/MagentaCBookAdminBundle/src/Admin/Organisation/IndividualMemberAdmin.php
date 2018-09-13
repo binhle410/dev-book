@@ -5,7 +5,6 @@ namespace Magenta\Bundle\CBookAdminBundle\Admin\Organisation;
 use Doctrine\ORM\EntityRepository;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\CBookModelBundle\Entity\AccessControl\ACRole;
-use Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrganisationMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
@@ -33,7 +32,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class OrganisationMemberAdmin extends BaseAdmin {
+class IndividualMemberAdmin extends BaseAdmin {
 	
 	protected $action;
 	
@@ -47,7 +46,7 @@ class OrganisationMemberAdmin extends BaseAdmin {
 	);
 	
 	public function getNewInstance() {
-		/** @var OrganisationMember $object */
+		/** @var IndividualMember $object */
 		$object = parent::getNewInstance();
 		if(empty($object->getPerson())) {
 			$object->setPerson(new Person());
@@ -62,16 +61,16 @@ class OrganisationMemberAdmin extends BaseAdmin {
 	
 	/**
 	 * @param string             $name
-	 * @param OrganisationMember $object
+	 * @param IndividualMember $object
 	 */
 	public function isGranted($name, $object = null) {
 		return parent::isGranted($name, $object);
 	}
 	
 	public function toString($object) {
-		return $object instanceof OrganisationMember
+		return $object instanceof IndividualMember
 			? $object->getPerson()->getName()
-			: 'OrganisationMember'; // shown in the breadcrumb on the create view
+			: 'IndividualMember'; // shown in the breadcrumb on the create view
 	}
 	
 	public function createQuery($context = 'list') {
@@ -107,7 +106,7 @@ class OrganisationMemberAdmin extends BaseAdmin {
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
 //		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
-		
+	
 	}
 	
 	public function getTemplate($name) {
@@ -120,17 +119,17 @@ class OrganisationMemberAdmin extends BaseAdmin {
 	
 	protected function configureShowFields(ShowMapper $showMapper) {
 		$showMapper
-			->with('form_group.OrganisationMember_details', [ 'class' => 'col-md-6' ])
+			->with('form_group.IndividualMember_details', [ 'class' => 'col-md-6' ])
 			->add('name', null, [ 'label' => 'form.label_name' ])
 			->add('email', null, [ 'label' => 'form.label_email' ])
 			->add('homeAddress', null, [ 'label' => 'form.label_address' ])
 			->add('homePostalCode', null, [ 'label' => 'form.label_postal_code' ])
 			->end()
-			->with('form_group.OrganisationMember_records', [ 'class' => 'col-md-6' ])
+			->with('form_group.IndividualMember_records', [ 'class' => 'col-md-6' ])
 			->add('warranties', null, [
 				'label'               => false,
 				'associated_property' => 'id',
-				'template'            => '@MagentaSOrganisationMemberAdmin/Admin/OrganisationMember/OrganisationMember/CRUD/Association/show_one_to_many.html.twig'
+				'template'            => '@MagentaSIndividualMemberAdmin/Admin/IndividualMember/IndividualMember/CRUD/Association/show_one_to_many.html.twig'
 			])
 			->end();
 		
@@ -198,7 +197,7 @@ class OrganisationMemberAdmin extends BaseAdmin {
 		$formMapper->end();
 	}
 	
-	/** @param OrganisationMember $object */
+	/** @param IndividualMember $object */
 	public function preValidate(
 		$object
 	) {
@@ -219,7 +218,7 @@ class OrganisationMemberAdmin extends BaseAdmin {
 	}
 	
 	/**
-	 * @param OrganisationMember $object
+	 * @param IndividualMember $object
 	 */
 	public function prePersist($object) {
 		parent::prePersist($object);
@@ -229,7 +228,7 @@ class OrganisationMemberAdmin extends BaseAdmin {
 	}
 	
 	/**
-	 * @param OrganisationMember $object
+	 * @param IndividualMember $object
 	 */
 	public function preUpdate($object) {
 		parent::preUpdate($object);

@@ -33,22 +33,22 @@ class Organisation extends OrganizationModel {
 	
 	/**
 	 * @ORM\OneToMany(
-	 *     targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\MemberGroup",
+	 *     targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup",
 	 *     mappedBy="organisation", cascade={"persist"}, orphanRemoval=true
 	 * )
 	 * @ORM\OrderBy({"position"="ASC"})
 	 *
 	 * @var Collection $memberGroups ;
 	 */
-	protected $memberGroups;
+	protected $individualGroups;
 	
-	public function addMemberGroup(MemberGroup $group) {
-		$this->memberGroups->add($group);
+	public function addMemberGroup(IndividualGroup $group) {
+		$this->individualGroups->add($group);
 		$group->setOrganisation($this);
 	}
 	
-	public function removeMemberGroup(MemberGroup $group) {
-		$this->memberGroups->removeElement($group);
+	public function removeMemberGroup(IndividualGroup $group) {
+		$this->individualGroups->removeElement($group);
 		$group->setOrganisation(null);
 	}
 	
@@ -81,7 +81,7 @@ class Organisation extends OrganizationModel {
 	
 	/**
 	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrganisationMember", mappedBy="organization")
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember", mappedBy="organization")
 	 */
 	protected $members;
 	

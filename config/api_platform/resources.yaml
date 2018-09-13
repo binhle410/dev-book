@@ -21,7 +21,7 @@ resources:
                 - write_app_person
                 - write_thing
 
-    Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrganisationMember:
+    Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember:
         attributes:                          # optional
             order:
                 id: DESC
