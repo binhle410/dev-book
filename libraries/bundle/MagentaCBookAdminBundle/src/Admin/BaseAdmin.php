@@ -2,6 +2,7 @@
 
 namespace Magenta\Bundle\CBookAdminBundle\Admin;
 
+use Bean\Component\Organization\IoC\OrganizationAwareInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr;
 use Magenta\Bundle\CBookAdminBundle\Admin\Organisation\OrganisationAdmin;
@@ -248,7 +249,7 @@ class BaseAdmin extends AbstractAdmin {
 		return $this->isAdmin;
 	}
 	
-
+	
 	public
 	function getAction() {
 		if(empty($this->action)) {
@@ -328,7 +329,7 @@ class BaseAdmin extends AbstractAdmin {
 			'decide_everything' => 'DECIDE_ALL',
 			'approve'           => 'DECISION_' . DecisionMakingInterface::DECISION_APPROVE,
 			'reject'            => 'DECISION_' . DecisionMakingInterface::DECISION_REJECT,
-			'reset'            => 'DECISION_' . DecisionMakingInterface::DECISION_RESET
+			'reset'             => 'DECISION_' . DecisionMakingInterface::DECISION_RESET
 		]);
 	}
 	
@@ -411,7 +412,9 @@ class BaseAdmin extends AbstractAdmin {
 		$organisation = $this->getCurrentOrganisation();
 		
 		if( ! empty($organisation)) { // && ! empty($organisation)
-			$this->filterQueryByOrganisation($query, $organisation);
+			if(in_array(OrganizationAwareInterface::class, class_implements($this->getClass()))) {
+				$this->filterQueryByOrganisation($query, $organisation);
+			}
 		} else {
 			// TODO: change this so that 1 person can manage multiple organisations
 			$this->clearResults($query);
@@ -552,7 +555,7 @@ class BaseAdmin extends AbstractAdmin {
 	function preValidate(
 		$object
 	) {
-		if($object instanceof Thing) {
+		if($object instanceof OrganizationAwareInterface) {
 			$object->setOrganisation($this->getCurrentOrganisation());
 		} elseif($object instanceof ThingChildInterface) {
 			$object->getThing()->setOrganisation($this->getCurrentOrganisation());
