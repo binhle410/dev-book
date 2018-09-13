@@ -172,4 +172,46 @@ class Category extends AppCategory {
 		
 		return $this;
 	}
+	
+	/**
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getAccessGrantedGroups(): \Doctrine\Common\Collections\Collection {
+		return $this->accessGrantedGroups;
+	}
+	
+	/**
+	 * @param \Doctrine\Common\Collections\Collection $accessGrantedGroups
+	 */
+	public function setAccessGrantedGroups(\Doctrine\Common\Collections\Collection $accessGrantedGroups): void {
+		$this->accessGrantedGroups = $accessGrantedGroups;
+	}
+	
+	/**
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getAccessDeniedGroups(): \Doctrine\Common\Collections\Collection {
+		return $this->accessDeniedGroups;
+	}
+	
+	/**
+	 * @param \Doctrine\Common\Collections\Collection $accessDeniedGroups
+	 */
+	public function setAccessDeniedGroups(\Doctrine\Common\Collections\Collection $accessDeniedGroups): void {
+		$this->accessDeniedGroups = $accessDeniedGroups;
+	}
+	
+	/**
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getItems(): \Doctrine\Common\Collections\Collection {
+		return $this->items;
+	}
+	
+	/**
+	 * @param \Doctrine\Common\Collections\Collection $items
+	 */
+	public function setItems(\Doctrine\Common\Collections\Collection $items): void {
+		$this->items = $items;
+	}
 }

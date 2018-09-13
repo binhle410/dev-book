@@ -119,6 +119,7 @@ sonata_admin:
                     - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\OrganisationMemberAdmin
 
 #                    - Sonata\MediaBundle\Admin\ORM\MediaAdmin
+                    - sonata.classification.admin.category
                     - sonata.media.admin.media
 #                    - sonata.user.admin.group
 #                    - sonata.classification.admin.context
@@ -129,6 +130,13 @@ sonata_admin:
 
     title_logo: https://www.magenta-consulting.com/images/logo.png
     search: false
+
+sonata_classification:
+    admin:
+        category:
+            class: Magenta\Bundle\CBookAdminBundle\Admin\Classification\CategoryAdmin
+            controller: 'SonataClassificationBundle:CategoryAdmin'
+            translation: SonataClassificationBundle
 
 sonata_block:
     blocks:
