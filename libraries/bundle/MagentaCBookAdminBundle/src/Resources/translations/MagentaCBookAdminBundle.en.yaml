@@ -1,9 +1,10 @@
 breadcrumb:
-    link_org_chapter_list: Section List
+    link_org_chapter_list: Sections
     link_org_chapter_create: New
     link_subchapter_list: Children
-    link_organisation_list: Org List
-    link_org_book_list: Books
+    link_organisation_list: Organisations
+    link_book_list: Books
+    link_chapter_list: Chapters
 
 group:
     edit:
@@ -92,6 +93,8 @@ layout:
     save: Save
 
 form:
+    label_access_granted_groups: Access Granted Groups
+    label_access_denied_groups: Access Denied Groups
     group_name: 'Group name'
     username: Username
     email: Email

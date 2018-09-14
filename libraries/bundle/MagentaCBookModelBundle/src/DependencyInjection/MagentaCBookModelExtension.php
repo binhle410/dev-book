@@ -9,6 +9,7 @@ use ProxyManager\FileLocator\FileLocator;
 use Sonata\EasyExtendsBundle\Mapper\DoctrineCollector;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\Alias;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -16,7 +17,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 
-class MagentaCBookModelExtension extends ConfigurableExtension {
+class MagentaCBookModelExtension extends ConfigurableExtension implements CompilerPassInterface {
 	/**
 	 * @var array
 	 */
@@ -46,6 +47,16 @@ class MagentaCBookModelExtension extends ConfigurableExtension {
 		
 		$definition = $container->getDefinition('magenta_user.object_manager');
 		$definition->setFactory(array( new Reference('magenta_user.doctrine_registry'), 'getManager' ));
-		
+	}
+	
+	/**
+	 * You can modify the container here before it is dumped to PHP code.
+	 *
+	 * @param ContainerBuilder $container
+	 */
+	public function process(ContainerBuilder $container) {
+//        sonata.media.provider.image
+		$definition = $container->getDefinition('sonata.classification.manager.category');
+		$definition->addArgument(new Reference('service_container'));
 	}
 }

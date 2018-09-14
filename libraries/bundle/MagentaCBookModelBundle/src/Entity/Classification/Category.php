@@ -37,7 +37,9 @@ class Category extends AppCategory {
 	
 	public function __construct() {
 		parent::__construct();
-		$this->bookCategories = new ArrayCollection();
+		$this->bookCategories      = new ArrayCollection();
+		$this->accessGrantedGroups = new ArrayCollection();
+		$this->accessDeniedGroups  = new ArrayCollection();
 	}
 	
 	/**
@@ -47,7 +49,6 @@ class Category extends AppCategory {
 	 *      joinColumns={@ORM\JoinColumn(name="id_category", referencedColumnName="id")},
 	 *      inverseJoinColumns={@ORM\JoinColumn(name="id_group", referencedColumnName="id")}
 	 *      )
-
 	 */
 	protected $accessGrantedGroups;
 	
@@ -66,7 +67,6 @@ class Category extends AppCategory {
 	 *      joinColumns={@ORM\JoinColumn(name="id_category", referencedColumnName="id")},
 	 *      inverseJoinColumns={@ORM\JoinColumn(name="id_group", referencedColumnName="id")}
 	 *      )
-	 
 	 */
 	protected $accessDeniedGroups;
 	

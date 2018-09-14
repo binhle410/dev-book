@@ -2,6 +2,8 @@
 
 namespace Magenta\Bundle\CBookModelBundle\Entity\User;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\AccessControl\ACEntry;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
@@ -15,6 +17,10 @@ use Magenta\Bundle\CBookModelBundle\Entity\System\SystemModule;
  * @ORM\Table(name="user__user")
  */
 class User extends AbstractUser {
+	
+	const ROLE_ADMIN = 'ROLE_ADMIN';
+	const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+	
 	/**
 	 * @var int|null
 	 * @ORM\Id
@@ -23,12 +29,18 @@ class User extends AbstractUser {
 	 */
 	protected $id;
 	
+	public function __construct() {
+		parent::__construct();
+		$this->adminOrganisations = new ArrayCollection();
+	}
+	
 	/**
 	 * @return int|null
 	 */
 	public function getId(): ?int {
 		return $this->id;
 	}
+	
 	public function isAdmin(): bool {
 		foreach($this->roles as $role) {
 			if(in_array($role, [ User::ROLE_SUPER_ADMIN, User::ROLE_ADMIN ])) {
@@ -89,7 +101,7 @@ class User extends AbstractUser {
 					return $this->isAdmin();
 					break;
 			}
-			
+
 //			if($this->adminOrganisation === $org) {
 //				return true;
 //			}
@@ -127,6 +139,24 @@ class User extends AbstractUser {
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * @var Collection $adminOrganisations
+	 * @ORM\ManyToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="adminUsers")
+	 * @ORM\JoinTable(name="organisation__organisation__organisations_admin_users",
+	 *      joinColumns={@ORM\JoinColumn(name="id_user", referencedColumnName="id")},
+	 *      inverseJoinColumns={@ORM\JoinColumn(name="id_organisation", referencedColumnName="id")}
+	 *      )
+	 */
+	protected $adminOrganisations;
+	
+	public function addAdminOrganisation(Organisation $org) {
+		$this->adminOrganisations->add($org);
+	}
+	
+	public function removeAdminOrganisation(Organisation $org) {
+		$this->adminOrganisations->removeElement($org);
 	}
 	
 	/**

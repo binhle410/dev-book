@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace Magenta\Bundle\CBookModelBundle\Entity\Classification\Base;
 
+use Bean\Component\Organization\IoC\OrganizationAwareInterface;
+use Bean\Component\Organization\Model\OrganizationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Category;
@@ -12,7 +14,7 @@ use Sonata\MediaBundle\Model\MediaInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /** @ORM\MappedSuperclass */
-class AppCategory extends BaseCategory {
+class AppCategory extends BaseCategory implements OrganizationAwareInterface {
 	
 	/**
 	 * @var integer|null
@@ -81,6 +83,9 @@ class AppCategory extends BaseCategory {
 	 */
 	public function prePersist(): void {
 		parent::prePersist();
+		if( ! empty($this->parent)) {
+			$this->organisation = $this->parent->getOrganisation();
+		}
 	}
 	
 	/**
@@ -90,10 +95,7 @@ class AppCategory extends BaseCategory {
 		parent::preUpdate();
 	}
 	
-	/**
-	 * @return mixed
-	 */
-	public function getOrganisation() {
+	public function getOrganization(): ?OrganizationInterface {
 		return $this->organisation;
 	}
 	
@@ -102,5 +104,12 @@ class AppCategory extends BaseCategory {
 	 */
 	public function setOrganisation($organisation): void {
 		$this->organisation = $organisation;
+	}
+	
+	/**
+	 * @return mixed
+	 */
+	public function getOrganisation() {
+		return $this->organisation;
 	}
 }

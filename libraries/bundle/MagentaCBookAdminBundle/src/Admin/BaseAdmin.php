@@ -6,6 +6,7 @@ use Bean\Component\Organization\IoC\OrganizationAwareInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr;
 use Magenta\Bundle\CBookAdminBundle\Admin\Organisation\OrganisationAdmin;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\System\DecisionMakingInterface;
@@ -77,6 +78,20 @@ class BaseAdmin extends AbstractAdmin {
 				'show_filter' => true
 			]);
 		}
+	}
+	
+	public function getPersistentParameters() {
+		$parameters = parent::getPersistentParameters();
+		if( ! $this->hasRequest()) {
+			return $parameters;
+		}
+		if( ! empty($org = $this->getRequest()->get('organisation'))) {
+			return array_merge($parameters, array(
+				'organisation' => $org
+			));
+		}
+		
+		return $parameters;
 	}
 	
 	protected function configureRoutes(RouteCollection $collection) {
@@ -383,13 +398,18 @@ class BaseAdmin extends AbstractAdmin {
 		$brandQuery = $this->getModelManager()->createQuery($class);
 		/** @var Expr $expr */
 		$expr         = $brandQuery->expr();
-		$orgFieldName = 'organisation';
-		if($class === IndividualMember::class) {
-			$orgFieldName = 'organization';
-		}
+		$orgFieldName = $this->getOrganisationFieldName($class);
 		$brandQuery->andWhere($expr->eq('o.' . $orgFieldName, $this->getCurrentOrganisation()->getId()));
 		
 		return $brandQuery;
+	}
+	
+	protected function getOrganisationFieldName($class) {
+		if(in_array($class, [ IndividualMember::class, IndividualGroup::class ])) {
+			return 'organization';
+		}
+		
+		return 'organisation';
 	}
 	
 	public
@@ -432,13 +452,10 @@ class BaseAdmin extends AbstractAdmin {
 		$request   = $this->getRequest();
 		$container = $pool->getContainer();
 		/** @var Expr $expr */
-		$expr     = $query->getQueryBuilder()->expr();
-		$orgField = 'organisation';
-		if($this->getClass() === IndividualMember::class) {
-			$orgField = 'organization';
-		}
+		$expr         = $query->getQueryBuilder()->expr();
+		$orgFieldName = $this->getOrganisationFieldName($this->getClass());
 		
-		return $query->andWhere($expr->eq('o.' . $orgField, $organisation->getId()));
+		return $query->andWhere($expr->eq('o.' . $orgFieldName, $organisation->getId()));
 	}
 	
 	/**
@@ -556,7 +573,7 @@ class BaseAdmin extends AbstractAdmin {
 		$object
 	) {
 		if($object instanceof OrganizationAwareInterface) {
-			$object->setOrganisation($this->getCurrentOrganisation());
+			$object->setOrganization($this->getCurrentOrganisation());
 		} elseif($object instanceof ThingChildInterface) {
 			$object->getThing()->setOrganisation($this->getCurrentOrganisation());
 		}

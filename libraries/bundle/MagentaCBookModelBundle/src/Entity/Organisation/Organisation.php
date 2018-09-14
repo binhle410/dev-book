@@ -29,27 +29,39 @@ class Organisation extends OrganizationModel {
 		$this->books        = new ArrayCollection();
 		$this->categories   = new ArrayCollection();
 		$this->memberGroups = new ArrayCollection();
+		$this->adminUsers   = new ArrayCollection();
+		$this->members      = new ArrayCollection();
 	}
+	
+	/**
+	 * @ORM\ManyToMany(
+	 *     targetEntity="Magenta\Bundle\CBookModelBundle\Entity\User\User",
+	 *     mappedBy="adminOrganisations", cascade={"persist","merge"}
+	 * )
+	 *
+	 * @var Collection $adminUsers ;
+	 */
+	protected $adminUsers;
 	
 	/**
 	 * @ORM\OneToMany(
 	 *     targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup",
-	 *     mappedBy="organisation", cascade={"persist"}, orphanRemoval=true
+	 *     mappedBy="organization", cascade={"persist"}, orphanRemoval=true
 	 * )
 	 * @ORM\OrderBy({"position"="ASC"})
 	 *
 	 * @var Collection $memberGroups ;
 	 */
-	protected $individualGroups;
+	protected $memberGroups;
 	
 	public function addMemberGroup(IndividualGroup $group) {
-		$this->individualGroups->add($group);
-		$group->setOrganisation($this);
+		$this->memberGroups->add($group);
+		$group->setOrganization($this);
 	}
 	
 	public function removeMemberGroup(IndividualGroup $group) {
-		$this->individualGroups->removeElement($group);
-		$group->setOrganisation(null);
+		$this->memberGroups->removeElement($group);
+		$group->setOrganization(null);
 	}
 	
 	/**
@@ -140,14 +152,14 @@ class Organisation extends OrganizationModel {
 	}
 	
 	/**
-	 * @return array|\ArrayAccess|\Countable|\IteratorAggregate|null
+	 * @return Collection
 	 */
 	public function getMembers() {
 		return $this->members;
 	}
 	
 	/**
-	 * @param array|\ArrayAccess|\Countable|\IteratorAggregate|null $members
+	 * @param Collection $members
 	 */
 	public function setMembers($members): void {
 		$this->members = $members;

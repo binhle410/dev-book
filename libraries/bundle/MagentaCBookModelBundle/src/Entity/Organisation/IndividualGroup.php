@@ -59,7 +59,7 @@ class IndividualGroup extends IndividualMemberGroup {
 	
 	/**
 	 * @var Organisation
-	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="individualGroups")
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="memberGroups")
 	 * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $organization;

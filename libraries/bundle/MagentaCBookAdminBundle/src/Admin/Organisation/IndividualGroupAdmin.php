@@ -4,6 +4,7 @@ namespace Magenta\Bundle\CBookAdminBundle\Admin\Organisation;
 
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\CBookAdminBundle\Admin\Book\BookAdmin;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
@@ -25,7 +26,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class MemberGroupAdmin extends BaseAdmin {
+class IndividualGroupAdmin extends BaseAdmin {
 	
 	const CHILDREN = [  ];
 	
@@ -41,7 +42,7 @@ class MemberGroupAdmin extends BaseAdmin {
 	);
 	
 	public function getNewInstance() {
-		/** @var User $object */
+		/** @var IndividualGroup $object */
 		$object = parent::getNewInstance();
 		
 		return $object;
@@ -150,7 +151,6 @@ class MemberGroupAdmin extends BaseAdmin {
 			->with('General')
 //                ->add('username')
 			->add('name', null, [ 'label' => 'list.label_name' ])
-			->add('code', null, [ 'label' => 'list.label_code' ])
 //                ->add('admin')
 			->end();
 		
@@ -160,7 +160,7 @@ class MemberGroupAdmin extends BaseAdmin {
 	
 	
 	/**
-	 * @param User $object
+	 * @param IndividualGroup $object
 	 */
 	public function prePersist($object) {
 		parent::prePersist($object);
@@ -170,7 +170,7 @@ class MemberGroupAdmin extends BaseAdmin {
 	}
 	
 	/**
-	 * @param User $object
+	 * @param IndividualGroup $object
 	 */
 	public function preUpdate($object) {
 		if( ! $object->isEnabled()) {

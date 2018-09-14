@@ -6,6 +6,9 @@ parameters:
     SYSTEM_PREFIX: '%env(SYSTEM_PREFIX)%'
     CBOOK_PREFIX: '%env(CBOOK_PREFIX)%'
 
+    sonata.media.admin.media.class: Magenta\Bundle\CBookAdminBundle\Admin\Media\MediaAdmin
+    sonata.media.admin.media.controller: Magenta\Bundle\CBookAdminBundle\Admin\Media\MediaAdminController
+
 twig:
     form_themes:
         - '@SonataFormatter/Form/formatter.html.twig'
@@ -116,6 +119,7 @@ sonata_admin:
                 items:
                     - Magenta\Bundle\CBookAdminBundle\Admin\User\UserAdmin
                     - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\OrganisationAdmin
+                    - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\IndividualGroupAdmin
                     - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\IndividualMemberAdmin
 
 #                    - Sonata\MediaBundle\Admin\ORM\MediaAdmin
