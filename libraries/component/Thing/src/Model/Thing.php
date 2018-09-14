@@ -15,14 +15,43 @@ abstract class Thing implements ThingInterface {
 		$this->createdAt = new \DateTime();
 	}
 	
+	public function __clone() {
+		if($this->id) {
+			$this->id = null;
+			$objProps = $this->getObjectProperties();
+			foreach($objProps as $prop) {
+				$this->{$prop} = clone $this->{$prop};
+			}
+			$objArrayProps = $this->getObjectArrayProperties();
+			foreach($objArrayProps as $prop => $inversedMethod) {
+				$cloned = [];
+				foreach($this->{$prop} as $item) {
+					$clonedItem = clone $item;
+					$clonedItem->{$inversedMethod}($this);
+					$cloned[] = $clonedItem;
+				}
+				$this->{$prop} = $cloned;
+			}
+		}
+	}
+	
+	protected function getObjectArrayProperties() {
+		return [];
+	}
+	
+	protected function getObjectProperties() {
+		return [];
+	}
+	
 	/**
 	 * NOT part of schema.org
+	 *
 	 * @param $element
 	 * @param $prop
 	 *
 	 * @return bool
 	 */
-	public function addElementToArrayProperty($element, $prop) {
+	protected function addElementToArrayProperty($element, $prop) {
 		$this->{$prop}[] = $element;
 		
 		return true;
@@ -31,12 +60,13 @@ abstract class Thing implements ThingInterface {
 	
 	/**
 	 * NOT part of schema.org
+	 *
 	 * @param $el
 	 * @param $array
 	 *
 	 * @return bool
 	 */
-	public function removeElementFromArrayProperty($element, $prop) {
+	protected function removeElementFromArrayProperty($element, $prop) {
 		$key = array_search($element, $this->{$prop}, true);
 		if($key === false) {
 			return false;

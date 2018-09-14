@@ -7,8 +7,6 @@ use Bean\Component\CreativeWork\Model\CreativeWorkInterface;
 
 interface BookInterface extends CreativeWorkInterface {
 	
-	public function addChapter(ChapterInterface $chapter);
-	
 	public function isAbridged(): ?bool;
 	
 	public function setAbridged(bool $abridged): void;
@@ -28,14 +26,4 @@ interface BookInterface extends CreativeWorkInterface {
 	public function getNumberOfPages(): ?int;
 	
 	public function setNumberOfPages(int $numberOfPages): void;
-	
-	/**
-	 * @return array|\ArrayAccess|null
-	 */
-	public function getChapters();
-	
-	/**
-	 * @param array|\ArrayAccess|null $chapters
-	 */
-	public function setChapters($chapters): void;
 }

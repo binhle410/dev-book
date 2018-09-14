@@ -11,7 +11,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\Classification\BookCategoryItem;
  * @ORM\Entity()
  * @ORM\Table(name="book__book")
  */
-class Book extends BookModel {
+class Book extends \Bean\Bundle\BookBundle\Doctrine\Orm\Book {
 	
 	function __construct() {
 		parent::__construct();

@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Bean\Component\Book\Model;
 
+use Bean\Component\Book\IoC\ChapterContainerInterface;
 use Bean\Component\CreativeWork\Model\CreativeWork;
 use Bean\Component\CreativeWork\Model\CreativeWorkInterface;
 
@@ -10,7 +11,7 @@ class Chapter extends CreativeWork implements ChapterInterface {
 	
 	public function setPartOf(CreativeWorkInterface $partOf): void {
 		parent::setPartOf($partOf);
-		if($partOf instanceof BookInterface) {
+		if($partOf instanceof ChapterContainerInterface) {
 			$partOf->addChapter($this);
 		} elseif($partOf instanceof ChapterInterface) {
 			$partOf->addSubChapter($this);

@@ -7,15 +7,12 @@ use Bean\Component\CreativeWork\Model\CreativeWork;
 
 class Book extends CreativeWork implements BookInterface {
 	
-	/**
-	 * NOT part of schema.org
-	 * @var \Countable|\IteratorAggregate|\ArrayAccess|array|null
-	 */
-	protected $chapters;
+	public function __construct() {
+		parent::__construct();
+	}
 	
-	public function addChapter(ChapterInterface $chapter) {
-		$this->chapters[] = $chapter;
-		$chapter->setBook($this);
+	protected function getObjectArrayProperties() {
+		return [ 'chapters' => 'setBook' ];
 	}
 	
 	/**
@@ -87,20 +84,4 @@ class Book extends CreativeWork implements BookInterface {
 	public function setNumberOfPages(int $numberOfPages): void {
 		$this->numberOfPages = $numberOfPages;
 	}
-	
-	/**
-	 * @return array|\ArrayAccess|null
-	 */
-	public function getChapters() {
-		return $this->chapters;
-	}
-	
-	/**
-	 * @param array|\ArrayAccess|null $chapters
-	 */
-	public function setChapters($chapters): void {
-		$this->chapters = $chapters;
-	}
-	
-	
 }

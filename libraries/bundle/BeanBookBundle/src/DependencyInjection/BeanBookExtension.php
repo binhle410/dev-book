@@ -22,7 +22,10 @@ class BeanBookExtension extends ConfigurableExtension {
 //		$container->setParameter('bean_book.persistence.orm.manager_name', null);
 		
 		$bookClass = $mergedConfig['class']['book'];
+		$pageClass = $mergedConfig['class']['book_page'];
 		$container->setParameter('bean_book.book_class', $bookClass);
+		$container->setParameter('bean_book.book_page_class', $pageClass);
+		
 		
 	}
 }

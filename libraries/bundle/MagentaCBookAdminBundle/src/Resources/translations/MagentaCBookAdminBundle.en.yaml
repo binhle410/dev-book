@@ -93,8 +93,6 @@ layout:
     save: Save
 
 form:
-    label_access_granted_groups: Access Granted Groups
-    label_access_denied_groups: Access Denied Groups
     group_name: 'Group name'
     username: Username
     email: Email

@@ -3,22 +3,23 @@ declare(strict_types = 1);
 
 namespace Bean\Component\Book\Model;
 
-use Bean\Component\CreativeWork\Model\Organization;
+use Bean\Component\CreativeWork\Model\CreativeWork;
 use Bean\Component\CreativeWork\Model\CreativeWorkInterface;
+use Bean\Component\Page\Model\Page;
 
 /**
  * NOT part of schema.org
  * Class Page
  * @package Bean\Component\Book\Model
  */
-class BookPage  {
-	
+class BookPage extends Page {
 	public function setPartOf(CreativeWorkInterface $partOf): void {
-		parent::setPartOf($partOf);
+//		parent::setPartOf($partOf);
 		if($partOf instanceof BookInterface) {
 			$this->book = $partOf;
 		}
 	}
+	
 	/**
 	 * NOT part of schema.org.
 	 * A Page should belong to a Book.

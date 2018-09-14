@@ -74,6 +74,12 @@ class AppCategory extends BaseCategory implements OrganizationAwareInterface {
 		return $this->id;
 	}
 	
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean",options={"default":true})
+	 */
+	protected $public = true;
+	
 	final public function setMedia(MediaInterface $media = null) {
 		parent::setMedia($media);
 	}
@@ -111,5 +117,20 @@ class AppCategory extends BaseCategory implements OrganizationAwareInterface {
 	 */
 	public function getOrganisation() {
 		return $this->organisation;
+	}
+	
+	
+	/**
+	 * @return bool|null
+	 */
+	public function isPublic(): ?bool {
+		return $this->public;
+	}
+	
+	/**
+	 * @param bool|null $public
+	 */
+	public function setPublic(?bool $public): void {
+		$this->public = $public;
 	}
 }

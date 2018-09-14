@@ -215,4 +215,5 @@ class Category extends AppCategory {
 	public function setItems(\Doctrine\Common\Collections\Collection $items): void {
 		$this->items = $items;
 	}
+	
 }

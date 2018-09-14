@@ -1,0 +1,4 @@
+form:
+    label_access_granted_groups: Access Granted Groups
+    label_access_denied_groups: Access Denied Groups
+    label_public: Public

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use function GuzzleHttp\Psr7\copy_to_string;
+use Magenta\Bundle\CBookModelBundle\Entity\Book\BookPage;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,6 +54,10 @@ class BeanPlaygroundController extends Controller
 //			'chap'            => 'abc'
 //		]);
 
+//	    $manager = $this->get('doctrine.orm.default_entity_manager');
+//	    $page = new BookPage();
+//	    $page->setText('here comes the text');
+//	    $manager->persist($page);$manager->flush();
         return new JsonResponse(['link' => 'https://picsum.photos/1600/900']);
     }
 }

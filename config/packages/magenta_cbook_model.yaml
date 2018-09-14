@@ -29,6 +29,7 @@ bean_organization:
 bean_book:
     class:
         book: Magenta\Bundle\CBookModelBundle\Entity\Book\Book
+        book_page: Magenta\Bundle\CBookModelBundle\Entity\Book\BookPage
 #        book: Bean\Bundle\BookBundle\Doctrine\Orm\Book
 
 doctrine:

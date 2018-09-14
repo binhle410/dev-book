@@ -1,0 +1,33 @@
+{
+    "name": "beancomponent/book-chapter",
+    "type": "php-component",
+    "description": "Provides a Component for Book Chapter Domain Model.",
+    "keywords": [ "php book-chapter components" ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Peter Bean",
+            "email": "peterbean@beancomponent.com"
+        }
+    ],
+    "require": {
+        "php": "^5.6|^7.0",
+        "beancomponent/book": "^0.1"
+    },
+    "require-dev": {
+    },
+    "suggest": {
+
+    },
+    "autoload": {
+        "psr-4": { "Bean\\Component\\Book\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Bean\\Component\\Book\\spec\\": "tests/spec/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}
