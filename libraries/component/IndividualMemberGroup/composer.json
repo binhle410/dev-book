@@ -1,0 +1,33 @@
+{
+    "name": "beancomponent/individual-member-group",
+    "type": "php-component",
+    "description": "Provides a Component for Individual Member Group Domain Model.",
+    "keywords": [ "php IndividualMemberGroup components" ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Peter Bean",
+            "email": "peterbean@beancomponent.com"
+        }
+    ],
+    "require": {
+        "php": "^5.6|^7.0",
+        "beancomponent/individual-member": "^0.1"
+    },
+    "require-dev": {
+    },
+    "suggest": {
+
+    },
+    "autoload": {
+        "psr-4": { "Bean\\Component\\Organization\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Bean\\Component\\Organization\\spec\\": "tests/spec/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}

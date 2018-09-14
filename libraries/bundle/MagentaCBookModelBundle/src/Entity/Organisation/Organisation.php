@@ -138,4 +138,18 @@ class Organisation extends OrganizationModel {
 	public function setCode(string $code = null): void {
 		$this->code = $code;
 	}
+	
+	/**
+	 * @return array|\ArrayAccess|\Countable|\IteratorAggregate|null
+	 */
+	public function getMembers() {
+		return $this->members;
+	}
+	
+	/**
+	 * @param array|\ArrayAccess|\Countable|\IteratorAggregate|null $members
+	 */
+	public function setMembers($members): void {
+		$this->members = $members;
+	}
 }

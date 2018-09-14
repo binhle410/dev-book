@@ -30,10 +30,10 @@ class JsonService {
 	}
 	
 	public function removeDevDependencies($dest) {
-		$key               = "require";
-		$destPropertyArray = (array) ($dest->{$key});
+		$key                  = "require";
+		$destPropertyArray    = (array) ($dest->{$key});
 		$destPropertyArrayKey = array_keys($destPropertyArray);
-
+		
 		foreach($this->names as $name => $val) {
 			if(in_array($name, $destPropertyArrayKey)) {
 				unset($destPropertyArray[ $name ]);
@@ -55,8 +55,15 @@ class JsonService {
 		$srcPropertyArray  = (array) ($src->{$key});
 		$destPropertyArray = (array) ($dest->{$key});
 		foreach($srcPropertyArray as $_key => $_value) {
-			if($force || ! array_key_exists($_key, $destPropertyArray)) {
+			if($force) {
 				$destPropertyArray[ $_key ] = $_value;
+			} elseif( ! array_key_exists($_key, $destPropertyArray)) {
+				$destPropertyArray[ $_key ] = $_value;
+			} elseif($key === 'psr-4') {
+				if( ! is_array($destPropertyArray[ $_key ])) {
+					$destPropertyArray[ $_key ] = [ $destPropertyArray[ $_key ] ];
+				}
+				$destPropertyArray[ $_key ][] = $_value;
 			}
 		}
 		$dest->{$key} = (object) $destPropertyArray;

@@ -15,7 +15,8 @@
         <discriminator-map>
             <discriminator-mapping value="creative-work" class="Bean\Component\CreativeWork\Model\CreativeWork" />
             <discriminator-mapping value="organisation" class="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation" />
-            <discriminator-mapping value="individual-member" class="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember" />
+            <discriminator-mapping value="individual" class="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember" />
+            <discriminator-mapping value="individual-group" class="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup" />
             <discriminator-mapping value="person" class="Magenta\Bundle\CBookModelBundle\Entity\Person\Person" />
             <discriminator-mapping value="book" class="Magenta\Bundle\CBookModelBundle\Entity\Book\Book" />
             <discriminator-mapping value="chapter" class="Magenta\Bundle\CBookModelBundle\Entity\Book\Chapter" />

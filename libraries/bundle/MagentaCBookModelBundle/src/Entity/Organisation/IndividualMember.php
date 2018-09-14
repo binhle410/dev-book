@@ -24,6 +24,7 @@ class IndividualMember extends MemberModel {
 	protected $id;
 	
 	public function __construct() {
+		parent::__construct();
 		$this->groupIndividuals = new ArrayCollection();
 	}
 	
@@ -87,20 +88,6 @@ class IndividualMember extends MemberModel {
 	 */
 	public function setContactable(bool $contactable): void {
 		$this->contactable = $contactable;
-	}
-	
-	/**
-	 * @return Person|null
-	 */
-	public function getPerson(): ?Person {
-		return $this->person;
-	}
-	
-	/**
-	 * @param Person|null $person
-	 */
-	public function setPerson(?Person $person): void {
-		$this->person = $person;
 	}
 	
 	/**

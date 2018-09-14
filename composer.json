@@ -76,8 +76,12 @@
             "Magenta\\Bundle\\CBookModelBundle\\": "libraries\\bundle\\MagentaCBookModelBundle\\src/",
             "Bean\\Component\\Book\\": "libraries\\component\\Book\\src/",
             "Bean\\Component\\CreativeWork\\": "libraries\\component\\CreativeWork\\src/",
+            "Bean\\Component\\Organization\\": [
+                "libraries\\component\\IndividualMember\\src/",
+                "libraries\\component\\IndividualMemberGroup\\src/",
+                "libraries\\component\\Organization\\src/"
+            ],
             "Bean\\Component\\Media\\": "libraries\\component\\Media\\src/",
-            "Bean\\Component\\Organization\\": "libraries\\component\\Organization\\src/",
             "Bean\\Component\\Person\\": "libraries\\component\\Person\\src/",
             "Bean\\Component\\Thing\\": "libraries\\component\\Thing\\src/"
         }
@@ -103,8 +107,12 @@
             "Bean\\Component\\Book\\spec\\": "libraries\\component\\Book\\tests/spec/",
             "Bean\\Component\\CBookAsset\\spec\\": "libraries\\component\\CBookAsset\\tests/spec/",
             "Bean\\Component\\CreativeWork\\spec\\": "libraries\\component\\CreativeWork\\tests/spec/",
+            "Bean\\Component\\Organization\\spec\\": [
+                "libraries\\component\\IndividualMember\\tests/spec/",
+                "libraries\\component\\IndividualMemberGroup\\tests/spec/",
+                "libraries\\component\\Organization\\tests/spec/"
+            ],
             "Bean\\Component\\Media\\spec\\": "libraries\\component\\Media\\tests/spec/",
-            "Bean\\Component\\Organization\\spec\\": "libraries\\component\\Organization\\tests/spec/",
             "Bean\\Component\\Person\\spec\\": "libraries\\component\\Person\\tests/spec/",
             "Bean\\Component\\Thing\\spec\\": "libraries\\component\\Thing\\tests/spec/"
         }

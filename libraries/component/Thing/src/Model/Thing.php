@@ -10,9 +10,40 @@ namespace Bean\Component\Thing\Model;
 abstract class Thing implements ThingInterface {
 	
 	protected $id;
-
+	
 	function __construct() {
 		$this->createdAt = new \DateTime();
+	}
+	
+	/**
+	 * NOT part of schema.org
+	 * @param $element
+	 * @param $prop
+	 *
+	 * @return bool
+	 */
+	public function addElementToArrayProperty($element, $prop) {
+		$this->{$prop}[] = $element;
+		
+		return true;
+		
+	}
+	
+	/**
+	 * NOT part of schema.org
+	 * @param $el
+	 * @param $array
+	 *
+	 * @return bool
+	 */
+	public function removeElementFromArrayProperty($element, $prop) {
+		$key = array_search($element, $this->{$prop}, true);
+		if($key === false) {
+			return false;
+		}
+		unset($this->{$prop}[ $key ]);
+		
+		return true;
 	}
 	
 	/**
@@ -104,7 +135,6 @@ abstract class Thing implements ThingInterface {
 	public function getName(): ?string {
 		return $this->name;
 	}
-
 	
 	
 	/**

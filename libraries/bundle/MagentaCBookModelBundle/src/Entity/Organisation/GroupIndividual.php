@@ -2,6 +2,9 @@
 
 namespace Magenta\Bundle\CBookModelBundle\Entity\Organisation;
 
+use Bean\Component\Organization\Model\IndividualMemberGroup;
+use Bean\Component\Organization\Model\IndividualMemberGroupInterface;
+use Bean\Component\Organization\Model\IndividualMemberInterface;
 use Bean\Component\Person\Model\Person;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +14,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
  * @ORM\Entity()
  * @ORM\Table(name="organisation__individual_member_group__groups_individuals")
  */
-class GroupIndividual {
+class GroupIndividual extends \Bean\Component\Organization\Model\GroupIndividual {
 	
 	/**
 	 * @var int|null
@@ -33,34 +36,34 @@ class GroupIndividual {
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup", inversedBy="groupIndividuals")
 	 * @ORM\JoinColumn(name="id_group", referencedColumnName="id", onDelete="CASCADE")
 	 */
-	protected $group;
+	protected $individualMemberGroup;
 	
 	/**
 	 * @var IndividualMember
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember", inversedBy="groupIndividuals")
 	 * @ORM\JoinColumn(name="id_member", referencedColumnName="id", onDelete="CASCADE")
 	 */
-	protected $member;
+	protected $individualMember;
 	
 	/**
-	 * @return IndividualGroup
+	 * @return IndividualMemberGroupInterface
 	 */
-	public function getGroup(): IndividualGroup {
-		return $this->group;
+	public function getGroup(): IndividualMemberGroupInterface {
+		return $this->getIndividualMemberGroup();
 	}
 	
 	/**
-	 * @param IndividualGroup $group
+	 * @param IndividualMemberGroupInterface $group
 	 */
-	public function setGroup(IndividualGroup $group): void {
+	public function setGroup(IndividualMemberGroupInterface $group): void {
 		$this->group = $group;
 	}
 	
 	/**
-	 * @return IndividualMember
+	 * @return IndividualMemberInterface
 	 */
-	public function getMember(): IndividualMember {
-		return $this->member;
+	public function getMember(): IndividualMemberInterface {
+		return $this->getIndividualMember();
 	}
 	
 	/**

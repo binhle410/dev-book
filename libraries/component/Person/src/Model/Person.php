@@ -5,7 +5,7 @@ namespace Bean\Component\Person\Model;
 
 use Bean\Component\Thing\Model\Thing;
 
-class Person extends Thing {
+class Person extends Thing implements PersonInterface {
 	
 	/**
 	 * NOT part of schema.org

@@ -2,6 +2,7 @@
 
 namespace Magenta\Bundle\CBookModelBundle\Entity\Organisation;
 
+use Bean\Component\Organization\Model\IndividualMemberGroup;
 use Bean\Component\Person\Model\Person;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,7 +13,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
  * @ORM\Entity()
  * @ORM\Table(name="organisation__individual_member_group")
  */
-class IndividualGroup {
+class IndividualGroup extends IndividualMemberGroup {
 	/**
 	 * @var int|null
 	 * @ORM\Id
@@ -29,6 +30,7 @@ class IndividualGroup {
 	}
 	
 	public function __construct() {
+		parent::__construct();
 		$this->groupIndividuals    = new ArrayCollection();
 	}
 	
@@ -54,55 +56,12 @@ class IndividualGroup {
 	 */
 	protected $groupIndividuals;
 	
-	public function addGroupIndividual(GroupIndividual $gm) {
-		$this->groupIndividuals->add($gm);
-		$gm->setGroup($this);
-	}
-	
-	public function removeGroupIndividual(GroupIndividual $gm) {
-		$this->groupIndividuals->removeElement($gm);
-		$gm->setGroup(null);
-	}
-	
 	
 	/**
 	 * @var Organisation
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="individualGroups")
 	 * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
 	 */
-	protected $organisation;
+	protected $organization;
 	
-	/**
-	 * @var string
-	 * @ORM\Column(type="string", nullable=true)
-	 */
-	protected $name;
-	
-	/**
-	 * @return Organisation
-	 */
-	public function getOrganisation(): Organisation {
-		return $this->organisation;
-	}
-	
-	/**
-	 * @param Organisation $organisation
-	 */
-	public function setOrganisation(Organisation $organisation): void {
-		$this->organisation = $organisation;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getName(): string {
-		return $this->name;
-	}
-	
-	/**
-	 * @param string $name
-	 */
-	public function setName(string $name): void {
-		$this->name = $name;
-	}
 }
