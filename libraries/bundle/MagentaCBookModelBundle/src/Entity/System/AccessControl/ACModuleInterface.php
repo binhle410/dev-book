@@ -1,5 +1,5 @@
 <?php
-namespace Magenta\Bundle\CBookModelBundle\Entity\AccessControl;
+namespace Magenta\Bundle\CBookModelBundle\Entity\System\AccessControl;
 
 interface ACModuleInterface {
 	public function getModuleName(): string;

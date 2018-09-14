@@ -1,6 +1,6 @@
 <?php
 
-namespace Magenta\Bundle\CBookModelBundle\Entity\AccessControl;
+namespace Magenta\Bundle\CBookModelBundle\Entity\System\AccessControl;
 
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\System\SystemModule;
@@ -43,7 +43,7 @@ class ACEntry {
 	
 	/**
 	 * @var ACRole
-	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\AccessControl\ACRole", inversedBy="entries", cascade={"persist","merge"})
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\System\AccessControl\ACRole", inversedBy="entries", cascade={"persist","merge"})
 	 * @ORM\JoinColumn(name="id_role", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $role;

@@ -1,5 +1,5 @@
 <?php
-namespace Magenta\Bundle\CBookModelBundle\Entity\AccessControl;
+namespace Magenta\Bundle\CBookModelBundle\Entity\System\AccessControl;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -32,7 +32,7 @@ class ACRole {
 	
 	/**
 	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\AccessControl\ACEntry", mappedBy="role", cascade={"persist","merge"}, orphanRemoval=true)
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\System\AccessControl\ACEntry", mappedBy="role", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $entries;
 	

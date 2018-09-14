@@ -22,6 +22,8 @@
             <discriminator-mapping value="book-page" class="Magenta\Bundle\CBookModelBundle\Entity\Book\BookPage" />
             <discriminator-mapping value="chapter" class="Magenta\Bundle\CBookModelBundle\Entity\Book\Chapter" />
             <discriminator-mapping value="media" class="Magenta\Bundle\CBookModelBundle\Entity\Media\Media" />
+
+            <discriminator-mapping value="message-template" class="Magenta\Bundle\CBookModelBundle\Entity\Messaging\MessageTemplate" />
         </discriminator-map>
 
         <field name="createdAt" type="datetime"/>

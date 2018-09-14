@@ -5,20 +5,18 @@ namespace Magenta\Bundle\CBookModelBundle\Entity\System;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
+use Magenta\Bundle\CBookModelBundle\Entity\System\AccessControl\ACEntry;
+use Magenta\Bundle\CBookModelBundle\Entity\System\AccessControl\ACRole;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="system__module")
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * ORM\DiscriminatorMap({"person" = "Person", "employee" = "Employee"})
  */
-class SystemModule {
-	
-	public const MODULE_SYSTEM_CONFIG = 'SYSTEM_CONFIG';
-	
-	public static function getModuleList(): array {
-		return [
-			self::MODULE_SYSTEM_CONFIG => self::MODULE_SYSTEM_CONFIG
-		];
-	}
+abstract class SystemModule {
 	
 	/**
 	 * @var int|null
@@ -33,9 +31,43 @@ class SystemModule {
 		$this->acEntries = new ArrayCollection();
 	}
 	
+	public function getRolesWithPermission($permission) {
+		$permission = strtoupper($permission);
+		$roles      = [];
+		/** @var ACEntry $ace */
+		foreach($this->acEntries as $ace) {
+			if($ace->getPermission() === $permission) {
+				$roles[] = $ace->getRole();
+			}
+		}
+		
+		return $roles;
+	}
+	
+	public function isUserGranted(IndividualMember $member, $permission, $object, $class): ?bool {
+		if(empty($member)) {
+			return false;
+		}
+		
+		return $this->isRoleGranted($permission, $member->getRole());
+	}
+	
+	public function isRoleGranted($permission, ACRole $role) {
+		$permission = strtoupper($permission);
+		$entries    = $role->getEntries();
+		/** @var ACEntry $entry */
+		foreach($entries as $entry) {
+			if($entry->getPermission() === $permission && $entry->getModule() === $this) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\AccessControl\ACEntry", mappedBy="module", cascade={"persist","merge"}, orphanRemoval=true)
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\System\AccessControl\ACEntry", mappedBy="module", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $acEntries;
 	
@@ -54,26 +86,6 @@ class SystemModule {
 	}
 	
 	/**
-	 * @var string
-	 * @ORM\Column(type="string")
-	 */
-	protected $name;
-	
-	/**
-	 * @return string
-	 */
-	public function getName(): string {
-		return $this->name;
-	}
-	
-	/**
-	 * @param string $name
-	 */
-	public function setName(string $name): void {
-		$this->name = $name;
-	}
-	
-	/**
 	 * @return System
 	 */
 	public function getSystem(): System {
@@ -86,4 +98,19 @@ class SystemModule {
 	public function setSystem(System $system): void {
 		$this->system = $system;
 	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getAcEntries(): Collection {
+		return $this->acEntries;
+	}
+	
+	/**
+	 * @param Collection $acEntries
+	 */
+	public function setAcEntries(Collection $acEntries): void {
+		$this->acEntries = $acEntries;
+	}
+	
 }

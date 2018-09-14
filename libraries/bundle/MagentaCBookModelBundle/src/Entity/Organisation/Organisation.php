@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Category;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
+use Magenta\Bundle\CBookModelBundle\Entity\System\System;
 
 /**
  * @ORM\Entity()
@@ -96,6 +97,13 @@ class Organisation extends OrganizationModel {
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember", mappedBy="organization")
 	 */
 	protected $members;
+	
+	/**
+	 * @var System|null
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\System\System", inversedBy="organisations", cascade={"persist","merge"})
+	 * @ORM\JoinColumn(name="id_system", referencedColumnName="id", onDelete="CASCADE")
+	 */
+	protected $system;
 	
 	/**
 	 * @var Media
