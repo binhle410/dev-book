@@ -40,6 +40,10 @@ class AppMedia extends BaseMedia implements MediaInterface {
 		return 'https://www.sunrise.vn';
 	}
 	
+	public function getFullUrlToBinary() {
+		return $this->getHost() . $this->contentUrl;
+	}
+	
 	/**
 	 * @return Organisation
 	 */
