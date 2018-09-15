@@ -11,5 +11,7 @@
 
         <property name="contentUrl" type="string" expose="true" since-version="1.0" groups="sonata_api_read"/>
 
+        <virtual-property name="host" method="getHost" type="string" expose="true" since-version="1.0" groups="sonata_api_read"/>
+
     </class>
 </serializer>

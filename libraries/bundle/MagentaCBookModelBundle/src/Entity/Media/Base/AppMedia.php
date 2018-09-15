@@ -36,6 +36,10 @@ class AppMedia extends BaseMedia implements MediaInterface {
 	protected $description;
 	protected $contentUrl;
 	
+	public function getHost() {
+		return 'https://www.sunrise.vn';
+	}
+	
 	/**
 	 * @return Organisation
 	 */
