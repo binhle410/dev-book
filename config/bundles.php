@@ -41,10 +41,11 @@ return [
 	Sonata\ClassificationBundle\SonataClassificationBundle::class            => [ 'all' => true ],
 	Knp\DoctrineBehaviors\Bundle\DoctrineBehaviorsBundle::class              => [ 'all' => true ],
 	
-	Magenta\Bundle\CBookAdminBundle\MagentaCBookAdminBundle::class           => [ 'all' => true, 'test' => true ],
-	Magenta\Bundle\CBookApiBundle\MagentaCBookApiBundle::class               => [ 'all' => true, 'test' => true ],
-	Magenta\Bundle\CBookModelBundle\MagentaCBookModelBundle::class           => [ 'all' => true, 'test' => true ],
-	Magenta\Bundle\CBookMediaApiBundle\MagentaCBookMediaApiBundle::class     => [ 'all' => true, 'test' => true ],
-	Magenta\Bundle\CBookJWTBundle\MagentaCBookJWTBundle::class               => [ 'all' => true, 'test' => true ],
+	Magenta\Bundle\CBookAdminBundle\MagentaCBookAdminBundle::class       => [ 'all' => true, 'test' => true ],
+	Magenta\Bundle\CBookApiBundle\MagentaCBookApiBundle::class           => [ 'all' => true, 'test' => true ],
+	Magenta\Bundle\CBookModelBundle\MagentaCBookModelBundle::class       => [ 'all' => true, 'test' => true ],
+	Magenta\Bundle\CBookMediaApiBundle\MagentaCBookMediaApiBundle::class => [ 'all' => true, 'test' => true ],
+	Magenta\Bundle\CBookJWTBundle\MagentaCBookJWTBundle::class           => [ 'all' => true, 'test' => true ],
+	Bean\Bundle\MediaBundle\BeanMediaBundle::class                       => [ 'all' => true, 'test' => true ],
 
 ];

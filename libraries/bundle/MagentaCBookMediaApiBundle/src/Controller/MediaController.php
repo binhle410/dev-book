@@ -4,8 +4,6 @@ namespace Magenta\Bundle\CBookMediaApiBundle\Controller;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
-use Magenta\Bundle\CBookModelBundle\Entity\Customer\ServiceSheet;
-use Magenta\Bundle\CBookModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Sonata\MediaBundle\Controller\Api\MediaController as SonataMediaController;
@@ -90,10 +88,10 @@ class MediaController extends SonataMediaController {
 				$media->setContext($mc);
 			}
 			
-			$this->populateOwnerFields($media, [
-				'receiptImageWarranty' => Warranty::class,
-				'imageServiceSheet'    => ServiceSheet::class,
-			], $request);
+//			$this->populateOwnerFields($media, [
+//				'receiptImageWarranty' => Warranty::class,
+//				'imageServiceSheet'    => ServiceSheet::class,
+//			], $request);
 			
 			$this->mediaManager->save($media);
 			

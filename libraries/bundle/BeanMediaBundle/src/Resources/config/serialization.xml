@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+        http://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd"
+>
+    <class name="Bean\Component\Media\Model\MediaObject">
+        <attribute name="content_url">
+            <group>sonata_api_read</group>
+            <group>read_medium</group>
+            <group>read_media</group>
+            <group>write_media</group>
+        </attribute>
+
+    </class>
+
+</serializer>

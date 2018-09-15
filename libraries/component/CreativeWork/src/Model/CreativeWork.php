@@ -44,7 +44,7 @@ abstract class CreativeWork extends Thing implements CreativeWorkInterface {
 	 *    The language of the content or performance or used in an action. Please use one of the language codes from the IETF BCP 47 standard.
 	 * @var string
 	 */
-	protected $locale;
+	protected $locale = 'en';
 	
 	/**
 	 * The subject matter of the content.
@@ -79,12 +79,6 @@ abstract class CreativeWork extends Thing implements CreativeWorkInterface {
 		$this->headline = $headline;
 	}
 	
-	/**
-	 * @return mixed
-	 */
-	public function getId() {
-		return $this->id;
-	}
 	
 	/**
 	 * @return string

@@ -32,20 +32,9 @@ class AppMedia extends BaseMedia implements MediaInterface {
 	 */
 	protected $logoOrganisation;
 	
-	/**
-	 * @var string|null
-	 * @ORM\Column(type="string",length=1000, nullable=true)
-	 */
+	protected $name;
+	protected $description;
 	protected $contentUrl;
-	
-	/**
-	 * Get id
-	 *
-	 * @return int $id
-	 */
-	public function getId() {
-		return $this->id;
-	}
 	
 	/**
 	 * @return Organisation
