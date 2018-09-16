@@ -11,6 +11,8 @@ use Sonata\MediaBundle\Model\MediaInterface;
 
 /** @ORM\MappedSuperclass */
 class AppMedia extends BaseMedia implements MediaInterface {
+	private $baseUrl = 'https://www.sunrise.vn';
+	private $contentUrlPrefix;
 	
 	/**
 	 * @var int|null
@@ -35,13 +37,55 @@ class AppMedia extends BaseMedia implements MediaInterface {
 	protected $name;
 	protected $description;
 	protected $contentUrl;
+	protected $link;
 	
-	public function getHost() {
-		return 'https://www.sunrise.vn';
+	/**
+	 * @return string
+	 */
+	public function getBaseUrl(): string {
+		return $this->baseUrl;
 	}
 	
-	public function getFullUrlToBinary() {
-		return $this->getHost() . $this->contentUrl;
+	/**
+	 * @param string $baseUrl
+	 */
+	public function setBaseUrl(string $baseUrl): void {
+		$this->baseUrl = $baseUrl;
+	}
+	
+	/**
+	 * @return mixed
+	 */
+	public function getContentUrlPrefix() {
+		return $this->contentUrlPrefix;
+	}
+	
+	/**
+	 * @param mixed $contentUrlPrefix
+	 */
+	public function setContentUrlPrefix($contentUrlPrefix): void {
+		$this->contentUrlPrefix = $contentUrlPrefix;
+	}
+	
+	/**
+	 * @param mixed $link
+	 */
+	public function setLink($link): void {
+		$this->link = $link;
+	}
+	
+	public function getLink() {
+		if(empty($this->link)) {
+			if(strlen($this->contentUrlPrefix) === 1) {
+				$prefix = '';
+			} else {
+				$prefix = $this->contentUrlPrefix;
+			}
+			
+			$this->link = $this->getBaseUrl() . $prefix . $this->contentUrl;
+		}
+		
+		return $this->link;
 	}
 	
 	/**

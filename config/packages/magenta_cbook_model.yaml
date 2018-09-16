@@ -86,10 +86,16 @@ sonata_media:
             formats:
                 small: { width: 100 , quality: 70}
                 big:   { width: 500 , quality: 70}
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
 
         book_file:
             providers:
                 - sonata.media.provider.file
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
 
         default:
             providers:

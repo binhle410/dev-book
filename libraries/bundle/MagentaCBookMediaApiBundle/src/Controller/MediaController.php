@@ -17,9 +17,11 @@ use Sonata\MediaBundle\Filesystem\Local;
 use Sonata\MediaBundle\Form\Type\ApiMediaType;
 use Sonata\MediaBundle\Model\MediaInterface;
 use Sonata\CoreBundle\Model\ManagerInterface;
+use Sonata\MediaBundle\Model\MediaManagerInterface;
 use Sonata\MediaBundle\Provider\MediaProviderInterface;
 use Sonata\MediaBundle\Provider\Pool;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -32,9 +34,31 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class MediaController extends SonataMediaController {
+	/** @var ContainerInterface $container */
+	private $container;
+	
+	public function __construct(MediaManagerInterface $mediaManager, Pool $mediaPool, FormFactoryInterface $formFactory, ContainerInterface $container) {
+		parent::__construct($mediaManager, $mediaPool, $formFactory);
+		$this->container = $container;
+	}
 	
 	/** @var RegistryInterface */
 	private $registry;
+	
+	protected function getMedium($id = null) {
+		/** @var Media $medium */
+		$medium = parent::getMedium($id);
+//		$medium->setContentUrlPrefix($this->container->getParameter('MEDIA_API_PREFIX'));
+//		$medium->setBaseUrl($this->container->getParameter('MEDIA_API_BASE_URL'));
+		$contentUrl = $this->container->get('router')->generate('get_medium_binary_view', [
+			'id'     => $id,
+			'format' => 'reference'
+		]);
+		
+		$medium->setLink($medium->getBaseUrl() . $contentUrl);
+		
+		return $medium;
+	}
 	
 	/**
 	 * @param int $id
@@ -87,7 +111,7 @@ class MediaController extends SonataMediaController {
 			if( ! empty($mc = $request->query->get('context'))) {
 				$media->setContext($mc);
 			}
-			
+
 //			$this->populateOwnerFields($media, [
 //				'receiptImageWarranty' => Warranty::class,
 //				'imageServiceSheet'    => ServiceSheet::class,

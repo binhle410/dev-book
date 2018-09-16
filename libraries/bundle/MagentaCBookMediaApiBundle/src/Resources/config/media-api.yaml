@@ -24,6 +24,7 @@ services:
             - '@sonata.media.manager.media'
             - '@sonata.media.pool'
             - '@form.factory'
+            - '@service_container'
         calls:
             - method: setRegistry
               arguments:
