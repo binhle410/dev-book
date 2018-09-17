@@ -12,10 +12,12 @@ use Magenta\Bundle\CBookModelBundle\Entity\Classification\BookCategoryItem;
  * @ORM\Table(name="book__book")
  */
 class Book extends \Bean\Bundle\BookBundle\Doctrine\Orm\Book {
+	const STATUS_DRAFT = 'DRAFT';
 	
 	function __construct() {
 		parent::__construct();
 		$this->locale = 'en';
+		$this->status = self::STATUS_DRAFT;
 	}
 	
 	/**
@@ -55,7 +57,7 @@ class Book extends \Bean\Bundle\BookBundle\Doctrine\Orm\Book {
 	 * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $organisation;
-	
+
 //	/**
 //	 * @var boolean|null
 //	 * @ORM\Column(type="boolean", nullable=true)

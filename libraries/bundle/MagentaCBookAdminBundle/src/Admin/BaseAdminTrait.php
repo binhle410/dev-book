@@ -323,17 +323,21 @@ trait BaseAdminTrait {
 
 //        $pos = $container->get(UserService::class)->getPosition();
 		if($isAdmin) {
-//			if(is_array($name)) {
-//				foreach($name as $action) {
-//					$_name = strtoupper($name);
-//				}
-//			}
-			if(in_array($name, [ 'LIST', 'EDIT', 'DELETE', 'CREATE', 'VIEW' ])) {
-				if($name === 'CREATE') {
+			if(is_array($name)) {
+				foreach($name as $action) {
+					$_name = strtoupper($action);
+				}
+			} else {
+				$_name = strtoupper($name);
+			}
+			if(in_array($_name, [ 'LIST', 'EDIT', 'DELETE', 'CREATE', 'VIEW', 'EXPORT' ])) {
+				if($_name === 'CREATE') {
 					return ! empty($this->getCurrentOrganisation(false));
 				}
 				
 				return true;
+			} elseif(substr($_name, 0, 5) === 'ROLE_') {
+				return parent::isGranted($name, $object);
 			}
 			
 		}
