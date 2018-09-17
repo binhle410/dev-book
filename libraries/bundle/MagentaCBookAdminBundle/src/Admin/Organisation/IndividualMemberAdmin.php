@@ -4,7 +4,8 @@ namespace Magenta\Bundle\CBookAdminBundle\Admin\Organisation;
 
 use Doctrine\ORM\EntityRepository;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
-use Magenta\Bundle\CBookModelBundle\Entity\AccessControl\ACRole;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
+use Magenta\Bundle\CBookModelBundle\Entity\System\AccessControl\ACRole;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
@@ -158,11 +159,11 @@ class IndividualMemberAdmin extends BaseAdmin {
 		$listMapper
 			->add('person.name', null, [ 'editable' => true, 'label' => 'form.label_name' ])
 			->add('email', null, [ 'editable' => true, 'label' => 'form.label_email' ])
-			->add('role', null, [
-				'editable'            => true,
-				'label'               => 'form.label_role',
-				'associated_property' => 'name'
-			])
+//			->add('role', null, [
+//				'editable'            => true,
+//				'label'               => 'form.label_role',
+//				'associated_property' => 'name'
+//			])
 			->add('enabled', null, [ 'editable' => true, 'label' => 'form.label_enabled' ]);
 	}
 	
@@ -186,13 +187,14 @@ class IndividualMemberAdmin extends BaseAdmin {
 				'label'    => 'form.label_password',
 				'required' => $passwordRequired
 			])
-			->add('role', ModelType::class, [
-				'label'    => 'form.label_role',
-				'btn_add'  => false,
-				'property' => 'name',
-				'query'    => $acroleQuery
-			
-			])
+			->add('contactable')
+//			->add('role', ModelType::class, [
+//				'label'    => 'form.label_role',
+//				'btn_add'  => false,
+//				'property' => 'name',
+//				'query'    => $acroleQuery
+//
+//			])
 			->add('enabled');
 		$formMapper->end();
 	}

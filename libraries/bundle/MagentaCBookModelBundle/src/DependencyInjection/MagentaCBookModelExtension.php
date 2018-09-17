@@ -44,6 +44,7 @@ class MagentaCBookModelExtension extends ConfigurableExtension implements Compil
 		$container->setAlias('magenta_user.doctrine_registry', new Alias(self::$doctrineDrivers['orm']['registry'], false));
 		
 		$loader->load('user.yaml');
+		$loader->load('doctrine.yaml');
 		
 		$definition = $container->getDefinition('magenta_user.object_manager');
 		$definition->setFactory(array( new Reference('magenta_user.doctrine_registry'), 'getManager' ));

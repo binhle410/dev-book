@@ -15,16 +15,6 @@ interface PersonInterface {
 	public function setGivenName(?string $givenName): void;
 	
 	/**
-	 * @return array|\ArrayAccess|\Countable|\IteratorAggregate|null
-	 */
-	public function getMembers();
-	
-	/**
-	 * @param array|\ArrayAccess|\Countable|\IteratorAggregate|null $members
-	 */
-	public function setMembers($members): void;
-	
-	/**
 	 * @return null|string
 	 */
 	public function getGivenName(): ?string;

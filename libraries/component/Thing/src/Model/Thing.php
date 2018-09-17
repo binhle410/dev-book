@@ -35,6 +35,34 @@ abstract class Thing implements ThingInterface {
 		}
 	}
 	
+	public function copyScalarPropertiesFrom(ThingInterface $thing) {
+		$vars = get_object_vars($this);
+		foreach($vars as $prop => $value) {
+			$setter = 'set' . ucfirst($prop);
+			$getter = 'get' . ucfirst($prop);
+			if(empty($value) && method_exists($thing, $setter)) {
+				if( ! method_exists($thing, $getter)) {
+					$getter = 'is' . ucfirst($prop);
+				}
+				if(method_exists($thing, $setter)) {
+					$getterValue = $thing->$getter();
+					if(is_scalar($getterValue)) {
+						$this->$setter($getterValue);
+					}
+				}
+			}
+		}
+//		$m_person->setEmail($email);
+//		$m_person->setFamilyName($person->getFamilyName());
+//		$m_person->setGivenName($person->getGivenName());
+//		$m_person->setName($person->getName());
+//		$m_person->setEnabled(true);
+//		$m_person->setHomeAddress($person->getHomeAddress());
+//		$m_person->setTelephone($person->getTelephone());
+//		$m_person->setBirthDate($person->getBirthDate());
+//		$m_person->setDescription($person->getDescription());
+	}
+	
 	protected function getObjectArrayProperties() {
 		return [];
 	}
@@ -148,7 +176,7 @@ abstract class Thing implements ThingInterface {
 	/**
 	 * @return \DateTime
 	 */
-	public function getUpdatedAt(): \DateTime {
+	public function getUpdatedAt(): ?\DateTime {
 		return $this->updatedAt;
 	}
 	

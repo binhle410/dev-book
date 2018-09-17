@@ -39,14 +39,14 @@ interface ThingInterface {
 	public function setCreatedAt(?\DateTime $createdAt = null): void;
 	
 	/**
-	 * @return \DateTime
+	 * @return \DateTime|null
 	 */
-	public function getUpdatedAt(): \DateTime;
+	public function getUpdatedAt(): ?\DateTime;
 	
 	/**
 	 * To be compatible with Sonata MediaInterface
 	 * @deprecated will change when MediaInterface updates adapts to latest PHP 7.2+
-	 * @param \DateTime $updatedAt
+	 * @param \DateTime|null $updatedAt
 	 */
 	public function setUpdatedAt(?\DateTime $updatedAt = null): void;
 	

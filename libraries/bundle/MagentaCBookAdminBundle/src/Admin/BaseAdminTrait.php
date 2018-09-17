@@ -1,10 +1,12 @@
 <?php
+
 namespace Magenta\Bundle\CBookAdminBundle\Admin;
 
 use Bean\Component\Organization\IoC\OrganizationAwareInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr;
 use Magenta\Bundle\CBookAdminBundle\Admin\Organisation\OrganisationAdmin;
+use Magenta\Bundle\CBookAdminBundle\Service\ServiceContext;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
@@ -14,6 +16,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\System\SystemModule;
 use Bean\Component\Thing;
 
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
+use Magenta\Bundle\CBookAdminBundle\Service\Organisation\OrganisationService;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -27,6 +30,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 trait BaseAdminTrait {
 	
 	private $isAdmin;
+	/**
+	 * @var User
+	 */
 	private $user;
 	protected
 		$action = '';
@@ -174,18 +180,7 @@ trait BaseAdminTrait {
 	}
 	
 	protected function getCurrentOrganisationFromAncestors(BaseAdmin $parent = null) {
-		if(empty($parent)) {
-			return null;
-		}
-		if($parent instanceof OrganisationAdmin) {
-			return $parent->getSubject();
-		}
-		$grandpa = $parent->getParent();
-		if($grandpa instanceof OrganisationAdmin) {
-			return $grandpa->getSubject();
-		} else {
-			return $this->getCurrentOrganisationFromAncestors($grandpa);
-		}
+		return $this->getConfigurationPool()->getContainer()->get(OrganisationService::class)->getCurrentOrganisationFromAncestors($parent);
 	}
 	
 	protected function getCurrentIndividualMember($required = false) {
@@ -194,8 +189,11 @@ trait BaseAdminTrait {
 		if(empty($person)) {
 			return null;
 		}
+		if(empty($org = $this->getCurrentOrganisation($required))) {
+			return null;
+		}
 		
-		return $person->getMemberOfOrganisation($this->getCurrentOrganisation());
+		return $person->getIndividualMemberOfOrganisation($org);
 	}
 	
 	/**
@@ -205,33 +203,13 @@ trait BaseAdminTrait {
 	function getCurrentOrganisation(
 		$required = true
 	) {
-		if( ! empty($orgId = $this->getRequest()->query->getInt('organisation', 0))) {
-			$org = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Organisation::class)->find($orgId);
-		} else {
-			$org = $this->getCurrentOrganisationFromAncestors($this->getParent());
-		}
+		$context = new ServiceContext();
+		$context->setType(ServiceContext::TYPE_ADMIN_CLASS);
+		$context->setAttribute('parent', $this->getParent());
 		
-		if(empty($org)) {
-			$user = $this->getLoggedInUser();
-//			if(empty($org = $user->getAdminOrganisation())) {
-//				if( ! empty($person = $user->getPerson())) {
-//					/** @var IndividualMember $m */
-//					$m = $person->getMembers()->first();
-//					if( ! empty($m)) {
-//						$org = $m->getOrganization();
-//					}
-//				}
-//			}
-		}
-		
-		if(empty($org)) {
-			if($required) {
-				throw new UnauthorizedHttpException('Unauthorised access');
-			}
-		}
-		
-		return $org;
+		return $this->getConfigurationPool()->getContainer()->get(OrganisationService::class)->getCurrentOrganisation($context, $required);
 	}
+	
 	
 	protected
 	function getLoggedInUser() {

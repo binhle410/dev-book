@@ -1,0 +1,15 @@
+services:
+    magenta_doctrine_entity_listener_individual_member:
+        class: Magenta\Bundle\CBookModelBundle\Doctrine\Organisation\IndividualMemberListener
+        arguments:
+        - '@service_container'
+        tags:
+        - { name: doctrine.orm.entity_listener }
+
+    magenta_doctrine_entity_listener_person:
+        class: Magenta\Bundle\CBookModelBundle\Doctrine\Person\PersonListener
+        arguments:
+        - '@service_container'
+        tags:
+        - { name: doctrine.orm.entity_listener }
+

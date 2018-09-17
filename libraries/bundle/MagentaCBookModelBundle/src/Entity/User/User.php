@@ -19,7 +19,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\System\SystemModule;
 class User extends AbstractUser {
 	
 	const ROLE_ADMIN = 'ROLE_ADMIN';
-	const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+	const ROLE_POWER_USER = 'ROLE_POWER_USER';
 	
 	/**
 	 * @var int|null
@@ -32,6 +32,18 @@ class User extends AbstractUser {
 	public function __construct() {
 		parent::__construct();
 		$this->adminOrganisations = new ArrayCollection();
+	}
+	
+	
+	public function isAdminOfOrganisation(Organisation $org) {
+		/** @var Organisation $org */
+		foreach($this->adminOrganisations as $org) {
+			if($org === $org) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -101,10 +113,10 @@ class User extends AbstractUser {
 					return $this->isAdmin();
 					break;
 			}
-
-//			if($this->adminOrganisation === $org) {
-//				return true;
-//			}
+			
+			if($this->isAdminOfOrganisation($org)) {
+				return true;
+			}
 		}
 		if( ! empty($member)) {
 			$_permission = $permission;
@@ -140,6 +152,26 @@ class User extends AbstractUser {
 		
 		return false;
 	}
+
+//	For UserAdmin
+	
+	/**
+	 * @return array
+	 */
+	public function getRealRoles() {
+		return $this->roles;
+	}
+	
+	/**
+	 * @param array $roles
+	 *
+	 * @return User
+	 */
+	public function setRealRoles(array $roles) {
+		$this->setRoles($roles);
+		
+		return $this;
+	}
 	
 	/**
 	 * @var Collection $adminOrganisations
@@ -161,7 +193,7 @@ class User extends AbstractUser {
 	
 	/**
 	 * @var Person|null
-	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Person\Person", cascade={"persist", "merge"}, inversedBy="user")
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Person\Person", inversedBy="user")
 	 * @ORM\JoinColumn(name="id_person", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $person;
@@ -180,4 +212,17 @@ class User extends AbstractUser {
 		$this->person = $person;
 	}
 	
+	/**
+	 * @return Collection
+	 */
+	public function getAdminOrganisations(): Collection {
+		return $this->adminOrganisations;
+	}
+	
+	/**
+	 * @param Collection $adminOrganisations
+	 */
+	public function setAdminOrganisations(Collection $adminOrganisations): void {
+		$this->adminOrganisations = $adminOrganisations;
+	}
 }

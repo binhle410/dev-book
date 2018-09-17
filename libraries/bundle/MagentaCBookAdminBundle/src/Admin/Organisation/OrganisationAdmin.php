@@ -16,6 +16,8 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
@@ -143,7 +145,7 @@ class OrganisationAdmin extends BaseAdmin {
 		
 		$formMapper
 			->with('General', [ 'class' => 'col-md-6' ])->end()
-			->with('Profile', [ 'class' => 'col-md-6' ])->end();
+			->with('Security', [ 'class' => 'col-md-6' ])->end();
 		
 		
 		$formMapper
@@ -153,11 +155,26 @@ class OrganisationAdmin extends BaseAdmin {
 			->add('code', null, [ 'label' => 'list.label_code' ])
 //                ->add('admin')
 			->end();
-		
-		
-		$formMapper->end();
+
+//		$adminUserAdmin->g
+		$formMapper->with('Security')
+		           ->add('adminUsers', ModelAutocompleteType::class, [
+			           'required' => false,
+			           'property' => 'username',
+			           'multiple' => true
+		           ])
+		           ->end();
 	}
 	
+	/**
+	 * @param Organisation $object
+	 */
+	public function preValidate($object) {
+		$ausers = $object->getAdminUsers();
+		foreach($ausers as $u) {
+			$object->addAdminUser($u);
+		}
+	}
 	
 	/**
 	 * @param User $object

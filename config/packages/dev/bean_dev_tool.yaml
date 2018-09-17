@@ -8,6 +8,7 @@ bean_dev_tool:
         - BeanBookBundle
         - BeanCreativeWorkBundle
         - BeanMediaBundle
+        - BeanPersonBundle
         - BeanThingBundle
         - BeanOrganizationBundle
         - MagentaCBookAdminBundle

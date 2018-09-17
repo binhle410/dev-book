@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\CBookAdminBundle\Admin\User;
 
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
+use Magenta\Bundle\CBookAdminBundle\Form\Type\SecurityRolesType;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
@@ -85,7 +86,7 @@ class UserAdmin extends BaseAdmin {
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
 //		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
-		
+	
 	}
 	
 	public function getTemplate($name) {
@@ -138,7 +139,7 @@ class UserAdmin extends BaseAdmin {
 		$now = new \DateTime();
 		
 		$formMapper
-			->tab('User')
+//			->tab('User')
 			->with('General')
 			->add('username')
 			->add('email')
@@ -173,8 +174,9 @@ class UserAdmin extends BaseAdmin {
 //			->add('gplusName', null, [ 'required' => false ])
 		
 		;
-		
+		$formMapper->end();
 		if($this->getSubject() && ! $this->getSubject()->hasRole('ROLE_SUPER_ADMIN')) {
+			$formMapper->with('Security');
 			$formMapper
 //				->add('locked', null, [ 'required' => false ])
 //				->add('expired', null, [ 'required' => false ])
@@ -188,16 +190,13 @@ class UserAdmin extends BaseAdmin {
 //					'multiple' => true,
 //				])
 //				->end()
-//				->with('Roles')
-//				->add('realRoles', 'Sonata\UserBundle\Form\Type\SecurityRolesType', [
-//					'label'    => 'form.label_roles',
-//					'expanded' => true,
-//					'multiple' => true,
-//					'required' => false,
-//				])
-//				->end()
+				->add('realRoles', SecurityRolesType::class, [
+					'label'    => 'form.label_roles',
+					'expanded' => true,
+					'multiple' => true,
+					'required' => false,
+				])
 			;
-			$formMapper->end();
 			$formMapper->end();
 		}
 

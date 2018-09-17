@@ -8,12 +8,6 @@ use Bean\Component\Thing\Model\Thing;
 class Person extends Thing implements PersonInterface {
 	
 	/**
-	 * NOT part of schema.org
-	 * @var \Countable|\IteratorAggregate|\ArrayAccess|array|null
-	 */
-	protected $members;
-	
-	/**
 	 * @var \DateTime|null
 	 */
 	protected $birthDate;
@@ -31,6 +25,12 @@ class Person extends Thing implements PersonInterface {
 	protected $familyName;
 	
 	/**
+	 * Email address.
+	 * @var string|null
+	 */
+	protected $email;
+	
+	/**
 	 * @param null|string $familyName
 	 */
 	public function setFamilyName(?string $familyName): void {
@@ -44,20 +44,6 @@ class Person extends Thing implements PersonInterface {
 	public function setGivenName(?string $givenName): void {
 		$this->givenName = $givenName;
 		$this->name      = $givenName . ' ' . $this->familyName;
-	}
-	
-	/**
-	 * @return array|\ArrayAccess|\Countable|\IteratorAggregate|null
-	 */
-	public function getMembers() {
-		return $this->members;
-	}
-	
-	/**
-	 * @param array|\ArrayAccess|\Countable|\IteratorAggregate|null $members
-	 */
-	public function setMembers($members): void {
-		$this->members = $members;
 	}
 	
 	/**
@@ -86,5 +72,19 @@ class Person extends Thing implements PersonInterface {
 	 */
 	public function setBirthDate(?\DateTime $birthDate): void {
 		$this->birthDate = $birthDate;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getEmail(): ?string {
+		return $this->email;
+	}
+	
+	/**
+	 * @param null|string $email
+	 */
+	public function setEmail(?string $email): void {
+		$this->email = $email;
 	}
 }

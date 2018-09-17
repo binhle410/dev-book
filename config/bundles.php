@@ -47,5 +47,6 @@ return [
 	Magenta\Bundle\CBookMediaApiBundle\MagentaCBookMediaApiBundle::class => [ 'all' => true, 'test' => true ],
 	Magenta\Bundle\CBookJWTBundle\MagentaCBookJWTBundle::class           => [ 'all' => true, 'test' => true ],
 	Bean\Bundle\MediaBundle\BeanMediaBundle::class                       => [ 'all' => true, 'test' => true ],
+	Bean\Bundle\PersonBundle\BeanPersonBundle::class                     => [ 'all' => true, 'test' => true ],
 
 ];

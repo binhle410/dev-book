@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+        http://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd"
+>
+    <class name="Bean\Component\Book\Model\Book">
+        <attribute name="parts">
+            <group>read_book_parts</group>
+        </attribute>
+        <attribute name="abridged">
+            <group>read_book</group>
+            <group>write_book</group>
+        </attribute>
+        <attribute name="bookEdition">
+            <group>read_book</group>
+            <group>write_book</group>
+        </attribute>
+        <attribute name="bookFormat">
+            <group>read_book</group>
+            <group>write_book</group>
+        </attribute>
+        <attribute name="isbn">
+            <group>read_book</group>
+            <group>write_book</group>
+        </attribute>
+        <attribute name="numberOfPages">
+            <group>read_book</group>
+            <group>write_book</group>
+        </attribute>
+    </class>
+
+    <class name="Bean\Component\Book\Model\Chapter">
+        <attribute name="book">
+            <group>read_chapter</group>
+            <group>write_chapter</group>
+        </attribute>
+
+        <attribute name="pageStart">
+            <group>read_chapter</group>
+            <group>write_chapter</group>
+        </attribute>
+
+        <attribute name="pageEnd">
+            <group>read_chapter</group>
+            <group>write_chapter</group>
+        </attribute>
+
+        <attribute name="parentChapter">
+            <!--
+ "The discriminator column \"discr\" is missing for \"Bean\\Bundle\\BookBundle\\Doctrine\\Orm\\Chapter\" using the DQL alias \"parentChapter_a2\"
+
+            <group>read_chapter</group>
+            -->
+            <group>write_chapter</group>
+        </attribute>
+
+
+    </class>
+</serializer>

@@ -104,7 +104,7 @@ sonata_admin:
 
     assets:
         extra_stylesheets:
-            - bundles/sonataadmin/vendor/admin-lte/dist/css/skins/skin-red-light.min.css
+            - bundles/sonataadmin/vendor/admin-lte/dist/css/skins/skin-purple-light.min.css
             - bundles/magentacbookadmin/admin.css
         remove_stylesheets:
             - bundles/sonataadmin/vendor/admin-lte/dist/css/skins/skin-black.min.css

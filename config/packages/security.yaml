@@ -74,16 +74,18 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/system/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/system/logout, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/system/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/system/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/system, roles: ROLE_ADMIN }
+    # - { path: ^/profile, roles: ROLE_USER }
+    - { path: ^/front, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/system/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/system/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/system/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/system/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/system, roles: ROLE_SONATA_ADMIN }
 
+    - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     #        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY, ips: ['%env(DEV_IP)%'] }
-        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     #        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
 
     # ...
-        - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }

@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Category;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
 use Magenta\Bundle\CBookModelBundle\Entity\System\System;
+use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 
 /**
  * @ORM\Entity()
@@ -43,6 +44,22 @@ class Organisation extends OrganizationModel {
 	 * @var Collection $adminUsers ;
 	 */
 	protected $adminUsers;
+	
+	public function addAdminUser(User $user) {
+		$this->adminUsers->add($user);
+		$user->addAdminOrganisation($this);
+	}
+	
+	public function removeAdminUser(User $user) {
+		$this->adminUsers->removeElement($user);
+		$user->removeAdminOrganisation($this);
+	}
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\System\AccessControl\ACRole", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
+	 */
+	protected $roles;
 	
 	/**
 	 * @ORM\OneToMany(
@@ -171,5 +188,33 @@ class Organisation extends OrganizationModel {
 	 */
 	public function setMembers($members): void {
 		$this->members = $members;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getAdminUsers(): Collection {
+		return $this->adminUsers;
+	}
+	
+	/**
+	 * @param Collection $adminUsers
+	 */
+	public function setAdminUsers(Collection $adminUsers): void {
+		$this->adminUsers = $adminUsers;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getRoles(): Collection {
+		return $this->roles;
+	}
+	
+	/**
+	 * @param Collection $roles
+	 */
+	public function setRoles(Collection $roles): void {
+		$this->roles = $roles;
 	}
 }

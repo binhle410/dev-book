@@ -5,6 +5,7 @@ breadcrumb:
     link_organisation_list: Organisations
     link_book_list: Books
     link_chapter_list: Chapters
+    link_individual_member_list: Members
 
 group:
     edit:
@@ -92,6 +93,8 @@ layout:
     start_editing: Start editing
     save: Save
 
+form_group:
+    user_details: User Details
 form:
     group_name: 'Group name'
     username: Username
@@ -101,3 +104,82 @@ form:
     password_confirmation: 'Repeat password'
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
+    label_contactable: Shown in Contact Book
+    label_subscribed: Subscribed
+    label_type: Type
+    label_subject: Subject
+    label_content: Content
+    label_notes: Notes
+    label_number: Number
+    label_purchase_description: Purchase Description
+    label_product_serial_number: Product Serial Number
+    label_description: Description
+    label_visited_at: Visit Time
+    label_appointment: Appointment
+    label_assign_technician: Assign Technician
+    label_assignee_history: Technician(s)
+    label_service_notes: Service Notes
+    label_service_note: Service Note
+    label_customer: Customer
+    label_status: Status
+    label_appointment_time: Appointment Time
+    label_appointment_from:  Appointment Time (From)
+    label_appointment_at: Appointment Date
+    label_appointment_to: Appointment Time (To)
+    label_appointments: Appointments
+    label_service_zone: Service Zone
+    label_priority: Priority
+    label_case_detail: Case Description
+    label_warranty: Warranty
+    label_extended_warranty_period_approved: Approve Extension
+    label_reference_number: Reference Number
+    label_full_text_search: Search
+    label_near_expiry_period: Near-Expiry Period (days)
+    label_field_requirements: Required fields
+    label_tos: TOS
+    label_data_policy: Data Protection Policy
+    label_name: Name
+    label_family_name: Family Name
+    label_given_name: Given Name
+    label_telephone: Contact Number
+    label_dialing_code: Country Dialing Code
+    label_created_at: Created At
+    label_opened_on: Opened On
+    label_closed_on: Closed On
+    label_warranty_submission_date: Warranty Submission Date
+    label_product: Product
+    label_product_image: Product Image
+    label_address: Address
+    label_address_unit_number: Unit/Block/House Number
+    label_postal_code: Postal Code
+    label_email: Email
+    label_enabled: Enabled
+    label_action: Action
+    label_logo: Logo
+    label_image: Image
+    label_admin_email: Admin Email
+    label_admin_user: Admin User
+    label_password: Password
+    label_roles: Roles
+    label_model_name: Model Name
+    label_model_number: Model Number
+    label_model_image: Model Image
+    label_purchase_date: Purchased On
+    label_delivery_date: Delivery Date
+    label_submission_date: Registered On
+    label_expiry_date: Expiry Date
+    label_warranty_expiry: Warranty Expiry
+    label_special_remarks: Special Remarks
+    label_receipt_images: Receipt Images
+    label_brand: Brand
+    label_categories: Categories
+    label_sub_categories : Sub-Categories
+    label_suppliers: Suppliers
+    label_category: Category
+    label_subcategory: Sub-Category
+    label_supplier: Supplier
+    label_warranty_period: Warranty Period (months)
+    label_extended_warranty_period: Extended Warranty Period (Online)
+    label_default_warranty_period: Default Warranty Period
+    label_dealer: Dealer
+    label_role: Role

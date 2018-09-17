@@ -9,12 +9,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Collection;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
+use Magenta\Bundle\CBookModelBundle\Entity\System\AccessControl\ACRole;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="organisation__individual_member")
  */
 class IndividualMember extends MemberModel {
+	
 	/**
 	 * @var int|null
 	 * @ORM\Id
@@ -26,6 +28,7 @@ class IndividualMember extends MemberModel {
 	public function __construct() {
 		parent::__construct();
 		$this->groupIndividuals = new ArrayCollection();
+		$this->enabled          = true;
 	}
 	
 	/**
@@ -53,16 +56,29 @@ class IndividualMember extends MemberModel {
 	
 	/**
 	 * @var Person|null
-	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Person\Person", inversedBy="members")
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Person\Person", inversedBy="individualMembers")
 	 * @ORM\JoinColumn(name="id_person", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $person;
 	
 	/**
+	 * @var ACRole|null
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\System\AccessControl\ACRole", inversedBy="individualMembers")
+	 * @ORM\JoinColumn(name="id_role", referencedColumnName="id", onDelete="SET NULL")
+	 */
+	protected $role;
+	
+	/**
 	 * @var boolean
-	 * @ORM\Column(type="boolean")
+	 * @ORM\Column(type="boolean", options={"default":true})
 	 */
 	protected $contactable = true;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $email;
 	
 	/**
 	 * @var string|null
@@ -116,5 +132,33 @@ class IndividualMember extends MemberModel {
 	 */
 	public function setPin(?string $pin): void {
 		$this->pin = $pin;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getEmail(): ?string {
+		return $this->email;
+	}
+	
+	/**
+	 * @param null|string $email
+	 */
+	public function setEmail(?string $email): void {
+		$this->email = $email;
+	}
+	
+	/**
+	 * @return ACRole|null
+	 */
+	public function getRole(): ?ACRole {
+		return $this->role;
+	}
+	
+	/**
+	 * @param ACRole|null $role
+	 */
+	public function setRole(?ACRole $role): void {
+		$this->role = $role;
 	}
 }

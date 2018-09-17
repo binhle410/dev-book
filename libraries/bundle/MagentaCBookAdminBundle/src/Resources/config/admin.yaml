@@ -10,3 +10,32 @@ services:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
 
+    magenta_cbook.admin.security.handler.role:
+        class: '%sonata.admin.security.handler.role.class%'
+        public: false
+        arguments:
+        - '@security.authorization_checker'
+        - [ '%sonata.admin.configuration.security.role_super_admin%' ]
+        - '@service_container'
+
+    magenta_cbook.user.editable_role_builder:
+        class: Magenta\Bundle\CBookAdminBundle\Security\EditableRolesBuilder
+        arguments:
+        - '@security.token_storage'
+        - '@security.authorization_checker'
+        - '@sonata.admin.pool'
+        - '%security.role_hierarchy.roles%'
+
+    magenta_cbook.user.form.type.security_roles:
+        class: Magenta\Bundle\CBookAdminBundle\Form\Type\SecurityRolesType
+        tags:
+        - {name: "form.type", alias: "sonata_security_roles"}
+        arguments:
+        - '@magenta_cbook.user.editable_role_builder'
+
+    Magenta\Bundle\CBookAdminBundle\Service\Organisation\OrganisationService:
+        class: Magenta\Bundle\CBookAdminBundle\Service\Organisation\OrganisationService
+        arguments:
+        - '@service_container'
+        public: true
+
