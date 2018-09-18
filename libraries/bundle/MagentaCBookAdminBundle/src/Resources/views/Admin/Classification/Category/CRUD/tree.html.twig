@@ -1,0 +1,193 @@
+{% extends '@SonataClassification/CategoryAdmin/tree.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .sonata-tree__item .label {
+            font-size: 9px;
+        }
+
+        .item-action {
+            padding-right: 5px;
+        }
+
+        a {
+            color: #605ca8;
+        }
+
+        a.item {
+            color: #444;
+        }
+    </style>
+{% endblock %}
+
+           {% block body_attributes -%}
+               class="sidebar-collapse sonata-bc skin-purple-light skin-red-light fixed
+               {% if app.request.cookies.get('sonata_sidebar_hide') -%}
+                   sidebar-collapse
+               {%- endif -%}"
+           {%- endblock -%}
+
+{# copied from parent #}
+{% import _self as app_tree %}
+{% macro navigate_child(collection, admin, root, depth) %}
+    {% import _self as app_tree %}
+    <ul{% if root %} class="sonata-tree sonata-tree--toggleable js-treeview"{% endif %}>
+        {% for element in collection %}
+            <li class="sonata-ba-list-field" objectId="{{ element.id }}">
+                <div style="display: flex;align-items:center;"
+                     class="sonata-tree__item"{% if depth < 2 %} data-treeview-toggled{% endif %}>
+                    {% if element.parent or root %}<i class="fa fa-caret-right"
+                                                      data-treeview-toggler></i>{% endif %}
+                    <div style="display: flex; flex-direction: column;">
+                        <div>
+                            {% if not element.enabled %}
+                                <span class="label label-danger" style="margin-left:auto"><i
+                                            class="fa fa-times"></i></span>
+                            {% endif %}
+                            {% if admin.hasRoute('edit') and admin.hasAccess('edit') %}
+                                <a class="sonata-tree__item__edit"
+                                   href="{{ admin.generateObjectUrl('edit', element) }}">{{ element.name }}</a>
+                            {% elseif admin.hasRoute('show') and admin.hasAccess('show') %}
+                                <a class="sonata-tree__item__edit"
+                                   href="{{ admin.generateObjectUrl('show', element) }}">{{ element.name }}</a>
+                            {% else %}
+                                {{ element.name }}
+                            {% endif %}
+                        </div>
+                        {% if false and element.description is not empty %}
+                            <div>
+                                {#{% if element.enabled %}<span class="label label-success" style="margin-left:auto">#}
+                                {#<i class="fa fa-check"></i>#}
+                                {#{{ admin.trans('active', {}, admin.translationDomain) }}#}
+                                {#</span>
+                                {% endif %}#}
+                                {#{% if not element.enabled %}<span class="label label-danger" style="margin-left:auto">#}
+                                {#<i class="fa fa-times"></i>#}
+                                {#{{ admin.trans('disabled', {}, admin.translationDomain) }}#}
+                                {#</span>#}
+                                {#{% endif %}#}
+                                <span style="padding-left:5px;"><i
+                                            class="text-muted">{{ element.description }}</i></span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div style="margin-left:auto; display: flex; flex-direction: row;">
+                        <a href="#" class="item-action"><i class="fa fa-pencil"> </i></a>
+                        <a href="#" class="item-action"><i class="fa fa-trash"> </i></a>
+                    </div>
+                    {#<a class="label label-default pull-right" href="{{ admin.generateObjectUrl('edit', element) }}">edit <i class="fa fa-magic"></i></a>#}
+                </div>
+
+                {% if element.children|length %}
+                    {{ app_tree.navigate_child(element.children, admin, false, depth + 1) }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+{% block list_table %}
+    {# copied from parent #}
+    <div class="col-xs-12 col-md-4">
+        <div class="box box-primary">
+            <div class="box-header">
+                <h1 class="box-title">
+                    {{ admin.trans('tree_catalog_title', {}, admin.translationdomain) }}
+                    {% if not app.request.get('hide_context') and current_context is not empty %}
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <strong class="text-info">{{ current_context.name }}</strong> <span
+                                        class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                {% for context_id, categories in root_categories %}
+                                    <li>
+                                        <a href="{{ admin.generateUrl('tree', { 'context': context_id }) }}">
+                                            {% if current_context and context_id == current_context.id %}
+                                                <span class="pull-right">
+                                                    <i class="fa fa-check"></i>
+                                                </span>
+                                            {% endif %}
+                                            {{ categories|join(', ') }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </h1>
+            </div>
+            <div class="box-content">
+                {% if current_categories is empty %}
+                    {{ app_tree.navigate_child([], admin, true, 0) }}
+                {% else %}
+                    {{ app_tree.navigate_child(current_categories[0].children, admin, true, 0) }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% if parent is defined and parent is not empty and parent.parent is not empty %}
+        {% set selectedCategory = parent %}
+        {% set hasParent = true %}
+    {% else %}
+        {% set selectedCategory = current_categories[0] %}
+        {% set hasParent = false %}
+    {% endif %}
+    <div class="col-xs-12 col-md-8">
+        <div class="box box-primary">
+            <div class="box-header">
+                <h1 class="box-title">{{ selectedCategory.name }}</h1>
+                <div class="text-muted">{{ selectedCategory.description }}</div>
+            </div>
+            <div class="box-content">
+                <div style="padding-left: 10px; display: flex;align-items:left;flex-direction: column">
+                    {% if hasParent is not empty %}
+                        <div class="sonata-tree__item" style="display: flex;align-items:center;">
+                            <a href="{{ admin.generateUrl('tree',{'parent':selectedCategory.parent.id}) }}">
+                                <i class="fa fa-level-up">
+                                    .. (Up one level)
+                                </i>
+                            </a>
+                        </div>
+                    {% endif %}
+                    {% set categories = selectedCategory.children %}
+                    {% for category in categories %}
+                        <div class="sonata-tree__item" style="display: flex;align-items:center;">
+                            <div style="display: flex; align-items: center;">
+                                {% if not category.enabled %}
+                                    <span class="label label-danger" style="margin-left:auto; margin-right: 5px;"><i
+                                                class="fa fa-times"></i></span>
+                                {% endif %}
+                                <a href="{{ admin.generateUrl('tree',{'parent':category.id}) }}">
+                                    <i class="fa fa-folder">
+                                        {{ category.name }}
+                                    </i>
+                                </a>
+                                <span style="padding-left: 5px;">
+                                    <i class="text-muted">
+                                        {{ category.description }}
+                                    </i>
+                                </span>
+                            </div>
+                            <div style="margin-left:auto; display: flex; flex-direction: row;">
+                                <a href="{{ admin.generateUrl('edit',{id: category.id}) }}" class="item-action"><i class="fa fa-pencil"> </i></a>
+                                <a href="#" class="item-action"><i class="fa fa-trash"> </i></a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% for categoryItem in selectedCategory.items %}
+                        {% set item = categoryItem.item %}
+                        <div class="sonata-tree__item" style="display: flex;align-items:center;">
+                            {% if categoryItem.type == 'BOOK' %}
+                                <a class="item"
+                                   href="{{ path('admin_magenta_cbookmodel_book_book_book_chapter_list',{id: item.id}) }}"><i
+                                            class="fa fa-book"> {{ item.name }}</i></a>
+                            {% else %}
+                                <a class="item" href="#"><i class="fa fa-file"> {{ item.name }}</i></a>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

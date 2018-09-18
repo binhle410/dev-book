@@ -106,6 +106,13 @@
     </style>
 {% endblock %}
 
+           {% block body_attributes -%}
+               class="sidebar-collapse sonata-bc skin-purple-light skin-red-light fixed
+               {% if app.request.cookies.get('sonata_sidebar_hide') -%}
+                   sidebar-collapse
+               {%- endif -%}"
+           {%- endblock -%}
+
 {% block nav_title %}
     <div class="dropdown chapter-nav">
         <a href="#" class="btn-neutral dropdown-toggle" data-toggle="dropdown">
@@ -142,7 +149,7 @@
         <div class="row">
             <div class="d-none d-md-block col-md-4">
                 <div class="positionh" style="position: fixed">
-                    <h3>Table of content</h3>
+                    <h3>Table of contents</h3>
                     <div id="toc-sidebar"></div>
                 </div>
             </div>
@@ -307,7 +314,7 @@
                 $('.editable').froalaEditor({
                     imageUploadURL: environment.mediaApiEndPoint,
                     toolbarInline: true,
-                    quickInsertButtons: ['image','video', 'table', 'ol', 'ul', 'hr'],
+                    quickInsertButtons: ['image','video','embedly','table', 'ol', 'ul', 'hr'],
                     toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color', 'emoticons', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo']
                 }).on('froalaEditor.image.uploaded', function (e, editor, response) {
                     console.log(e, editor, response)

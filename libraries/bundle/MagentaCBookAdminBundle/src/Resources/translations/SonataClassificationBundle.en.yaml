@@ -1,3 +1,5 @@
+breadcrumb:
+    link_category_list: Categories
 form:
     label_access_granted_groups: Access Granted Groups
     label_access_denied_groups: Access Denied Groups

@@ -3,7 +3,7 @@ namespace Magenta\Bundle\CBookAdminBundle\Admin\Book;
 
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseCRUDAdminController;
 use Symfony\Component\HttpFoundation\Response;
-use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Book;
+use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
 
 class ChapterAdminController extends BaseCRUDAdminController
 {
@@ -56,7 +56,7 @@ class ChapterAdminController extends BaseCRUDAdminController
     }
     public function listAction()
     {
-        $this->admin->setTemplate('list', '@MagentaCBookAdmin/Admin/Book/Children/Chapter/CRUD/list.html.twig');
+        $this->admin->setTemplate('list', '@MagentaCBookAdmin/Admin/Book/Chapter/CRUD/list.html.twig');
         return parent::listAction();
     }
 }

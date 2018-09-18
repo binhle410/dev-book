@@ -93,6 +93,10 @@ layout:
     start_editing: Start editing
     save: Save
 
+filter:
+    label_id: Id
+    label_name: Name
+
 form_group:
     user_details: User Details
 form:
@@ -104,6 +108,8 @@ form:
     password_confirmation: 'Repeat password'
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
+
+    label_text: Text
     label_contactable: Shown in Contact Book
     label_subscribed: Subscribed
     label_type: Type

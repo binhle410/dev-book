@@ -5,6 +5,7 @@ namespace Magenta\Bundle\CBookModelBundle\Service\Classification;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Category;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
+use Sonata\ClassificationBundle\Model\CategoryInterface;
 use Sonata\ClassificationBundle\Model\ContextInterface;
 use Sonata\ClassificationBundle\Model\ContextManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -27,9 +28,13 @@ class CategoryManager extends \Sonata\ClassificationBundle\Entity\CategoryManage
 	 *
 	 * @return array|\Sonata\ClassificationBundle\Model\CategoryInterface[]
 	 */
-	public function getAllRootCategories($loadChildren = true) {
-		if(empty($orgId = $this->container->get('request_stack')->getCurrentRequest()->get('organisation'))) {
-			throw new UnauthorizedHttpException('No Org Info');
+	public function getAllRootCategories($loadChildren = true, Organisation $org = null) {
+		if(empty($org)) {
+			if(empty($orgId = $this->container->get('request_stack')->getCurrentRequest()->get('organisation'))) {
+				throw new UnauthorizedHttpException('No Org Info');
+			}
+		} else {
+			$orgId = $org->getId();
 		}
 		
 		$class = $this->getClass();
@@ -45,12 +50,67 @@ class CategoryManager extends \Sonata\ClassificationBundle\Entity\CategoryManage
 				throw new \RuntimeException('Context cannot be null');
 			}
 			
-			$categories[] = $loadChildren ? $this->getRootCategoryWithChildren($category) : $category;
+			$categories[] = $loadChildren ? $this->getRootCategoryWithChildren($category, $org) : $category;
 		}
 		
 		return $categories;
 	}
 	
+	/**
+	 * Copied from parent
+	 *
+	 * @param CategoryInterface $category
+	 * @param Organisation|null $org
+	 *
+	 * @return CategoryInterface
+	 */
+	public function getRootCategoryWithChildren(CategoryInterface $category, Organisation $org = null) {
+		if(null === $category->getContext()) {
+			throw new \RuntimeException('Context cannot be null');
+		}
+		if(null != $category->getParent()) {
+			throw new \RuntimeException('Method can be called only for root categories');
+		}
+		$context = $this->getContext($category->getContext());
+		
+		$this->loadCategories($context, $org);
+		
+		foreach($this->categories[ $context->getId() ] as $contextRootCategory) {
+			if($category->getId() == $contextRootCategory->getId()) {
+				return $contextRootCategory;
+			}
+		}
+		
+		throw new \RuntimeException('Category does not exist');
+	}
+	
+	/**
+	 * copied from parent
+	 *
+	 * @param bool              $loadChildren
+	 * @param Organisation|null $organisation
+	 *
+	 * @return array
+	 */
+	public function getRootCategoriesSplitByContexts($loadChildren = true, Organisation $organisation = null) {
+		$rootCategories = $this->getAllRootCategories($loadChildren, $organisation);
+		
+		$splitCategories = [];
+		
+		foreach($rootCategories as $category) {
+			$splitCategories[ $category->getContext()->getId() ][] = $category;
+		}
+		
+		return $splitCategories;
+	}
+	
+	public function getRootCategoriesForContext(ContextInterface $context = null, Organisation $organisation = null) {
+		$context = $this->getContext($context);
+		
+		$this->loadCategories($context, $organisation);
+		
+		return $this->categories[ $context->getId() ];
+	}
 	
 	/**
 	 * Load all categories from the database, the current method is very efficient for < 256 categories.
@@ -58,15 +118,19 @@ class CategoryManager extends \Sonata\ClassificationBundle\Entity\CategoryManage
 	 *
 	 * @param ContextInterface $context
 	 */
-	protected function loadCategories(ContextInterface $context) {
+	protected function loadCategories(ContextInterface $context, Organisation $org = null) {
 		if(array_key_exists($context->getId(), $this->categories)) {
 			return;
 		}
 		
-		
-		if(empty($orgId = $this->container->get('request_stack')->getCurrentRequest()->get('organisation'))) {
-			throw new UnauthorizedHttpException('No Org Info');
+		if(empty($org)) {
+			if(empty($orgId = $this->container->get('request_stack')->getCurrentRequest()->get('organisation'))) {
+				throw new UnauthorizedHttpException('No Org Info');
+			}
+		} else {
+			$orgId = $org->getId();
 		}
+		
 		$class = $this->getClass();
 		
 		$categories = $this->getObjectManager()->createQuery(sprintf('SELECT c FROM %s c WHERE c.context = :context AND c.organisation = :org ORDER BY c.parent ASC', $class))
@@ -81,7 +145,7 @@ class CategoryManager extends \Sonata\ClassificationBundle\Entity\CategoryManage
 				throw new UnauthorizedHttpException('Org not found');
 			}
 			$category = $this->create();
-			$category->setName('Root');
+			$category->setName(sprintf('Root (%s)', $context->getName()));
 			$category->setEnabled(true);
 			$category->setContext($context);
 			$category->setDescription($context->getName());
@@ -110,5 +174,36 @@ class CategoryManager extends \Sonata\ClassificationBundle\Entity\CategoryManage
 		}
 		
 		$this->categories[ $context->getId() ] = $rootCategories;
+	}
+	
+	/**
+	 * copied from parent
+	 *
+	 * @param $contextCode
+	 *
+	 * @return ContextInterface
+	 */
+	private function getContext($contextCode) {
+		if(empty($contextCode)) {
+			$contextCode = ContextInterface::DEFAULT_CONTEXT;
+		}
+		
+		if($contextCode instanceof ContextInterface) {
+			return $contextCode;
+		}
+		
+		$context = $this->contextManager->find($contextCode);
+		
+		if( ! $context instanceof ContextInterface) {
+			$context = $this->contextManager->create();
+			
+			$context->setId($contextCode);
+			$context->setName($contextCode);
+			$context->setEnabled(true);
+			
+			$this->contextManager->save($context);
+		}
+		
+		return $context;
 	}
 }

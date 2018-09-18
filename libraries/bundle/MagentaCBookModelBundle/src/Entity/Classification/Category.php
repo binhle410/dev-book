@@ -37,7 +37,7 @@ class Category extends AppCategory {
 	
 	public function __construct() {
 		parent::__construct();
-		$this->bookCategories      = new ArrayCollection();
+		$this->items      = new ArrayCollection();
 		$this->accessGrantedGroups = new ArrayCollection();
 		$this->accessDeniedGroups  = new ArrayCollection();
 	}

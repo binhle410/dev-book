@@ -139,7 +139,7 @@ sonata_classification:
     admin:
         category:
             class: Magenta\Bundle\CBookAdminBundle\Admin\Classification\CategoryAdmin
-            controller: 'SonataClassificationBundle:CategoryAdmin'
+            controller: 'Magenta\Bundle\CBookAdminBundle\Admin\Classification\CategoryAdminController'
             translation: SonataClassificationBundle
 
 sonata_block:

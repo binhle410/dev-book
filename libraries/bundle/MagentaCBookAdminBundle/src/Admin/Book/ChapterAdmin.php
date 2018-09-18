@@ -51,34 +51,6 @@ class ChapterAdmin extends BaseAdmin {
 		return self::CHILDREN;
 	}
 	
-	/**
-	 * @param string $name
-	 * @param User   $object
-	 */
-	public function isGranted($name, $object = null) {
-		$container = $this->getConfigurationPool()->getContainer();
-		$isAdmin   = $container->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
-//        $pos = $container->get(UserService::class)->getPosition();
-		if(in_array($name, [ 'CREATE', 'DELETE', 'LIST' ])) {
-			return $isAdmin;
-		}
-		if($name === 'EDIT') {
-			if($isAdmin) {
-				return true;
-			}
-			if( ! empty($object) && $object->getId() === $container->get(UserService::class)->getUser()->getId()) {
-				return true;
-			}
-			
-			return false;
-		}
-//        if (empty($isAdmin)) {
-//            return false;
-//        }
-		
-		return parent::isGranted($name, $object);
-	}
-	
 	public function toString($object) {
 		return $object instanceof Chapter
 			? $object->getName()

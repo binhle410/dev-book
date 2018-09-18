@@ -39,3 +39,10 @@ services:
         - '@service_container'
         public: true
 
+    Magenta\Bundle\CBookAdminBundle\Form\Type\OrgAwareCategorySelectorType:
+        class: Magenta\Bundle\CBookAdminBundle\Form\Type\OrgAwareCategorySelectorType
+        arguments:
+            - '@sonata.classification.manager.category'
+        tags:
+            - {name: "form.type", alias: "sonata_security_roles"}
+        public: true

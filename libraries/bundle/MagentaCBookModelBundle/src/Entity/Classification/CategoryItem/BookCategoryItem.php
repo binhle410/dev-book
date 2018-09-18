@@ -1,6 +1,6 @@
 <?php
 
-namespace Magenta\Bundle\CBookModelBundle\Entity\Classification;
+namespace Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem;
 
 use Bean\Component\Book\Model\Book as BookModel;
 use Doctrine\Common\Collections\Collection;
@@ -15,7 +15,6 @@ use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem;
  */
 class BookCategoryItem extends CategoryItem {
 	
-
 	function __construct() {
 	
 	}

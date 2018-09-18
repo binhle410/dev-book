@@ -5,7 +5,9 @@ namespace Magenta\Bundle\CBookAdminBundle\Admin\Classification;
 use Bean\Component\Organization\IoC\OrganizationAwareInterface;
 use Doctrine\ORM\Query\Expr;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdminTrait;
+use Magenta\Bundle\CBookAdminBundle\Form\Type\OrgAwareCategorySelectorType;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Category;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\Context;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
@@ -54,39 +56,45 @@ class CategoryAdmin extends SonataCategoryAdmin {
 		$formMapper->with('Options', [])
 		           ->add('enabled', CheckboxType::class, [
 			           'required' => false,
+			           'help' => 'If a book is not enabled, no one can view it except Admins.'
 		           ])
 		           ->add('public', CheckboxType::class, [
 			           'required' => false,
+			           'help' => 'To set whether a book is public or private.'
 		           ])
 		           ->add('accessGrantedGroups', ModelType::class, [
 			           'btn_add'  => false,
 			           'required' => false,
 			           'property' => 'name',
-			           'multiple' => true
+			           'multiple' => true,
+			           'help' => 'Access Granted Groups enable the selected groups to view private books. This has no effects when a book is public.'
 		
 		           ])
 		           ->add('accessDeniedGroups', ModelType::class, [
 			           'btn_add'  => false,
 			           'required' => false,
 			           'property' => 'name',
-			           'multiple' => true
-		
+			           'multiple' => true,
+			           'help' => 'Access Denied Groups prevent the selected groups from viewing public books. This has no effects when a book is private.'
 		           ])
 		           ->end();
 		
 		$formMapper
-			->add('parent', CategorySelectorType::class, [
+			->with('General')
+			->add('parent', OrgAwareCategorySelectorType::class, [
+				'organisation'  => $this->getCurrentOrganisation(),
 				'category'      => $this->getSubject() ?: null,
 				'model_manager' => $this->getModelManager(),
 				'class'         => $this->getClass(),
 				'required'      => true,
-				'context'       => $this->getSubject()->getContext(),
+				'context'       => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Context::class)->find(Context::DEFAULT_CONTEXT),// $this->getSubject()->getContext(),
 				'btn_add'       => false
-			]);
+			])
+			->end();
 		
-		$keys = $formMapper->keys();
-		$key  = array_pop($keys);
-		array_unshift($keys, $key);
-		$formMapper->reorder($keys);
+//		$keys = $formMapper->keys();
+//		$key  = array_pop($keys);
+//		array_unshift($keys, $key);
+//		$formMapper->reorder($keys);
 	}
 }

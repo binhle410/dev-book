@@ -31,7 +31,11 @@ class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements In
 		
 		$this->user->addRole(User::ROLE_POWER_USER);
 		if(empty($this->email)) {
-			throw new \InvalidArgumentException('person email is null');
+			if(empty($this->user->getEmail())) {
+				throw new \InvalidArgumentException('person email is null');
+			} else {
+				$this->email = $this->user->getEmail();
+			}
 		}
 		
 		$username = '';

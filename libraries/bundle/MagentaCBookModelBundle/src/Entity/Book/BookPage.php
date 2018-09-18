@@ -5,7 +5,7 @@ namespace Magenta\Bundle\CBookModelBundle\Entity\Book;
 use Bean\Component\Book\Model\Book as BookModel;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Magenta\Bundle\CBookModelBundle\Entity\Classification\BookCategoryItem;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCategoryItem;
 
 /**
  * @ORM\Entity()

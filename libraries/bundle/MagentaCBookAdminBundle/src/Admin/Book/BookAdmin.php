@@ -5,6 +5,9 @@ namespace Magenta\Bundle\CBookAdminBundle\Admin\Book;
 use Bean\Component\Book\Model\Book;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
+use Magenta\Bundle\CBookAdminBundle\Admin\Classification\CategoryItem\BookCategoryItemAdmin;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCategoryItem;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
 use Doctrine\ORM\Query\Expr;
@@ -16,8 +19,10 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
+use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\CoreBundle\Form\Type\CollectionType;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -26,6 +31,7 @@ use Sonata\FormatterBundle\Form\Type\SimpleFormatterType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Validator\Constraints\Valid;
 
 class BookAdmin extends BaseAdmin {
 	
@@ -47,34 +53,6 @@ class BookAdmin extends BaseAdmin {
 		$object = parent::getNewInstance();
 		
 		return $object;
-	}
-	
-	/**
-	 * @param string $name
-	 * @param User   $object
-	 */
-	public function isGranted($name, $object = null) {
-		$container = $this->getConfigurationPool()->getContainer();
-		$isAdmin   = $container->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
-//        $pos = $container->get(UserService::class)->getPosition();
-		if(in_array($name, [ 'CREATE', 'DELETE', 'LIST' ])) {
-			return $isAdmin;
-		}
-		if($name === 'EDIT') {
-			if($isAdmin) {
-				return true;
-			}
-			if( ! empty($object) && $object->getId() === $container->get(UserService::class)->getUser()->getId()) {
-				return true;
-			}
-			
-			return false;
-		}
-//        if (empty($isAdmin)) {
-//            return false;
-//        }
-		
-		return parent::isGranted($name, $object);
 	}
 	
 	public function toString($object) {
@@ -101,10 +79,6 @@ class BookAdmin extends BaseAdmin {
 	
 	}
 	
-	public function getTemplate($name) {
-		return parent::getTemplate($name);
-	}
-	
 	protected function configureShowFields(ShowMapper $showMapper) {
 	
 	}
@@ -114,6 +88,7 @@ class BookAdmin extends BaseAdmin {
 	 */
 	protected function configureListFields(ListMapper $listMapper) {
 		$listMapper->add('_action', 'actions', [
+				'label'   => 'form.label_action',
 				'actions' => array(
 //					'impersonate' => array( 'template' => 'admin/user/list__action__impersonate.html.twig' ),
 					'chapters' => array( 'template' => '@MagentaCBookAdmin/Admin/Book/Book/Action/list_chapters.html.twig' ),
@@ -128,8 +103,9 @@ class BookAdmin extends BaseAdmin {
 			]
 		);
 		$listMapper
-			->addIdentifier('name')
-			->add('createdAt');
+			->addIdentifier('name', null, [ 'label' => 'form.label_name' ])
+			->add('bookCategoryItems', null, [ 'label' => 'form.label_category' ])
+			->add('createdAt', null, [ 'label' => 'form.label_created_at' ]);
 		
 		if($this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
 			$listMapper
@@ -142,7 +118,6 @@ class BookAdmin extends BaseAdmin {
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {
-		
 		$formMapper
 			->with('General', [ 'class' => 'col-md-6' ])->end()
 			->with('Content', [ 'class' => 'col-md-6' ])->end();
@@ -151,18 +126,34 @@ class BookAdmin extends BaseAdmin {
 		$formMapper
 			->with('General')
 //                ->add('username')
-			->add('name', null, [ 'label' => 'list.label_name' ])
+			->add('name', null, [ 'label' => 'form.label_name' ]);
 //                ->add('admin')
-			->end();
-		$formMapper->with('Content');
-		$formMapper->add('text', CKEditorType::class, [
-		]);
+		$formMapper->add('bookCategoryItems', CollectionType::class,
+			array(
+				'required'    => false,
+				'constraints' => new Valid(),
+				'label'       => 'form.label_category',
+//					'btn_catalogue' => 'InterviewQuestionSetAdmin'
+			), array(
+				'edit'            => 'inline',
+				'inline'          => 'table',
+				'sortable'        => 'position',
+				'link_parameters' => $this->getPersistentParameters(),
+				'admin_code'      => BookCategoryItemAdmin::class,
+				'delete'          => null,
+			)
+		);
+		$formMapper->end();
+
+//		$formMapper->with('Content');
+//		$formMapper->add('text', CKEditorType::class, [
+//		]);
 //		$formMapper->add('text', SimpleFormatterType::class, [
 //			'format' => 'richhtml',
 //			'ckeditor_context' => 'default',
 //			'ckeditor_image_format' => 'big',
 //		]);
-		$formMapper->end();
+//		$formMapper->end();
 		
 		$formMapper->end();
 	}

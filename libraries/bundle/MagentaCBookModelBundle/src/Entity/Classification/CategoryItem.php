@@ -4,9 +4,8 @@ namespace Magenta\Bundle\CBookModelBundle\Entity\Classification;
 
 use Bean\Component\Thing\Model\Thing;
 use Doctrine\Common\Collections\ArrayCollection;
-use Magenta\Bundle\CBookModelBundle\Entity\Book\BookCategory;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Base\AppCategory;
-use Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupCategory;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCategoryItem;
 use Sonata\ClassificationBundle\Entity\BaseCategory as BaseCategory;
 
 //use Gedmo\Mapping\Annotation as Gedmo;
@@ -31,10 +30,12 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
  * @ORM\Table(name="classification__category_item")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({"book" = "Magenta\Bundle\CBookModelBundle\Entity\Classification\BookCategoryItem"})
+ * @ORM\DiscriminatorMap({"book" = "Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCategoryItem"})
  * @ORM\HasLifecycleCallbacks
  */
 abstract class CategoryItem {
+	const TYPE_BOOK = 'BOOK';
+	
 	/**
 	 * @var integer|null
 	 * @ORM\Id
@@ -43,6 +44,7 @@ abstract class CategoryItem {
 	 * // Serializer\Groups(groups={"sonata_api_read", "sonata_api_write", "sonata_search"})
 	 */
 	protected $id;
+	
 	/**
 	 * @return int|null
 	 */
@@ -54,8 +56,16 @@ abstract class CategoryItem {
 	
 	}
 	
+	public function getType() {
+		if($this instanceof BookCategoryItem) {
+			return self::TYPE_BOOK;
+		}
+		
+		return null;
+	}
+	
 	/**
-	 * @var Category
+	 * @var Category|null
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Classification\Category", inversedBy="items")
 	 * @ORM\JoinColumn(name="id_category", referencedColumnName="id", onDelete="CASCADE")
 	 */
@@ -89,16 +99,16 @@ abstract class CategoryItem {
 	}
 	
 	/**
-	 * @return Category
+	 * @return Category|null
 	 */
-	public function getCategory(): Category {
+	public function getCategory(): ?Category {
 		return $this->category;
 	}
 	
 	/**
-	 * @param Category $category
+	 * @param Category $category|null
 	 */
-	public function setCategory(Category $category): void {
+	public function setCategory(?Category $category): void {
 		$this->category = $category;
 	}
 	

@@ -437,9 +437,6 @@
     "symfony/cache": {
         "version": "v4.0.8"
     },
-    "symfony/class-loader": {
-        "version": "v3.4.10"
-    },
     "symfony/config": {
         "version": "v4.0.8"
     },

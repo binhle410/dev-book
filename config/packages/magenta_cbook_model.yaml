@@ -146,7 +146,7 @@ sonata_classification:
 sonata_media:
     default_context: default
     contexts:
-        book_image:
+        content_image:
             providers:
                 - sonata.media.provider.image
             formats:
@@ -156,7 +156,7 @@ sonata_media:
                 strategy: sonata.media.security.public_strategy
                 mode: http
 
-        book_file:
+        content_file:
             providers:
                 - sonata.media.provider.file
             download:
