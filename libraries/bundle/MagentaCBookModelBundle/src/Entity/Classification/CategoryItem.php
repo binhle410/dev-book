@@ -56,6 +56,10 @@ abstract class CategoryItem {
 	
 	}
 	
+	public function getCategoryName() {
+		return $this->category->getName();
+	}
+	
 	public function getType() {
 		if($this instanceof BookCategoryItem) {
 			return self::TYPE_BOOK;
@@ -106,7 +110,7 @@ abstract class CategoryItem {
 	}
 	
 	/**
-	 * @param Category $category|null
+	 * @param Category $category |null
 	 */
 	public function setCategory(?Category $category): void {
 		$this->category = $category;

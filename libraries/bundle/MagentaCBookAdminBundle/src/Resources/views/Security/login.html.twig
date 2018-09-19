@@ -1,13 +1,39 @@
 {% extends "@MagentaCBookAdmin/user_layout.html.twig" %}
 {% block stylesheets %}
     {{ parent() }}
-    <style>.checkbox label, .radio label {
+    <style>
+        .login-box-msg {
+            color: #8E2D7C;
+            /*#605ca8;*/
+        }
+
+        body, .btn-primary {
+            background-color: #8E2D7C;
+            /*#605ca8;*/
+        }
+
+        .checkbox label, .radio label {
             margin-left: 0px;
-        }</style>
+        }
+
+        .main-header {
+            background-color: #d2d6de;
+        }
+    </style>
 {% endblock %}
+                {% block logo %}
+                    {% spaceless %}
+                        <div class="text-center">
+                            <div class="" style="margin:auto; height:50px;" href="{{ path('sonata_admin_dashboard') }}">
+                                <img height="50" src="https://www.magenta-consulting.com/images/logo.png"
+                                     alt="{{ sonata_admin.adminPool.title }}">
+                            </div>
+                        </div>
+                    {% endspaceless %}
+                {% endblock %}
 
 {% block sonata_wrapper %}
-    <div class="login-box">
+    <div class="login-box box-shadow">
         <div class="login-logo">
             <a href="{{ path('sonata_admin_dashboard') }}">
                 {% if admin_pool is defined %}
@@ -24,7 +50,7 @@
                         <div class="alert alert-danger">{{ error.message|trans({}, 'MagentaCBookAdminBundle') }}</div>
                     {% endif %}
                 {% endblock %}
-                <p class="login-box-msg">{{ 'security.login.title_user_authentication'|trans({}, 'MagentaCBookAdminBundle') }}</p>
+                <h3 class="login-box-msg">{{ 'security.login.title_user_authentication'|trans({}, 'MagentaCBookAdminBundle') }}</h3>
                 <form action="{{ path("magenta_user_security_check") }}" method="post" role="form">
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
 

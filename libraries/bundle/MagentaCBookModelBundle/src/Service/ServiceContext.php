@@ -1,6 +1,6 @@
 <?php
 
-namespace Magenta\Bundle\CBookAdminBundle\Service;
+namespace Magenta\Bundle\CBookModelBundle\Service;
 
 class ServiceContext {
 	const TYPE_ADMIN_CLASS = 'ADMIN_CLASS';

@@ -57,7 +57,7 @@ class Category extends AppCategory {
 	}
 	
 	public function removeAccesGrantedGroup(IndividualGroup $gc) {
-		$this->accessGrantedGroups->add($gc);
+		$this->accessGrantedGroups->removeElement($gc);
 	}
 	
 	/**
@@ -75,7 +75,7 @@ class Category extends AppCategory {
 	}
 	
 	public function removeAccesDeniedGroup(IndividualGroup $gc) {
-		$this->accessDeniedGroups->add($gc);
+		$this->accessDeniedGroups->removeElement($gc);
 	}
 	
 	/**

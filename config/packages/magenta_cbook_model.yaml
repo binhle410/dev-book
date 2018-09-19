@@ -214,4 +214,6 @@ sonata_media:
         gallery_has_media: Magenta\Bundle\CBookModelBundle\Entity\Media\GalleryHasMedia
         category: Magenta\Bundle\CBookModelBundle\Entity\Classification\Category
 
+    category_manager: sonata.classification.manager.category
+
     db_driver: doctrine_orm # could be doctrine_orm, doctrine_mongodb or doctrine_phpcr

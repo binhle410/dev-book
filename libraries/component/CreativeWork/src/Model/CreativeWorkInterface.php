@@ -1,14 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Binh
- * Date: 9/8/2018
- * Time: 8:04 PM
- */
-
 namespace Bean\Component\CreativeWork\Model;
 
-interface CreativeWorkInterface {
+use Bean\Component\Thing\Model\ThingInterface;
+
+interface CreativeWorkInterface extends ThingInterface {
+	
 	/**
 	 * @return string|null
 	 */

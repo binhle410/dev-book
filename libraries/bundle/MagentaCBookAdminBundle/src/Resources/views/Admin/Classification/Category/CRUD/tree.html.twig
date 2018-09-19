@@ -169,21 +169,31 @@
                                 </span>
                             </div>
                             <div style="margin-left:auto; display: flex; flex-direction: row;">
-                                <a href="{{ admin.generateUrl('edit',{id: category.id}) }}" class="item-action"><i class="fa fa-pencil"> </i></a>
-                                <a href="#" class="item-action"><i class="fa fa-trash"> </i></a>
+                                <a href="{{ admin.generateUrl('edit',{id: category.id}) }}" class="item-action"><i
+                                            class="fa fa-pencil"> </i></a>
+                                <a href="{{ admin.generateUrl('delete',{id: category.id}) }}" class="item-action"><i
+                                            class="fa fa-trash"> </i></a>
                             </div>
                         </div>
                     {% endfor %}
                     {% for categoryItem in selectedCategory.items %}
                         {% set item = categoryItem.item %}
                         <div class="sonata-tree__item" style="display: flex;align-items:center;">
-                            {% if categoryItem.type == 'BOOK' %}
-                                <a class="item"
-                                   href="{{ path('admin_magenta_cbookmodel_book_book_book_chapter_list',{id: item.id}) }}"><i
-                                            class="fa fa-book"> {{ item.name }}</i></a>
-                            {% else %}
-                                <a class="item" href="#"><i class="fa fa-file"> {{ item.name }}</i></a>
-                            {% endif %}
+                            <div style="display: flex; align-items: center;">
+                                {% if categoryItem.type == 'BOOK' %}
+                                    <a class="item"
+                                       href="{{ path('admin_magenta_cbookmodel_book_book_edit',{id: item.id}) }}"><i
+                                                class="fa fa-book"> {{ item.name }}</i></a>
+                                {% else %}
+                                    <a class="item" href="#"><i class="fa fa-file"> {{ item.name }}</i></a>
+                                {% endif %}
+                            </div>
+                            <div style="margin-left:auto; display: flex; flex-direction: row;">
+                                <a href="{{ path('admin_magenta_cbookmodel_book_book_show',{id: item.id}) }}" class="item-action"><i
+                                            class="fa fa-pencil"> </i></a>
+                                <a href="{{ path('admin_magenta_cbookmodel_classification_categoryitem_delete',{id: categoryItem.id}) }}" class="item-action"><i
+                                            class="fa fa-trash"> </i></a>
+                            </div>
                         </div>
                     {% endfor %}
                 </div>

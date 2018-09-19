@@ -1,3 +1,6 @@
+individualmember: Members
+profile_edit: Profile
+
 breadcrumb:
     link_org_chapter_list: Sections
     link_org_chapter_create: New
@@ -6,6 +9,7 @@ breadcrumb:
     link_book_list: Books
     link_chapter_list: Chapters
     link_individual_member_list: Members
+    link_category_item_list: Category Items
 
 group:
     edit:
@@ -99,7 +103,9 @@ filter:
 
 form_group:
     user_details: User Details
+    groups: Groups
 form:
+
     group_name: 'Group name'
     username: Username
     email: Email
@@ -109,6 +115,7 @@ form:
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
 
+    label_edition: Edition
     label_text: Text
     label_contactable: Shown in Contact Book
     label_subscribed: Subscribed

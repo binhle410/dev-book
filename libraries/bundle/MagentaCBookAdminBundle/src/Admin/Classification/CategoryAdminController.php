@@ -4,7 +4,7 @@ namespace Magenta\Bundle\CBookAdminBundle\Admin\Classification;
 
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseCRUDAdminControllerTrait;
 use Magenta\Bundle\CBookAdminBundle\Service\Organisation\OrganisationService;
-use Magenta\Bundle\CBookAdminBundle\Service\ServiceContext;
+use Magenta\Bundle\CBookModelBundle\Service\ServiceContext;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Category;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

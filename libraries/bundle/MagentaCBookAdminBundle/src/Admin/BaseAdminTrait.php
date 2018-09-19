@@ -6,7 +6,7 @@ use Bean\Component\Organization\IoC\OrganizationAwareInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr;
 use Magenta\Bundle\CBookAdminBundle\Admin\Organisation\OrganisationAdmin;
-use Magenta\Bundle\CBookAdminBundle\Service\ServiceContext;
+use Magenta\Bundle\CBookModelBundle\Service\ServiceContext;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;

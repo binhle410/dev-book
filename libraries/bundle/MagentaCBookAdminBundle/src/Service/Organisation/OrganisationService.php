@@ -4,7 +4,7 @@ namespace Magenta\Bundle\CBookAdminBundle\Service\Organisation;
 
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\CBookAdminBundle\Admin\Organisation\OrganisationAdmin;
-use Magenta\Bundle\CBookAdminBundle\Service\ServiceContext;
+use Magenta\Bundle\CBookModelBundle\Service\ServiceContext;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Service\BaseService;

@@ -31,9 +31,10 @@ class IndividualGroup extends IndividualMemberGroup {
 	
 	public function __construct() {
 		parent::__construct();
-		$this->groupIndividuals    = new ArrayCollection();
+		$this->groupIndividuals = new ArrayCollection();
+		$this->members = new ArrayCollection();
 	}
-	
+
 //	/**
 //	 * @var \Doctrine\Common\Collections\Collection
 //	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Book\BookCategoryGroup", mappedBy="group")
@@ -52,10 +53,15 @@ class IndividualGroup extends IndividualMemberGroup {
 	
 	/**
 	 * @var Collection
+	 * @ORM\ManyToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember", mappedBy="groups")
+	 */
+	protected $members;
+	
+	/**
+	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupIndividual", mappedBy="group")
 	 */
 	protected $groupIndividuals;
-	
 	
 	/**
 	 * @var Organisation
@@ -64,4 +70,17 @@ class IndividualGroup extends IndividualMemberGroup {
 	 */
 	protected $organization;
 	
+	/**
+	 * @return Collection
+	 */
+	public function getMembers(): Collection {
+		return $this->members;
+	}
+	
+	/**
+	 * @param Collection $members
+	 */
+	public function setMembers(Collection $members): void {
+		$this->members = $members;
+	}
 }

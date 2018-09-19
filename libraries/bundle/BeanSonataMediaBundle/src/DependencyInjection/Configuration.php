@@ -1,6 +1,6 @@
 <?php
 
-namespace Magenta\Bundle\CBookModelBundle\DependencyInjection;
+namespace Bean\Bundle\SonataMediaBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -8,7 +8,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface {
 	public function getConfigTreeBuilder() {
 		$treeBuilder = new TreeBuilder();
-		$rootNode    = $treeBuilder->root('magenta_cbook');
+		$rootNode    = $treeBuilder->root('magenta_sonata_media');
 		
 		$rootNode
 			->children()

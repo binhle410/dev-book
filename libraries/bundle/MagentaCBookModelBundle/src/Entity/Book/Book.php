@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\CBookModelBundle\Entity\Book;
 
 use Bean\Component\Book\Model\Book as BookModel;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCategoryItem;
@@ -18,6 +19,7 @@ class Book extends \Bean\Bundle\BookBundle\Doctrine\Orm\Book {
 		parent::__construct();
 		$this->locale = 'en';
 		$this->status = self::STATUS_DRAFT;
+		$this->bookCategoryItems = new ArrayCollection();
 	}
 	
 	/**
@@ -43,6 +45,7 @@ class Book extends \Bean\Bundle\BookBundle\Doctrine\Orm\Book {
 	
 	/**
 	 * @ORM\OneToMany(targetEntity="Chapter", cascade={"persist","merge"}, orphanRemoval=true, mappedBy="book")
+	 * @ORM\OrderBy({"position"="ASC"})
 	 */
 	protected $chapters;
 	

@@ -19,10 +19,12 @@ class Chapter extends CreativeWork implements ChapterInterface {
 	}
 	
 	/**
-	 * @param ChapterInterface $parentChapter
+	 * @param ChapterInterface|null $parentChapter
 	 */
-	public function setParentChapter(ChapterInterface $parentChapter): void {
-		$this->book = $parentChapter->getBook();
+	public function setParentChapter(?ChapterInterface $parentChapter): void {
+		if( ! empty($parentChapter)) {
+			$this->book = $parentChapter->getBook();
+		}
 		$this->parentChapter = $parentChapter;
 	}
 	
@@ -34,8 +36,26 @@ class Chapter extends CreativeWork implements ChapterInterface {
 	protected $subChapters;
 	
 	public function addSubChapter(ChapterInterface $chapter) {
-		$this->subChapters[] = $chapter;
+		$this->addElementToArrayProperty($chapter, 'subChapters');
 		$chapter->setParentChapter($this);
+		$chapter->setPosition($this->getLastSubChapterPosition() + 1);
+	}
+	
+	public function removeSubChapter(ChapterInterface $chapter) {
+		$this->removeElementFromArrayProperty($chapter, 'subChapters');
+		$chapter->setParentChapter(null);
+	}
+	
+	public function getLastSubChapterPosition() {
+		$position = 0;
+		/** @var ChapterInterface $chapter */
+		foreach($this->subChapters as $chapter) {
+			if($chapter->getPosition() > $position) {
+				$position = $chapter->getPosition();
+			}
+		}
+		
+		return $position;
 	}
 	
 	/**

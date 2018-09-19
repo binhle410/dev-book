@@ -10,13 +10,13 @@ namespace Bean\Component\Book\Model;
 
 use Bean\Component\CreativeWork\Model\CreativeWorkInterface;
 
-interface ChapterInterface {
+interface ChapterInterface extends CreativeWorkInterface{
 	public function setPartOf(CreativeWorkInterface $partOf): void;
 	
 	/**
-	 * @param ChapterInterface $parentChapter
+	 * @param ChapterInterface|null $parentChapter
 	 */
-	public function setParentChapter(ChapterInterface $parentChapter): void;
+	public function setParentChapter(?ChapterInterface $parentChapter): void;
 	
 	public function addSubChapter(ChapterInterface $chapter);
 	

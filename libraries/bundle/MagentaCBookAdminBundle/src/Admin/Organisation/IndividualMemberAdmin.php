@@ -4,6 +4,7 @@ namespace Magenta\Bundle\CBookAdminBundle\Admin\Organisation;
 
 use Doctrine\ORM\EntityRepository;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\System\AccessControl\ACRole;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
@@ -61,7 +62,7 @@ class IndividualMemberAdmin extends BaseAdmin {
 	}
 	
 	/**
-	 * @param string             $name
+	 * @param string           $name
 	 * @param IndividualMember $object
 	 */
 	public function isGranted($name, $object = null) {
@@ -120,13 +121,13 @@ class IndividualMemberAdmin extends BaseAdmin {
 	
 	protected function configureShowFields(ShowMapper $showMapper) {
 		$showMapper
-			->with('form_group.IndividualMember_details', [ 'class' => 'col-md-6' ])
+			->with('form_group.member_details', [ 'class' => 'col-md-6' ])
 			->add('name', null, [ 'label' => 'form.label_name' ])
 			->add('email', null, [ 'label' => 'form.label_email' ])
 			->add('homeAddress', null, [ 'label' => 'form.label_address' ])
 			->add('homePostalCode', null, [ 'label' => 'form.label_postal_code' ])
 			->end()
-			->with('form_group.IndividualMember_records', [ 'class' => 'col-md-6' ])
+			->with('form_group.member_groups', [ 'class' => 'col-md-6' ])
 			->add('warranties', null, [
 				'label'               => false,
 				'associated_property' => 'id',
@@ -196,6 +197,18 @@ class IndividualMemberAdmin extends BaseAdmin {
 //
 //			])
 			->add('enabled');
+		$formMapper->end();
+		
+		$groupQuery = $this->getFilterByOrganisationQueryForModel(IndividualGroup::class);
+		$formMapper
+			->with('form_group.groups', [ 'class' => 'col-md-6' ]);
+		$formMapper->add('groups', ModelType::class, [
+			'label'    => false,
+			'query'    => $groupQuery,
+			'class'    => IndividualGroup::class,
+			'multiple' => true,
+			'property' => 'name'
+		]);
 		$formMapper->end();
 	}
 	

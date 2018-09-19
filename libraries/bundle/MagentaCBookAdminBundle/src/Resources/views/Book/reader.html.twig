@@ -145,10 +145,12 @@
 {% endblock %}
 
 {% block body %}
+    <div style="padding-top:35px;"></div>
     <div class="container">
         <div class="row">
             <div class="d-none d-md-block col-md-4">
                 <div class="positionh" style="position: fixed">
+                    <button class="btn btn-primary"><i class="fa fa-plus"></i> New Chapter</button>
                     <h3>Table of contents</h3>
                     <div id="toc-sidebar"></div>
                 </div>
@@ -239,6 +241,7 @@
 {% block javascripts_book %}
     <script>
         window.environment = {
+            bookChapterApi: '{{ path('admin_magenta_cbookmodel_book_chapter_move',{id: 0}) }}',
             apiEndPoint: 'https://localhost/dev-book/public/index.php/bean/playground',
             mediaApiEndPoint: 'https://localhost/dev-book/public/index.php/bean/playground',
         }
@@ -277,7 +280,7 @@
 
             $('#toc-sidebar').on(
                 'tree.click',
-                function(event) {
+                function (event) {
                     // The clicked node is 'event.node'
                     // var node = event.node;
                     // alert(node.name);
@@ -307,14 +310,14 @@
                     'position': event.move_info.position,
                     'previous_parent': event.move_info.previous_parent.chapterId
                 }
-                $.post(environment.apiEndPoint, data)
+                $.post(environment.bookChapterApi.replace('0', event.move_info.moved_node.chapterId), data)
             });
 
             $('#edit-button').click(() => {
                 $('.editable').froalaEditor({
                     imageUploadURL: environment.mediaApiEndPoint,
                     toolbarInline: true,
-                    quickInsertButtons: ['image','video','embedly','table', 'ol', 'ul', 'hr'],
+                    quickInsertButtons: ['image', 'video', 'embedly', 'table', 'ol', 'ul', 'hr'],
                     toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color', 'emoticons', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo']
                 }).on('froalaEditor.image.uploaded', function (e, editor, response) {
                     console.log(e, editor, response)
@@ -359,7 +362,7 @@
                         var href = $('.dropdown-item.active').attr('href');
                         var id = href.substring(0, href.lastIndexOf('-'));
                         $('#spy-chapter-navtitle').text($(id).text());
-                    }else{
+                    } else {
                         // console.log('jquery lookup of (\'.dropdown-item.active\') is not found');
                     }
                 }

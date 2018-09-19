@@ -11,9 +11,12 @@ use Sonata\ClassificationBundle\Model\ContextManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
-class CategoryManager extends \Sonata\ClassificationBundle\Entity\CategoryManager {
+class CategoryManager extends \Sonata\ClassificationBundle\Entity\CategoryManager implements \Sonata\MediaBundle\Model\CategoryManagerInterface{
 	/** @var ContainerInterface */
 	private $container;
+	
+	/** @var Organisation $organisation */
+	private $organisation;
 	
 	public function __construct(string $class, ManagerRegistry $registry, ContextManagerInterface $contextManager, ContainerInterface $container) {
 		parent::__construct($class, $registry, $contextManager);
@@ -31,7 +34,12 @@ class CategoryManager extends \Sonata\ClassificationBundle\Entity\CategoryManage
 	public function getAllRootCategories($loadChildren = true, Organisation $org = null) {
 		if(empty($org)) {
 			if(empty($orgId = $this->container->get('request_stack')->getCurrentRequest()->get('organisation'))) {
-				throw new UnauthorizedHttpException('No Org Info');
+				if(empty($this->organisation)) {
+					throw new UnauthorizedHttpException('No Org Info');
+				} else {
+					$org   = $this->organisation;
+					$orgId = $org->getId();
+				}
 			}
 		} else {
 			$orgId = $org->getId();
@@ -125,7 +133,12 @@ class CategoryManager extends \Sonata\ClassificationBundle\Entity\CategoryManage
 		
 		if(empty($org)) {
 			if(empty($orgId = $this->container->get('request_stack')->getCurrentRequest()->get('organisation'))) {
-				throw new UnauthorizedHttpException('No Org Info');
+				if(empty($this->organisation)) {
+					throw new UnauthorizedHttpException('No Org Info');
+				} else {
+					$org   = $this->organisation;
+					$orgId = $org->getId();
+				}
 			}
 		} else {
 			$orgId = $org->getId();
@@ -205,5 +218,19 @@ class CategoryManager extends \Sonata\ClassificationBundle\Entity\CategoryManage
 		}
 		
 		return $context;
+	}
+	
+	/**
+	 * @return Organisation
+	 */
+	public function getOrganisation(): Organisation {
+		return $this->organisation;
+	}
+	
+	/**
+	 * @param Organisation $organisation
+	 */
+	public function setOrganisation(Organisation $organisation): void {
+		$this->organisation = $organisation;
 	}
 }

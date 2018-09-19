@@ -14,8 +14,8 @@ use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class CategoryItemAdmin extends BaseAdmin {
-	
-	public const AUTO_CONFIG = false;
+
+//	public const AUTO_CONFIG = false;
 	
 	/**
 	 * @return CategoryItem|null|object
@@ -24,14 +24,37 @@ class CategoryItemAdmin extends BaseAdmin {
 		return parent::getSubject();
 	}
 	
+	/**
+	 * @param CategoryItem $object
+	 */
+	public function toString($object) {
+		return $object->getItem()->getName();
+	}
+	
+	protected function configureRoutes(RouteCollection $collection) {
+		$collection->remove('list');
+	}
+	
 	protected function configureFormFields(FormMapper $formMapper) {
+		$container = $this->getConfigurationPool()->getContainer();
+		$registry  = $container->get('doctrine');
+		
+		
+		/** @var Context $defaultContext */
+		$defaultContext      = $registry->getRepository(Context::class)->find(Context::DEFAULT_CONTEXT);
+		$rootCategory        = $registry->getRepository(Category::class)->findOneBy([
+			'context' => $defaultContext,
+			'parent'  => null
+		]);
+		$currentOrganisation = $this->getCurrentOrganisation();
 		$formMapper->add('category', OrgAwareCategorySelectorType::class, [
-			'organisation'  => $this->getCurrentOrganisation(),
-			'category'      => $this->getSubject() ? $this->getSubject()->getCategory() : null,
-			'model_manager' => $this->getModelManager(),
-			'class'         => $this->getClass(),
+			'label'         => 'form.label_name',
+			'organisation'  => $currentOrganisation,
+			'category'      => $rootCategory,
+			'model_manager' => $container->get('sonata.classification.admin.category')->getModelManager(),
+			'class'         => Category::class,
 			'required'      => true,
-			'context'       => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Context::class)->find(Context::DEFAULT_CONTEXT),
+			'context'       => $defaultContext,
 			'btn_add'       => false
 		]);
 

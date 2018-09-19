@@ -6,8 +6,8 @@ use Bean\Component\Organization\Model\IndividualMember as MemberModel;
 
 use Bean\Component\Person\Model\Person;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Magenta\Bundle\CBookModelBundle\Entity\Classification\Collection;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
 use Magenta\Bundle\CBookModelBundle\Entity\System\AccessControl\ACRole;
 
@@ -28,12 +28,31 @@ class IndividualMember extends MemberModel {
 	public function __construct() {
 		parent::__construct();
 		$this->groupIndividuals = new ArrayCollection();
+		$this->groups = new ArrayCollection();
 		$this->enabled          = true;
 	}
 	
 	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 * @ORM\ManyToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup", inversedBy="members")
+	 * @ORM\JoinTable(name="organisation__individual_member__members_groups",
+	 *      joinColumns={@ORM\JoinColumn(name="id_individual", referencedColumnName="id")},
+	 *      inverseJoinColumns={@ORM\JoinColumn(name="id_group", referencedColumnName="id")}
+	 *      )
+	 */
+	protected $groups;
+	
+	public function addGroup(IndividualGroup $gc) {
+		$this->groups->add($gc);
+	}
+	
+	public function removeGroup(IndividualGroup $gc) {
+		$this->groups->removeElement($gc);
+	}
+	
+	/**
 	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupIndividual", mappedBy="member")
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupIndividual", mappedBy="individualMember")
 	 */
 	protected $groupIndividuals;
 	
@@ -160,5 +179,33 @@ class IndividualMember extends MemberModel {
 	 */
 	public function setRole(?ACRole $role): void {
 		$this->role = $role;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getGroupIndividuals(): Collection {
+		return $this->groupIndividuals;
+	}
+	
+	/**
+	 * @param Collection $groupIndividuals
+	 */
+	public function setGroupIndividuals(Collection $groupIndividuals): void {
+		$this->groupIndividuals = $groupIndividuals;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getGroups(): Collection {
+		return $this->groups;
+	}
+	
+	/**
+	 * @param Collection $groups
+	 */
+	public function setGroups(Collection $groups): void {
+		$this->groups = $groups;
 	}
 }

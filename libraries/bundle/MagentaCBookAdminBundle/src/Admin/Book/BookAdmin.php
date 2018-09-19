@@ -4,6 +4,7 @@ namespace Magenta\Bundle\CBookAdminBundle\Admin\Book;
 
 use Bean\Component\Book\Model\Book;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Knp\Menu\ItemInterface as MenuItemInterface;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\CBookAdminBundle\Admin\Classification\CategoryItem\BookCategoryItemAdmin;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem;
@@ -15,6 +16,7 @@ use Doctrine\ORM\QueryBuilder;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserManager;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserManagerInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -47,6 +49,14 @@ class BookAdmin extends BaseAdmin {
 		// name of the ordered field (default = the model's id field, if any)
 		'_sort_by'    => 'updatedAt',
 	);
+	
+	public function getBook(){
+		return $this->subject;
+	}
+	
+	public function getCurrentChapter(){
+		return null;
+	}
 	
 	public function getNewInstance() {
 		/** @var User $object */
@@ -103,9 +113,12 @@ class BookAdmin extends BaseAdmin {
 			]
 		);
 		$listMapper
-			->addIdentifier('name', null, [ 'label' => 'form.label_name' ])
-			->add('bookCategoryItems', null, [ 'label' => 'form.label_category' ])
-			->add('createdAt', null, [ 'label' => 'form.label_created_at' ]);
+			->addIdentifier('name', null, [ 'label' => 'form.label_name' ]);
+		
+		$listMapper->add('bookCategoryItems', null, [ 'label'               => 'form.label_category',
+		                                              'associated_property' => 'categoryName'
+		]);
+		$listMapper->add('createdAt', null, [ 'label' => 'form.label_created_at' ]);
 		
 		if($this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
 			$listMapper
@@ -120,13 +133,15 @@ class BookAdmin extends BaseAdmin {
 	protected function configureFormFields(FormMapper $formMapper) {
 		$formMapper
 			->with('General', [ 'class' => 'col-md-6' ])->end()
-			->with('Content', [ 'class' => 'col-md-6' ])->end();
+			->with('Description', [ 'class' => 'col-md-6' ])->end();
 		
 		
 		$formMapper
 			->with('General')
 //                ->add('username')
-			->add('name', null, [ 'label' => 'form.label_name' ]);
+			->add('name', null, [ 'label' => 'form.label_name' ])
+			->add('bookEdition', null, [ 'label' => 'form.label_edition' ])
+		;
 //                ->add('admin')
 		$formMapper->add('bookCategoryItems', CollectionType::class,
 			array(
@@ -134,6 +149,7 @@ class BookAdmin extends BaseAdmin {
 				'constraints' => new Valid(),
 				'label'       => 'form.label_category',
 //					'btn_catalogue' => 'InterviewQuestionSetAdmin'
+				'help'        => 'Drag and Drop a row to re-position it.'
 			), array(
 				'edit'            => 'inline',
 				'inline'          => 'table',
@@ -143,6 +159,10 @@ class BookAdmin extends BaseAdmin {
 				'delete'          => null,
 			)
 		);
+		$formMapper->end();
+		
+		$formMapper->with('Description');
+		$formMapper->add('description', CKEditorType::class, [ 'required' => false, 'label' => false ]);
 		$formMapper->end();
 
 //		$formMapper->with('Content');
@@ -156,6 +176,15 @@ class BookAdmin extends BaseAdmin {
 //		$formMapper->end();
 		
 		$formMapper->end();
+	}
+	
+	protected function configureTabMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null) {
+		parent::configureTabMenu($menu, $action, $childAdmin);
+		if( ! empty($this->subject)) {
+			$menu->addChild('Manage Content', [
+				'uri' => $this->getConfigurationPool()->getContainer()->get('router')->generate('admin_magenta_cbookmodel_book_book_show', [ 'id' => $this->getSubject()->getId() ])
+			]);
+		}
 	}
 	
 	/**
