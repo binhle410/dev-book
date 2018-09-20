@@ -222,9 +222,23 @@
             /*margin-left: 1px;*/
         }
 
+        .jqtree-selected > div > a > i {
+            padding-left: 5px;
+            color: white;
+        }
+
         .book-toc > div {
             padding: 6px;
             /*margin-right: 1px;*/
+        }
+
+        li.jqtree-selected > div {
+            background-color: #4e4a88;
+            border-radius: 5px;
+        }
+
+        ul.jqtree_common > li.jqtree-selected > div > span {
+            color: white;
         }
 
     </style>
@@ -241,18 +255,26 @@
     <div class="modal fade" id="new-chapter" tabindex="-1" role="dialog" aria-labelledby="newChapterLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="newChapterLabel">Create a chapter in "{{ book.name }}"</h4>
-                </div>
-                <div class="modal-body">
-                    <input class="form-control" placeholder="Chapter Name" name="chapter-name"/>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
-                </div>
+                <form method="post" action="{{ path('admin_magenta_cbookmodel_book_chapter_createChapter') }}">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="newChapterLabel">Create a chapter in "{{ book.name }}"</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <input class="form-control" placeholder="Chapter Name" name="chapter-name"/>
+                        <input type="hidden" name="book-id" value="{{ book.id }}"/>
+                        {% if currentChapter is defined and currentChapter is not empty %}
+                            <input type="hidden" name="parent-chapter-id" value="{{ currentChapter.id }}"/>
+                        {% endif %}
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

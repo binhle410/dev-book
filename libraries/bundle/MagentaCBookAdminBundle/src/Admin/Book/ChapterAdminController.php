@@ -5,6 +5,7 @@ namespace Magenta\Bundle\CBookAdminBundle\Admin\Book;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseCRUDAdminController;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Chapter;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
@@ -80,6 +81,30 @@ class ChapterAdminController extends BaseCRUDAdminController {
 		return new JsonResponse([ 'OK' ]);
 	}
 	
+	public function createChapterAction(Request $request) {
+		$bookId          = $request->request->getInt('book-id');
+		$parentChapterId = $request->request->getInt('parent-chapter-id');
+		$chapterName     = $request->request->get('chapter-name');
+		$registry        = $this->getDoctrine();
+		$chapterRepo     = $registry->getRepository(Chapter::class);
+		$bookRepo        = $registry->getRepository(Book::class);
+		
+		$book    = $bookRepo->find($bookId);
+		$chapter = new Chapter();
+		$chapter->setName($chapterName);
+		$chapter->setEnabled(true);
+		$book->addChapter($chapter);
+		if( ! empty($parentChapter = $chapterRepo->find($parentChapterId))) {
+			$parentChapter->addSubChapter($chapter);
+		}
+		
+		$manager = $this->get('doctrine.orm.default_entity_manager');
+		$manager->persist($chapter);
+		$manager->flush();
+		
+		return new RedirectResponse($this->admin->generateUrl('show', [ 'id' => $chapter->getId() ]));
+	}
+	
 	public function renderWithExtraParams($view, array $parameters = [], Response $response = null) {
 		if($parameters['action'] === 'show') {
 			/** @var Chapter $chapter */
@@ -89,6 +114,7 @@ class ChapterAdminController extends BaseCRUDAdminController {
 			$employeeCode                     = "1";
 			$parameters['base_book_template'] = '@MagentaCBookAdmin/standard_layout.html.twig';
 			$parameters['book']               = $this->admin->getSubject()->getBook();
+			$parameters['currentChapter']     = $chapter;
 			$parameters['mainContentItem']    = $chapter;
 			$parameters['subContentItems']    = $chapter->getSubChapters();
 			$parameters['accessCode']         = $accessCode;
