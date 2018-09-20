@@ -81,8 +81,8 @@ class ChapterAdmin extends BaseAdmin {
 	
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
+		$collection->add('contentEdit', $this->getRouterIdParameter() . '/edit-content');
 		$collection->add('move', $this->getRouterIdParameter() . '/move');
-	
 	}
 	
 	public function getTemplate($name) {

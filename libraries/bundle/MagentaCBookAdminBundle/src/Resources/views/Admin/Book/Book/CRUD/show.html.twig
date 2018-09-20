@@ -46,9 +46,9 @@
             //     $('#edit-button').hide()
             // })
 
-            $('.editable[data-objectid="{{ book.id }}"][data-field="name"][data-type="book"]').froalaEditor({
+            $('.editable[data-objectid="{{ mainContentItem.id }}"][data-field="name"][data-type="main-content"]').froalaEditor({
                 saveInterval: 3000,
-                saveURL: '{{ admin.generateUrl('contentEdit',{id: book.id}) }}',
+                saveURL: '{{ admin.generateUrl('contentEdit',{id: mainContentItem.id}) }}',
                 saveParam: 'content',
                 saveParams: {
                     field: 'name'
@@ -58,9 +58,9 @@
                 quickInsertButtons: ['image', 'video', 'embedly', 'table', 'ol', 'ul', 'hr'],
                 toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color', 'emoticons', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo']
             });
-            $('.editable[data-objectid="{{ book.id }}"][data-field="text"][data-type="book"]').froalaEditor({
+            $('.editable[data-objectid="{{ mainContentItem.id }}"][data-field="text"][data-type="main-content"]').froalaEditor({
                 saveInterval: 3500,
-                saveURL: '{{ admin.generateUrl('contentEdit',{id: book.id}) }}',
+                saveURL: '{{ admin.generateUrl('contentEdit',{id: mainContentItem.id}) }}',
                 saveParam: 'content',
                 saveParams: {
                     field: 'text'
@@ -110,13 +110,13 @@
                 console.log('after save', e, editor, data);
                 $saveStatus.removeAttr('class');
                 $saveStatus.attr('class', 'label label-success');
-                $saveStatus.text('Saved ' + $(e.currentTarget).data('field') + ' of ' + $(e.currentTarget).data('type') + '.');
+                $saveStatus.html('Saved ' + $(e.currentTarget).data('field') + ' of "<i>' + '{{ mainContentItem.name }}' + '</i>"'); // $(e.currentTarget).data('type')
             });
             $editable.on('froalaEditor.save.error', function (e, editor, error, response) {
                 console.log('error on save', e, editor, error, response);
                 $saveStatus.removeAttr('class');
                 $saveStatus.attr('class', 'label label-danger');
-                $saveStatus.text('Error, Couldn\'t save ' + $(e.currentTarget).data('field') + ' of ' + $(e.currentTarget).data('type') + '!!!');
+                $saveStatus.html('Error, Couldn\'t save ' + $(e.currentTarget).data('field') + ' of "<i>' + '{{ mainContentItem.name }}' + '</i>"!!!'); //  $(e.currentTarget).data('type')
             });
             $('#btn-undo').click(() => {
                 $editable.froalaEditor('commands.undo');
@@ -158,19 +158,25 @@
                 class="fa fa-upload"></i> Publish
     </button>
 {% endblock %}
+
 {% block pagination %}{% endblock %}
+{% block toc_heading %} <a
+        href="{{ path('admin_magenta_cbookmodel_book_book_show',{id: book.id}) }} "> {{ parent() }}</a> {% endblock %}
+
 {% block toc_help %}<span
         class="text-muted">Move a chapter around to re-position or nest it inside another chapter.</span>{% endblock %}
 {% block toc_modal %}{% endblock %}
 {% block chapters %}
-    <h4>Click on Chapter title to go to Edit Page of that Chapter</h4>
-    {% for i, chapter in book.rootChapters %}
+    {% if subContentItems|length > 0 %}
+        <h4>Click on Chapter title to go to Edit Page of that Chapter</h4>
+    {% endif %}
+    {% for i, chapter in subContentItems %}
         <div class="editable" data-objectid="{{ chapter.id }}" data-type="chapter" data-field="name">
-            <a href="http://www.google.com" target="_blank"><strong
-                    id="chapter-{{ i+1 }}"
-                    class="offset-anchor chapter-name">{{ i+1 }}
-                . {{ chapter.name }}
-            </strong>
+            <a href="{{ path('admin_magenta_cbookmodel_book_chapter_show',{id: chapter.id}) }}"><strong
+                        id="chapter-{{ i+1 }}"
+                        class="offset-anchor chapter-name">{{ i+1 }}
+                    . {{ chapter.name }}
+                </strong>
             </a>
             <hr style="margin-top:1px;margin-bottom:5px; border-bottom: dashed; border-width: thin;"/>
         </div>
@@ -238,7 +244,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="newChapterLabel">Create a new first level chapter in {{ book.name }}</h4>
+                    <h4 class="modal-title" id="newChapterLabel">Create a chapter in "{{ book.name }}"</h4>
                 </div>
                 <div class="modal-body">
                     <input class="form-control" placeholder="Chapter Name" name="chapter-name"/>

@@ -93,7 +93,7 @@ sonata_formatter:
             extensions: [] # Twig formatter cannot have extensions
 
 sonata_admin:
-    title: 'Cloud Book'
+    title: 'CloudBook'
     options:
         title_mode: 'single_text'
 
@@ -114,6 +114,12 @@ sonata_admin:
 #            - { type: sonata.admin.block.admin_list, position: left }
 
         groups:
+            knowledge_base:
+                label: dashboard.knowledge_base
+                icon: '<i class="fa fa-book"></i>'
+                items:
+                    - sonata.classification.admin.category
+
             system:
                 label: dashboard.system
                 icon: '<i class="fa fa-users"></i>'
@@ -124,7 +130,6 @@ sonata_admin:
                     - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\IndividualMemberAdmin
 
 #                    - Sonata\MediaBundle\Admin\ORM\MediaAdmin
-                    - sonata.classification.admin.category
                     - sonata.media.admin.media
 #                    - sonata.user.admin.group
 #                    - sonata.classification.admin.context

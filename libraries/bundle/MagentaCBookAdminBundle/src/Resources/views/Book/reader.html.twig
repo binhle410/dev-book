@@ -150,17 +150,17 @@
             <div class="d-none d-md-block col-md-4 book-toc">
                 <div class="positionh" {#style="position: fixed"#}>
                     {% block new_chapter %}{% endblock %}
-                    <h3>Table of contents</h3>
+                    {% block toc_heading %}<h3>Table of contents</h3> {% endblock %}
                     {% block toc_help %} {% endblock %}
                     <div id="toc-sidebar"></div>
                 </div>
             </div>
             <div class="col-md-8 book-content">
-                <div class="editable" data-objectid="{{ book.id }}" data-type="book" data-field="name">
-                    <h2 style="text-align: center">{{ book.name }}</h2>
+                <div class="editable" data-objectid="{{ mainContentItem.id }}" data-type="main-content" data-field="name">
+                    <h2 style="text-align: center">{% block content_title %}{{ mainContentItem.name|raw }}{% endblock %}</h2>
                 </div>
-                <div class="editable" data-objectid="{{ book.id }}" data-type="book" data-field="text">
-                    <p>{{ book.text|raw }}</p>
+                <div class="editable" data-objectid="{{ mainContentItem.id }}" data-type="main-content" data-field="text">
+                    {% block content_body %}{{ mainContentItem.text|raw }}{% endblock %}
                 </div>
                 <div class="admin-buttons">
                     {#<i id="edit-button" class="fa fa-edit hand-hover"></i>#}

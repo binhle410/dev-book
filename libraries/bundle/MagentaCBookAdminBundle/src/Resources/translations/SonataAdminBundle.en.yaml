@@ -2,6 +2,8 @@ dashboard:
     customer: Manage Customers
     product: Manage Products
     system: System Configuration
+    knowledge_base: Knowledge Base
+
 message_delete_confirmation: Are you sure you want to delete "%object%" ?
 
 link_action_cancel: Cancel
