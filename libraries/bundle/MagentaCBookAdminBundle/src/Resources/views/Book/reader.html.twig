@@ -156,10 +156,14 @@
                 </div>
             </div>
             <div class="col-md-8 book-content">
-                <div class="editable" data-objectid="{{ mainContentItem.id }}" data-type="main-content" data-field="name">
-                    <h2 style="text-align: center">{% block content_title %}{{ mainContentItem.name|raw }}{% endblock %}</h2>
-                </div>
-                <div class="editable" data-objectid="{{ mainContentItem.id }}" data-type="main-content" data-field="text">
+                {% block book_title %}
+                    <div class="editable" data-objectid="{{ mainContentItem.id }}" data-type="main-content"
+                         data-field="name">
+                        <h2 style="text-align: center">{% block content_title %}{{ mainContentItem.name|raw }}{% endblock %}</h2>
+                    </div>
+                {% endblock %}
+                <div class="editable" data-objectid="{{ mainContentItem.id }}" data-type="main-content"
+                     data-field="text">
                     {% block content_body %}{{ mainContentItem.text|raw }}{% endblock %}
                 </div>
                 <div class="admin-buttons">
