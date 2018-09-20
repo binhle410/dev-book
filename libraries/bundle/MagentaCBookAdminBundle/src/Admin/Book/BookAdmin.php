@@ -85,7 +85,7 @@ class BookAdmin extends BaseAdmin {
 	
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
-//		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
+		$collection->add('contentEdit', $this->getRouterIdParameter() . '/edit-content');
 	
 	}
 	
@@ -162,7 +162,7 @@ class BookAdmin extends BaseAdmin {
 		$formMapper->end();
 		
 		$formMapper->with('Description');
-		$formMapper->add('description', CKEditorType::class, [ 'required' => false, 'label' => false ]);
+		$formMapper->add('text', CKEditorType::class, [ 'required' => false, 'label' => false ]);
 		$formMapper->end();
 
 //		$formMapper->with('Content');

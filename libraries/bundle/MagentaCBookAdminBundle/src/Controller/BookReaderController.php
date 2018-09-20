@@ -59,7 +59,7 @@ class BookReaderController extends Controller
 
 
         $chapters = [$c1, $c2, $c3];
-        $book->chapters = ($chapters);
+        $book->rootChapters = ($chapters);
         return $this->render('@MagentaCBookAdmin/Book/reader.html.twig', [
             'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
             'book' => $book,

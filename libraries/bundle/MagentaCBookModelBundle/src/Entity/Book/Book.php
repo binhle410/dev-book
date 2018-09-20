@@ -5,6 +5,7 @@ namespace Magenta\Bundle\CBookModelBundle\Entity\Book;
 use Bean\Component\Book\Model\Book as BookModel;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCategoryItem;
 
@@ -17,9 +18,18 @@ class Book extends \Bean\Bundle\BookBundle\Doctrine\Orm\Book {
 	
 	function __construct() {
 		parent::__construct();
-		$this->locale = 'en';
-		$this->status = self::STATUS_DRAFT;
+		$this->locale            = 'en';
+		$this->status            = self::STATUS_DRAFT;
 		$this->bookCategoryItems = new ArrayCollection();
+		$this->chapters          = new ArrayCollection();
+	}
+	
+	public function getRootChapters() {
+		$c    = Criteria::create();
+		$expr = $c->expr();
+		$c->andWhere($expr->isNull('parentChapter'));
+		
+		return $this->chapters->matching($c);
 	}
 	
 	/**

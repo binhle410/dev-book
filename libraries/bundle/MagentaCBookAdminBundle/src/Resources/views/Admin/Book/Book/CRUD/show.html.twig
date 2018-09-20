@@ -9,35 +9,258 @@
 
     <script src="{{ asset('assets/froala/2.8.4/froala_editor.pkgd.min.js') }}"></script>
     {{ block('javascripts_book') }}
-{% endblock %}
+    <script>
+        window.environment = {
+            bookChapterApi: '{{ path('admin_magenta_cbookmodel_book_chapter_move',{id: 0}) }}',
+            apiEndPoint: 'http://127.0.0.1/bean/playground',
+            mediaApiEndPoint: 'https://localhost/dev-book/public/index.php/bean/playground',
+        }
+        $(document).ready(($) => {
+            let $tocSidebar = $('#toc-sidebar');
+            $tocSidebar.on('tree.move', function (event) {
+                event.preventDefault();
+                event.move_info.do_move();
+                data = {
+                    'moved_node': event.move_info.moved_node.chapterId,
+                    'target_node': event.move_info.target_node.chapterId,
+                    'position': event.move_info.position,
+                    'previous_parent': event.move_info.previous_parent.chapterId
+                }
+                $.post(environment.bookChapterApi.replace('0', event.move_info.moved_node.chapterId), data)
+            });
+            $tocSidebar.tree('setOption', 'dragAndDrop', true);
 
+            // $('#edit-button').click(() => {
+            //     $editable.froalaEditor({
+            //         saveInterval: 3500,
+            //         imageUploadURL: environment.mediaApiEndPoint,
+            //         toolbarInline: true,
+            //         quickInsertButtons: ['image', 'video', 'embedly', 'table', 'ol', 'ul', 'hr'],
+            //         toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color', 'emoticons', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo']
+            //     }).on('froalaEditor.image.uploaded', function (e, editor, response) {
+            //         console.log(e, editor, response)
+            //     })
+            //     $editable.addClass('editing');
+            //     $('#toc-sidebar').tree('setOption', 'dragAndDrop', true);
+            //     $('#save-button').show()
+            //     $('#edit-button').hide()
+            // })
+
+            $('.editable[data-objectid="{{ book.id }}"][data-field="name"][data-type="book"]').froalaEditor({
+                saveInterval: 3500,
+                saveURL: '{{ admin.generateUrl('contentEdit',{id: book.id}) }}',
+                saveParam: 'content',
+                saveParams: {
+                    field: 'name'
+                },
+                imageUploadURL: environment.mediaApiEndPoint,
+                toolbarInline: true,
+                quickInsertButtons: ['image', 'video', 'embedly', 'table', 'ol', 'ul', 'hr'],
+                toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color', 'emoticons', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo']
+            });
+            $('.editable[data-objectid="{{ book.id }}"][data-field="text"][data-type="book"]').froalaEditor({
+                saveInterval: 3500,
+                saveURL: '{{ admin.generateUrl('contentEdit',{id: book.id}) }}',
+                saveParam: 'content',
+                saveParams: {
+                    field: 'text'
+                },
+                imageUploadURL: environment.mediaApiEndPoint,
+                toolbarInline: true,
+                quickInsertButtons: ['image', 'video', 'embedly', 'table', 'ol', 'ul', 'hr'],
+                toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color', 'emoticons', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo']
+            });
+
+            {% for chapter in book.rootChapters %}
+            {#$('.editable[data-objectid="{{ chapter.id }}"][data-field="name"]').froalaEditor({#}
+            {#saveInterval: 3500,#}
+            {#saveURL: environment.apiEndPoint,#}
+            {#saveParam: 'content',#}
+            {#saveParams: {#}
+            {#field: 'name'#}
+            {#},#}
+            {#imageUploadURL: environment.mediaApiEndPoint,#}
+            {#toolbarInline: true,#}
+            {#quickInsertButtons: ['image', 'video', 'embedly', 'table', 'ol', 'ul', 'hr'],#}
+            {#toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color', 'emoticons', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo']#}
+            {#});#}
+            {% endfor %}
+
+            $editable = $('.editable');
+
+            $editable.on('froalaEditor.image.uploaded', function (e, editor, response) {
+                console.log(e, editor, response)
+            });
+            $editable.addClass('editing');
+
+            $saveStatus = $('#lbl-save-status');
+            $editable.on('froalaEditor.contentChanged', function (e, editor) {
+                console.log('contentChanged fire', e, editor, $(e.currentTarget).data('name'))
+                $saveStatus.removeAttr('class');
+                $saveStatus.attr('class', 'label label-default');
+                $saveStatus.text('Editing');
+            });
+            $editable.on('froalaEditor.save.before', function (e, editor, html) {
+                console.log('before save', e, editor, html);
+                $saveStatus.removeAttr('class');
+                $saveStatus.attr('class', 'label label-info');
+                $saveStatus.text('Auto-saving');
+            });
+            $editable.on('froalaEditor.save.after', function (e, editor, data) {
+                console.log('after save', e, editor, data);
+                $saveStatus.removeAttr('class');
+                $saveStatus.attr('class', 'label label-success');
+                $saveStatus.text('Saved ' + $(e.currentTarget).data('field') + ' of ' + $(e.currentTarget).data('type') + '.');
+            });
+            $editable.on('froalaEditor.save.error', function (e, editor, error, response) {
+                console.log('error on save', e, editor, error, response);
+                $saveStatus.removeAttr('class');
+                $saveStatus.attr('class', 'label label-danger');
+                $saveStatus.text('Error, Couldn\'t save ' + $(e.currentTarget).data('field') + ' of ' + $(e.currentTarget).data('type') + '!!!');
+            });
+            $('#btn-undo').click(() => {
+                $editable.froalaEditor('commands.undo');
+            });
+            $('#btn-redo').click(() => {
+                $editable.froalaEditor('commands.redo');
+            });
+            window.saveBookContentChanges = () => {
+                var form = {};
+                $editable.each(function (i) {
+                    form[`${$(this).data('name')}`] = $(this).html()
+                })
+                console.log(form)
+                $.post(environment.apiEndPoint, form)
+                    .done(function (data) {
+                        console.log(data)
+                    })
+                    .fail(function (error) {
+                        console.log(error)
+                    })
+            }
+
+            $('#save-button').click(() => {
+                $editable.froalaEditor('destroy');
+                $editable.removeClass('editing');
+                $('#toc-sidebar').tree('setOption', 'dragAndDrop', false);
+                $('#save-button').hide()
+                $('#edit-button').show()
+                saveBookContentChanges();
+            })
+        })
+    </script>
+{% endblock %}
+{% block new_chapter %}
+    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#new-chapter"><i
+                class="fa fa-plus"></i> New Chapter
+    </button>
+    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#new-chapter"><i
+                class="fa fa-upload"></i> Publish
+    </button>
+{% endblock %}
+{% block pagination %}{% endblock %}
+{% block toc_help %}<span
+        class="text-muted">Move a chapter around to re-position or nest it inside another chapter.</span>{% endblock %}
+{% block toc_modal %}{% endblock %}
+{% block chapters %}
+    <h4>Click on Chapter title to go to Edit Page of that Chapter</h4>
+    {% for i, chapter in book.rootChapters %}
+        <div class="editable" data-objectid="{{ chapter.id }}" data-type="chapter" data-field="name">
+            <a href="http://www.google.com" target="_blank"><strong
+                    id="chapter-{{ i+1 }}"
+                    class="offset-anchor chapter-name">{{ i+1 }}
+                . {{ chapter.name }}
+            </strong>
+            </a>
+            <hr style="margin-top:1px;margin-bottom:5px; border-bottom: dashed; border-width: thin;"/>
+        </div>
+        <div class="editable" data-name="chapter-{{ chapter.id }}-text">{{ chapter.text | raw }}</div>
+        <div>
+            {#{% for ii, sub in chapter.subChapters %}#}
+            {#<div class="editable" data-objectid="{{ sub.id }}" data-type="chapter" data-field="name"><h4#}
+            {#id="chapter-{{ i+1 }}-{{ ii+1 }}" class="offset-anchor chapter-name">{{ i+1 }}#}
+            {#.{{ ii+1 }}. {{ sub.name }}</h4></div>#}
+            {#<div class="editable" data-name="chapter-{{ sub.id }}-text">{{ sub.text | raw }}</div>#}
+            {#{% endfor %}#}
+        </div>
+    {% endfor %}
+{% endblock %}
 {% block content %}
     <style>
         .d-md-none {
             display: none;
         }
+
         .navbar-top-links li a, .navbar-top-links li span {
             min-height: auto;
         }
+
         @media (max-width: 768px) {
             .positionh {
-                position: relative!important;
+                /*position: relative !important;*/
             }
         }
+
         .content-wrapper {
-            padding-top: inherit!important;
+            padding-top: inherit !important;
+        }
+
+        .book-content, .book-toc > div {
+            background-color: whitesmoke;
+            border-radius: 7px;
+            /*background-clip: content-box;*/
+            margin-bottom: 5px;
+        }
+
+        .book-content {
+            /*margin-left: 1px;*/
+        }
+
+        .book-toc > div {
+            padding: 6px;
+            /*margin-right: 1px;*/
         }
 
     </style>
     <link rel="stylesheet" href="{{ asset('assets/pk2/css/nucleo-icons.css') }}"/>
     <link rel="stylesheet" href="{{ asset('build/css/app.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('bundles/sonatacore/vendor/components-font-awesome/css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet"
+          href="{{ asset('bundles/sonatacore/vendor/components-font-awesome/css/font-awesome.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/codemirror/codemirror.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/froala/2.8.4/froala_editor.pkgd.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/froala/2.8.4/froala_style.min.css') }}"/>
     {{ block('body') }}
-    <div class="sonata-ba-form-actions well well-small form-actions">
-        <button id="edit-button" class="btn btn-success" type="button" name="btn_create_and_create"><i class="fa fa-pencil" aria-hidden="true"></i> {{ 'layout.start_editing'|trans({}, 'MagentaCBookAdminBundle') }}</button>
-        <button id="save-button" class="btn btn-success" type="button" name="btn_create_and_create" style="display: none;"><i class="fa fa-save" aria-hidden="true"></i> {{ 'layout.save'|trans({}, 'MagentaCBookAdminBundle') }}</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="new-chapter" tabindex="-1" role="dialog" aria-labelledby="newChapterLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="newChapterLabel">Create a new first level chapter in {{ book.name }}</h4>
+                </div>
+                <div class="modal-body">
+                    <input class="form-control" placeholder="Chapter Name" name="chapter-name"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sonata-ba-form-actions well well-small form-actions text-center">
+        {#<button id="edit-button" class="btn btn-success" type="button" name="btn_create_and_create"><i#}
+        {#class="fa fa-pencil"#}
+        {#aria-hidden="true" style="display: none;"></i> {{ 'layout.start_editing'|trans({}, 'MagentaCBookAdminBundle') }}</button>#}
+        {#<button id="save-button" class="btn btn-success" type="button" name="btn_create_and_create"#}
+        {#style="display: none;"><i class="fa fa-save"#}
+        {#aria-hidden="true"></i> {{ 'layout.save'|trans({}, 'MagentaCBookAdminBundle') }}#}
+        {#</button>#}
+        <div class="" id="lbl-save-status"></div>
+        <button class="btn btn-default" id="btn-undo"><i class="fa fa-undo"> Undo</i></button>
+        <button class="btn btn-default" id="btn-redo"><i class="fa fa-redo fa-repeat"> Redo</i></button>
     </div>
 {% endblock content %}
