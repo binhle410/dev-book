@@ -47,7 +47,7 @@
             // })
 
             $('.editable[data-objectid="{{ book.id }}"][data-field="name"][data-type="book"]').froalaEditor({
-                saveInterval: 3500,
+                saveInterval: 3000,
                 saveURL: '{{ admin.generateUrl('contentEdit',{id: book.id}) }}',
                 saveParam: 'content',
                 saveParams: {
