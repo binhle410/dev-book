@@ -168,7 +168,7 @@
 {% block toc_modal %}{% endblock %}
 {% block chapters %}
     {% if subContentItems|length > 0 %}
-        <h4>Click on Chapter title to go to Edit Page of that Chapter</h4>
+        <code>Click on Chapter title to go to Edit Page of that Chapter</code>
     {% endif %}
     {% for i, chapter in subContentItems %}
         <div class="editable" data-objectid="{{ chapter.id }}" data-type="chapter" data-field="name">
