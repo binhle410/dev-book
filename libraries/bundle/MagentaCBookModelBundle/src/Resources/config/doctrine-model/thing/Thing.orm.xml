@@ -30,6 +30,8 @@
         </discriminator-map>
 
         <field name="createdAt" type="datetime"/>
+        <field name="updatedAt" type="datetime" nullable="true"/>
+
         <field name="enabled" type="boolean"/>
         <field name="name" type="string" nullable="true"/>
         <field name="status" type="string" nullable="true">

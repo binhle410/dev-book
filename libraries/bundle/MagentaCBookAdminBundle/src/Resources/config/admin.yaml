@@ -10,6 +10,9 @@ services:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
 
+    magenta_admin_logout_handler:
+        class: Magenta\Bundle\CBookAdminBundle\Security\Handler\LogoutHandler
+
     magenta_cbook.admin.security.handler.role:
         class: '%sonata.admin.security.handler.role.class%'
         public: false

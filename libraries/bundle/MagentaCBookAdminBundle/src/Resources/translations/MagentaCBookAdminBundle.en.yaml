@@ -10,7 +10,7 @@ breadcrumb:
     link_chapter_list: Chapters
     link_individual_member_list: Members
     link_category_item_list: Category Items
-
+    link_book_create: New Book
 group:
     edit:
         submit: 'Update group'

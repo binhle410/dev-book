@@ -13,7 +13,8 @@
         window.environment = {
             bookChapterApi: '{{ path('admin_magenta_cbookmodel_book_chapter_move',{id: 0}) }}',
             apiEndPoint: 'http://127.0.0.1/bean/playground',
-            mediaApiEndPoint: 'https://localhost/dev-book/public/index.php/bean/playground',
+            imageApiEndPoint: '',
+            imageApiEndPoint: 'http://127.0.0.1/bean/playground',
         }
         $(document).ready(($) => {
             let $tocSidebar = $('#toc-sidebar');
@@ -33,7 +34,7 @@
             // $('#edit-button').click(() => {
             //     $editable.froalaEditor({
             //         saveInterval: 3500,
-            //         imageUploadURL: environment.mediaApiEndPoint,
+            //         imageUploadURL: environment.imageApiEndPoint,
             //         toolbarInline: true,
             //         quickInsertButtons: ['image', 'video', 'embedly', 'table', 'ol', 'ul', 'hr'],
             //         toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color', 'emoticons', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo']
@@ -47,25 +48,27 @@
             // })
 
             $('.editable[data-objectid="{{ mainContentItem.id }}"][data-field="name"][data-type="main-content"]').froalaEditor({
+                key: 'UA10B7C4D5dC3E3H3C10B6B5D6E4A2C2C-7idabfD-11kF4obc1A-16eC-13fzzrB1twt==',
                 saveInterval: 3000,
                 saveURL: '{{ admin.generateUrl('contentEdit',{id: mainContentItem.id}) }}',
                 saveParam: 'content',
                 saveParams: {
                     field: 'name'
                 },
-                imageUploadURL: environment.mediaApiEndPoint,
+                imageUploadURL: environment.imageApiEndPoint,
                 toolbarInline: true,
                 quickInsertButtons: ['image', 'video', 'embedly', 'table', 'ol', 'ul', 'hr'],
                 toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color', 'emoticons', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo']
             });
             $('.editable[data-objectid="{{ mainContentItem.id }}"][data-field="text"][data-type="main-content"]').froalaEditor({
+                key: 'UA10B7C4D5dC3E3H3C10B6B5D6E4A2C2C-7idabfD-11kF4obc1A-16eC-13fzzrB1twt==',
                 saveInterval: 3500,
                 saveURL: '{{ admin.generateUrl('contentEdit',{id: mainContentItem.id}) }}',
                 saveParam: 'content',
                 saveParams: {
                     field: 'text'
                 },
-                imageUploadURL: environment.mediaApiEndPoint,
+                imageUploadURL: environment.imageApiEndPoint,
                 toolbarInline: true,
                 quickInsertButtons: ['image', 'video', 'embedly', 'table', 'ol', 'ul', 'hr'],
                 toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color', 'emoticons', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo']
@@ -79,7 +82,7 @@
             {#saveParams: {#}
             {#field: 'name'#}
             {#},#}
-            {#imageUploadURL: environment.mediaApiEndPoint,#}
+            {#imageUploadURL: environment.imageApiEndPoint,#}
             {#toolbarInline: true,#}
             {#quickInsertButtons: ['image', 'video', 'embedly', 'table', 'ol', 'ul', 'hr'],#}
             {#toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color', 'emoticons', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo']#}

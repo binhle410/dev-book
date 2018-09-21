@@ -4,6 +4,7 @@ namespace Magenta\Bundle\CBookAdminBundle\Admin\Classification;
 
 use Bean\Component\Organization\IoC\OrganizationAwareInterface;
 use Doctrine\ORM\Query\Expr;
+use Knp\Menu\ItemInterface as MenuItemInterface;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdminTrait;
 use Magenta\Bundle\CBookAdminBundle\Form\Type\OrgAwareCategorySelectorType;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Category;
@@ -31,7 +32,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Constraints\Valid;
 
 class CategoryAdmin extends SonataCategoryAdmin {
-	
 	use BaseAdminTrait {
 		getOrganisationFieldName as protected getOrganisationFieldNameTrait;
 		configureRoutes as protected configureRoutesTrait;
@@ -44,6 +44,16 @@ class CategoryAdmin extends SonataCategoryAdmin {
 	
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
+	}
+	
+	protected function configureTabMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null) {
+		parent::configureTabMenu($menu, $action, $childAdmin);
+		
+		if( ! empty($parentId = $this->getRequest()->query->getInt('parent'))) {
+			$menu->addChild('New Book', [
+				'uri' => $this->getConfigurationPool()->getContainer()->get('router')->generate('admin_magenta_cbookmodel_book_book_create', [  ])
+			]);
+		}
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {

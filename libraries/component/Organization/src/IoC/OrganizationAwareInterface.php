@@ -12,4 +12,5 @@ use Bean\Component\Organization\Model\OrganizationInterface;
  */
 interface OrganizationAwareInterface {
 	public function getOrganization(): ?OrganizationInterface;
+	public function setOrganization(?OrganizationInterface $organization);
 }

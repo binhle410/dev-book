@@ -5,6 +5,7 @@ namespace Magenta\Bundle\CBookAdminBundle\Admin\Book;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseCRUDAdminController;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -28,6 +29,25 @@ class BookAdminController extends BaseCRUDAdminController {
 		}
 		
 		return parent::renderWithExtraParams($view, $parameters, $response);
+	}
+	
+	/**
+	 * @param Book $object
+	 *
+	 * @return RedirectResponse
+	 */
+	protected function redirectTo($object) {
+		$request = $this->getRequest();
+		
+		if(null !== $request->get('btn_create_and_edit')) {
+			return new RedirectResponse($this->admin->generateUrl('show', [ 'id' => $object->getId() ]));
+		}
+		
+		return parent::redirectTo($object);
+	}
+	
+	public function createAction() {
+		return parent::createAction();
 	}
 	
 	public function showAction($id = null) {

@@ -106,6 +106,36 @@ doctrine:
                             -
                                 type: postRemove
                                 method: postRemoveHandler
+
+
+                    -
+                        class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Book\\Book"
+                        listener:
+                        -
+                            class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Book\\BookListener"
+                            event:
+                            -
+                                type: postLoad
+                                method: postLoadHandler
+
+                            -
+                                type: postPersist
+                                method: postPersistHandler
+                            -
+                                type: postUpdate
+                                method: postUpdateHandler
+                            -
+                                type: prePersist
+                                method: prePersistHandler
+                            -
+                                type: preUpdate
+                                method: preUpdateHandler
+                            -
+                                type: preRemove
+                                method: preRemoveHandler
+                            -
+                                type: postRemove
+                                method: postRemoveHandler
 security:
     encoders:
         Magenta\Bundle\CBookModelBundle\Entity\User\UserInterface: bcrypt

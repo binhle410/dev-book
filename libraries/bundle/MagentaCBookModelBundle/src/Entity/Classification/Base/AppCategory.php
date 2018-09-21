@@ -104,6 +104,8 @@ class AppCategory extends BaseCategory implements OrganizationAwareInterface {
 	public function getOrganization(): ?OrganizationInterface {
 		return $this->organisation;
 	}
+
+
 	
 	/**
 	 * @param mixed $organisation
@@ -119,6 +121,9 @@ class AppCategory extends BaseCategory implements OrganizationAwareInterface {
 		return $this->organisation;
 	}
 	
+	public function setOrganization(?OrganizationInterface $organization) {
+		$this->organisation;
+	}
 	
 	/**
 	 * @return bool|null

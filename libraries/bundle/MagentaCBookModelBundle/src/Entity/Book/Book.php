@@ -3,6 +3,8 @@
 namespace Magenta\Bundle\CBookModelBundle\Entity\Book;
 
 use Bean\Component\Book\Model\Book as BookModel;
+use Bean\Component\Organization\IoC\OrganizationAwareInterface;
+use Bean\Component\Organization\Model\OrganizationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -13,7 +15,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCateg
  * @ORM\Entity()
  * @ORM\Table(name="book__book")
  */
-class Book extends \Bean\Bundle\BookBundle\Doctrine\Orm\Book {
+class Book extends \Bean\Bundle\BookBundle\Doctrine\Orm\Book implements OrganizationAwareInterface {
 	const STATUS_DRAFT = 'DRAFT';
 	
 	function __construct() {
@@ -127,5 +129,13 @@ class Book extends \Bean\Bundle\BookBundle\Doctrine\Orm\Book {
 	 */
 	public function setBookCategoryItems(Collection $bookCategoryItems): void {
 		$this->bookCategoryItems = $bookCategoryItems;
+	}
+	
+	public function getOrganization(): ?OrganizationInterface {
+		return $this->organisation;
+	}
+	
+	public function setOrganization(?OrganizationInterface $org) {
+		return $this->organisation = $org;
 	}
 }

@@ -149,11 +149,11 @@ class BookAdmin extends BaseAdmin {
 				'constraints' => new Valid(),
 				'label'       => 'form.label_category',
 //					'btn_catalogue' => 'InterviewQuestionSetAdmin'
-				'help'        => 'Drag and Drop a row to re-position it.'
+				'help'        => 'Add this book to another Category.'
 			), array(
 				'edit'            => 'inline',
 				'inline'          => 'table',
-				'sortable'        => 'position',
+//				'sortable'        => 'position',
 				'link_parameters' => $this->getPersistentParameters(),
 				'admin_code'      => BookCategoryItemAdmin::class,
 				'delete'          => null,
@@ -180,7 +180,7 @@ class BookAdmin extends BaseAdmin {
 	
 	protected function configureTabMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null) {
 		parent::configureTabMenu($menu, $action, $childAdmin);
-		if( ! empty($this->subject)) {
+		if( ! empty($this->subject)  && !empty($this->subject->getId())) {
 			$menu->addChild('Manage Content', [
 				'uri' => $this->getConfigurationPool()->getContainer()->get('router')->generate('admin_magenta_cbookmodel_book_book_show', [ 'id' => $this->getSubject()->getId() ])
 			]);
@@ -201,6 +201,7 @@ class BookAdmin extends BaseAdmin {
 	 * @param User $object
 	 */
 	public function preUpdate($object) {
+		parent::preUpdate($object);
 		if( ! $object->isEnabled()) {
 			$object->setEnabled(true);
 		}
