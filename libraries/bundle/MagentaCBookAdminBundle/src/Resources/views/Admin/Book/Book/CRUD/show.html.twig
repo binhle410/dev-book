@@ -198,7 +198,11 @@
             </a>
             <hr style="margin-top:1px;margin-bottom:5px; border-bottom: dashed; border-width: thin;"/>
         </div>
-        <div class="editable" data-name="chapter-{{ chapter.id }}-text">{{ chapter.text | raw }}</div>
+        <div class="editable" data-name="chapter-{{ chapter.id }}-text">
+            {% set chapterText = chapter.text|striptags  %}
+            {#{{ chapter.text | raw }}#}
+            {{ chapterText|length > 250 ? chapterText|slice(0, 250) ~ '...' : chapterText  }}
+        </div>
         <div>
             {#{% for ii, sub in chapter.subChapters %}#}
             {#<div class="editable" data-objectid="{{ sub.id }}" data-type="chapter" data-field="name"><h4#}
