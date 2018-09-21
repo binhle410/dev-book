@@ -81,11 +81,11 @@ class MediaController extends SonataMediaController {
 				$repo = $this->registry->getRepository($class);
 				if( ! empty($owner = $repo->find($id))) {
 					$media->{'set' . ucfirst($field)}($owner);
-					
-					return $owner;
 				}
 			}
 		}
+		
+		return $owner;
 	}
 	
 	/**

@@ -132,8 +132,8 @@ class BookAdmin extends BaseAdmin {
 	
 	protected function configureFormFields(FormMapper $formMapper) {
 		$formMapper
-			->with('General', [ 'class' => 'col-md-6' ])->end()
-			->with('Description', [ 'class' => 'col-md-6' ])->end();
+			->with('General', [ 'class' => 'col-md-7' ])->end()
+			->with('Description', [ 'class' => 'col-md-7' ])->end();
 		
 		
 		$formMapper
@@ -161,9 +161,9 @@ class BookAdmin extends BaseAdmin {
 		);
 		$formMapper->end();
 		
-		$formMapper->with('Description');
-		$formMapper->add('text', CKEditorType::class, [ 'required' => false, 'label' => false ]);
-		$formMapper->end();
+//		$formMapper->with('Description');
+//		$formMapper->add('text', CKEditorType::class, [ 'required' => false, 'label' => false ]);
+//		$formMapper->end();
 
 //		$formMapper->with('Content');
 //		$formMapper->add('text', CKEditorType::class, [
