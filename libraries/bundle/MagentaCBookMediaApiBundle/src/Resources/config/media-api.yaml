@@ -37,6 +37,11 @@ services:
         tags: ["jms_serializer.subscribing_handler"]
         arguments: ["@doctrine"]
 
+    magenta_serializer_handler.creative_work.creative_work:
+        class: Magenta\Bundle\CBookMediaApiBundle\Serializer\CreativeWork\CreativeWorkSerializerHandler
+        tags: ["jms_serializer.subscribing_handler"]
+        arguments: ["@doctrine"]
+
     magenta_media_api.form.type.media:
         class: Magenta\Bundle\CBookMediaApiBundle\Form\Type\ApiMediaType
         tags: ['sonata_media_api_form_media']

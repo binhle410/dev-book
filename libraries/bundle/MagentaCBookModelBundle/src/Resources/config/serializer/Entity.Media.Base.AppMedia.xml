@@ -5,6 +5,14 @@
 
         <property name="id" type="integer" expose="true" since-version="1.0" groups="sonata_api_read"/>
 
+        <property name="organisation" serialized-name="id_organisation"
+                  type="magenta_organisation_organisation_id" expose="true" since-version="1.0"
+                  groups="sonata_api_read,sonata_api_write"/>
+
+        <property name="creativeWork" serialized-name="id_organisation"
+                  type="bean_component_creativework_creativework_id" expose="true" since-version="1.0"
+                  groups="sonata_api_read,sonata_api_write"/>
+
         <property name="name" type="string" expose="true" since-version="1.0" groups="sonata_api_read,sonata_api_write"/>
 
         <property name="context" type="string" expose="true" since-version="1.0" groups="sonata_api_read,sonata_api_write,sonata_search"/>

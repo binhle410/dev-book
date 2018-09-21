@@ -130,4 +130,18 @@ class AppMedia extends BaseMedia implements MediaInterface {
 	public function setOrganisation(?Organisation $organisation): void {
 		$this->organisation = $organisation;
 	}
+	
+	/**
+	 * @return Organisation|null
+	 */
+	public function getCreativeWork(): ?Organisation {
+		return $this->creativeWork;
+	}
+	
+	/**
+	 * @param Organisation|null $creativeWork
+	 */
+	public function setCreativeWork(?Organisation $creativeWork): void {
+		$this->creativeWork = $creativeWork;
+	}
 }
