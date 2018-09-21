@@ -141,4 +141,5 @@ class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements In
 	public function setIndividualMembers($individualMembers): void {
 		$this->individualMembers = $individualMembers;
 	}
+	
 }

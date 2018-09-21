@@ -61,7 +61,7 @@ class PersonListener {
 			
 			// person null - user null
 			$pu = $person->initiateUser();
-			$manager->persist($pu);
+//			$manager->persist($pu);
 //			$manager->flush($pu);
 			
 			/**

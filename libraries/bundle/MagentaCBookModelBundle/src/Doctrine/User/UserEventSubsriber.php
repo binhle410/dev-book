@@ -21,6 +21,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Magenta\Bundle\CBookModelBundle\Entity\User\UserInterface;
 use Magenta\Bundle\CBookModelBundle\Util\User\CanonicalFieldsUpdater;
 use Magenta\Bundle\CBookModelBundle\Util\User\PasswordUpdaterInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Doctrine listener updating the canonical username and password fields.
@@ -31,10 +32,12 @@ use Magenta\Bundle\CBookModelBundle\Util\User\PasswordUpdaterInterface;
 class UserEventSubsriber implements EventSubscriber {
 	private $passwordUpdater;
 	private $canonicalFieldsUpdater;
+	private $container;
 	
-	public function __construct(PasswordUpdaterInterface $passwordUpdater, CanonicalFieldsUpdater $canonicalFieldsUpdater) {
+	public function __construct(PasswordUpdaterInterface $passwordUpdater, CanonicalFieldsUpdater $canonicalFieldsUpdater, ContainerInterface $c) {
 		$this->passwordUpdater        = $passwordUpdater;
 		$this->canonicalFieldsUpdater = $canonicalFieldsUpdater;
+		$this->container              = $c;
 	}
 	
 	/**
@@ -55,6 +58,7 @@ class UserEventSubsriber implements EventSubscriber {
 	public function prePersist(LifecycleEventArgs $args) {
 		$object = $args->getObject();
 		if($object instanceof UserInterface) {
+			$this->initiatePersonFromUser($object);
 			$this->updateUserFields($object);
 		}
 	}
@@ -67,6 +71,7 @@ class UserEventSubsriber implements EventSubscriber {
 	public function preUpdate(LifecycleEventArgs $args) {
 		$object = $args->getObject();
 		if($object instanceof UserInterface) {
+			$this->initiatePersonFromUser($object);
 			$this->updateUserFields($object);
 			$this->recomputeChangeSet($args->getObjectManager(), $object);
 		}
@@ -109,5 +114,23 @@ class UserEventSubsriber implements EventSubscriber {
 		if($om instanceof DocumentManager) {
 			$om->getUnitOfWork()->recomputeSingleDocumentChangeSet($meta, $user);
 		}
+	}
+	
+	protected function initiatePersonFromUser(User $user) {
+		if(empty($person = $user->getPerson()) || empty($person->getId())) {
+			$personRepo = $this->container->get('doctrine')->getRepository(Person::class);
+			if( ! empty($email = $person->getEmail())) {
+				/** @var Person $m_person */
+				$m_person = $personRepo->findOneByEmail($email);
+				if( ! empty($m_person)) {
+					$person = $m_person;
+				}
+			}
+			$user->setPerson($person);
+			$person->setUser($user);
+			$manager = $this->container->get('doctrine.orm.default_entity_manager');
+			$manager->persist($person);
+		}
+		
 	}
 }
