@@ -23,7 +23,13 @@ class JMSSerializerMediaListener {
 			 * @var MediaService $ms
 			 */
 			$ms = $this->container->get('sonata.media.manager.media');
-			$medium->setLink($ms->generatePrivateUrl($medium->getId(), 'reference'));
+			
+			if($medium->getProviderName() === 'sonata.media.provider.image') {
+				$medium->setLink($ms->generatePrivateUrl($medium->getId(), 'big'));
+			} else {
+				$medium->setLink($ms->generatePrivateUrl($medium->getId(), 'reference'));
+			}
+			
 		}
 	}
 }
