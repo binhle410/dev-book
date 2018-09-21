@@ -2,6 +2,7 @@
 
 namespace Bean\Bundle\SonataMediaBundle\Doctrine\Orm;
 
+use Bean\Component\CreativeWork\Model\CreativeWork;
 use Bean\Component\Media\Model\MediaObject;
 use Sonata\MediaBundle\Model\GalleryHasMediaInterface;
 use Sonata\MediaBundle\Model\MediaInterface as SonataMediaInterface;

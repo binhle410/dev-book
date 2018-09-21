@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\CBookModelBundle\Entity\Media\Base;
 
 use Bean\Bundle\SonataMediaBundle\Doctrine\Orm\BaseMedia;
+use Bean\Component\CreativeWork\Model\CreativeWork;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,7 +11,7 @@ use JMS\Serializer\Annotation as Serializer;
 use Sonata\MediaBundle\Model\MediaInterface;
 
 /** @ORM\MappedSuperclass */
-class AppMedia extends BaseMedia implements MediaInterface {
+abstract class AppMedia extends BaseMedia implements MediaInterface {
 	private $baseUrl = '/';
 	private $contentUrlPrefix;
 	
@@ -42,7 +43,7 @@ class AppMedia extends BaseMedia implements MediaInterface {
 	protected $organisation;
 	
 	/**
-	 * @var Organisation|null
+	 * @var CreativeWork|null
 	 * @ORM\ManyToOne(targetEntity="Bean\Component\CreativeWork\Model\CreativeWork")
 	 * @ORM\JoinColumn(name="id_creative_work", referencedColumnName="id", onDelete="CASCADE")
 	 */
@@ -132,16 +133,16 @@ class AppMedia extends BaseMedia implements MediaInterface {
 	}
 	
 	/**
-	 * @return Organisation|null
+	 * @return CreativeWork|null
 	 */
-	public function getCreativeWork(): ?Organisation {
+	public function getCreativeWork(): ?CreativeWork {
 		return $this->creativeWork;
 	}
 	
 	/**
-	 * @param Organisation|null $creativeWork
+	 * @param CreativeWork|null $creativeWork
 	 */
-	public function setCreativeWork(?Organisation $creativeWork): void {
+	public function setCreativeWork(?CreativeWork $creativeWork): void {
 		$this->creativeWork = $creativeWork;
 	}
 }

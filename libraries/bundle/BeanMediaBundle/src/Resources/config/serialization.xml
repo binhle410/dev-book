@@ -6,7 +6,6 @@
 >
     <class name="Bean\Component\Media\Model\MediaObject">
         <attribute name="content_url">
-            <group>sonata_api_read</group>
             <group>read_medium</group>
             <group>read_media</group>
             <group>write_media</group>

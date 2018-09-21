@@ -5,7 +5,7 @@ namespace Bean\Component\Media\Model;
 
 use Bean\Component\CreativeWork\Model\CreativeWork;
 
-class MediaObject extends CreativeWork implements MediaObjectInterface {
+abstract class MediaObject extends CreativeWork implements MediaObjectInterface {
 	/**
 	 * Actual bytes of the media object, for example the image file or video file.
 	 * @var string|null
