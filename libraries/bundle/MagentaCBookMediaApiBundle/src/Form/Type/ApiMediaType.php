@@ -24,7 +24,7 @@ class ApiMediaType extends SonataApiMediaType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		parent::buildForm($builder, $options);
-		$builder->get('logoOrganisation')->addModelTransformer($this->orgTransformer);
+		$builder->get('organisation')->addModelTransformer($this->orgTransformer);
 	}
 	
 	/**

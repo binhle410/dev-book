@@ -11,7 +11,7 @@ use Sonata\MediaBundle\Model\MediaInterface;
 
 /** @ORM\MappedSuperclass */
 class AppMedia extends BaseMedia implements MediaInterface {
-	private $baseUrl = 'https://www.sunrise.vn';
+	private $baseUrl = '/';
 	private $contentUrlPrefix;
 	
 	/**
@@ -35,6 +35,7 @@ class AppMedia extends BaseMedia implements MediaInterface {
 	protected $logoOrganisation;
 	
 	protected $name;
+	protected $context;
 	protected $description;
 	protected $contentUrl;
 	protected $link;

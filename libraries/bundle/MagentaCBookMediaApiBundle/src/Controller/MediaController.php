@@ -50,12 +50,12 @@ class MediaController extends SonataMediaController {
 		$medium = parent::getMedium($id);
 //		$medium->setContentUrlPrefix($this->container->getParameter('MEDIA_API_PREFIX'));
 //		$medium->setBaseUrl($this->container->getParameter('MEDIA_API_BASE_URL'));
-		$contentUrl = $this->container->get('router')->generate('get_medium_binary_view', [
-			'id'     => $id,
-			'format' => 'reference'
-		]);
-		
-		$medium->setLink($medium->getBaseUrl() . $contentUrl);
+//		$contentUrl = $this->container->get('router')->generate('get_medium_binary_view', [
+//			'id'     => $id,
+//			'format' => 'reference'
+//		]);
+//
+//		$medium->setLink($medium->getBaseUrl() . $contentUrl);
 		
 		return $medium;
 	}
@@ -106,6 +106,7 @@ class MediaController extends SonataMediaController {
 		$form->handleRequest($request);
 		
 		if($form->isValid()) {
+			
 			/** @var Media $media */
 			$media = $form->getData();
 			if( ! empty($mc = $request->query->get('context'))) {

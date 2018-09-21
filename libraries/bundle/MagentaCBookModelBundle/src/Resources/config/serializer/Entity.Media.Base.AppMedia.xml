@@ -5,7 +5,9 @@
 
         <property name="id" type="integer" expose="true" since-version="1.0" groups="sonata_api_read"/>
 
-        <property name="name" type="string" expose="true" since-version="1.0" groups="sonata_api_read"/>
+        <property name="name" type="string" expose="true" since-version="1.0" groups="sonata_api_read,sonata_api_write"/>
+
+        <property name="context" type="string" expose="true" since-version="1.0" groups="sonata_api_read,sonata_api_write,sonata_search"/>
 
         <property name="description" type="string" expose="true" since-version="1.0" groups="sonata_api_read"/>
 

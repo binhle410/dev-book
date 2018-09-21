@@ -13,6 +13,11 @@ twig:
     form_themes:
         - '@SonataFormatter/Form/formatter.html.twig'
         - '@SonataCore/Form/datepicker.html.twig'
+    globals:
+        media_endpoint: '%MEDIA_API_BASE_URL%%MEDIA_API_PREFIX%'
+        image_upload_endpoint: '%MEDIA_API_BASE_URL%%MEDIA_API_PREFIX%/providers/sonata.media.provider.image/media.json'
+        file_upload_endpoint: '%MEDIA_API_BASE_URL%%MEDIA_API_PREFIX%/providers/sonata.media.provider.file/media.json'
+
 
 fos_ck_editor:
     default_config: default
@@ -119,6 +124,7 @@ sonata_admin:
                 icon: '<i class="fa fa-book"></i>'
                 items:
                     - sonata.classification.admin.category
+                    - sonata.media.admin.media
 
             system:
                 label: dashboard.system
@@ -129,8 +135,7 @@ sonata_admin:
                     - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\IndividualGroupAdmin
                     - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\IndividualMemberAdmin
 
-#                    - Sonata\MediaBundle\Admin\ORM\MediaAdmin
-                    - sonata.media.admin.media
+    #                    - Sonata\MediaBundle\Admin\ORM\MediaAdmin
 #                    - sonata.user.admin.group
 #                    - sonata.classification.admin.context
 #                    - sonata.classification.admin.category

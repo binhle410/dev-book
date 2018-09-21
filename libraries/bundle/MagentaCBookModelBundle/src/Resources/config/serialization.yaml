@@ -2,6 +2,8 @@ Magenta\Bundle\CBookModelBundle\Entity\Media\Media:
     attributes:
         contentUrl:
             groups: ['sonata_api_read','sonata_api_write']
+        context:
+          groups: ['sonata_api_read','sonata_api_write']
 
 #Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember:
 #    attributes:

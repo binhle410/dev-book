@@ -12,6 +12,10 @@ parameters:
     PDF_DOWNLOAD_PREFIX: '%env(resolve:PDF_DOWNLOAD_PREFIX)%'
 
     sonata.classification.manager.category.class: Magenta\Bundle\CBookModelBundle\Service\Classification\CategoryManager
+    #    sonata.media.provider.youtube.class: Application\Sonata\MediaBundle\Provider\AppYouTubeProvider
+    #    sonata.media.provider.image.class: Application\Sonata\MediaBundle\Provider\AppImageProvider
+    #    sonata.media.provider.file.class: Application\Sonata\MediaBundle\Provider\AppFileProvider
+    sonata.media.manager.media.class: Magenta\Bundle\CBookModelBundle\Service\Media\MediaService
 
 # BookBundle
 bean_thing:

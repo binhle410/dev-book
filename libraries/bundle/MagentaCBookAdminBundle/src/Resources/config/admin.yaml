@@ -36,6 +36,14 @@ services:
         arguments:
         - '@magenta_cbook.user.editable_role_builder'
 
+    magenta_swarranty.twig.extension:
+        class: Magenta\Bundle\CBookAdminBundle\Twig\MagentaTwigExtension
+        tags: ['twig.extension']
+        arguments:
+        - '@service_container'
+    Magenta\Bundle\SWarrantyAdminBundle\Twig\MagentaTwigExtension:
+        alias: magenta_swarranty.twig.extension
+
     Magenta\Bundle\CBookAdminBundle\Service\Organisation\OrganisationService:
         class: Magenta\Bundle\CBookAdminBundle\Service\Organisation\OrganisationService
         arguments:

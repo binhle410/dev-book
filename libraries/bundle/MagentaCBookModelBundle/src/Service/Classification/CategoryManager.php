@@ -11,7 +11,7 @@ use Sonata\ClassificationBundle\Model\ContextManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
-class CategoryManager extends \Sonata\ClassificationBundle\Entity\CategoryManager implements \Sonata\MediaBundle\Model\CategoryManagerInterface{
+class CategoryManager extends \Sonata\ClassificationBundle\Entity\CategoryManager implements \Sonata\MediaBundle\Model\CategoryManagerInterface {
 	/** @var ContainerInterface */
 	private $container;
 	
@@ -158,7 +158,7 @@ class CategoryManager extends \Sonata\ClassificationBundle\Entity\CategoryManage
 				throw new UnauthorizedHttpException('Org not found');
 			}
 			$category = $this->create();
-			$category->setName(sprintf('Root (%s)', $context->getName()));
+			$category->setName('Root');
 			$category->setEnabled(true);
 			$category->setContext($context);
 			$category->setDescription($context->getName());

@@ -12,9 +12,9 @@
     <script>
         window.environment = {
             bookChapterApi: '{{ path('admin_magenta_cbookmodel_book_chapter_move',{id: 0}) }}',
-            apiEndPoint: 'http://127.0.0.1/bean/playground',
-            imageApiEndPoint: '',
-            imageApiEndPoint: 'http://127.0.0.1/bean/playground',
+            apiEndPoint: 'fake_end_point',
+            imageApiEndPoint: '{{ image_upload_endpoint }}',
+            fileApiEndPoint: '{{ file_upload_endpoint }}',
         }
         $(document).ready(($) => {
             let $tocSidebar = $('#toc-sidebar');
@@ -56,6 +56,16 @@
                     field: 'name'
                 },
                 imageUploadURL: environment.imageApiEndPoint,
+                imageUploadParam: 'binaryContent',
+                imageUploadParams: {
+                    context: 'content_image'
+                },
+                fileUploadURL: environment.fileApiEndPoint,
+                fileUploadParam: 'binaryContent',
+                fileUploadParams: {
+                    context: 'content_file'
+                },
+
                 toolbarInline: true,
                 quickInsertButtons: ['image', 'video', 'embedly', 'table', 'ol', 'ul', 'hr'],
                 toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color', 'emoticons', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo']
@@ -69,6 +79,11 @@
                     field: 'text'
                 },
                 imageUploadURL: environment.imageApiEndPoint,
+                imageUploadParam: 'binaryContent',
+                imageUploadParams: {
+                    context: 'content_image'
+                },
+
                 toolbarInline: true,
                 quickInsertButtons: ['image', 'video', 'embedly', 'table', 'ol', 'ul', 'hr'],
                 toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color', 'emoticons', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo']

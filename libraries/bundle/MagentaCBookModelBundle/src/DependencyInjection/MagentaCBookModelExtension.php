@@ -44,6 +44,9 @@ class MagentaCBookModelExtension extends ConfigurableExtension implements Compil
 		$container->setAlias('magenta_user.doctrine_registry', new Alias(self::$doctrineDrivers['orm']['registry'], false));
 		
 		$loader->load('user.yaml');
+		$loader->load('app.yaml');
+//		$loader->load('parameters.yaml');
+		
 		$loader->load('doctrine.yaml');
 		
 		$definition = $container->getDefinition('magenta_user.object_manager');
@@ -59,5 +62,8 @@ class MagentaCBookModelExtension extends ConfigurableExtension implements Compil
 //        sonata.media.provider.image
 		$definition = $container->getDefinition('sonata.classification.manager.category');
 		$definition->addArgument(new Reference('service_container'));
+		
+		$definition = $container->getDefinition('sonata.media.manager.media');
+		$definition->addMethodCall('setContainer', [ new Reference('service_container') ]);
 	}
 }
