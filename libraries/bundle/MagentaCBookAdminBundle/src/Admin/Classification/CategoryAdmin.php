@@ -51,7 +51,11 @@ class CategoryAdmin extends SonataCategoryAdmin {
 		
 		if( ! empty($parentId = $this->getRequest()->query->getInt('parent'))) {
 			$menu->addChild('New Book', [
-				'uri' => $this->getConfigurationPool()->getContainer()->get('router')->generate('admin_magenta_cbookmodel_book_book_create', [  ])
+				'uri' => $this->getConfigurationPool()->getContainer()->get('router')->generate('admin_magenta_cbookmodel_book_book_create', [])
+			]);
+		} else {
+			$menu->addChild('New Book', [
+				'uri' => $this->getConfigurationPool()->getContainer()->get('router')->generate('admin_magenta_cbookmodel_book_book_create', [])
 			]);
 		}
 	}
@@ -66,18 +70,18 @@ class CategoryAdmin extends SonataCategoryAdmin {
 		$formMapper->with('Options', [])
 		           ->add('enabled', CheckboxType::class, [
 			           'required' => false,
-			           'help' => 'If a book is not enabled, no one can view it except Admins.'
+			           'help'     => 'If a book is not enabled, no one can view it except Admins.'
 		           ])
 		           ->add('public', CheckboxType::class, [
 			           'required' => false,
-			           'help' => 'To set whether a book is public or private.'
+			           'help'     => 'To set whether a book is public or private.'
 		           ])
 		           ->add('accessGrantedGroups', ModelType::class, [
 			           'btn_add'  => false,
 			           'required' => false,
 			           'property' => 'name',
 			           'multiple' => true,
-			           'help' => 'Access Granted Groups enable the selected groups to view private books. This has no effects when a book is public.'
+			           'help'     => 'Access Granted Groups enable the selected groups to view private books. This has no effects when a book is public.'
 		
 		           ])
 		           ->add('accessDeniedGroups', ModelType::class, [
@@ -85,7 +89,7 @@ class CategoryAdmin extends SonataCategoryAdmin {
 			           'required' => false,
 			           'property' => 'name',
 			           'multiple' => true,
-			           'help' => 'Access Denied Groups prevent the selected groups from viewing public books. This has no effects when a book is private.'
+			           'help'     => 'Access Denied Groups prevent the selected groups from viewing public books. This has no effects when a book is private.'
 		           ])
 		           ->end();
 		
@@ -97,11 +101,12 @@ class CategoryAdmin extends SonataCategoryAdmin {
 				'model_manager' => $this->getModelManager(),
 				'class'         => $this->getClass(),
 				'required'      => true,
-				'context'       => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Context::class)->find(Context::DEFAULT_CONTEXT),// $this->getSubject()->getContext(),
+				'context'       => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Context::class)->find(Context::DEFAULT_CONTEXT),
+				// $this->getSubject()->getContext(),
 				'btn_add'       => false
 			])
 			->end();
-		
+
 //		$keys = $formMapper->keys();
 //		$key  = array_pop($keys);
 //		array_unshift($keys, $key);
