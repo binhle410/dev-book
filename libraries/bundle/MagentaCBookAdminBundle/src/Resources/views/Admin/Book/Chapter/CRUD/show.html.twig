@@ -1,6 +1,14 @@
 {% extends '@MagentaCBookAdmin/Admin/Book/Book/CRUD/show.html.twig' %}
 {% block book_title %}
-    <div class="text-center"><a href="{{ path('admin_magenta_cbookmodel_book_book_show',{id: book.id}) }}">
-            <h1>{{ book.name|raw }}</h1></a></div>
+    <div class="text-center">
+        <a href="{{ path('admin_magenta_cbookmodel_book_book_show',{id: book.id}) }}">
+            <h1>{{ book.name|raw }}</h1>
+        </a>
+        {% if currentChapter.parentChapter is not empty %}
+            <a href="{{ path('admin_magenta_cbookmodel_book_chapter_show',{id: currentChapter.parentChapter.id}) }}">
+                <h1>{{ currentChapter.parentChapter.name|raw }}</h1>
+            </a>
+        {% endif %}
+    </div>
     {{ parent() }}
 {% endblock %}
