@@ -67,7 +67,7 @@ services:
         arguments:
           - '@magenta_user.util.password_updater'
           - '@magenta_user.util.canonical_fields_updater'
-          - '@service_container
+          - '@service_container'
         tags: ['doctrine.event_subscriber']
 
     Magenta\Bundle\CBookModelBundle\Util\CanonicalFieldsUpdater:
