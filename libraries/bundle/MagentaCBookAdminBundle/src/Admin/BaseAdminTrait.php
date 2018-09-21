@@ -323,6 +323,7 @@ trait BaseAdminTrait {
 
 //        $pos = $container->get(UserService::class)->getPosition();
 		if($isAdmin) {
+			return true;
 			if(is_array($name)) {
 				foreach($name as $action) {
 					$_name = strtoupper($action);
