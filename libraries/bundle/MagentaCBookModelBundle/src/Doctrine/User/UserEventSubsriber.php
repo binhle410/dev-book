@@ -70,6 +70,7 @@ class UserEventSubsriber implements EventSubscriber {
 	public function preUpdate(LifecycleEventArgs $args) {
 		$object = $args->getObject();
 		if($object instanceof UserInterface) {
+			/** @var User $user */
 			$user = $object;
 			if( ! empty($person = $user->getPerson()) && $person->getEmail() !== $user->getEmail()) {
 				$personRepo = $this->container->get('doctrine')->getRepository(Person::class);
