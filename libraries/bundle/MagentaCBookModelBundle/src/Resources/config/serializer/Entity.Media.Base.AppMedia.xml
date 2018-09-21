@@ -9,7 +9,7 @@
                   type="magenta_organisation_organisation_id" expose="true" since-version="1.0"
                   groups="sonata_api_read,sonata_api_write"/>
 
-        <property name="creativeWork" serialized-name="id_organisation"
+        <property name="creativeWork" serialized-name="id_creative_work"
                   type="bean_component_creativework_creativework_id" expose="true" since-version="1.0"
                   groups="sonata_api_read,sonata_api_write"/>
 

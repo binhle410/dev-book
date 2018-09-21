@@ -5,7 +5,7 @@ namespace Magenta\Bundle\CBookMediaApiBundle\Serializer\CreativeWork;
 use Bean\Component\CreativeWork\Model\CreativeWork;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
-use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
+
 use Sonata\CoreBundle\Serializer\BaseSerializerHandler;
 use JMS\Serializer\Context;
 use JMS\Serializer\GraphNavigator;

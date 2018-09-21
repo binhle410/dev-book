@@ -113,10 +113,10 @@ class MediaController extends SonataMediaController {
 			if( ! empty($mc = $request->query->get('context'))) {
 				$media->setContext($mc);
 			}
-
+			
 			$this->populateOwnerFields($media, [
 				'organisation' => Organisation::class,
-				'creativeWork'    => CreativeWork::class,
+				'creativeWork' => CreativeWork::class,
 			], $request);
 			
 			$this->mediaManager->save($media);
