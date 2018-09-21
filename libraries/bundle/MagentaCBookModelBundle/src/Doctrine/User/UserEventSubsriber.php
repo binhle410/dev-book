@@ -101,8 +101,10 @@ class UserEventSubsriber implements EventSubscriber {
 		//////// MODIF 001 ///////
 		if($user instanceof User) {
 			if( ! empty($person = $user->getPerson())) {
-				$user->setEmail($person->getEmail());
-				$user->setUsername($person->getEmail());
+				if(empty($person->getEmail())) {
+					$person->setEmail($user->getEmail());
+				}
+//				$user->setUsername($person->getEmail());
 			}
 		}
 		//////// END MODIF 001 ///////
