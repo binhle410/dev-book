@@ -243,14 +243,14 @@
             {% for i, chapter in book.rootChapters %}
             {
                 id: {{ chapter.id }},
-                name: '{{ chapter.name }}',
+                name: '{{ chapter.name|raw }}',
                 href: '#chapter-{{ i+1 }}',
                 chapterId: '{{ chapter.id }}',
                 children: [
                     {% for ii, sub in chapter.subChapters %}
                     {
                         id: {{ sub.id }},
-                        name: '{{ sub.name }}',
+                        name: '{{ sub.name|raw }}',
                         href: '#chapter-{{ i+1 }}-{{ ii+1 }}',
                         chapterId: '{{ sub.id }}',
                     },
