@@ -47,7 +47,7 @@ class BeanSonataMediaBundle extends Bundle {
 				],
 				[ 'bean_thing.persistence.orm.manager_name' ],
 				'bean_thing.backend_type_orm_custom',
-				[ 'BeanThingBundle' => 'Bean\Component\Thing\Model' ]
+				[ 'BeanSonataMediaBundle' => 'Bean\Bundle\SonataMediaBundle\Doctrine\Orm' ]
 			)
 		);
 	}

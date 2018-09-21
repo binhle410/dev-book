@@ -16,6 +16,7 @@ parameters:
     #    sonata.media.provider.image.class: Application\Sonata\MediaBundle\Provider\AppImageProvider
     #    sonata.media.provider.file.class: Application\Sonata\MediaBundle\Provider\AppFileProvider
     sonata.media.manager.media.class: Magenta\Bundle\CBookModelBundle\Service\Media\MediaService
+    sonata.media.thumbnail.format: Bean\Bundle\SonataMediaBundle\Override\Thumbnail\FormatThumbnail
 
 # BookBundle
 bean_thing:

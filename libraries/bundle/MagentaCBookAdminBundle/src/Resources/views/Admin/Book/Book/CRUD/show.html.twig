@@ -58,12 +58,16 @@
                 imageUploadURL: environment.imageApiEndPoint,
                 imageUploadParam: 'binaryContent',
                 imageUploadParams: {
-                    context: 'content_image'
+                    context: 'content_image',
+                    organisation: {{ book.organisation.id }},
+                    creativeWork: {{ book.id }}
                 },
                 fileUploadURL: environment.fileApiEndPoint,
                 fileUploadParam: 'binaryContent',
                 fileUploadParams: {
-                    context: 'content_file'
+                    context: 'content_file',
+                    organisation: {{ book.organisation.id }},
+                    creativeWork: {{ book.id }}
                 },
 
                 toolbarInline: true,
@@ -81,7 +85,16 @@
                 imageUploadURL: environment.imageApiEndPoint,
                 imageUploadParam: 'binaryContent',
                 imageUploadParams: {
-                    context: 'content_image'
+                    context: 'content_image',
+                    organisation: {{ book.organisation.id }},
+                    creativeWork: {{ book.id }}
+                },
+                fileUploadURL: environment.fileApiEndPoint,
+                fileUploadParam: 'binaryContent',
+                fileUploadParams: {
+                    context: 'content_file',
+                    organisation: {{ book.organisation.id }},
+                    creativeWork: {{ book.id }}
                 },
 
                 toolbarInline: true,

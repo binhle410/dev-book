@@ -4,7 +4,8 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
     <entity name="Bean\Component\CreativeWork\Model\CreativeWork" table="thing__creative_work">
-        <many-to-one field="partOf" target-entity="Bean\Component\CreativeWork\Model\CreativeWork" inversed-by="parts">
+        <!-- inversed-by="parts" -->
+        <many-to-one field="partOf" target-entity="Bean\Component\CreativeWork\Model\CreativeWork">
             <join-column name="id_part_of" referenced-column-name="id" />
         </many-to-one>
 

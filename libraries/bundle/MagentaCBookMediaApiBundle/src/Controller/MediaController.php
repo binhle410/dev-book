@@ -2,6 +2,7 @@
 
 namespace Magenta\Bundle\CBookMediaApiBundle\Controller;
 
+use Bean\Component\CreativeWork\Model\CreativeWork;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
@@ -113,10 +114,10 @@ class MediaController extends SonataMediaController {
 				$media->setContext($mc);
 			}
 
-//			$this->populateOwnerFields($media, [
-//				'receiptImageWarranty' => Warranty::class,
-//				'imageServiceSheet'    => ServiceSheet::class,
-//			], $request);
+			$this->populateOwnerFields($media, [
+				'organisation' => Organisation::class,
+				'creativeWork'    => CreativeWork::class,
+			], $request);
 			
 			$this->mediaManager->save($media);
 			

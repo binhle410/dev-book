@@ -59,7 +59,7 @@ class IndividualGroup extends IndividualMemberGroup {
 	
 	/**
 	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupIndividual", mappedBy="group")
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupIndividual", mappedBy="individualMemberGroup")
 	 */
 	protected $groupIndividuals;
 	
@@ -69,6 +69,12 @@ class IndividualGroup extends IndividualMemberGroup {
 	 * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $organization;
+	
+	/**
+	 * @var integer|null
+	 * @ORM\Column(type="integer", nullable=true, options={"default":0})
+	 */
+	protected $position = 0;
 	
 	/**
 	 * @return Collection
@@ -83,4 +89,19 @@ class IndividualGroup extends IndividualMemberGroup {
 	public function setMembers(Collection $members): void {
 		$this->members = $members;
 	}
+	
+	/**
+	 * @return int|null
+	 */
+	public function getPosition(): ?int {
+		return $this->position;
+	}
+	
+	/**
+	 * @param int|null $position
+	 */
+	public function setPosition(?int $position): void {
+		$this->position = $position;
+	}
+	
 }

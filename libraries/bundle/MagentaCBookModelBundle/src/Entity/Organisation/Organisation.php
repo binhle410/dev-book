@@ -33,6 +33,7 @@ class Organisation extends OrganizationModel {
 		$this->memberGroups = new ArrayCollection();
 		$this->adminUsers   = new ArrayCollection();
 		$this->members      = new ArrayCollection();
+		$this->mediaAssets  = new ArrayCollection();
 	}
 	
 	/**
@@ -114,6 +115,12 @@ class Organisation extends OrganizationModel {
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember", mappedBy="organization")
 	 */
 	protected $members;
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Media\Media", mappedBy="organisation")
+	 */
+	protected $mediaAssets;
 	
 	/**
 	 * @var System|null

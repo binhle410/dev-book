@@ -1,7 +1,9 @@
 <?php
 namespace Bean\Component\Media\Model;
 
-interface MediaObjectInterface {
+use Bean\Component\CreativeWork\Model\CreativeWorkInterface;
+
+interface MediaObjectInterface extends CreativeWorkInterface {
 	
 	/**
 	 * @return null|string

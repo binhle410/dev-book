@@ -34,6 +34,20 @@ class AppMedia extends BaseMedia implements MediaInterface {
 	 */
 	protected $logoOrganisation;
 	
+	/**
+	 * @var Organisation|null
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="mediaAssets")
+	 * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
+	 */
+	protected $organisation;
+	
+	/**
+	 * @var Organisation|null
+	 * @ORM\ManyToOne(targetEntity="Bean\Component\CreativeWork\Model\CreativeWork")
+	 * @ORM\JoinColumn(name="id_creative_work", referencedColumnName="id", onDelete="CASCADE")
+	 */
+	protected $creativeWork;
+	
 	protected $name;
 	protected $context;
 	protected $description;
@@ -103,4 +117,17 @@ class AppMedia extends BaseMedia implements MediaInterface {
 		$this->logoOrganisation = $logoOrganisation;
 	}
 	
+	/**
+	 * @return Organisation|null
+	 */
+	public function getOrganisation(): ?Organisation {
+		return $this->organisation;
+	}
+	
+	/**
+	 * @param Organisation|null $organisation
+	 */
+	public function setOrganisation(?Organisation $organisation): void {
+		$this->organisation = $organisation;
+	}
 }
