@@ -33,7 +33,7 @@ class CreativeWorkSerializerHandler
 	 * @param RegistryInterface $registry
 	 */
 	public function __construct(RegistryInterface $registry) {
-		$this->repo = $registry->getRepository(Organisation::class);
+		$this->repo = $registry->getRepository(CreativeWork::class);
 	}
 	
 	public static function getSubscribingMethods() {
