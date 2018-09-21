@@ -193,7 +193,7 @@ class User extends AbstractUser {
 	
 	/**
 	 * @var Person|null
-	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Person\Person", cascade={"merge", "persist"}, inversedBy="user")
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Person\Person", cascade={"persist"}, inversedBy="user")
 	 * @ORM\JoinColumn(name="id_person", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $person;

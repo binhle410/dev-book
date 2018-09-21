@@ -59,6 +59,9 @@ class PersonListener {
 			$userRepo = $this->container->get('doctrine')->getRepository(User::class);
 			$email    = $person->getEmail();
 			
+			// person null - user null
+			$pu = $person->initiateUser();
+			$manager->persist($pu); // to be detached later in case
 //			$manager->flush($pu);
 			
 			/**
@@ -77,8 +80,8 @@ class PersonListener {
 			/** @var User $user */
 			$user = $userRepo->findOneBy([ 'email' => $email ]);
 			if( ! empty($user)) {
-//				$pu->setPerson(null);
-//				$manager->detach($pu);
+				$pu->setPerson(null);
+				$manager->detach($pu);
 				if( ! empty($pass = $pu->getPlainPassword())) {
 					$user->setPlainPassword($pass);
 				}
@@ -87,11 +90,6 @@ class PersonListener {
 //				$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(Person::class), $person);
 				$manager->persist($user);
 //				$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(User::class), $user);
-			}else{
-				// person null - user null
-				$pu = $person->initiateUser();
-				$manager->persist($pu); // to be detached later in case
-				
 			}
 		}
 		
