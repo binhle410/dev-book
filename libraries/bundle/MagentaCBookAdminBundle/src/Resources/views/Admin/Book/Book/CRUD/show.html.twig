@@ -43,6 +43,19 @@
             );
             {% endblock %}
 
+            {% block onCreateLi %}
+            window.onCreateLi = function (node, $li) {
+                $li.append('<div style="font-size: 15px;background-color: unset;\n' +
+                    '    margin-left: 3px;\n' +
+                    '    min-width: 10px;\n' +
+                    '"> <i class="fa fa-trash"> </i> </div>');
+                // $li.find('.jqtree-title').html(
+                //     `<a href="${node.href}">${node.name}</a>  <i class="fa fa-plus-circle" aria-hidden="true"> </i>`
+                // );
+            }
+            {% endblock %}
+
+
             // $('#edit-button').click(() => {
             //     $editable.froalaEditor({
             //         saveInterval: 3500,
@@ -288,6 +301,15 @@
 
         ul.jqtree_common > li.jqtree-selected > div > span {
             color: white;
+        }
+
+        /* flex for remove button */
+        li.jqtree_common {
+            display: flex;
+        }
+
+        li.jqtree_common > div.jqtree-element {
+            flex: 1;
         }
 
     </style>
