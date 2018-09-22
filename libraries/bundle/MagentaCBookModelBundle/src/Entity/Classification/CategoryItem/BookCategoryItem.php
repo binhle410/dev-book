@@ -16,7 +16,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem;
 class BookCategoryItem extends CategoryItem {
 	
 	function __construct() {
-	
+		parent::__construct();
 	}
 	
 	/**

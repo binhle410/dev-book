@@ -3,7 +3,11 @@
 namespace Magenta\Bundle\CBookAdminBundle\Admin\Book;
 
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseCRUDAdminController;
+use Magenta\Bundle\CBookAdminBundle\Service\Organisation\OrganisationService;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\Category;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCategoryItem;
+use Magenta\Bundle\CBookModelBundle\Service\ServiceContext;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +17,36 @@ class BookAdminController extends BaseCRUDAdminController {
 	
 	/** @var BookAdmin $admin */
 	protected $admin;
+	
+	public function createBookAction(Request $request) {
+		$categoryId = $request->request->getInt('category-id');
+		$name       = $request->request->get('item-name');
+		
+		$registry = $this->getDoctrine();
+		$catRepo  = $registry->getRepository(Category::class);
+		$cat      = $catRepo->find($categoryId);
+		
+		if($request->isMethod('post')) {
+			$catItem = new BookCategoryItem();
+			$book    = new Book();
+			$book->setName($name);
+			
+			$context = new ServiceContext();
+			$context->setType(ServiceContext::TYPE_ADMIN_CLASS);
+			$context->setAttribute('parent', $this->admin->getParent());
+			
+			$book->setOrganisation($this->get(OrganisationService::class)->getCurrentOrganisation($context));
+			$catItem->setItem($book);
+			$catItem->setCategory($cat);
+			
+			$manager = $this->get('doctrine.orm.default_entity_manager');
+			$manager->persist($book);
+			$manager->flush();
+			
+		}
+		
+		return new RedirectResponse($this->admin->generateUrl('show', [ 'id' => $book->getId() ]));
+	}
 	
 	public function renderWithExtraParams($view, array $parameters = [], Response $response = null) {
 		if($parameters['action'] === 'show') {

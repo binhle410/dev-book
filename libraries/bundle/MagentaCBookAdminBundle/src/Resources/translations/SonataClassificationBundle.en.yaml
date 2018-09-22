@@ -1,7 +1,78 @@
+label_categories: Knowledge Tree
+# Loco yaml export: Symfony YAML object
+# Project: SonataClassificationBundle.en.xliff conversion
+# Release: Working copy
+# Locale: en, English
+# Exported by: Unregistered user
+# Exported at: Sat, 22 Sep 2018 12:13:52 +0700
+#---
+sonata_classification: Classification
+#label_categories: Directories
+label_tags: Tags
+label_collections: Collections
 breadcrumb:
-    link_category_list: Categories
+    link_collection_list: Collections
+    link_category_list: Directories
+    link_tag_list: Tag
+    link_context_list: Contexts
+    link_category_tree: Directory
+    link_category_create: Create
+    link_tag_create: Create
+    link_collection_create: Create
+    link_context_create: Create
+list:
+    label_name: Name
+    label_slug: Slug
+    label_description: Description
+    label_enabled: Enabled
+    label_created_at: Created At
+    label_updated_at: Updated At
+    label_position: Position
+    label_parent: Parent
+    label_id: Code
+    label_context: Context
+filter:
+    label_name: Name
+    label_enabled: Enabled
+    label_parent: Parent
+    label_id: Code
+    label_context: Context
 form:
     label_access_granted_groups: Access Granted Groups
     label_access_denied_groups: Access Denied Groups
     label_public: Public
-label_categories: Knowledge Tree
+    label_new_category: New Directory
+
+    label_name: Name
+    label_description: Description
+    label_enabled: Enabled
+    label_slug: Slug
+    label_created_at: Created At
+    label_updated_at: Updated At
+    label_position: Position
+    label_parent: Parent
+    label_media: Media
+    label_id: Code
+    label_context: Context
+    label_category: Directory
+    label_collection: Collection
+    label_tag: Tag
+    label_title: Title
+    label_translation_domain: Translation domain
+    label_icon: Icon
+    label_class: CSS Class
+label_contexts: Contexts
+tree_catalog_title: Directories
+element:
+    tree_site_label: Directories
+classification:
+    list_mode: List
+    tree_mode: Tree
+active: active
+disabled: disabled
+no_collections_found: No collections found.
+no_categories_found: No categories found.
+no_tags_found: No tags found.
+form_general: General
+form_options: Options
+#...

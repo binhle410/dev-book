@@ -53,7 +53,7 @@ abstract class CategoryItem {
 	}
 	
 	public function __construct() {
-	
+		$this->createdAt = new \DateTime();
 	}
 	
 	public function getCategoryName() {
@@ -81,6 +81,18 @@ abstract class CategoryItem {
 	 * @ORM\JoinColumn(name="id_thing", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $item;
+	
+	/**
+	 * @var \DateTime
+	 * @ORM\Column(type="datetime",nullable=true)
+	 */
+	protected $createdAt;
+	
+	/**
+	 * @var \DateTime|null
+	 * @ORM\Column(type="datetime",nullable=true)
+	 */
+	protected $updatedAt;
 	
 	/**
 	 * @var integer
@@ -128,5 +140,33 @@ abstract class CategoryItem {
 	 */
 	public function setItem(Thing $item): void {
 		$this->item = $item;
+	}
+	
+	/**
+	 * @return \DateTime
+	 */
+	public function getCreatedAt(): \DateTime {
+		return $this->createdAt;
+	}
+	
+	/**
+	 * @param \DateTime $createdAt
+	 */
+	public function setCreatedAt(\DateTime $createdAt): void {
+		$this->createdAt = $createdAt;
+	}
+	
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getUpdatedAt(): ?\DateTime {
+		return $this->updatedAt;
+	}
+	
+	/**
+	 * @param \DateTime|null $updatedAt
+	 */
+	public function setUpdatedAt(?\DateTime $updatedAt): void {
+		$this->updatedAt = $updatedAt;
 	}
 }
