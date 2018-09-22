@@ -41,13 +41,29 @@ class PersonListener {
 		$email      = $person->getEmail();
 		$uow        = $manager->getUnitOfWork();
 		if( ! empty($user = $person->getUser())) {
+			if(($pass = $user->getPlainPassword()) !== null) {
+				if(empty($pass)) {
+					$pass = null;
+				}
+			}
 			if( ! empty($userEmail = $user->getEmail()) && ($userEmail !== $email || empty($user->getId()))) {
+				/** @var User $fUser */
 				$fUser = $userRepo->findOneByEmail($userEmail);
 				if( ! empty($fUser)) {
+					$fUser->setPlainPassword($pass);
 					$person->setUser($fUser);
 				} else {
+					$user->setPlainPassword($pass);
 					$manager->persist($user);
 				}
+			} elseif( ! empty($pass)) {
+				$user->setPlainPassword($pass);
+				$this->container->get('magenta_user.util.password_updater')->hashPassword($user); // do you think persist will work without this line?
+				// which line of code below (1 - 4) is unnecessary.
+				$manager->persist($user); // 1
+				$uow->computeChangeSet($manager->getClassMetadata(User::class), $user); // 2
+				$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(User::class), $user); // 3
+				$manager->flush($user); // 4
 			}
 		} else {
 			$this->initiateUserFromPerson($person, $manager);

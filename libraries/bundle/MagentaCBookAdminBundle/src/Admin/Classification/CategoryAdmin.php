@@ -54,6 +54,7 @@ class CategoryAdmin extends SonataCategoryAdmin {
 		parent::configureFormFields($formMapper);
 		$formMapper->remove('parent');
 		$formMapper->remove('media');
+		$formMapper->remove('position');
 		/** @var Category $subject */
 		$subject  = $this->getSubject();
 		$position = $this->hasSubject() && null !== $this->getSubject()->getPosition() ? $this->getSubject()->getPosition() : 0;

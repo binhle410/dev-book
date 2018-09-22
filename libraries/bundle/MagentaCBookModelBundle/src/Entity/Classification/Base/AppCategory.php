@@ -28,6 +28,7 @@ class AppCategory extends BaseCategory implements OrganizationAwareInterface {
 	public function __construct() {
 		parent::__construct();
 		$this->createdAt = new \DateTime();
+		$this->enabled = true;
 	}
 	
 	/**

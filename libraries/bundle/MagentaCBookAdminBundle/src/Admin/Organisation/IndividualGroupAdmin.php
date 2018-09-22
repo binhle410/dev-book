@@ -28,7 +28,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class IndividualGroupAdmin extends BaseAdmin {
 	
-	const CHILDREN = [  ];
+	const CHILDREN = [];
 	
 	protected $action;
 	
@@ -49,30 +49,10 @@ class IndividualGroupAdmin extends BaseAdmin {
 	}
 	
 	/**
-	 * @param string $name
-	 * @param User   $object
+	 * @param string          $name
+	 * @param IndividualGroup $object
 	 */
 	public function isGranted($name, $object = null) {
-		$container = $this->getConfigurationPool()->getContainer();
-		$isAdmin   = $container->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
-//        $pos = $container->get(UserService::class)->getPosition();
-		if(in_array($name, [ 'CREATE', 'DELETE', 'LIST' ])) {
-			return $isAdmin;
-		}
-		if($name === 'EDIT') {
-			if($isAdmin) {
-				return true;
-			}
-			if( ! empty($object) && $object->getId() === $container->get(UserService::class)->getUser()->getId()) {
-				return true;
-			}
-			
-			return false;
-		}
-//        if (empty($isAdmin)) {
-//            return false;
-//        }
-		
 		return parent::isGranted($name, $object);
 	}
 	
@@ -113,9 +93,10 @@ class IndividualGroupAdmin extends BaseAdmin {
 	 */
 	protected function configureListFields(ListMapper $listMapper) {
 		$listMapper->add('_action', 'actions', [
+				'label'   => 'form.label_action',
 				'actions' => array(
 //					'impersonate' => array( 'template' => 'admin/user/list__action__impersonate.html.twig' ),
-					'cbook'  => array( 'template' => '@MagentaCBookAdmin/Admin/Organisation/Action/list__action__cbooks.html.twig' ),
+//					'cbook'  => array( 'template' => '@MagentaCBookAdmin/Admin/Organisation/Action/list__action__cbooks.html.twig' ),
 					'edit'   => array(),
 					'delete' => array(),
 
@@ -127,8 +108,8 @@ class IndividualGroupAdmin extends BaseAdmin {
 			]
 		);
 		$listMapper
-			->addIdentifier('name')
-			->add('createdAt');
+			->addIdentifier('name', null, [ 'label' => 'form.label_name' ])
+			->add('createdAt', null, [ 'label' => 'form.label_name' ]);
 		
 		if($this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
 			$listMapper

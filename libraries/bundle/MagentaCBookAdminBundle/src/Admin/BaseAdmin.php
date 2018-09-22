@@ -25,7 +25,6 @@ use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-
 class BaseAdmin extends AbstractAdmin {
 	const AUTO_CONFIG = true;
 	const ENTITY = null;

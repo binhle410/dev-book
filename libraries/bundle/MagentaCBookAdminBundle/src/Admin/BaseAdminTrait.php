@@ -6,6 +6,7 @@ use Bean\Component\Organization\IoC\OrganizationAwareInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr;
 use Magenta\Bundle\CBookAdminBundle\Admin\Organisation\OrganisationAdmin;
+use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
 use Magenta\Bundle\CBookModelBundle\Service\ServiceContext;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
@@ -323,7 +324,8 @@ trait BaseAdminTrait {
 
 //        $pos = $container->get(UserService::class)->getPosition();
 		if($isAdmin) {
-			return true;
+			return in_array($this->getClass(), [ Organisation::class, Person::class ]);
+			
 			if(is_array($name)) {
 				foreach($name as $action) {
 					$_name = strtoupper($action);
@@ -393,7 +395,8 @@ trait BaseAdminTrait {
 			// admin should see everything except in embeded forms
 			if(in_array($this->getClass(), [
 					Organisation::class,
-					User::class
+					User::class,
+					Person::class
 				]) || ! empty($parentFD) && $parentFD->getType() !== ModelAutocompleteType::class) {
 				return $query;
 			}

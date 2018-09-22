@@ -23,21 +23,22 @@ class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements In
 		$this->individualMembers = new ArrayCollection();
 	}
 	
-	public function initiateUser() {
+	public function initiateUser($emailRequired = true) {
 		if(empty($this->user)) {
 			$this->user = new User();
 		}
 		$this->user->setEnabled(true);
 		
 		$this->user->addRole(User::ROLE_POWER_USER);
-		if(empty($this->email)) {
-			if(empty($this->user->getEmail())) {
-				throw new \InvalidArgumentException('person email is null');
-			} else {
-				$this->email = $this->user->getEmail();
+		if($emailRequired) {
+			if(empty($this->email)) {
+				if(empty($this->user->getEmail())) {
+					throw new \InvalidArgumentException('person email is null');
+				} else {
+					$this->email = $this->user->getEmail();
+				}
 			}
 		}
-		
 		$username = '';
 		if( ! empty($this->givenName)) {
 			$username .= Tag::slugify(trim($this->givenName));
@@ -50,7 +51,7 @@ class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements In
 		$now       = new \DateTime();
 		$emailName = explode('@', $this->email)[0];
 		$username  .= $emailName;
-		$username  .= $now->format('-dMY');
+		$username  .= $now->format('-dmY');
 		$this->user->setUsername($username);
 		$this->user->setEmail($this->email);
 		if(empty($this->user->getPlainPassword()) && empty($this->user->getPassword())) {

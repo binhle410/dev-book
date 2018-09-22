@@ -50,8 +50,9 @@ services:
 
     magenta_user.util.password_updater:
         class: Magenta\Bundle\CBookModelBundle\Util\User\PasswordUpdater
-        public: false
+        public: true # false in FOSUser
         arguments: ['@security.encoder_factory']
+
     magenta_user.util.canonical_fields_updater:
         class: Magenta\Bundle\CBookModelBundle\Util\User\CanonicalFieldsUpdater
         public: false

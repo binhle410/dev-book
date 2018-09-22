@@ -8,12 +8,34 @@ use Magenta\Bundle\CBookModelBundle\Service\ServiceContext;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Category;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class CategoryAdminController extends \Sonata\ClassificationBundle\Controller\CategoryAdminController {
 	/** @var CategoryAdmin $admin */
 	protected $admin;
 	
 	use BaseCRUDAdminControllerTrait;
+	
+	protected function redirectTo($object) {
+		$request = $this->getRequest();
+		
+		$url = false;
+		
+		if(null !== $request->get('btn_update_and_list')) {
+			return new RedirectResponse($this->admin->generateUrl('tree', array_merge($request->query->all(), [
+				'hide_context' => 1,
+				'parent'       => $object->getId()
+			])));
+		}
+		if(null !== $request->get('btn_create_and_list')) {
+			return new RedirectResponse($this->admin->generateUrl('tree', array_merge($request->query->all(), [
+				'hide_context' => 1,
+				'parent'       => $object->getId()
+			])));
+		}
+		
+		return parent::redirectTo($object);
+	}
 	
 	public function listAction(Request $request = null) {
 		if( ! $request->get('filter') && ! $request->get('filters')) {
@@ -88,13 +110,13 @@ class CategoryAdminController extends \Sonata\ClassificationBundle\Controller\Ca
 		$this->setFormTheme($formView, $this->admin->getFilterTheme());
 		
 		return $this->renderWithExtraParams($this->admin->getTemplate('tree'), [
-			'action'             => 'tree',
-			'parent'             => $parent,
+			'action' => 'tree',
+			'parent' => $parent,
 			'current_categories' => $currentCategories,
-			'root_categories'    => $rootCategoriesSplitByContexts,
-			'current_context'    => $currentContext,
-			'form'               => $formView,
-			'csrf_token'         => $this->getCsrfToken('sonata.batch'),
+			'root_categories' => $rootCategoriesSplitByContexts,
+			'current_context' => $currentContext,
+			'form' => $formView,
+			'csrf_token' => $this->getCsrfToken('sonata.batch'),
 		]);
 	}
 }

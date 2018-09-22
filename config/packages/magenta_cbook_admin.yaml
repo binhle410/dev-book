@@ -130,7 +130,7 @@ sonata_admin:
                 label: dashboard.system
                 icon: '<i class="fa fa-users"></i>'
                 items:
-                    - Magenta\Bundle\CBookAdminBundle\Admin\User\UserAdmin
+                    - Magenta\Bundle\CBookAdminBundle\Admin\Person\PersonAdmin
                     - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\OrganisationAdmin
                     - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\IndividualGroupAdmin
                     - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\IndividualMemberAdmin

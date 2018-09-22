@@ -1,7 +1,11 @@
+person: System Users
+individualgroup: Groups
 individualmember: Members
 profile_edit: Profile
 
 breadcrumb:
+    link_person_list: Users
+    link_individual_group_list: Groups
     link_org_chapter_list: Sections
     link_org_chapter_create: New
     link_subchapter_list: Children
@@ -115,6 +119,7 @@ form:
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
 
+    label_organisation: Organisation
     label_edition: Edition
     label_text: Text
     label_contactable: Shown in Contact Book
