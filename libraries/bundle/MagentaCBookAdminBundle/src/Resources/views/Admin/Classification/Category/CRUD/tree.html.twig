@@ -44,15 +44,19 @@
                                 <span class="label label-danger" style="margin-left:auto"><i
                                             class="fa fa-times"></i></span>
                             {% endif %}
-                            {% if admin.hasRoute('edit') and admin.hasAccess('edit') %}
-                                <a class="sonata-tree__item__edit"
-                                   href="{{ admin.generateObjectUrl('edit', element) }}">{{ element.name }}</a>
-                            {% elseif admin.hasRoute('show') and admin.hasAccess('show') %}
-                                <a class="sonata-tree__item__edit"
-                                   href="{{ admin.generateObjectUrl('show', element) }}">{{ element.name }}</a>
-                            {% else %}
-                                {{ element.name }}
-                            {% endif %}
+
+                            <a class="sonata-tree__item__edit"
+                               href="{{ admin.generateUrl('tree', {'parent': element.id}) }}">{{ element.name }}</a>
+
+                            {#{% if admin.hasRoute('edit') and admin.hasAccess('edit') %}#}
+                                {#<a class="sonata-tree__item__edit"#}
+                                   {#href="{{ admin.generateObjectUrl('edit', element) }}">{{ element.name }}</a>#}
+                            {#{% elseif admin.hasRoute('show') and admin.hasAccess('show') %}#}
+                                {#<a class="sonata-tree__item__edit"#}
+                                   {#href="{{ admin.generateObjectUrl('show', element) }}">{{ element.name }}</a>#}
+                            {#{% else %}#}
+                                {#{{ element.name }}#}
+                            {#{% endif %}#}
                         </div>
                         {% if false and element.description is not empty %}
                             <div>
@@ -91,7 +95,9 @@
         <div class="box box-primary">
             <div class="box-header">
                 <h1 class="box-title">
-                    {{ admin.trans('tree_catalog_title', {}, admin.translationdomain) }}
+                    {#{{ admin.trans('tree_catalog_title', {}, admin.translationdomain) }}#}
+                    <a href="{{ admin.generateUrl('create') }}" class="btn btn-default"><i class="fa fa-plus"></i> <i class="fa fa-folder"></i> New Category</a>
+                    <a href="{{ path('admin_magenta_cbookmodel_book_book_create',{}) }}" class="btn btn-primary"><i class="fa fa-plus"></i> <i class="fa fa-book"></i> New Book</a>
                     {% if not app.request.get('hide_context') and current_context is not empty %}
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -182,14 +188,14 @@
                             <div style="display: flex; align-items: center;">
                                 {% if categoryItem.type == 'BOOK' %}
                                     <a class="item"
-                                       href="{{ path('admin_magenta_cbookmodel_book_book_edit',{id: item.id}) }}"><i
+                                       href="{{ path('admin_magenta_cbookmodel_book_book_show',{id: item.id}) }}"><i
                                                 class="fa fa-book"> {{ item.name }}</i></a>
                                 {% else %}
                                     <a class="item" href="#"><i class="fa fa-file"> {{ item.name }}</i></a>
                                 {% endif %}
                             </div>
                             <div style="margin-left:auto; display: flex; flex-direction: row;">
-                                <a href="{{ path('admin_magenta_cbookmodel_book_book_show',{id: item.id}) }}" class="item-action"><i
+                                <a href="{{ path('admin_magenta_cbookmodel_book_book_edit',{id: item.id}) }}" class="item-action"><i
                                             class="fa fa-pencil"> </i></a>
                                 <a href="{{ path('admin_magenta_cbookmodel_classification_categoryitem_delete',{id: categoryItem.id}) }}" class="item-action"><i
                                             class="fa fa-trash"> </i></a>

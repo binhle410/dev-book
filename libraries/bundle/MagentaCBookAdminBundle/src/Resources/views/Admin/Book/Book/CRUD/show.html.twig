@@ -30,6 +30,18 @@
                 $.post(environment.bookChapterApi.replace('0', event.move_info.moved_node.chapterId), data)
             });
             $tocSidebar.tree('setOption', 'dragAndDrop', true);
+            {% block toc_click %}
+            $tocSidebar.on(
+                'tree.click',
+                function (event) {
+                    // The clicked node is 'event.node'
+                    // var node = event.node;
+                    // alert(node.name);
+                    console.log('clicked in show', event);
+                    window.location = '{{ path('admin_magenta_cbookmodel_book_chapter_show',{id:0}) }}'.replace('0', event.node.id);
+                }
+            );
+            {% endblock %}
 
             // $('#edit-button').click(() => {
             //     $editable.froalaEditor({
@@ -181,10 +193,12 @@
         })
     </script>
 {% endblock %}
+
 {% block new_chapter %}
     <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#new-chapter"><i
                 class="fa fa-plus"></i> New Chapter
     </button>
+
     <button class="btn btn-success" type="button" data-toggle="modal" data-target="#new-chapter"><i
                 class="fa fa-upload"></i> Publish
     </button>
@@ -212,9 +226,9 @@
             <hr style="margin-top:1px;margin-bottom:5px; border-bottom: dashed; border-width: thin;"/>
         </div>
         <div class="editable" data-name="chapter-{{ chapter.id }}-text">
-            {% set chapterText = chapter.text|striptags  %}
+            {% set chapterText = chapter.text|striptags %}
             {#{{ chapter.text | raw }}#}
-            {{ chapterText|length > 250 ? chapterText|slice(0, 250) ~ '...' : chapterText  }}
+            {{ chapterText|length > 250 ? chapterText|slice(0, 250) ~ '...' : chapterText }}
         </div>
         <div>
             {#{% for ii, sub in chapter.subChapters %}#}
@@ -302,6 +316,9 @@
                         <input type="hidden" name="book-id" value="{{ book.id }}"/>
                         {% if currentChapter is defined and currentChapter is not empty %}
                             <input type="hidden" name="parent-chapter-id" value="{{ currentChapter.id }}"/>
+                            <hr/>
+                            <input class="form-control" type="checkbox" name="is-subchapter"/> This is a sub-chapter of
+                            <code>{{ currentChapter.name }}</code>
                         {% endif %}
 
                     </div>

@@ -85,17 +85,22 @@ class ChapterAdminController extends BaseCRUDAdminController {
 		$bookId          = $request->request->getInt('book-id');
 		$parentChapterId = $request->request->getInt('parent-chapter-id');
 		$chapterName     = $request->request->get('chapter-name');
-		$registry        = $this->getDoctrine();
-		$chapterRepo     = $registry->getRepository(Chapter::class);
-		$bookRepo        = $registry->getRepository(Book::class);
+		$isSubChapter    = $request->request->getBoolean('is-subchapter', false);
+		
+		$registry    = $this->getDoctrine();
+		$chapterRepo = $registry->getRepository(Chapter::class);
+		$bookRepo    = $registry->getRepository(Book::class);
 		
 		$book    = $bookRepo->find($bookId);
 		$chapter = new Chapter();
 		$chapter->setName($chapterName);
 		$chapter->setEnabled(true);
 		$book->addChapter($chapter);
-		if( ! empty($parentChapter = $chapterRepo->find($parentChapterId))) {
-			$parentChapter->addSubChapter($chapter);
+		
+		if($isSubChapter) {
+			if( ! empty($parentChapter = $chapterRepo->find($parentChapterId))) {
+				$parentChapter->addSubChapter($chapter);
+			}
 		}
 		
 		$manager = $this->get('doctrine.orm.default_entity_manager');

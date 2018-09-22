@@ -48,16 +48,6 @@ class CategoryAdmin extends SonataCategoryAdmin {
 	
 	protected function configureTabMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null) {
 		parent::configureTabMenu($menu, $action, $childAdmin);
-		
-		if( ! empty($parentId = $this->getRequest()->query->getInt('parent'))) {
-			$menu->addChild('New Book', [
-				'uri' => $this->getConfigurationPool()->getContainer()->get('router')->generate('admin_magenta_cbookmodel_book_book_create', [])
-			]);
-		} else {
-			$menu->addChild('New Book', [
-				'uri' => $this->getConfigurationPool()->getContainer()->get('router')->generate('admin_magenta_cbookmodel_book_book_create', [])
-			]);
-		}
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {

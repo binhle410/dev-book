@@ -279,6 +279,7 @@
                 onCreateLi: onCreateLi
             });
 
+            {% block toc_click %}
             $tocSidebar.on(
                 'tree.click',
                 function (event) {
@@ -289,6 +290,7 @@
                     window.location = (event.node.href);
                 }
             );
+            {% endblock %}
 
             var node = $tocSidebar.tree('getNodeById', {{ mainContentItem.id }});
             $tocSidebar.tree('selectNode', node);
