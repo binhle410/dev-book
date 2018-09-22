@@ -39,13 +39,15 @@ class ChapterAdmin extends BaseAdmin {
 		// name of the ordered field (default = the model's id field, if any)
 		'_sort_by'    => 'updatedAt',
 	);
-	public function getBook(){
+	
+	public function getBook() {
 		return $this->subject->getBook();
 	}
 	
-	public function getCurrentChapter(){
+	public function getCurrentChapter() {
 		return $this->subject;
 	}
+	
 	public function getNewInstance() {
 		/** @var User $object */
 		$object = parent::getNewInstance();
@@ -84,6 +86,7 @@ class ChapterAdmin extends BaseAdmin {
 		$collection->add('contentEdit', $this->getRouterIdParameter() . '/edit-content');
 		$collection->add('move', $this->getRouterIdParameter() . '/move');
 		$collection->add('createChapter', 'new-instance');
+		$collection->add('deleteChapter', $this->getRouterIdParameter() . '/delete-instance');
 	}
 	
 	public function getTemplate($name) {

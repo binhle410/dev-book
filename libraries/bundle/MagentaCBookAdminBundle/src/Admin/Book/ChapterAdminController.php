@@ -82,6 +82,38 @@ class ChapterAdminController extends BaseCRUDAdminController {
 		return new JsonResponse([ 'OK' ]);
 	}
 	
+	public function deleteChapterAction(Request $request, $id = null) {
+		$id = $request->get($this->admin->getIdParameter());
+		
+		/** @var Chapter $object */
+		$object = $this->admin->getObject($id);
+		
+		if( ! $object) {
+			throw $this->createNotFoundException(sprintf('unable to find the Chapter with id: %s', $id));
+		}
+		
+		$this->admin->checkAccess('delete');
+		
+		if($request->isMethod('post')) {
+			$manager   = $this->get('doctrine.orm.default_entity_manager');
+			$chapterId = null;
+			if( ! empty($parentChapter = $object->getParentChapter())) {
+				$chapterId = $parentChapter->getId();
+			} else {
+				$book = $object->getBook();
+			}
+			
+			$manager->remove($object);
+			$manager->flush();
+			
+			if(empty($chapterId)) {
+				return new RedirectResponse($this->get('router')->generate('admin_magenta_cbookmodel_book_book_show', [ 'id' => $book->getId() ]));
+			}
+			
+			return new RedirectResponse($this->admin->generateUrl('show', [ 'id' => $chapterId ]));
+		}
+	}
+	
 	public function createChapterAction(Request $request) {
 		$bookId          = $request->request->getInt('book-id');
 		$parentChapterId = $request->request->getInt('parent-chapter-id');

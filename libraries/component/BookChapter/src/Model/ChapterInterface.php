@@ -10,8 +10,10 @@ namespace Bean\Component\Book\Model;
 
 use Bean\Component\CreativeWork\Model\CreativeWorkInterface;
 
-interface ChapterInterface extends CreativeWorkInterface{
+interface ChapterInterface extends CreativeWorkInterface {
 	public function setPartOf(CreativeWorkInterface $partOf): void;
+	
+	public function getListNumber($siblings = []);
 	
 	/**
 	 * @param ChapterInterface|null $parentChapter

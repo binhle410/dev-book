@@ -9,6 +9,28 @@ use Bean\Component\CreativeWork\Model\CreativeWorkInterface;
 
 class Chapter extends CreativeWork implements ChapterInterface {
 	
+	public function getListNumber($siblings = []) {
+		if(empty($this->parentChapter)) {
+			return $this->getPosition();
+		}
+		
+		usort($siblings, function(Chapter $a, Chapter $b) {
+			if(($ap = $a->getPosition()) < ($bp = $b->getPosition())) {
+				return - 1;
+			} elseif($ap === $bp) {
+				return 0;
+			} elseif($ap > $bp) {
+				return 1;
+			}
+		});
+		
+		for($i = 0; $i < count($siblings); $i ++) {
+			$siblings[ $i ]->setPosition($i + 1);
+		}
+		
+		return $this->parentChapter->getListNumber() . '.' . $this->position;
+	}
+	
 	public function setPartOf(CreativeWorkInterface $partOf): void {
 		parent::setPartOf($partOf);
 		if($partOf instanceof ChapterContainerInterface) {

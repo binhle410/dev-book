@@ -11,12 +11,25 @@
     {{ block('javascripts_book') }}
     <script>
         window.environment = {
-            bookChapterApi: '{{ path('admin_magenta_cbookmodel_book_chapter_move',{id: 0}) }}',
+            moveChapterEndPoint: '{{ path('admin_magenta_cbookmodel_book_chapter_move',{id: 0}) }}',
             apiEndPoint: 'fake_end_point',
             imageApiEndPoint: '{{ image_upload_endpoint }}',
             fileApiEndPoint: '{{ file_upload_endpoint }}',
+            deleteChapterEndPoint: '{{ path('admin_magenta_cbookmodel_book_chapter_deleteChapter',{id:0}) }}'
         }
         $(document).ready(($) => {
+
+            $('.remove-chapter').click(function (e) {
+                let chapterId = $(this).data('objectid');
+                let chapterName = $(this).data('name');
+                $confirmDeleteModal = $('#confirm-delete-modal');
+                $confirmDeleteModal.find('.modal-title').html('Delete Confirmation');
+                $('#confirmDeleteText').html('Are you sure you want to delete <code>' + chapterName + '</code>?');
+                // $confirmDeleteModal.find('.modal-title').html('<h1>Are you sure you want to delete ' + chapterName + '</h1>');
+                $confirmDeleteModal.find('form').attr('action', window.environment.deleteChapterEndPoint.replace('0', chapterId));
+                $confirmDeleteModal.modal('show');
+            });
+
             let $tocSidebar = $('#toc-sidebar');
             $tocSidebar.on('tree.move', function (event) {
                 event.preventDefault();
@@ -27,7 +40,7 @@
                     'position': event.move_info.position,
                     'previous_parent': event.move_info.previous_parent.chapterId
                 }
-                $.post(environment.bookChapterApi.replace('0', event.move_info.moved_node.chapterId), data)
+                $.post(environment.moveChapterEndPoint.replace('0', event.move_info.moved_node.chapterId), data)
             });
             $tocSidebar.tree('setOption', 'dragAndDrop', true);
             {% block toc_click %}
@@ -45,8 +58,9 @@
 
             {% block onCreateLi %}
             window.onCreateLi = function (node, $li) {
-                $li.append('<div style="font-size: 15px;background-color: unset;\n' +
+                $li.append('<div data-name="' + node.name + '" data-objectid="' + node.id + '" class="remove-chapter btn btn-danger" style="font-size: 14px;;\n' +
                     '    margin-left: 3px;\n' +
+                    ' margin-bottom: 1px;\n' +
                     '    min-width: 10px;\n' +
                     '"> <i class="fa fa-trash"> </i> </div>');
                 // $li.find('.jqtree-title').html(
@@ -208,11 +222,11 @@
 {% endblock %}
 
 {% block new_chapter %}
-    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#new-chapter"><i
+    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#new-chapter-modal"><i
                 class="fa fa-plus"></i> New Chapter
     </button>
 
-    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#new-chapter"><i
+    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#new-chapter-modal"><i
                 class="fa fa-upload"></i> Publish
     </button>
 {% endblock %}
@@ -294,7 +308,7 @@
             /*margin-right: 1px;*/
         }
 
-        li.jqtree-selected > div {
+        li.jqtree-selected > div.jqtree-element {
             background-color: #4e4a88;
             border-radius: 5px;
         }
@@ -306,10 +320,24 @@
         /* flex for remove button */
         li.jqtree_common {
             display: flex;
+            flex-wrap: wrap;
         }
 
         li.jqtree_common > div.jqtree-element {
             flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: left;
+        }
+
+        /* flex for remove button but subchapter */
+        ul.jqtree_common, div.jqtree_common {
+            flex: 1;
+            min-width: 50%;
+        }
+
+        li.jqtree-folder {
+            flex-wrap: wrap;
         }
 
     </style>
@@ -323,7 +351,7 @@
     {{ block('body') }}
 
     <!-- Modal -->
-    <div class="modal fade" id="new-chapter" tabindex="-1" role="dialog" aria-labelledby="newChapterLabel">
+    <div class="modal fade" id="new-chapter-modal" tabindex="-1" role="dialog" aria-labelledby="newChapterLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form method="post" action="{{ path('admin_magenta_cbookmodel_book_chapter_createChapter') }}">
@@ -353,6 +381,29 @@
         </div>
     </div>
     <!-- Modal End -->
+
+    <!-- Confirm Delete Modal -->
+    <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form method="post" action="">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="confirmDeleteLabel"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <h3 id="confirmDeleteText"></h3>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Confirm Delete Modal End -->
 
     <div class="sonata-ba-form-actions well well-small form-actions text-center">
         {#<button id="edit-button" class="btn btn-success" type="button" name="btn_create_and_create"><i#}
