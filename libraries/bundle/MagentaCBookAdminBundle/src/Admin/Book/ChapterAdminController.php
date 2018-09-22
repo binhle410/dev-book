@@ -2,6 +2,7 @@
 
 namespace Magenta\Bundle\CBookAdminBundle\Admin\Book;
 
+use Bean\Component\Book\Model\ChapterInterface;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseCRUDAdminController;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Chapter;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -97,11 +98,19 @@ class ChapterAdminController extends BaseCRUDAdminController {
 		$chapter->setEnabled(true);
 		$book->addChapter($chapter);
 		
-		if($isSubChapter) {
-			if( ! empty($parentChapter = $chapterRepo->find($parentChapterId))) {
+		
+		if( ! empty($parentChapter = $chapterRepo->find($parentChapterId))) {
+			if($isSubChapter) {
 				$parentChapter->addSubChapter($chapter);
+			} else {
+				/** @var ChapterInterface $grandParentChapter */
+				if( ! empty($grandParentChapter = $parentChapter->getParentChapter())) {
+					$grandParentChapter->addSubChapter($chapter);
+				}
 			}
+			
 		}
+		
 		
 		$manager = $this->get('doctrine.orm.default_entity_manager');
 		$manager->persist($chapter);
