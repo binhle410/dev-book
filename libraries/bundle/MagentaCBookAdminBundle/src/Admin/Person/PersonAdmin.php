@@ -33,7 +33,7 @@ class PersonAdmin extends BaseAdmin {
 		$form->add('email');
 		$form->add('user.plainPassword', TextType::class, [ 'required' => false, 'label' => 'form.label_password' ]);
 		$form->add('user.adminOrganisations', ModelType::class, [
-			'help' => 'This user is the root admin of the selected organisation(s)',
+			'help'     => 'This user is the root admin of the selected organisation(s)',
 			'required' => false,
 			'label'    => 'form.label_organisation',
 			'class'    => Organisation::class,
@@ -45,7 +45,8 @@ class PersonAdmin extends BaseAdmin {
 	
 	protected function configureListFields(ListMapper $list) {
 		parent::configureListFields($list);
-		$list->add('name');
+		$list->addIdentifier('name');
+		$list->add('email');
 	}
 	
 }
