@@ -29,7 +29,8 @@ class Book extends \Bean\Bundle\BookBundle\Doctrine\Orm\Book implements Organiza
 	public function getRootChapters() {
 		$c    = Criteria::create();
 		$expr = $c->expr();
-		$c->andWhere($expr->isNull('parentChapter'));
+		$c->andWhere($expr->isNull('parentChapter'))
+		  ->orderBy([ 'position' => Criteria::ASC ]);
 		
 		return $this->chapters->matching($c);
 	}
