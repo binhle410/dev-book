@@ -65,6 +65,14 @@ class ChapterAdmin extends BaseAdmin {
 			: 'Section'; // shown in the breadcrumb on the create view
 	}
 	
+	public function isGranted($name, $object = null) {
+		if($name === 'LIST') {
+			return false;
+		}
+		
+		return parent::isGranted($name, $object);
+	}
+	
 	public function createQuery($context = 'list') {
 		/** @var ProxyQuery $query */
 		$query = parent::createQuery($context);
@@ -87,10 +95,6 @@ class ChapterAdmin extends BaseAdmin {
 		$collection->add('move', $this->getRouterIdParameter() . '/move');
 		$collection->add('createChapter', 'new-instance');
 		$collection->add('deleteChapter', $this->getRouterIdParameter() . '/delete-instance');
-	}
-	
-	public function getTemplate($name) {
-		return parent::getTemplate($name);
 	}
 	
 	protected function configureShowFields(ShowMapper $showMapper) {

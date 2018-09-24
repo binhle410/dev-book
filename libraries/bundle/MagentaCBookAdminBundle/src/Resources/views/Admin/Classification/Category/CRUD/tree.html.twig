@@ -17,6 +17,10 @@
         a.item {
             color: #444;
         }
+
+        .btn-new-category-item {
+            cursor: pointer;
+        }
     </style>
 {% endblock %}
 
@@ -26,6 +30,37 @@
                    sidebar-collapse
                {%- endif -%}"
            {%- endblock -%}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        jQuery(document).ready(function ($) {
+            $iptItemName = $('#ipt-new-category-item-name');
+            $iptItemFile = $('#ipt-new-category-item-file');
+
+            $('.btn-new-category-item').click(function (e) {
+
+                let type = $(this).data('type');
+                $('#frm-new-category-item').attr('action', $(this).data('action'));
+                $('#lbl-new-category-item').text($(this).data('title'));
+                $('#hdn-new-category-item-type').val(type);
+                $('.span-new-category-item-type').html(type);
+
+                $iptItemName.attr('placeholder', type.charAt(0).toUpperCase() + type.slice(1) + ' Name');
+
+                if (type === 'file') {
+                    $iptItemName.hide();
+                    $iptItemFile.show();
+                } else {
+                    $iptItemName.show();
+                    $iptItemFile.hide();
+                }
+
+                $('#modal-new-category-item').modal('show');
+            });
+        });
+    </script>
+{% endblock %}
 
 {# copied from parent #}
 {% import _self as app_tree %}
@@ -96,9 +131,10 @@
             <div class="box-header">
                 <h1 class="box-title">
                     {#{{ admin.trans('tree_catalog_title', {}, admin.translationdomain) }}#}
-                    <a href="{{ admin.generateUrl('create') }}" class="btn btn-default"><i class="fa fa-plus"></i> <i
-                                class="fa fa-folder"></i> {{ admin.trans('form.label_new_category', {}, admin.translationDomain) }}
-                    </a>
+                    {#<a href="{{ admin.generateUrl('create') }}" class="btn btn-default"><i class="fa fa-plus"></i> <i#}
+                    {#class="fa fa-folder"></i> {{ admin.trans('form.label_new_category', {}, admin.translationDomain) }}#}
+                    {#</a>#}
+                    Directory Tree
                     {% if not app.request.get('hide_context') and current_context is not empty %}
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -139,7 +175,7 @@
         {% set selectedCategory = current_categories[0] %}
         {% set hasParent = false %}
     {% endif %}
-    <div class="col-xs-12 col-md-8">
+    <div class="col-xs-12 col-md-6">
         <div class="box box-primary">
             <div class="box-header">
                 {% if hasParent is not empty %}
@@ -153,9 +189,6 @@
                 <h1 class="box-title">{{ selectedCategory.name }}</h1>
                 <div class="text-muted">{{ selectedCategory.description }}</div>
                 {#<a href="{{ path('admin_magenta_cbookmodel_book_book_create',{}) }}" class="btn btn-primary"><i class="fa fa-plus"></i> <i class="fa fa-book"></i> New Book</a>#}
-                <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#new-category-item"><i
-                            class="fa fa-plus"></i> <i class="fa fa-book"></i> New Book
-                </button>
             </div>
             <div class="box-content">
                 <div style="padding-left: 10px; display: flex;align-items:left;flex-direction: column">
@@ -202,9 +235,13 @@
                                 {% if categoryItem.type == 'BOOK' %}
                                     <a class="item"
                                        href="{{ path('admin_magenta_cbookmodel_book_book_show',{id: item.id}) }}"><i
-                                                class="fa fa-book"> {{ item.name }}</i></a>
+                                                class="fa fa-book"> {{ item.name|raw }}</i></a>
                                 {% else %}
-                                    <a class="item" href="#"><i class="fa fa-file"> {{ item.name }}</i></a>
+                                    {% if categoryItem.type == 'MEDIA' %}
+                                        <a class="item"
+                                           href="{{ path('admin_magenta_cbookmodel_media_media_edit',{'id':item.id,'format':'reference'}) }}"><i
+                                                    class="fa fa-file"> {{ item.name|raw }}</i></a>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                             <div style="margin-left:auto; display: flex; flex-direction: row;">
@@ -221,32 +258,94 @@
             </div>
         </div>
     </div>
+    <div class="col-xs-12 col-md-2">
+        <div class="box box-primary">
+            <div class="box-header">
+                <h1 class="box-title">
+                    Quick Links
+                </h1>
+            </div>
+            <div class="box-content">
+                <div style="padding-left: 10px; display: flex;align-items:left;flex-direction: column">
+                    <div class="sonata-tree__item" style="display: flex;align-items:center;">
+                        <div style="display: flex; align-items: center;">
+                            <a type="button" class="btn-new-category-item" data-title="Create a new Directory in
+                            {{ selectedCategory.name }}"
+                               data-action="{{ path('admin_magenta_cbookmodel_classification_category_createCategory') }}"
+                               data-type="directory">
+                                <i class="fa fa-plus"></i>
+                                <i class="fa fa-folder">
+                                    {{ admin.trans('form.label_new_category', {}, admin.translationDomain) }}
+                                </i>
+                            </a>
+                            <span style="padding-left: 5px;">
+                                    <i class="text-muted">
+                                    </i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="sonata-tree__item" style="display: flex;align-items:center;">
+                        <div style="display: flex; align-items: center;">
+                            <a type="button" class="btn-new-category-item" data-title="Create a new Book in
+                            {{ selectedCategory.name }}"
+                               data-action="{{ path('admin_magenta_cbookmodel_classification_categoryitem_bookcategoryitem_newInstance') }}"
+                               data-type="book">
+                                <i class="fa fa-plus"></i>
+                                <i class="fa fa-book">
+                                    New Book
+                                </i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sonata-tree__item" style="display: flex;align-items:center;">
+                        <div style="display: flex; align-items: center;">
+                            <a type="button" class="btn-new-category-item" data-title="Upload a new File in
+                            {{ selectedCategory.name }}"
+                               data-action="{{ path('admin_magenta_cbookmodel_classification_categoryitem_mediacategoryitem_newInstance') }}"
+                               data-type="file">
+                                <i class="fa fa-plus"></i>
+                                <i class="fa fa-file">
+                                    Upload a file
+                                </i>
+                            </a>
+                        </div>
+                    </div>
 
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Modal -->
-    <div class="modal fade" id="new-category-item" tabindex="-1" role="dialog" aria-labelledby="newCategoryItemLabel">
+    <div class="modal fade" id="modal-new-category-item" tabindex="-1" role="dialog"
+         aria-labelledby="lbl-new-category-item">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form method="post" action="{{ path('admin_magenta_cbookmodel_book_book_createBook') }}">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="newCategoryItemLabel">Create a new Asset (Book) in
-                            "{{ selectedCategory.name }}"</h4>
+                {{ form_start(newItemForm, {'attr': {'id':"frm-new-category-item"}, 'method': 'POST'}) }}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="lbl-new-category-item"></h4>
+                </div>
+                <div class="modal-body">
+                    <input id="ipt-new-category-item-name" class="form-control" placeholder="Name"
+                           name="item-name"/>
+                    <div id="ipt-new-category-item-file" class="">
+                        {{ form_widget(newItemForm.media) }}
+                        {{ form_rest(newItemForm) }}
                     </div>
-                    <div class="modal-body">
 
-                        <input class="form-control" placeholder="Name" name="item-name"/>
-                        <input type="hidden" name="category-id" value="{{ selectedCategory.id }}"/>
-                        <input type="hidden" name="item-type" value="book"/>
-                        <hr/>
-                        This new asset will be created in <code>{{ selectedCategory.name }}</code>
+                    <input type="hidden" name="category-id" value="{{ selectedCategory.id }}"/>
+                    <input type="hidden" id="hdn-new-category-item-type" name="item-type" value=""/>
+                    <hr/>
+                    This new <span class="span-new-category-item-type"></span> will be created in
+                    <code>{{ selectedCategory.name }}</code>
 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+                {{ form_end(newItemForm) }}
             </div>
         </div>
     </div>

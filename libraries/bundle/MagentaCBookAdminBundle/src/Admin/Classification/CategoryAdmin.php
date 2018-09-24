@@ -44,6 +44,7 @@ class CategoryAdmin extends SonataCategoryAdmin {
 	
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
+		$collection->add('createCategory');
 	}
 	
 	protected function configureTabMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null) {

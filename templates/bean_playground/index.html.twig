@@ -17,5 +17,13 @@
         <li>Your template at <code><a href="{{ 'templates/bean_playground/index.html.twig'|file_link(0) }}">templates/bean_playground/index.html.twig</a></code></li>
     </ul>
 </div>
+<h1>data is </h1>
+    {{ dump(data) }}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input type="submit" />
+    {{ form_end(form) }}
+
     {{ dump(chap) }}
 {% endblock %}

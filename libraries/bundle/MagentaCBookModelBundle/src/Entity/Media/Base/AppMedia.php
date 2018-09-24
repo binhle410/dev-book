@@ -8,6 +8,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Sonata\ClassificationBundle\Model\CategoryInterface;
 use Sonata\MediaBundle\Model\MediaInterface;
 
 /** @ORM\MappedSuperclass */
@@ -26,6 +27,13 @@ abstract class AppMedia extends BaseMedia implements MediaInterface {
 	function __construct() {
 		parent::__construct();
 		$this->enabled = true;
+	}
+	
+	/**
+	 * @param CategoryInterface $category
+	 */
+	public function setCategory(CategoryInterface $category): void {
+		$this->category = $category;
 	}
 	
 	/**

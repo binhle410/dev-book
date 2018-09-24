@@ -2,30 +2,29 @@
 
 namespace Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem;
 
-use Bean\Component\Book\Model\Book as BookModel;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Category;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem;
+use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="classification__category_item__book")
+ * @ORM\Table(name="classification__category_item__media")
  */
-class BookCategoryItem extends CategoryItem {
+class MediaCategoryItem extends CategoryItem {
 	
 	function __construct() {
 		parent::__construct();
 	}
 	
 	public function getType() {
-		return self::TYPE_BOOK;
+		return self::TYPE_MEDIA;
 	}
 	
 	/**
-	 * @var Book
-	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Book\Book", inversedBy="bookCategoryItems")
+	 * @var Media
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Media\Media", inversedBy="mediaCategoryItems")
 	 * @ORM\JoinColumn(name="id_thing", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $item;

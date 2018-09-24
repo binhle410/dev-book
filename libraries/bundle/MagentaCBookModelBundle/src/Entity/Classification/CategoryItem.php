@@ -30,11 +30,12 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
  * @ORM\Table(name="classification__category_item")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({"book" = "Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCategoryItem"})
+ * @ORM\DiscriminatorMap({"book" = "Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCategoryItem", "media" = "Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\MediaCategoryItem"})
  * @ORM\HasLifecycleCallbacks
  */
 abstract class CategoryItem {
 	const TYPE_BOOK = 'BOOK';
+	const TYPE_MEDIA = 'MEDIA';
 	
 	/**
 	 * @var integer|null
@@ -56,16 +57,10 @@ abstract class CategoryItem {
 		$this->createdAt = new \DateTime();
 	}
 	
+	public abstract function getType();
+	
 	public function getCategoryName() {
 		return $this->category->getName();
-	}
-	
-	public function getType() {
-		if($this instanceof BookCategoryItem) {
-			return self::TYPE_BOOK;
-		}
-		
-		return null;
 	}
 	
 	/**

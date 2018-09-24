@@ -232,9 +232,9 @@
 {% endblock %}
 
 {% block pagination %}{% endblock %}
-{% block toc_heading %} <a
-        href="{{ path('admin_magenta_cbookmodel_book_book_show',{id: book.id}) }} "> {{ parent() }}</a> {% endblock %}
-
+{% block toc_heading %}
+    <a href="{{ path('admin_magenta_cbookmodel_book_book_show',{id: book.id}) }} "> {{ parent() }}</a>
+{% endblock %}
 {% block toc_help %}<span
         class="text-muted">Move a chapter around to re-position or nest it inside another chapter.</span>{% endblock %}
 {% block toc_modal %}{% endblock %}
@@ -244,10 +244,10 @@
     {% endif %}
     {% for i, chapter in subContentItems %}
         <div class="editable" data-objectid="{{ chapter.id }}" data-type="chapter" data-field="name">
-            <a href="{{ path('admin_magenta_cbookmodel_book_chapter_show',{id: chapter.id}) }}"><strong
+            <a href="{{ path('admin_magenta_cbookmodel_book_chapter_show',{id: chapter.id}) }}">
+                <strong
                         id="chapter-{{ i+1 }}"
-                        class="offset-anchor chapter-name">{{ i+1 }}
-                    . {{ chapter.name }}
+                        class="offset-anchor chapter-name">{{ i+1 }}.{{ chapter.name }}
                 </strong>
             </a>
             <hr style="margin-top:1px;margin-bottom:5px; border-bottom: dashed; border-width: thin;"/>
@@ -338,6 +338,12 @@
 
         li.jqtree-folder {
             flex-wrap: wrap;
+        }
+
+        /* editor white boxes */
+        .editable.fr-box.fr-inline.editing {
+            background-color: white;
+            border-radius: 5px;
         }
 
     </style>

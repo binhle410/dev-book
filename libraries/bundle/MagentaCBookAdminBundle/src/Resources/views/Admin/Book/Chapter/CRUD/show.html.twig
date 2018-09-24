@@ -4,6 +4,7 @@
         <a href="{{ path('admin_magenta_cbookmodel_book_book_show',{id: book.id}) }}">
             <h1>{{ book.name|raw }}</h1>
         </a>
+        <hr/>
         {% if currentChapter.parentChapter is not empty %}
             <a href="{{ path('admin_magenta_cbookmodel_book_chapter_show',{id: currentChapter.parentChapter.id}) }}">
                 <h1>{{ currentChapter.parentChapter.name|raw }}</h1>

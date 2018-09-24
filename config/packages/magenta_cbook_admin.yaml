@@ -13,6 +13,9 @@ twig:
     form_themes:
         - '@SonataFormatter/Form/formatter.html.twig'
         - '@SonataCore/Form/datepicker.html.twig'
+#        - '@SonataMedia/Form/media_widgets.html.twig'
+        - '@MagentaCBookAdmin/Form/media_widgets.html.twig'
+
     globals:
         media_endpoint: '%MEDIA_API_BASE_URL%%MEDIA_API_PREFIX%'
         image_upload_endpoint: '%MEDIA_API_BASE_URL%%MEDIA_API_PREFIX%/providers/sonata.media.provider.image/media.json'

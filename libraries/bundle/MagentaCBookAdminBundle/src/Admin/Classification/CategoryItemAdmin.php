@@ -33,6 +33,7 @@ class CategoryItemAdmin extends BaseAdmin {
 	
 	protected function configureRoutes(RouteCollection $collection) {
 		$collection->remove('list');
+		$collection->add('newInstance', 'new-instance');
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {
