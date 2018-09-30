@@ -32,74 +32,83 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 
-class MediaController extends SonataMediaController {
-	/**
-	 * @param string $id
-	 * @param string $format
-	 *
-	 * @throws NotFoundHttpException
-	 *
-	 * @return Response
-	 *
-	 */
-	public function viewBinaryAction(Request $request, $id, $format = MediaProviderInterface::FORMAT_REFERENCE) {
-		$media = $this->getMedia($id);
-		
-		if( ! $media) {
-			throw new NotFoundHttpException(sprintf('unable to find the media with the id : %s', $id));
-		}
-		
-		if( ! $this->get('sonata.media.pool')->getDownloadSecurity($media)->isGranted($media, $request)) {
-			throw new AccessDeniedException();
-		}
-		
-		$response = $this->getViewBinaryResponse($media, $format, $this->get('sonata.media.pool')->getDownloadMode($media));
-		
-		if($response instanceof BinaryFileResponse) {
-			$response->prepare($request);
-		}
-		
-		return $response;
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getViewBinaryResponse(MediaInterface $media, $format, $mode, array $headers = []) {
-		$provider = $this->getProvider($media);
-		
-		// build the default headers
-		$headers = array_merge([
-			'Content-Type'        => $media->getContentType(),
+class MediaController extends SonataMediaController
+{
+
+    /**
+     * @param string $id
+     * @param string $format
+     *
+     * @throws NotFoundHttpException
+     *
+     * @return Response
+     *
+     */
+    public function viewBinaryAction(Request $request, $id, $format = MediaProviderInterface::FORMAT_REFERENCE)
+    {
+        $media = $this->getMedia($id);
+
+        if (!$media) {
+            throw new NotFoundHttpException(sprintf('unable to find the media with the id : %s', $id));
+        }
+
+        if (!$this->get('sonata.media.pool')->getDownloadSecurity($media)->isGranted($media, $request)) {
+            throw new AccessDeniedException();
+        }
+
+        $response = $this->getViewBinaryResponse($media, $format, $this->get('sonata.media.pool')->getDownloadMode($media));
+
+        if ($response instanceof BinaryFileResponse) {
+            $response->prepare($request);
+        }
+
+        return $response;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getViewBinaryResponse(MediaInterface $media, $format, $mode, array $headers = [])
+    {
+        $provider = $this->getProvider($media);
+
+        // build the default headers
+        $headers = array_merge([
+            'Content-Type' => $media->getContentType(),
 //			'Content-Disposition' => sprintf('attachment; filename="%s"', $media->getMetadataValue('filename')),
-			'Content-Disposition' => sprintf('inline; filename="%s"', $media->getMetadataValue('filename')),
-		], $headers);
-		
-		if( ! in_array($mode, [ 'http', 'X-Sendfile', 'X-Accel-Redirect' ])) {
-			throw new \RuntimeException('Invalid mode provided');
-		}
-		
-		if('http' == $mode) {
-			if(MediaProviderInterface::FORMAT_REFERENCE === $format) {
-				$file = $provider->getReferenceFile($media);
-			} else {
-				$file = $provider->getFilesystem()->get($provider->generatePrivateUrl($media, $format));
-			}
-			
-			return new StreamedResponse(function() use ($file) {
-				echo $file->getContent();
-			}, 200, $headers);
-		}
-		
-		if( ! $provider->getFilesystem()->getAdapter() instanceof Local) {
-			throw new \RuntimeException('Cannot use X-Sendfile or X-Accel-Redirect with non \Sonata\MediaBundle\Filesystem\Local');
-		}
-		
-		$filename = sprintf('%s/%s',
-			$provider->getFilesystem()->getAdapter()->getDirectory(),
-			$provider->generatePrivateUrl($media, $format)
-		);
-		
-		return new BinaryFileResponse($filename, 200, $headers);
-	}
+            'Content-Disposition' => sprintf('inline; filename="%s"', $media->getMetadataValue('filename')),
+        ], $headers);
+
+        if (!in_array($mode, ['http', 'X-Sendfile', 'X-Accel-Redirect'])) {
+            throw new \RuntimeException('Invalid mode provided');
+        }
+
+        if ('http' == $mode) {
+            if (MediaProviderInterface::FORMAT_REFERENCE === $format) {
+                $file = $provider->getReferenceFile($media);
+            } else {
+                $file = $provider->getFilesystem()->get($provider->generatePrivateUrl($media, $format));
+            }
+
+            return new StreamedResponse(function () use ($file) {
+                echo $file->getContent();
+            }, 200, $headers);
+        }
+
+        if (!$provider->getFilesystem()->getAdapter() instanceof Local) {
+            throw new \RuntimeException('Cannot use X-Sendfile or X-Accel-Redirect with non \Sonata\MediaBundle\Filesystem\Local');
+        }
+
+        $filename = sprintf('%s/%s',
+            $provider->getFilesystem()->getAdapter()->getDirectory(),
+            $provider->generatePrivateUrl($media, $format)
+        );
+
+        return new BinaryFileResponse($filename, 200, $headers);
+    }
+
+    public function downloadAction($id, $format = MediaProviderInterface::FORMAT_REFERENCE)
+    {
+        return parent::downloadAction($id, $format);
+    }
 }

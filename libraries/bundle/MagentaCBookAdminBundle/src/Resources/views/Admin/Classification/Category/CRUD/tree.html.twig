@@ -239,18 +239,34 @@
                                 {% else %}
                                     {% if categoryItem.type == 'MEDIA' %}
                                         <a class="item"
-                                           href="{{ path('admin_magenta_cbookmodel_media_media_edit',{'id':item.id,'format':'reference'}) }}"><i
+                                           href="{{ path('sonata_media_download',{'id':item.id,'format':'reference'}) }}"><i
                                                     class="fa fa-file"> {{ item.name|raw }}</i></a>
                                     {% endif %}
                                 {% endif %}
                             </div>
                             <div style="margin-left:auto; display: flex; flex-direction: row;">
-                                <a href="{{ path('admin_magenta_cbookmodel_book_book_edit',{id: item.id}) }}"
-                                   class="item-action"><i
-                                            class="fa fa-pencil"> </i></a>
-                                <a href="{{ path('admin_magenta_cbookmodel_classification_categoryitem_delete',{id: categoryItem.id}) }}"
-                                   class="item-action"><i
-                                            class="fa fa-trash"> </i></a>
+                                {% if categoryItem.type == 'BOOK' %}
+                                    <a href="{{ path('admin_magenta_cbookmodel_book_book_edit',{id: item.id}) }}"
+                                       class="item-action"><i
+                                                class="fa fa-pencil"> </i></a>
+                                {% else %}
+                                    {% if categoryItem.type == 'MEDIA' %}
+                                        {#<a class="item-action">#}
+                                            {#<i class="fa fa-pencil"> </i>#}
+                                        {#</a>#}
+                                    {% endif %}
+                                {% endif %}
+                                {% if categoryItem.type == 'BOOK' %}
+                                    <a href="{{ path('admin_magenta_cbookmodel_classification_categoryitem_bookcategoryitem_delete',{id: categoryItem.id}) }}"
+                                       class="item-action"><i
+                                                class="fa fa-trash"> </i></a>
+                                {% else %}
+                                    {% if categoryItem.type == 'MEDIA' %}
+                                        <a href="{{ path('admin_magenta_cbookmodel_classification_categoryitem_mediacategoryitem_delete',{id: categoryItem.id}) }}"
+                                           class="item-action"><i
+                                                    class="fa fa-trash"> </i></a>
+                                    {% endif %}
+                                {% endif %}
                             </div>
                         </div>
                     {% endfor %}

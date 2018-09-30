@@ -208,7 +208,9 @@ sonata_media:
             formats:
                 small: { width: 100 , quality: 70}
                 big:   { width: 500 , quality: 70}
-
+            download:
+                strategy: sonata.media.security.connected_strategy
+                mode: http
     cdn:
         server:
             path: 'https://s3-%s3_region%.amazonaws.com/%s3_bucket_name%/%s3_directory%'

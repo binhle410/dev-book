@@ -1,0 +1,14 @@
+version: "3"
+services:
+  nodejs_8:
+    image: "node:8"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+    - NODE_ENV=development
+    volumes:
+    - ../:/home/node/app
+    ports:
+    - "8200:80"
+    command: >
+      bash -c "yarn --no-bin-links  install && yarn encore"
