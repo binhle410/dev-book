@@ -23,6 +23,16 @@ class Book extends CreativeWork implements BookInterface
         return array_merge(parent::getObjectProperties(), ['chapters']);
     }
 
+    public function publish()
+    {
+        $clone = clone $this;
+        $clone->setVersionNumber($this->getVersionNumber() + 1);
+
+        $this->setStatus(self::STATUS_PUBLISHED);
+        $this->setEnabled(true);
+        return $clone;
+    }
+
     /**
      * Indicates whether the book is an abridged edition.
      * @var boolean|null

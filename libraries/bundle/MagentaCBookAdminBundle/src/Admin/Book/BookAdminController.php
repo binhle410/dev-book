@@ -51,10 +51,8 @@ class BookAdminController extends BaseCRUDAdminController
 
         $edition = $request->request->get('edition-text');
         $object->setBookEdition($edition);
-        $object->setStatus(Book::STATUS_DRAFT);
-        $clonedBook = clone $object;
-        $clonedBook->setVersionNumber($object->getVersionNumber()+1);
 
+        $clonedBook = $object->publish();
         $manager = $this->get('doctrine.orm.default_entity_manager');
         $manager->persist($object);
         $manager->persist($clonedBook);
