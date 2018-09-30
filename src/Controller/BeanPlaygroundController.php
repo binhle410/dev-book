@@ -2,12 +2,11 @@
 
 namespace App\Controller;
 
-use Bean\Bundle\BookBundle\Doctrine\Orm\Book;
-use Bean\Bundle\BookBundle\Doctrine\Orm\Chapter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use function GuzzleHttp\Psr7\copy_to_string;
+use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\BookPage;
 use Sonata\MediaBundle\Form\Type\ApiMediaType;
 use Sonata\MediaBundle\Form\Type\MediaType;
@@ -58,7 +57,12 @@ class BeanPlaygroundController extends Controller {
 			'provider' => 'sonata.media.provider.file',
 			'context'  => 'default'
 		));
-		
+
+		$bookRepo = $this->getDoctrine()->getRepository(Book::class);
+		$book = $bookRepo->find(7);
+
+		$clonedBook = clone $book;
+
 		$form = $builder->getForm();
 		$data = null;
 		

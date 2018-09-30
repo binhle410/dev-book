@@ -13,56 +13,88 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class BookAdminController extends BaseCRUDAdminController {
-	
-	/** @var BookAdmin $admin */
-	protected $admin;
-	
-	public function renderWithExtraParams($view, array $parameters = [], Response $response = null) {
-		if($parameters['action'] === 'show') {
-			/** @var Book $book */
-			$book                             = $this->admin->getSubject();
-			$accessCode                       = "1";
-			$employeeCode                     = "1";
-			$parameters['base_book_template'] = '@MagentaCBookAdmin/standard_layout.html.twig';
-			$parameters['book']               = $book;
-			$parameters['mainContentItem']    = $book;
-			$parameters['subContentItems']    = $book->getRootChapters();
-			$parameters['accessCode']         = $accessCode;
-			$parameters['employeeCode']       = $employeeCode;
-		}
-		
-		return parent::renderWithExtraParams($view, $parameters, $response);
-	}
-	
-	/**
-	 * @param Book $object
-	 *
-	 * @return RedirectResponse
-	 */
-	protected function redirectTo($object) {
-		$request = $this->getRequest();
-		
-		if(null !== $request->get('btn_create_and_edit')) {
-			return new RedirectResponse($this->admin->generateUrl('show', [ 'id' => $object->getId() ]));
-		}
-		
-		return parent::redirectTo($object);
-	}
-	
-	public function createAction() {
-		return parent::createAction();
-	}
-	
-	public function showAction($id = null) {
-		$this->admin->setTemplate('show', '@MagentaCBookAdmin/Admin/Book/Book/CRUD/show.html.twig');
-		
-		return parent::showAction($id);
-	}
-	
-	public function listAction() {
-		$this->admin->setTemplate('list', '@MagentaCBookAdmin/Admin/Book/Book/CRUD/list.html.twig');
-		
-		return parent::listAction();
-	}
+class BookAdminController extends BaseCRUDAdminController
+{
+
+    /** @var BookAdmin $admin */
+    protected $admin;
+
+    public function renderWithExtraParams($view, array $parameters = [], Response $response = null)
+    {
+        if ($parameters['action'] === 'show') {
+            /** @var Book $book */
+            $book = $this->admin->getSubject();
+            $accessCode = "1";
+            $employeeCode = "1";
+            $parameters['base_book_template'] = '@MagentaCBookAdmin/standard_layout.html.twig';
+            $parameters['book'] = $book;
+            $parameters['mainContentItem'] = $book;
+            $parameters['subContentItems'] = $book->getRootChapters();
+            $parameters['accessCode'] = $accessCode;
+            $parameters['employeeCode'] = $employeeCode;
+        }
+
+        return parent::renderWithExtraParams($view, $parameters, $response);
+    }
+
+    public function publishAction(Request $request, $id = null)
+    {
+        $request = $this->getRequest();
+        $id = $request->get($this->admin->getIdParameter());
+
+        /** @var Book $object */
+        $object = $this->admin->getObject($id);
+
+        if (!$object) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+
+        $edition = $request->request->get('edition-text');
+        $object->setBookEdition($edition);
+        $object->setStatus(Book::STATUS_DRAFT);
+        $clonedBook = clone $object;
+        $clonedBook->setVersionNumber($object->getVersionNumber()+1);
+
+        $manager = $this->get('doctrine.orm.default_entity_manager');
+        $manager->persist($object);
+        $manager->persist($clonedBook);
+        $manager->flush();
+
+        $this->addFlash('success', 'Book Edition ' . $object->getBookEdition() . ' has been published');
+        return new RedirectResponse($this->get('router')->generate('admin_magenta_cbookmodel_book_book_show', ['id' => $clonedBook->getId()]));
+    }
+
+    /**
+     * @param Book $object
+     *
+     * @return RedirectResponse
+     */
+    protected function redirectTo($object)
+    {
+        $request = $this->getRequest();
+
+        if (null !== $request->get('btn_create_and_edit')) {
+            return new RedirectResponse($this->admin->generateUrl('show', ['id' => $object->getId()]));
+        }
+
+        return parent::redirectTo($object);
+    }
+
+    public function createAction()
+    {
+        return parent::createAction();
+    }
+
+    public function showAction($id = null)
+    {
+        $this->admin->setTemplate('show', '@MagentaCBookAdmin/Admin/Book/Book/CRUD/show.html.twig');
+        return parent::showAction($id);
+    }
+
+    public function listAction()
+    {
+        $this->admin->setTemplate('list', '@MagentaCBookAdmin/Admin/Book/Book/CRUD/list.html.twig');
+
+        return parent::listAction();
+    }
 }

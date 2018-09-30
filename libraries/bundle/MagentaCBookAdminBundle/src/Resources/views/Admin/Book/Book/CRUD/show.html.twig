@@ -226,7 +226,7 @@
                 class="fa fa-plus"></i> New Chapter
     </button>
 
-    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#new-chapter-modal"><i
+    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#publication-modal"><i
                 class="fa fa-upload"></i> Publish
     </button>
 {% endblock %}
@@ -267,7 +267,8 @@
         </div>
     {% endfor %}
 {% endblock %}
-{% block content %}
+{% block stylesheets %}
+    {{ parent() }}
     <style>
         .d-md-none {
             display: none;
@@ -346,7 +347,14 @@
             border-radius: 5px;
         }
 
+        /* Flash Messages */
+        .alert {
+            margin-top: 26px;
+            margin-bottom: 0px;
+        }
+
     </style>
+
     <link rel="stylesheet" href="{{ asset('assets/pk2/css/nucleo-icons.css') }}"/>
     <link rel="stylesheet" href="{{ asset('build/css/app.css') }}"/>
     <link rel="stylesheet"
@@ -354,7 +362,34 @@
     <link rel="stylesheet" href="{{ asset('assets/codemirror/codemirror.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/froala/2.8.4/froala_editor.pkgd.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/froala/2.8.4/froala_style.min.css') }}"/>
+{% endblock %}
+{% block content %}
     {{ block('body') }}
+
+
+    <!-- Publication Modal -->
+    <div class="modal fade" id="publication-modal" tabindex="-1" role="dialog" aria-labelledby="publicationLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form method="post" action="{{ path('admin_magenta_cbookmodel_book_book_publish',{'id':book.id}) }}">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="publicationLabel">Publish "{{ book.name }}"</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h5>Please enter the edition text for the new publication</h5>
+                        <input class="form-control" placeholder="Book Edition" name="edition-text"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal End -->
 
     <!-- Modal -->
     <div class="modal fade" id="new-chapter-modal" tabindex="-1" role="dialog" aria-labelledby="newChapterLabel">

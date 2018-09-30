@@ -86,6 +86,7 @@ class BookAdmin extends BaseAdmin {
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
 		$collection->add('contentEdit', $this->getRouterIdParameter() . '/edit-content');
+        $collection->add('publish', $this->getRouterIdParameter() . '/publish');
 	}
 	
 	protected function configureShowFields(ShowMapper $showMapper) {

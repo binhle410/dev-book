@@ -15,8 +15,9 @@ use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCateg
  * @ORM\Entity()
  * @ORM\Table(name="book__book")
  */
-class Book extends \Bean\Bundle\BookBundle\Doctrine\Orm\Book implements OrganizationAwareInterface {
+class Book extends \Bean\Component\Book\Model\Book implements OrganizationAwareInterface {
 	const STATUS_DRAFT = 'DRAFT';
+    const STATUS_PUBLISHED = 'PUBLISHED';
 	
 	function __construct() {
 		parent::__construct();
@@ -25,7 +26,17 @@ class Book extends \Bean\Bundle\BookBundle\Doctrine\Orm\Book implements Organiza
 		$this->bookCategoryItems = new ArrayCollection();
 		$this->chapters          = new ArrayCollection();
 	}
-	
+
+    public function addChapter(ChapterInterface $chapter) {
+        $this->chapters->add($chapter);
+        $chapter->setBook($this);
+    }
+
+    public function removeChapter(ChapterInterface $chapter) {
+        $this->chapters->removeElement($chapter);
+        $chapter->setBook(null);
+    }
+
 	public function getRootChapters() {
 		$c    = Criteria::create();
 		$expr = $c->expr();

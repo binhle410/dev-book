@@ -73,4 +73,18 @@ interface ThingInterface {
 	 * @param null|string $description
 	 */
 	public function setDescription($description): void;
+
+    /**
+     * NOT part of schema.org
+     * A thing may have a status like DRAFT, OPEN, CLOSED, EXPIRED, ARCHIVED
+     * @return null|string
+     */
+    public function getStatus(): ?string;
+
+    /**
+     * NOT part of schema.org
+     * A thing may have a status like DRAFT, OPEN, CLOSED, EXPIRED, ARCHIVED
+     * @param null|string $status
+     */
+    public function setStatus(?string $status): void;
 }
