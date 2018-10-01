@@ -1,1 +1,28 @@
-{% extends '@MagentaCBookAdmin/Book/reader.html.twig' %}
+{% extends '@MagentaCBookAdmin/Book/read-book.html.twig' %}
+{% block pagination %}
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+                <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="#">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">4</a></li>
+        <li class="page-item">
+            <a class="page-link" href="#">
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+{% endblock %}
