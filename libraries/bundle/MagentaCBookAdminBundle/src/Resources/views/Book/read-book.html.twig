@@ -121,13 +121,14 @@
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li class="dropdown-header">Choose chapter</li>
             {% for i, chapter in book.rootChapters %}
-                <a class="dropdown-item" href="#chapter-{{ i+1 }}">{{ i+1 }}. {{ chapter.name }}</a>
+                <a class="dropdown-item" href="#chapter-{{ chapter.listNumber }}">{{ chapter.listNumber }}
+                    . {{ chapter.name }}</a>
             {% endfor %}
         </ul>
     </div>
 
     {% for i, chapter in book.rootChapters %}
-        <div class="dropdown subchapter-nav" id="chapter-{{ i+1 }}-nav" style="display: none">
+        <div class="dropdown subchapter-nav" id="chapter-{{ chapter.listNumber }}-nav" style="display: none">
             <a href="#" class="btn-neutral dropdown-toggle" data-toggle="dropdown">
                 <span class="spy-subchapter-navtitle"></span>
                 <b class="caret"></b>
@@ -135,16 +136,17 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li class="dropdown-header">Choose sub-chapter</li>
                 {% for ii, sub in chapter.subChapters %}
-                    <a class="sub dropdown-item" href="#chapter-{{ i+1 }}-{{ ii+1 }}">{{ i+1 }}.{{ ii+1 }}
+                    <a class="sub dropdown-item" href="#chapter-{{ sub.listNumber }}">{{ sub.listNumber }}
                         . {{ sub.name }}</a>
                 {% endfor %}
             </ul>
         </div>
     {% endfor %}
+
 {% endblock %}
 
 {% block body %}
-    <div style="padding-top:35px;"></div>
+    {#<div style="padding-top:35px;"></div>#}
     <div class="container">
         <div class="row">
             <div class="d-none d-md-block col-md-4 book-toc">
@@ -178,8 +180,8 @@
                         <div class="editable" data-objectid="{{ chapter.id }}" data-type="chapter" data-field="name">
                             <a href="{{ path('magenta_book_reader_chapter',{accessCode: accessCode, employeeCode: employeeCode, chapterId: chapter.id}) }}">
                                 <strong
-                                        id="chapter-{{ i+1 }}"
-                                        class="offset-anchor chapter-name">{{ i+1 }}.{{ chapter.name }}
+                                        id="chapter-{{ chapter.listNumber }}"
+                                        class="chapter-name">{{ chapter.listNumber }}.{{ chapter.name }}
                                 </strong>
                             </a>
                             <hr style="margin-top:1px;margin-bottom:5px; border-bottom: dashed; border-width: thin;"/>
@@ -258,33 +260,12 @@
 
         var toc = {{ toc_tree.navigate_child(book.rootChapters,0) }}
 
-        {#var toc = [#}
-            {#{% for i, chapter in book.rootChapters %}#}
-            {#{#}
-                {#id: {{ chapter.id }},#}
-                {#name: '{{ chapter.name|raw }}',#}
-                {#href: '#chapter-{{ i+1 }}',#}
-                {#chapterId: '{{ chapter.id }}',#}
-                {#children: [#}
-                    {#{% for ii, sub in chapter.subChapters %}#}
-                    {#{#}
-                        {#id: {{ sub.id }},#}
-                        {#name: '{{ sub.name|raw }}',#}
-                        {#href: '#chapter-{{ i+1 }}-{{ ii+1 }}',#}
-                        {#chapterId: '{{ sub.id }}',#}
-                    {#},#}
-                    {#{% endfor %}#}
-                {#]#}
-            {#},#}
-            {#{% endfor %}#}
-        {#]#}
-
-        {% block onCreateLi %}
-        window.onCreateLi = function (node, $li) {
-            // $li.find('.jqtree-title').html(
-            //     `<a href="${node.href}">${node.name}</a>  <i class="fa fa-plus-circle" aria-hidden="true"> </i>`
-            // );
-        }
+                {% block onCreateLi %}
+            window.onCreateLi = function (node, $li) {
+                // $li.find('.jqtree-title').html(
+                //     `<a href="${node.href}">${node.name}</a>  <i class="fa fa-plus-circle" aria-hidden="true"> </i>`
+                // );
+            }
         {% endblock %}
 
         $(document).ready(($) => {
@@ -337,10 +318,12 @@
                 var currentChapter = $('.dropdown-item.active:not(.sub)').text();
                 if (currentChapter) {
                     $('#spy-chapter-navtitle').text(currentChapter)
+                    console.log('currentChapter is not null ' + currentChapter)
                 } else {
                     if (typeof href != "undefined") {
                         var href = $('.dropdown-item.active').attr('href');
                         var id = href.substring(0, href.lastIndexOf('-'));
+                        console.log('heyeee', href, id);
                         $('#spy-chapter-navtitle').text($(id).text());
                     } else {
                         // console.log('jquery lookup of (\'.dropdown-item.active\') is not found');

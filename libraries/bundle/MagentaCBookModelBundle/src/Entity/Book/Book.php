@@ -2,7 +2,9 @@
 
 namespace Magenta\Bundle\CBookModelBundle\Entity\Book;
 
+use Bean\Component\Book\IoC\ChapterContainerInterface;
 use Bean\Component\Book\Model\Book as BookModel;
+use Bean\Component\Book\Model\ChapterInterface;
 use Bean\Component\Organization\IoC\OrganizationAwareInterface;
 use Bean\Component\Organization\Model\OrganizationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,75 +17,97 @@ use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCateg
  * @ORM\Entity()
  * @ORM\Table(name="book__book")
  */
-class Book extends \Bean\Component\Book\Model\Book implements OrganizationAwareInterface {
-	const STATUS_DRAFT = 'DRAFT';
+class Book extends \Bean\Component\Book\Model\Book implements OrganizationAwareInterface, ChapterContainerInterface
+{
+    const STATUS_DRAFT = 'DRAFT';
     const STATUS_PUBLISHED = 'PUBLISHED';
-	
-	function __construct() {
-		parent::__construct();
-		$this->locale            = 'en';
-		$this->status            = self::STATUS_DRAFT;
-		$this->bookCategoryItems = new ArrayCollection();
-		$this->chapters          = new ArrayCollection();
-	}
 
-    public function addChapter(ChapterInterface $chapter) {
-        $this->chapters->add($chapter);
-        $chapter->setBook($this);
+    function __construct()
+    {
+        parent::__construct();
+        $this->locale = 'en';
+        $this->status = self::STATUS_DRAFT;
+        $this->bookCategoryItems = new ArrayCollection();
+        $this->chapters = new ArrayCollection();
     }
 
-    public function removeChapter(ChapterInterface $chapter) {
+    public function addChapter(ChapterInterface $chapter)
+    {
+        $this->chapters->add($chapter);
+        $chapter->setBook($this);
+        $chapter->setPosition($this->getLastSubChapterPosition() + 1);
+    }
+
+    public function removeChapter(ChapterInterface $chapter)
+    {
         $this->chapters->removeElement($chapter);
         $chapter->setBook(null);
     }
 
-	public function getRootChapters() {
-		$c    = Criteria::create();
-		$expr = $c->expr();
-		$c->andWhere($expr->isNull('parentChapter'))
-		  ->orderBy([ 'position' => Criteria::ASC ]);
-		
-		return $this->chapters->matching($c);
-	}
-	
-	/**
-	 * @ORM\OneToMany(
-	 *     targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCategoryItem",
-	 *     mappedBy="item", cascade={"persist"}, orphanRemoval=true
-	 * )
-	 * @ORM\OrderBy({"position"="ASC"})
-	 *
-	 * @var \Doctrine\Common\Collections\Collection $bookCategoryItems ;
-	 */
-	protected $bookCategoryItems;
-	
-	public function addBookCategoryItem(BookCategoryItem $bc) {
-		$this->bookCategoryItems->add($bc);
-		$bc->setItem($this);
-	}
-	
-	public function removeBookCategoryItem(BookCategoryItem $bc) {
-		$this->bookCategoryItems->removeElement($bc);
-		$bc->setItem(null);
-	}
-	
-	/**
-	 * @ORM\OneToMany(targetEntity="Chapter", cascade={"persist","merge"}, orphanRemoval=true, mappedBy="book")
-	 * @ORM\OrderBy({"position"="ASC"})
-	 */
-	protected $chapters;
-	
-	/**
-	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="Bean\Component\CreativeWork\Model\CreativeWork", cascade={"persist","merge"}, orphanRemoval=true, mappedBy="partOf")
-	 */
-	protected $parts;
-	
-	/**
-	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="books")
-	 * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
-	 */
-	protected $organisation;
+    public function getLastSubChapterPosition()
+    {
+        $position = 0;
+        $rootChapters = $this->getRootChapters();
+        /** @var ChapterInterface $chapter */
+        foreach ($rootChapters as $chapter) {
+            if ($chapter->getPosition() > $position) {
+                $position = $chapter->getPosition();
+            }
+        }
+
+        return $position;
+    }
+
+    public function getRootChapters()
+    {
+        $c = Criteria::create();
+        $expr = $c->expr();
+        $c->andWhere($expr->isNull('parentChapter'))
+            ->orderBy(['position' => Criteria::ASC]);
+
+        return $this->chapters->matching($c);
+    }
+
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCategoryItem",
+     *     mappedBy="item", cascade={"persist"}, orphanRemoval=true
+     * )
+     * @ORM\OrderBy({"position"="ASC"})
+     *
+     * @var \Doctrine\Common\Collections\Collection $bookCategoryItems ;
+     */
+    protected $bookCategoryItems;
+
+    public function addBookCategoryItem(BookCategoryItem $bc)
+    {
+        $this->bookCategoryItems->add($bc);
+        $bc->setItem($this);
+    }
+
+    public function removeBookCategoryItem(BookCategoryItem $bc)
+    {
+        $this->bookCategoryItems->removeElement($bc);
+        $bc->setItem(null);
+    }
+
+    /**
+     * @ORM\OneToMany(targetEntity="Chapter", cascade={"persist","merge"}, orphanRemoval=true, mappedBy="book")
+     * @ORM\OrderBy({"position"="ASC"})
+     */
+    protected $chapters;
+
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="Bean\Component\CreativeWork\Model\CreativeWork", cascade={"persist","merge"}, orphanRemoval=true, mappedBy="partOf")
+     */
+    protected $parts;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="books")
+     * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $organisation;
 
 //	/**
 //	 * @var boolean|null
@@ -114,40 +138,62 @@ class Book extends \Bean\Component\Book\Model\Book implements OrganizationAwareI
 //	 * @ORM\Column(type="string", nullable=true)
 //	 */
 //	protected $isbn;
-	
-	/**
-	 * @return mixed
-	 */
-	public function getOrganisation() {
-		return $this->organisation;
-	}
-	
-	/**
-	 * @param mixed $organisation
-	 */
-	public function setOrganisation($organisation): void {
-		$this->organisation = $organisation;
-	}
-	
-	/**
-	 * @return Collection
-	 */
-	public function getBookCategoryItems(): Collection {
-		return $this->bookCategoryItems;
-	}
-	
-	/**
-	 * @param Collection $bookCategoryItems
-	 */
-	public function setBookCategoryItems(Collection $bookCategoryItems): void {
-		$this->bookCategoryItems = $bookCategoryItems;
-	}
-	
-	public function getOrganization(): ?OrganizationInterface {
-		return $this->organisation;
-	}
-	
-	public function setOrganization(?OrganizationInterface $org) {
-		return $this->organisation = $org;
-	}
+
+    /**
+     * @return mixed
+     */
+    public function getOrganisation()
+    {
+        return $this->organisation;
+    }
+
+    /**
+     * @param mixed $organisation
+     */
+    public function setOrganisation($organisation): void
+    {
+        $this->organisation = $organisation;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getBookCategoryItems(): Collection
+    {
+        return $this->bookCategoryItems;
+    }
+
+    /**
+     * @param Collection $bookCategoryItems
+     */
+    public function setBookCategoryItems(Collection $bookCategoryItems): void
+    {
+        $this->bookCategoryItems = $bookCategoryItems;
+    }
+
+    public function getOrganization(): ?OrganizationInterface
+    {
+        return $this->organisation;
+    }
+
+    public function setOrganization(?OrganizationInterface $org)
+    {
+        return $this->organisation = $org;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getChapters()
+    {
+        return $this->chapters;
+    }
+
+    /**
+     * @param mixed $chapters
+     */
+    public function setChapters($chapters): void
+    {
+        $this->chapters = $chapters;
+    }
 }

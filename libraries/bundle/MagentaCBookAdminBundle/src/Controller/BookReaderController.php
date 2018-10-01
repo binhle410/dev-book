@@ -38,7 +38,7 @@ class BookReaderController extends Controller
         $memberRepo = $registry->getRepository(IndividualMember::class);
         $member = $memberRepo->findOneByPinCodeEmployeeCode($accessCode, $employeeCode);
         if (empty($member) || !$member->isEnabled()) {
-            throw new UnauthorizedHttpException('Cannot access book reader. Invalid access code');
+            $this->handleUnauthorisation();
         }
 
         return $this->render('@MagentaCBookAdmin/Book/read-book.html.twig', [
@@ -53,6 +53,24 @@ class BookReaderController extends Controller
 
     public function readChapterAction($accessCode, $employeeCode, $chapterId)
     {
+        $registry = $this->getDoctrine();
+        $chapterRepo = $registry->getRepository(Chapter::class);
+        /** @var Chapter $chapter */
+        $chapter = $chapterRepo->find($chapterId);
+        $memberRepo = $registry->getRepository(IndividualMember::class);
+        $member = $memberRepo->findOneByPinCodeEmployeeCode($accessCode, $employeeCode);
+        if (empty($member) || !$member->isEnabled()) {
+            $this->handleUnauthorisation();
+        }
+
+        return $this->render('@MagentaCBookAdmin/Book/read-chapter.html.twig', [
+            'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
+            'book' => $book = $chapter->getBook(),
+            'mainContentItem' => $chapter,
+            'subContentItems' => $chapter->getSubChapters(),
+            'accessCode' => $accessCode,
+            'employeeCode' => $employeeCode
+        ]);
     }
 
     public function contactAction($accessCode, $employeeCode)
@@ -62,5 +80,10 @@ class BookReaderController extends Controller
             'accessCode' => $accessCode,
             'employeeCode' => $employeeCode
         ]);
+    }
+
+    private function handleUnauthorisation()
+    {
+        throw new UnauthorizedHttpException('Cannot access book reader. Invalid access code');
     }
 }
