@@ -79,9 +79,22 @@
     {#</ul>#}
     {#</div>#}
 {% endblock %}
+{% block book_title %}
+    {% set parentChapter = mainContentItem.parentChapter %}
+    <h3 style="text-align: center; margin-bottom:0px;">
+        {% if parentChapter is empty %}
+            <a href="{{ path('magenta_book_reader_book',{accessCode:accessCode,employeeCode:employeeCode,bookId:book.id}) }}">{{ book.name }}</a>
+        {% else %}
+            <a href="{{ path('magenta_book_reader_chapter',{accessCode:accessCode,employeeCode:employeeCode,chapterId:parentChapter.id}) }}">
+                {{ parentChapter.listNumber }}. {{ parentChapter.name }}
+            </a>
+        {% endif %}
+    </h3>
+    {{ parent() }}
+{% endblock %}
 {% block content_title %}
     <span id="chapter-{{ mainContentItem.listNumber }}">
-    {{ parent() }}
+        {{ mainContentItem.listNumber }}. {{ parent() }}
 </span>
 {% endblock %}
 {% block pagination %}
@@ -104,7 +117,7 @@
                 </a>
             </li>
         {% endif %}
-        <li class="page-item previous-item-group {{ (chapter.position < 3)?'disabled':'' }}">
+        <li class="page-item previous-item-group {{ chapter.position < 3 or chapter.siblingChapters|length <=3 ?'disabled':'' }}">
             <a class="page-link">
                 <i class="fa fa-angle-left" aria-hidden="true"></i>
             </a>

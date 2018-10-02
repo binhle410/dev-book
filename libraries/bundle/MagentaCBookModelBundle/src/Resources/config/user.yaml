@@ -22,12 +22,20 @@ services:
         class: Magenta\Bundle\CBookModelBundle\Security\OrgCodeNricUserProvider
         arguments: ['@magenta_user.user_manager']
 
+    magenta_book.command.fix_chapter_position:
+        class: Magenta\Bundle\CBookModelBundle\Command\Book\FixChapterPositionCommand
+        public: false
+        arguments: ['@doctrine.orm.entity_manager','@doctrine']
+        tags:
+        - {name: "console.command", command: "magenta:book:fix-chapter-position"}
+
     magenta_user.command.create_user:
         class: Magenta\Bundle\CBookModelBundle\Command\User\CreateUserCommand
         public: false
         arguments: ['@magenta_user.util.user_manipulator']
         tags:
             - {name: "console.command", command: "magenta:user:create"}
+
     magenta_user.command.promote_user:
         class: Magenta\Bundle\CBookModelBundle\Command\User\PromoteUserCommand
         arguments: ['@magenta_user.util.user_manipulator']

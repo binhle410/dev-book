@@ -34,24 +34,6 @@ class Chapter extends CreativeWork implements ChapterInterface
         return $this->parentChapter->getListNumber() . '.' . $this->position;
     }
 
-    public function rearrangePositions(&$siblings)
-    {
-        usort($siblings, function (Chapter $a, Chapter $b) {
-            if (($ap = $a->getPosition()) < ($bp = $b->getPosition())) {
-                return -1;
-            } elseif ($ap === $bp) {
-                return 0;
-            } elseif ($ap > $bp) {
-                return 1;
-            }
-        });
-
-        for ($i = 0; $i < count($siblings); $i++) {
-            $siblings[$i]->setPosition($i + 1);
-        }
-    }
-
-
     public function setPartOf(CreativeWorkInterface $partOf): void
     {
         parent::setPartOf($partOf);

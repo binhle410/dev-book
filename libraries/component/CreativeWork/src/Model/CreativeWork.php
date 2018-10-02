@@ -6,7 +6,24 @@ namespace Bean\Component\CreativeWork\Model;
 use Bean\Component\Thing\Model\Thing;
 
 abstract class CreativeWork extends Thing implements CreativeWorkInterface {
-	
+
+    protected function rearrangePositions(&$siblings)
+    {
+        usort($siblings, function (CreativeWork $a, CreativeWork $b) {
+            if (($ap = $a->getPosition()) < ($bp = $b->getPosition())) {
+                return -1;
+            } elseif ($ap === $bp) {
+                return 0;
+            } elseif ($ap > $bp) {
+                return 1;
+            }
+        });
+
+        for ($i = 0; $i < count($siblings); $i++) {
+            $siblings[$i]->setPosition($i + 1);
+        }
+    }
+
 	/**
 	 * Indicates a CreativeWork that is (in some sense) a part of this CreativeWork.
 	 * Inverse property: partOf.

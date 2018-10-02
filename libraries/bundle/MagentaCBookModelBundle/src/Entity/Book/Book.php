@@ -31,6 +31,24 @@ class Book extends \Bean\Component\Book\Model\Book implements OrganizationAwareI
         $this->chapters = new ArrayCollection();
     }
 
+    public function getArrayData($obj)
+    {
+        if ($obj instanceof Collection) {
+            $siblings = $obj->getValues();
+        } else {
+            $siblings = $obj;
+        }
+        return $siblings;
+    }
+
+    public function rearrangeRootChapters()
+    {
+        $rootChapters = $this->getRootChapters();
+        $rootChapterArray = $this->getArrayData($rootChapters);
+        $this->rearrangePositions($rootChapterArray);
+        return $rootChapters;
+    }
+
     public function addChapter(ChapterInterface $chapter)
     {
         $this->chapters->add($chapter);

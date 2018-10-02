@@ -22,6 +22,14 @@ class Chapter extends ChapterModel
         $this->subChapters = new ArrayCollection();
     }
 
+    public function rearrangeSubChapters()
+    {
+        $subChapters = $this->getSubChapters();
+        $subChapterArray = $this->getArrayData($subChapters);
+        $this->rearrangePositions($subChapterArray);
+        return $subChapters;
+    }
+
     public function getNextChapter()
     {
         $chapters = $this->getArrayData($this->getSiblingChapters());
