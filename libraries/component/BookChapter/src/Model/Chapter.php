@@ -9,6 +9,19 @@ use Bean\Component\CreativeWork\Model\CreativeWorkInterface;
 
 class Chapter extends CreativeWork implements ChapterInterface
 {
+    private $siblingChapters;
+
+    public function getSiblingChapters()
+    {
+        if (!empty($this->siblingChapters)) {
+            return $this->siblingChapters;
+        }
+        if (empty($parent = $this->parentChapter)) {
+            return $this->siblingChapters = $this->book->getRootChapters();
+        } else {
+            return $this->siblingChapters = $parent->getSubChapters();
+        }
+    }
 
     public function getListNumber($siblings = [])
     {
@@ -37,7 +50,6 @@ class Chapter extends CreativeWork implements ChapterInterface
             $siblings[$i]->setPosition($i + 1);
         }
     }
-
 
 
     public function setPartOf(CreativeWorkInterface $partOf): void

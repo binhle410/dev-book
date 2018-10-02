@@ -1,4 +1,68 @@
 {% extends '@MagentaCBookAdmin/Book/read-book.html.twig' %}
+{% block stylesheets_book %}
+    {{ parent() }}
+    <style>
+        .disabled, .pagination > .page-item.disabled > .page-link {
+            pointer-events: none;
+            color: grey;
+            border-color: grey;
+        }
+
+        .page-item {
+            cursor: pointer;
+        }
+
+        .pagination {
+            margin-left: auto;
+            margin-bottom: 50px;
+            /*margin-right: 0px;*/
+        }
+
+        .hide {
+            opacity: 0;
+            display: none;
+        }
+
+        .show {
+            /*width: 100px;*/
+            /*height: 100px;*/
+            /*background: red;*/
+
+            -webkit-animation-name: pagination-group-anim; /* Safari 4.0 - 8.0 */
+            -webkit-animation-duration: 1s; /* Safari 4.0 - 8.0 */
+            -webkit-animation-delay: 2s; /* Safari 4.0 - 8.0 */
+            animation-name: pagination-group-anim;
+            animation-duration: 1s;
+            animation-delay: 0s;
+            display: block;
+            /*margin-left: 0px;*/
+        }
+
+        /* Safari 4.0 - 8.0 */
+        @-webkit-keyframes pagination-group-anim {
+            from {
+                /*margin-left: 500px;*/
+                opacity: 0.1;
+            }
+            to {
+                /*margin-left: 0px;*/
+                opacity: 1;
+            }
+        }
+
+        @keyframes pagination-group-anim {
+            from {
+                /*margin-left: 500px;*/
+                opacity: 0.1;
+            }
+            to {
+                /*margin-left: 0px;*/
+                opacity: 1;
+            }
+        }
+    </style>
+{% endblock %}
+{% block nav_title_text %}{{ book.name|length > 19 ? book.name|slice(0, 50) ~ '...' : book.name }}{% endblock %}
 {% block nav_title %}
     {{ parent() }}
     {% set chapter = mainContentItem %}
@@ -22,30 +86,107 @@
 {% endblock %}
 {% block pagination %}
     {% set chapter = mainContentItem %}
+    <h2>previous chapter is {{ chapter.previousChapter is not empty?chapter.previousChapter.name:'NONE' }}</h2>
     <h2>next chapter is {{ chapter.nextChapter is not empty?chapter.nextChapter.name:'NONE' }}</h2>
-    <ul class="pagination">
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-                <i class="fa fa-angle-double-left" aria-hidden="true"></i>
-            </a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="#">
+    <h3>There are {{ chapter.siblingChapters|length }} siblings</h3>
+
+    <ul class="pagination" data-current-group="{{ paginationItemGroup(chapter,chapter) }}">
+        {% if mainContentItem.parentChapter is not empty %}
+            {% set previousParentChapter = mainContentItem.parentChapter.previousChapter %}
+            {% if previousParentChapter is not empty %}
+                <li class="page-item">
+                    <a href="{{ path('magenta_book_reader_chapter',{accessCode:accessCode,employeeCode:employeeCode,chapterId: previousParentChapter.id}) }}"
+                       class="page-link" aria-label="Next">
+                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    </a>
+                </li>
+            {% endif %}
+
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous">
+                    <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                </a>
+            </li>
+        {% endif %}
+        <li class="page-item previous-item-group {{ (chapter.position < 3)?'disabled':'' }}">
+            <a class="page-link">
                 <i class="fa fa-angle-left" aria-hidden="true"></i>
             </a>
         </li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">4</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#">
+        {#<li class="page-item pagination-item"><a class="page-link" href="#">1.1</a></li>#}
+        {#<li class="page-item show" data-group="2"><a class="page-link" href="#">2.1</a></li>#}
+        {#<li class="page-item active show" data-group="2"><a class="page-link" href="#">3.1</a></li>#}
+        {#<li class="page-item show" data-group="2"><a class="page-link" href="#">4.1</a></li>#}
+        {##}
+        {#<li class="page-item hide" data-group="3"><a class="page-link" href="#">6.1</a></li>#}
+        {#<li class="page-item hide" data-group="3"><a class="page-link" href="#">7.1</a></li>#}
+        {% for item in chapter.siblingChapters %}
+            <li class="page-item {{ paginationItemClass(item,chapter) }}"
+                data-group="{{ paginationItemGroup(item, chapter) }}">
+                <a class="page-link"
+                   href="{{ path('magenta_book_reader_chapter',{accessCode:accessCode,employeeCode:employeeCode,chapterId:item.id}) }}">{{ item.listNumber }}</a>
+            </li>
+        {% endfor %}
+        <li class="page-item next-item-group {{ paginationItemGroup(chapter,chapter) * 3 >= chapter.siblingChapters|length?'disabled':'' }}">
+            <a class="page-link">
                 <i class="fa fa-angle-right" aria-hidden="true"></i>
             </a>
         </li>
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            </a>
-        </li>
+        {% if mainContentItem.parentChapter is not empty %}
+            {% set nextParentChapter = mainContentItem.parentChapter.nextChapter %}
+            {% if nextParentChapter is not empty %}
+                <li class="page-item">
+                    <a href="{{ path('magenta_book_reader_chapter',{accessCode:accessCode,employeeCode:employeeCode,chapterId: nextParentChapter.id}) }}"
+                       class="page-link" aria-label="Next">
+                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    </a>
+                </li>
+            {% endif %}
+        {% endif %}
     </ul>
+    </div>
+{% endblock %}
+
+{% block javascripts_book %}
+    {% set chapter = mainContentItem %}
+    <script>
+        $('.next-item-group').click(function (e) {
+            $('.previous-item-group').removeClass('disabled');
+
+            console.log('current group is ', $(this).parents('ul').data('currentGroup'));
+            let currentGroup = $(this).parents('ul').data('currentGroup');
+            let nextGroup = currentGroup + 1;
+            $currentGroupPageItems = $('.page-item[data-group="' + currentGroup + '"]');
+            $nextGroupPageItems = $('.page-item[data-group="' + nextGroup + '"]');
+            $currentGroupPageItems.removeClass('show');
+            $currentGroupPageItems.addClass('hide');
+            $nextGroupPageItems.addClass('show');
+            $nextGroupPageItems.removeClass('hide');
+
+            $(this).parents('ul').data('currentGroup', nextGroup);
+            if (nextGroup * 3 > {{ chapter.siblingChapters|length }}) {
+                $(this).addClass('disabled');
+            }
+        })
+
+        $('.previous-item-group').click(function (e) {
+            $('.next-item-group').removeClass('disabled');
+
+            console.log('current group is ', $(this).parents('ul').data('currentGroup'));
+            let currentGroup = $(this).parents('ul').data('currentGroup');
+            let nextGroup = currentGroup - 1;
+            $currentGroupPageItems = $('.page-item[data-group="' + currentGroup + '"]');
+            $nextGroupPageItems = $('.page-item[data-group="' + nextGroup + '"]');
+            $currentGroupPageItems.removeClass('show');
+            $currentGroupPageItems.addClass('hide');
+            $nextGroupPageItems.addClass('show');
+            $nextGroupPageItems.removeClass('hide');
+
+            $(this).parents('ul').data('currentGroup', nextGroup);
+            if (nextGroup <= 1) {
+                $(this).addClass('disabled');
+            }
+        })
+
+    </script>
 {% endblock %}

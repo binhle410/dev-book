@@ -16,26 +16,29 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class BeanPlaygroundController extends Controller {
-	
-	public function __invoke(Book $data) {
-		/** @var ArrayCollection $chapters */
-		$chapters = $data->getChapters();
-		
-		$criteria = Criteria::create();
-		$expr     = Criteria::expr();
-		
-		$criteria->where(
-			$expr->eq('partOf', $data)
-		);
-		
-		return $chapters->matching($criteria);
-	}
-	
-	/**
-	 * @Route("/bean/playground", name="bean_playground")
-	 */
-	public function index(Request $request) {
+class BeanPlaygroundController extends Controller
+{
+
+    public function __invoke(Book $data)
+    {
+        /** @var ArrayCollection $chapters */
+        $chapters = $data->getChapters();
+
+        $criteria = Criteria::create();
+        $expr = Criteria::expr();
+
+        $criteria->where(
+            $expr->eq('partOf', $data)
+        );
+
+        return $chapters->matching($criteria);
+    }
+
+    /**
+     * @Route("/bean/playground", name="bean_playground")
+     */
+    public function index(Request $request)
+    {
 //	    $abc = $request->get('field_name');
 //		$registry = $this->get('doctrine');
 //		$chapRepo = $registry->getRepository(Chapter::class);
@@ -52,33 +55,35 @@ class BeanPlaygroundController extends Controller {
 //	    $page = new BookPage();
 //	    $page->setText('here comes the text');
 //	    $manager->persist($page);$manager->flush();
-		$builder = $this->createFormBuilder();
-		$builder->add('media', MediaType::class, array(
-			'provider' => 'sonata.media.provider.file',
-			'context'  => 'default'
-		));
+        $builder = $this->createFormBuilder();
+        $builder->add('media', MediaType::class, array(
+            'provider' => 'sonata.media.provider.file',
+            'context' => 'default'
+        ));
 
-		$bookRepo = $this->getDoctrine()->getRepository(Book::class);
-		$book = $bookRepo->find(7);
+        $bookRepo = $this->getDoctrine()->getRepository(Book::class);
+        $book = $bookRepo->find(7);
 
-		$clonedBook = clone $book;
+        $clonedBook = clone $book;
 
-		$form = $builder->getForm();
-		$data = null;
-		
-		if($request->getMethod() == 'POST') {
-			$form->handleRequest($request);
-			$data = $form->getData();
-			
-		}
-		
-		return $this->render('bean_playground/index.html.twig', [
-			'form'            => $form->createView(),
-			'data'            => $data,
-			'controller_name' => 'BeanPlaygroundController',
-			'chap'            => 'abc'
-		]);
-		
-		return new JsonResponse([ 'link' => 'https://picsum.photos/1600/900' ]);
-	}
+        $form = $builder->getForm();
+        $data = null;
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            $data = $form->getData();
+        }
+
+        $quotient = (int)(5 / 3);
+        $remainder  = 5 % 3;
+
+        return $this->render('bean_playground/index.html.twig', [
+            'form' => $form->createView(),
+            'data' => $data,
+            'controller_name' => 'BeanPlaygroundController',
+            'chap' => 'abc ' . $quotient
+        ]);
+
+        return new JsonResponse(['link' => 'https://picsum.photos/1600/900']);
+    }
 }

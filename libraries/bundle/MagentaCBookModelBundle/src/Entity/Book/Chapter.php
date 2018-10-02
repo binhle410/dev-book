@@ -24,11 +24,7 @@ class Chapter extends ChapterModel
 
     public function getNextChapter()
     {
-        if (empty($parent = $this->parentChapter)) {
-            $chapters = $this->getArrayData($this->book->getRootChapters());
-        } else {
-            $chapters = $this->getArrayData($parent->getSubChapters());
-        }
+        $chapters = $this->getArrayData($this->getSiblingChapters());
         $this->rearrangePositions($chapters);
         $found = false;
         /** @var Chapter $chapter */
@@ -41,6 +37,23 @@ class Chapter extends ChapterModel
             }
         }
         return null;
+    }
+
+    public function getPreviousChapter()
+    {
+        $chapters = $this->getArrayData($this->getSiblingChapters());
+        $this->rearrangePositions($chapters);
+        $previousChapter = null;
+
+        /** @var Chapter $chapter */
+        foreach ($chapters as $chapter) {
+            if ($chapter === $this) {
+                return $previousChapter;
+            }
+            $previousChapter = $chapter;
+        }
+
+        return $previousChapter;
     }
 
     public function getArrayData($obj)

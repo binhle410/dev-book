@@ -1,6 +1,6 @@
 {% extends base_book_template %}
 
-{% block stylesheet %}
+{% block stylesheets_book %}
     <style>
         nav {
             height: 70px;
@@ -115,14 +115,15 @@
 {% block nav_title %}
     <div class="dropdown chapter-nav">
         <a href="#" class="btn-neutral dropdown-toggle" data-toggle="dropdown">
-            <span id="spy-chapter-navtitle">Your book on the cloud</span>
+            <span id="spy-chapter-navtitle">{% block nav_title_text %}Your book on the cloud{% endblock %}</span>
             <b class="caret"></b>
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li class="dropdown-header">Choose chapter</li>
             {% for i, chapter in book.rootChapters %}
-                <a class="dropdown-item" href="#chapter-{{ chapter.listNumber }}">{{ chapter.listNumber }}
-                    . {{ chapter.name }}</a>
+                {# #chapter-{{ chapter.listNumber }} #}
+                <a class="dropdown-item"
+                   href="{{ path('magenta_book_reader_chapter',{'accessCode':accessCode,'employeeCode':employeeCode,'chapterId':chapter.id}) }}">{{ chapter.listNumber }}. {{ chapter.name }}</a>
             {% endfor %}
         </ul>
     </div>
