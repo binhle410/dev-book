@@ -10,12 +10,14 @@
             </tr>
             </thead>
             <tbody>
-                {% for i, book in books %}
-                    <tr class="hand-hover">
-                        <td>{{ i + 1 }}</td>
-                        <td><a href="{{ path('magenta_book_reader', {'accessCode': accessCode, 'employeeCode': employeeCode}) }}">{{ book.name }}</a></td>
-                    </tr>
-                {% endfor %}
+            {% for i, book in books %}
+                <tr class="hand-hover">
+                    <td>{{ i + 1 }}</td>
+                    <td>
+                        <a href="{{ path('magenta_book_reader_book', {'accessCode': accessCode, 'employeeCode': employeeCode, 'bookId':book.id}) }}">{{ book.name }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>
