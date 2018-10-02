@@ -1,0 +1,16 @@
+{% macro navigate_child(showListNumber, collection, depth) %}
+    {% import _self as toc_tree %}
+    [
+    {%- for ii, sub in collection -%}
+        {
+        id: {{ sub.id }},
+        name: '{{ showListNumber is not empty?sub.listNumber ~ '. ':'' }}{{ sub.name|raw|e('js') }}',
+        href: '#chapter-{{ sub.listNumber }}',
+        chapterId: '{{ sub.id }}',
+        {% if sub.subChapters|length > 0 %}
+            children: {{ toc_tree.navigate_child(showListNumber, sub.subChapters,depth +1) }},
+        {%- endif -%}
+        },
+    {%- endfor -%}
+    ]
+{% endmacro %}

@@ -238,6 +238,14 @@
 {% block toc_help %}<span
         class="text-muted">Move a chapter around to re-position or nest it inside another chapter.</span>{% endblock %}
 {% block toc_modal %}{% endblock %}
+
+{% block content_title %}{{ mainContentItem.name|raw }}{% endblock %}
+
+{% block toc_tree_data %}
+    {% import '@MagentaCBookAdmin/Book/macro_chapter_tree.html.twig' as toc_tree %}
+    var toc = {{ toc_tree.navigate_child(false, book.rootChapters,0) }}
+{% endblock %}
+
 {% block chapters %}
     {% if subContentItems|length > 0 %}
         <code>Click on Chapter title to go to Edit Page of that Chapter</code>
@@ -353,6 +361,16 @@
             margin-bottom: 0px;
         }
 
+        /* To keep a distance with Undo Redo button */
+        .container {
+            margin-bottom: 45px;
+        }
+
+        /* To keep a distance with Top Nav */
+        .content {
+            margin-top: 20px;
+        }
+
     </style>
 
     <link rel="stylesheet" href="{{ asset('assets/pk2/css/nucleo-icons.css') }}"/>
@@ -365,8 +383,6 @@
 {% endblock %}
 {% block content %}
     {{ block('body') }}
-
-
     <!-- Publication Modal -->
     <div class="modal fade" id="publication-modal" tabindex="-1" role="dialog" aria-labelledby="publicationLabel">
         <div class="modal-dialog" role="document">

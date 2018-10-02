@@ -18,12 +18,12 @@
             /*margin-right: 0px;*/
         }
 
-        .hide {
+        .hide-chapter {
             opacity: 0;
             display: none;
         }
 
-        .show {
+        .show-chapter {
             /*width: 100px;*/
             /*height: 100px;*/
             /*background: red;*/
@@ -86,10 +86,6 @@
 {% endblock %}
 {% block pagination %}
     {% set chapter = mainContentItem %}
-    <h2>previous chapter is {{ chapter.previousChapter is not empty?chapter.previousChapter.name:'NONE' }}</h2>
-    <h2>next chapter is {{ chapter.nextChapter is not empty?chapter.nextChapter.name:'NONE' }}</h2>
-    <h3>There are {{ chapter.siblingChapters|length }} siblings</h3>
-
     <ul class="pagination" data-current-group="{{ paginationItemGroup(chapter,chapter) }}">
         {% if mainContentItem.parentChapter is not empty %}
             {% set previousParentChapter = mainContentItem.parentChapter.previousChapter %}
@@ -148,6 +144,7 @@
 {% endblock %}
 
 {% block javascripts_book %}
+    {{ parent() }}
     {% set chapter = mainContentItem %}
     <script>
         $('.next-item-group').click(function (e) {
@@ -158,10 +155,10 @@
             let nextGroup = currentGroup + 1;
             $currentGroupPageItems = $('.page-item[data-group="' + currentGroup + '"]');
             $nextGroupPageItems = $('.page-item[data-group="' + nextGroup + '"]');
-            $currentGroupPageItems.removeClass('show');
-            $currentGroupPageItems.addClass('hide');
-            $nextGroupPageItems.addClass('show');
-            $nextGroupPageItems.removeClass('hide');
+            $currentGroupPageItems.removeClass('show-chapter');
+            $currentGroupPageItems.addClass('hide-chapter');
+            $nextGroupPageItems.addClass('show-chapter');
+            $nextGroupPageItems.removeClass('hide-chapter');
 
             $(this).parents('ul').data('currentGroup', nextGroup);
             if (nextGroup * 3 > {{ chapter.siblingChapters|length }}) {
@@ -177,10 +174,10 @@
             let nextGroup = currentGroup - 1;
             $currentGroupPageItems = $('.page-item[data-group="' + currentGroup + '"]');
             $nextGroupPageItems = $('.page-item[data-group="' + nextGroup + '"]');
-            $currentGroupPageItems.removeClass('show');
-            $currentGroupPageItems.addClass('hide');
-            $nextGroupPageItems.addClass('show');
-            $nextGroupPageItems.removeClass('hide');
+            $currentGroupPageItems.removeClass('show-chapter');
+            $currentGroupPageItems.addClass('hide-chapter');
+            $nextGroupPageItems.addClass('show-chapter');
+            $nextGroupPageItems.removeClass('hide-chapter');
 
             $(this).parents('ul').data('currentGroup', nextGroup);
             if (nextGroup <= 1) {

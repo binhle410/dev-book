@@ -101,7 +101,6 @@
             }
 
         }
-
     </style>
 {% endblock %}
 
@@ -123,7 +122,8 @@
             {% for i, chapter in book.rootChapters %}
                 {# #chapter-{{ chapter.listNumber }} #}
                 <a class="dropdown-item"
-                   href="{{ path('magenta_book_reader_chapter',{'accessCode':accessCode,'employeeCode':employeeCode,'chapterId':chapter.id}) }}">{{ chapter.listNumber }}. {{ chapter.name }}</a>
+                   href="{{ path('magenta_book_reader_chapter',{'accessCode':accessCode,'employeeCode':employeeCode,'chapterId':chapter.id}) }}">{{ chapter.listNumber }}
+                    . {{ chapter.name }}</a>
             {% endfor %}
         </ul>
     </div>
@@ -162,7 +162,7 @@
                 {% block book_title %}
                     <div class="editable" data-objectid="{{ mainContentItem.id }}" data-type="main-content"
                          data-field="name">
-                        <h2 style="text-align: center">{% block content_title %}{{ mainContentItem.name|raw }}{% endblock %}</h2>
+                        <h2 style="text-align: center">{% block content_title %}{{ mainContentItem.listNumber }}. {{ mainContentItem.name|raw }}{% endblock %}</h2>
                     </div>
                 {% endblock %}
                 <div class="editable" data-objectid="{{ mainContentItem.id }}" data-type="main-content"
@@ -241,25 +241,11 @@
 
 {% block javascripts_book %}
     <script>
-        {% import _self as toc_tree %}
-        {% macro navigate_child(collection, depth) %}
-        {% import _self as toc_tree %}
-        [
-            {%- for ii, sub in collection -%}
-            {
-                id: {{ sub.id }},
-                name: '{{ sub.name|raw|e('js') }}',
-                href: '#chapter-{{ sub.listNumber }}',
-                chapterId: '{{ sub.id }}',
-                {% if sub.subChapters|length > 0 %}
-                children: {{ toc_tree.navigate_child(sub.subChapters,depth +1) }},
-                {%- endif -%}
-            },
-            {%- endfor -%}
-        ]
-        {% endmacro %}
+        {% import '@MagentaCBookAdmin/Book/macro_chapter_tree.html.twig' as toc_tree %}
 
-        var toc = {{ toc_tree.navigate_child(book.rootChapters,0) }}
+        {% block toc_tree_data %}
+        var toc = {{ toc_tree.navigate_child(true, book.rootChapters,0) }}
+                {% endblock %}
 
                 {% block onCreateLi %}
             window.onCreateLi = function (node, $li) {
@@ -286,9 +272,11 @@
                 function (event) {
                     // The clicked node is 'event.node'
                     // var node = event.node;
+                    let url = '{{ path('magenta_book_reader_chapter',{accessCode:accessCode,employeeCode:employeeCode,chapterId:0}) }}';
+                    let redirectUrl = url.replace('/chapter/0', '/chapter/' + event.node.id);
                     // alert(node.name);
-                    console.log('clicked', event);
-                    window.location = (event.node.href);
+                    console.log('Go to Chapter Page', event, url, redirectUrl);
+                    window.location = redirectUrl;
                 }
             );
             {% endblock %}
