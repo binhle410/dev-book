@@ -185,6 +185,9 @@
             console.log('current group is ', $(this).parents('ul').data('currentGroup'));
             let currentGroup = $(this).parents('ul').data('currentGroup');
             let nextGroup = currentGroup - 1;
+            if (nextGroup === 0) {
+                nextGroup = 1;
+            }
             $currentGroupPageItems = $('.page-item[data-group="' + currentGroup + '"]');
             $nextGroupPageItems = $('.page-item[data-group="' + nextGroup + '"]');
             $currentGroupPageItems.removeClass('show-chapter');
