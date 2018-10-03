@@ -109,7 +109,6 @@ form_group:
     user_details: User Details
     groups: Groups
 form:
-
     group_name: 'Group name'
     username: Username
     email: Email
@@ -119,6 +118,8 @@ form:
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
 
+    label_id_number: NRIC/Passport Number
+    label_dob: Birthday
     label_organisation: Organisation
     label_edition: Edition
     label_text: Text

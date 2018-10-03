@@ -95,7 +95,6 @@ sonata_formatter:
                 - sonata.formatter.twig.gist
         #        - sonata.media.formatter.twig
 
-
         twig:
             service: sonata.formatter.text.twigengine
             extensions: [] # Twig formatter cannot have extensions

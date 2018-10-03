@@ -8,6 +8,7 @@
         <!-- field parts shall be ignored here -->
         <field name="birthDate" type="datetime" nullable="true"/>
         <field name="email" type="string" nullable="true"/>
+        <field name="telephone" type="string" nullable="true"/>
         <field name="givenName" type="string" nullable="true"/>
         <field name="familyName" type="string" nullable="true"/>
 

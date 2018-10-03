@@ -17,11 +17,10 @@ class BookReaderController extends Controller
 
     public function indexAction($accessCode, $employeeCode)
     {
-        $b1 = new Book();
-        $b1->setName('Symfony Encore');
-        $b2 = new Book();
-        $b2->setName('React JS');
-        $books = [$b1, $b2];
+        $this->checkAccess($accessCode, $employeeCode);
+        $member = $this->getMemberByPinCodeEmployeeCode($accessCode, $employeeCode);
+        $books = $member->getOrganization()->getPublishedBooks();
+
         return $this->render('@MagentaCBookAdmin/Book/index.html.twig', [
             'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
             'books' => $books,
@@ -79,12 +78,12 @@ class BookReaderController extends Controller
             if (!$m->isContactable()) {
                 continue;
             }
-            if (!array_key_exists($alpha = substr($m->getName(), 0, 1), $sortedMembers)) {
+            if (!array_key_exists($alpha = substr($m->getPerson()->getName(), 0, 1), $sortedMembers)) {
                 $sortedMembers[$alpha] = [];
             }
             $sortedMembers[$alpha][] = $m;
         }
-
+        ksort($sortedMembers);
         return $this->render('@MagentaCBookAdmin/Book/contact.html.twig', [
             'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
             'members' => $sortedMembers,

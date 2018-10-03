@@ -36,15 +36,22 @@ class IndividualMember extends MemberModel
         $this->enabled = true;
     }
 
-    public function initiatePin() {
-        if(empty($this->pinCode)) {
+    public function getBooksToRead()
+    {
+
+    }
+
+    public function initiatePin()
+    {
+        if (empty($this->pinCode)) {
             $this->pin = str_replace('O', '0', User::generate4DigitCode());
         }
         return $this;
     }
 
-    public function initiateCode() {
-        if(empty($this->employeeCode)) {
+    public function initiateCode()
+    {
+        if (empty($this->employeeCode)) {
             $this->code = str_replace('O', '0', User::generate4DigitCode() . '-' . User::generateTimestampBasedCode());
         }
         return $this;
@@ -248,8 +255,8 @@ class IndividualMember extends MemberModel
     /**
      * @return Organisation|null
      */
-    public function getOrganization(): ?OrganizationInterface {
+    public function getOrganization(): ?OrganizationInterface
+    {
         return $this->organization;
     }
-
 }

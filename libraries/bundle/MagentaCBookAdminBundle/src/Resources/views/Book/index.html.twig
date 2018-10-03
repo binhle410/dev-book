@@ -10,11 +10,11 @@
             </tr>
             </thead>
             <tbody>
-            {% for i, book in books %}
+            {% for book in books %}
                 <tr class="hand-hover">
-                    <td>{{ i + 1 }}</td>
+                    <td>{{ loop.index }}</td>
                     <td>
-                        <a href="{{ path('magenta_book_reader_book', {'accessCode': accessCode, 'employeeCode': employeeCode, 'bookId':book.id}) }}">{{ book.name }}</a>
+                        <a href="{{ path('magenta_book_reader_book', {'accessCode': accessCode, 'employeeCode': employeeCode, 'bookId': book.id}) }}">{{ book.name }} ({{ book.bookEdition }})</a>
                     </td>
                 </tr>
             {% endfor %}

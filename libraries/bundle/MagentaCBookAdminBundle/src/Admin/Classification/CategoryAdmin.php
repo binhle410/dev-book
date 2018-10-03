@@ -37,6 +37,11 @@ class CategoryAdmin extends SonataCategoryAdmin {
 		configureRoutes as protected configureRoutesTrait;
 //		configureFormFields as protected configureFormFieldsTrait;
 	}
+
+    /**
+     * @var Category $subject
+     */
+	protected $subject;
 	
 	protected function getOrganisationFieldName($class) {
 		return 'organisation';

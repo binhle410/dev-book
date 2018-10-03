@@ -33,4 +33,25 @@ interface PersonInterface {
 	 * @param \DateTime|null $birthDate
 	 */
 	public function setBirthDate(?\DateTime $birthDate): void;
+
+
+    /**
+     * @return null|string
+     */
+    public function getEmail(): ?string;
+
+    /**
+     * @param null|string $email
+     */
+    public function setEmail(?string $email): void;
+
+    /**
+     * @return null|string
+     */
+    public function getTelephone(): ?string;
+
+    /**
+     * @param null|string $telephone
+     */
+    public function setTelephone(?string $telephone): void;
 }

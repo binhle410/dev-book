@@ -180,6 +180,15 @@ class IndividualMemberAdmin extends BaseAdmin {
 			->with('form_group.user_details', [ 'class' => 'col-md-6' ]);
 		$formMapper
 			->add('person.name', null, [ 'label' => 'form.label_name' ])
+            ->add('person.telephone', null, [ 'label' => 'form.label_telephone' ])
+            ->add('person.idNumber', null, [ 'label' => 'form.label_id_number' ])
+            ->add('person.birthDate', DatePickerType::class, [
+                'label' => 'form.label_dob',
+                'required'              => true,
+                'format'                => 'dd-MM-yyyy',
+                'placeholder'           => 'dd-mm-yyyy',
+                'datepicker_use_button' => false
+                ])
 			->add('email', null, [
 				'required' => true,
 				'label'    => 'form.label_email'
