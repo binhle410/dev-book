@@ -19,6 +19,6 @@ class IndividualMemberController extends Controller {
 			$expr->eq('contactable', true)
 		);
 		
-		return $data->getMembers()->matching($criteria);
+		return $data->getIndividualMembers()->matching($criteria);
 	}
 }

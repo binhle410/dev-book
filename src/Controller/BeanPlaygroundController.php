@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Criteria;
 use function GuzzleHttp\Psr7\copy_to_string;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\BookPage;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Sonata\MediaBundle\Form\Type\ApiMediaType;
 use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,17 +40,30 @@ class BeanPlaygroundController extends Controller
      */
     public function index(Request $request)
     {
-//	    $abc = $request->get('field_name');
-//		$registry = $this->get('doctrine');
+        $abc = $request->get('field_name');
+        $registry = $this->get('doctrine');
 //		$chapRepo = $registry->getRepository(Chapter::class);
 //		$chap     = $chapRepo->findAll()[0];
 //		$chap     = $chapRepo->find(6);
 //		$qb       = $this->container->get('doctrine.orm.default_entity_manager')->createQueryBuilder();
-//
+
 ////		$qb->select('c')->from(Chapter::class, 'c')
 ////		   ->join('c.partOf', 'partOf');;
 ////		$chapter = $qb->setFirstResult(0)->getQuery()->getResult();
 
+        /**
+         * select substr(first_name,1,1) as alpha, count(employee_id)
+         * from employees
+         * group by substr(first_name,1,1)
+         */
+//        $qb = $this->container->get('doctrine.orm.default_entity_manager')->createQueryBuilder();
+//        $expr = $qb->expr();
+//        $expr->length("p.website");
+//        $qb->select('m as member', $expr->substring("p.name", 1, '1') . ' as alpha');
+//        $qb->from(IndividualMember::class, 'm')
+//            ->join('m.person', 'p')
+//            ->groupBy('alpha');
+//        $results = $qb->getQuery()->getResult();
 
 //	    $manager = $this->get('doctrine.orm.default_entity_manager');
 //	    $page = new BookPage();
@@ -75,7 +89,7 @@ class BeanPlaygroundController extends Controller
         }
 
         $quotient = (int)(5 / 3);
-        $remainder  = 5 % 3;
+        $remainder = 5 % 3;
 
         return $this->render('bean_playground/index.html.twig', [
             'form' => $form->createView(),

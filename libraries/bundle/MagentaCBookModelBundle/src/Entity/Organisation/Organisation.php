@@ -114,7 +114,7 @@ class Organisation extends OrganizationModel {
 	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember", mappedBy="organization")
 	 */
-	protected $members;
+	protected $individualMembers;
 	
 	/**
 	 * @var Collection
@@ -182,20 +182,22 @@ class Organisation extends OrganizationModel {
 	public function setCode(string $code = null): void {
 		$this->code = $code;
 	}
-	
-	/**
-	 * @return Collection
-	 */
-	public function getMembers() {
-		return $this->members;
-	}
-	
-	/**
-	 * @param Collection $members
-	 */
-	public function setMembers($members): void {
-		$this->members = $members;
-	}
+
+    /**
+     * @return Collection
+     */
+    public function getIndividualMembers(): Collection
+    {
+        return $this->individualMembers;
+    }
+
+    /**
+     * @param Collection $individualMembers
+     */
+    public function setIndividualMembers(Collection $individualMembers): void
+    {
+        $this->individualMembers = $individualMembers;
+    }
 	
 	/**
 	 * @return Collection

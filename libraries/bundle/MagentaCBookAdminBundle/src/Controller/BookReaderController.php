@@ -32,14 +32,9 @@ class BookReaderController extends Controller
 
     public function readBookAction($accessCode, $employeeCode, $bookId)
     {
-        $registry = $this->getDoctrine();
-        $bookRepo = $registry->getRepository(Book::class);
+        $this->checkAccess($accessCode, $employeeCode);
+        $bookRepo = $this->getDoctrine()->getRepository(Book::class);
         $book = $bookRepo->find($bookId);
-        $memberRepo = $registry->getRepository(IndividualMember::class);
-        $member = $memberRepo->findOneByPinCodeEmployeeCode($accessCode, $employeeCode);
-        if (empty($member) || !$member->isEnabled()) {
-            $this->handleUnauthorisation();
-        }
 
         return $this->render('@MagentaCBookAdmin/Book/read-book.html.twig', [
             'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
@@ -75,15 +70,49 @@ class BookReaderController extends Controller
 
     public function contactAction($accessCode, $employeeCode)
     {
+        $this->checkAccess($accessCode, $employeeCode);
+        $member = $this->getMemberByPinCodeEmployeeCode($accessCode, $employeeCode);
+        $members = $member->getOrganization()->getIndividualMembers();
+        $sortedMembers = [];
+        /** @var IndividualMember $m */
+        foreach ($members as $m) {
+            if (!$m->isContactable()) {
+                continue;
+            }
+            if (!array_key_exists($alpha = substr($m->getName(), 0, 1), $sortedMembers)) {
+                $sortedMembers[$alpha] = [];
+            }
+            $sortedMembers[$alpha][] = $m;
+        }
+
         return $this->render('@MagentaCBookAdmin/Book/contact.html.twig', [
             'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
+            'members' => $sortedMembers,
             'accessCode' => $accessCode,
             'employeeCode' => $employeeCode
         ]);
     }
 
+    private function checkAccess($accessCode, $employeeCode)
+    {
+        $member = $this->getMemberByPinCodeEmployeeCode($accessCode, $employeeCode);
+        if (empty($member) || !$member->isEnabled()) {
+            $this->handleUnauthorisation();
+        }
+    }
+
     private function handleUnauthorisation()
     {
         throw new UnauthorizedHttpException('Cannot access book reader. Invalid access code');
+    }
+
+    private function getMemberByPinCodeEmployeeCode($accessCode, $employeeCode)
+    {
+        if (empty($this->member)) {
+            $registry = $this->getDoctrine();
+            $memberRepo = $registry->getRepository(IndividualMember::class);
+            $this->member = $memberRepo->findOneByPinCodeEmployeeCode($accessCode, $employeeCode);
+        }
+        return $this->member;
     }
 }

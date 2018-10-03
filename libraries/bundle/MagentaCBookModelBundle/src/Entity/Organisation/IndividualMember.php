@@ -4,6 +4,7 @@ namespace Magenta\Bundle\CBookModelBundle\Entity\Organisation;
 
 use Bean\Component\Organization\Model\IndividualMember as MemberModel;
 
+use Bean\Component\Organization\Model\OrganizationInterface;
 use Bean\Component\Person\Model\Person;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -89,7 +90,7 @@ class IndividualMember extends MemberModel
 
     /**
      * @var Organisation
-     * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="members")
+     * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="individualMembers")
      * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $organization;
@@ -243,4 +244,12 @@ class IndividualMember extends MemberModel
     {
         $this->groups = $groups;
     }
+
+    /**
+     * @return Organisation|null
+     */
+    public function getOrganization(): ?OrganizationInterface {
+        return $this->organization;
+    }
+
 }

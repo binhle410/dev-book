@@ -3,8 +3,38 @@
 {% block body %}
     <div class="container" style="padding-top: 10px;">
         <div class="text-center form-group">
-            <input type="text" value="" placeholder="Search by Name, Phone, Email or Title" class="form-control"/>
+            {#<input type="text" value="" placeholder="Search by Name, Phone, Email or Title" class="form-control"/>#}
         </div>
+        {% for letter, memberList in members %}
+            <div class="list-per-letter">
+                <div class="">
+                    <button type="button" class="btn btn-lg btn-info btn-outline-default btn-just-icon">
+                        <span class="letter-head">{{ letter }}</span>
+                    </button>
+                </div>
+                <div class="row">
+                    {% for member in memberList %}
+                        {% set person = member.person %}
+                        <blockquote class="blockquote employee-info col-md-4">
+                            <p class="mb-0"><strong><code>{{ person.name }}</code></strong></p>
+                            <p class="mb-0"><strong><i class="nc-icon nc-mobile"></i></strong> {{ person.telephone }}
+                            </p>
+                            <p class="mb-0"><strong><i class="nc-icon nc-email-85"></i></strong> {{ member.email }}</p>
+                            {% if member.group.first is not empty %}
+                                <p class="mb-0">
+                                    <strong>
+                                        <i class="nc-icon nc-single-02"></i>
+                                    </strong>
+                                    {{ member.group.first.name }}
+                                </p>
+                            {% endif %}
+                            <!--<footer class="blockquote-footer">Someone famous in <cite title="source Title">Source Title</cite></footer>-->
+                        </blockquote>
+                    {% endfor %}
+                </div>
+            </div>
+
+        {% endfor %}
         <div class="list-per-letter">
             <div class="">
                 <button type="button" class="btn btn-lg btn-info btn-outline-default btn-just-icon">
