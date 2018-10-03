@@ -16,12 +16,13 @@ use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\CategoryItemContainerInterface;
 
 class MediaCategoryItemAdminController extends CategoryItemAdminController {
 	/** @var MediaCategoryItemAdmin $admin */
 	protected $admin;
 	
-	public function createItem(): Thing {
+	public function createItem(): CategoryItemContainerInterface {
 		$mediaFormBuilder = $this->createFormBuilder();
 		$mediaFormBuilder->add('media', MediaType::class, array(
 			'provider' => 'sonata.media.provider.file',

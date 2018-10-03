@@ -11,16 +11,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCategoryItem;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\CategoryItemContainerInterface;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="book__book")
  */
-class Book extends \Bean\Component\Book\Model\Book implements OrganizationAwareInterface, ChapterContainerInterface
+class Book extends \Bean\Component\Book\Model\Book implements OrganizationAwareInterface, ChapterContainerInterface, CategoryItemContainerInterface
 {
-    const STATUS_DRAFT = 'DRAFT';
-    const STATUS_PUBLISHED = 'PUBLISHED';
 
     function __construct()
     {
@@ -29,6 +29,28 @@ class Book extends \Bean\Component\Book\Model\Book implements OrganizationAwareI
         $this->status = self::STATUS_DRAFT;
         $this->bookCategoryItems = new ArrayCollection();
         $this->chapters = new ArrayCollection();
+    }
+
+    public function addCategoryItem(CategoryItem $item)
+    {
+        $this->addBookCategoryItem($item);
+    }
+
+    public function removeCategoryItem(CategoryItem $item)
+    {
+        $this->removeBookCategoryItem($item);
+    }
+
+    public function publish()
+    {
+        /** @var Book $clone */
+        $clone = parent::publish();
+        $items = $this->getBookCategoryItems();
+        /** @var BookCategoryItem $item */
+        foreach ($items as $item) {
+            $clone->addBookCategoryItem($item);
+        }
+        return $clone;
     }
 
     public function getArrayData($obj)

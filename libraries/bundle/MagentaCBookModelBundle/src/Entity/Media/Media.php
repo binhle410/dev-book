@@ -17,6 +17,7 @@ use Doctrine\Common\Collections\Collection;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\CategoryItemContainerInterface;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Base\AppMedia;
 
 
@@ -35,7 +36,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\Media\Base\AppMedia;
  * @ORM\Entity
  * @ORM\Table(name="media__media")
  */
-class Media extends AppMedia {
+class Media extends AppMedia  {
 	
 	function __construct() {
 		parent::__construct();

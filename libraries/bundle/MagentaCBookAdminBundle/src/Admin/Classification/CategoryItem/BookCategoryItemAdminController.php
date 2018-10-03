@@ -17,12 +17,13 @@ use Magenta\Bundle\CBookModelBundle\Entity\Classification\Category;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\CategoryItemContainerInterface;
 
 class BookCategoryItemAdminController extends CategoryItemAdminController {
 	/** @var BookCategoryItemAdmin $admin */
 	protected $admin;
 	
-	public function createItem(): Thing {
+	public function createItem(): CategoryItemContainerInterface {
 		return new Book();
 	}
 	

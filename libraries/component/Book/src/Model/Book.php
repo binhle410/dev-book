@@ -7,6 +7,8 @@ use Bean\Component\CreativeWork\Model\CreativeWork;
 
 class Book extends CreativeWork implements BookInterface
 {
+    const STATUS_DRAFT = 'DRAFT';
+    const STATUS_PUBLISHED = 'PUBLISHED';
 
     public function __construct()
     {
@@ -30,6 +32,8 @@ class Book extends CreativeWork implements BookInterface
 
         $this->setStatus(self::STATUS_PUBLISHED);
         $this->setEnabled(true);
+        $clone->setPreviousVersion($this);
+        $this->setNextVersion($clone);
         return $clone;
     }
 

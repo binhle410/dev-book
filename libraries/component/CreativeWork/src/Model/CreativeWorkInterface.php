@@ -99,4 +99,25 @@ interface CreativeWorkInterface extends ThingInterface {
 	 * @param int|null $position
 	 */
 	public function setPosition(?int $position): void;
+
+
+    /**
+     * @return CreativeWorkInterface|null
+     */
+    public function getPreviousVersion(): ?CreativeWorkInterface;
+
+    /**
+     * @param CreativeWorkInterface|null $previousVersion
+     */
+    public function setPreviousVersion(?CreativeWorkInterface $previousVersion): void;
+
+    /**
+     * @return CreativeWorkInterface|null
+     */
+    public function getNextVersion(): ?CreativeWorkInterface;
+
+    /**
+     * @param CreativeWorkInterface|null $nextVersion
+     */
+    public function setNextVersion(?CreativeWorkInterface $nextVersion): void;
 }

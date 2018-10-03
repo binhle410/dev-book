@@ -3,9 +3,11 @@
 namespace Magenta\Bundle\CBookModelBundle\Entity\Classification;
 
 use Bean\Component\Thing\Model\Thing;
+use Bean\Component\Thing\Model\ThingInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Base\AppCategory;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCategoryItem;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\CategoryItemContainerInterface;
 use Sonata\ClassificationBundle\Entity\BaseCategory as BaseCategory;
 
 //use Gedmo\Mapping\Annotation as Gedmo;
@@ -71,7 +73,7 @@ abstract class CategoryItem {
 	protected $category;
 	
 	/**
-	 * @var Thing
+	 * @var CategoryItemContainerInterface
 	 * @ORM\ManyToOne(targetEntity="Bean\Component\Thing\Model\Thing")
 	 * @ORM\JoinColumn(name="id_thing", referencedColumnName="id", onDelete="CASCADE")
 	 */
@@ -124,16 +126,16 @@ abstract class CategoryItem {
 	}
 	
 	/**
-	 * @return Thing
+	 * @return CategoryItemContainerInterface
 	 */
-	public function getItem(): Thing {
+	public function getItem(): CategoryItemContainerInterface {
 		return $this->item;
 	}
 	
 	/**
-	 * @param Thing $item
+	 * @param CategoryItemContainerInterface $item
 	 */
-	public function setItem(Thing $item): void {
+	public function setItem(CategoryItemContainerInterface $item): void {
 		$this->item = $item;
 	}
 	
