@@ -16,6 +16,12 @@
         -->
         <!--<one-to-many field="parts" target-entity="Bean\Component\CreativeWork\Model\CreativeWork" mapped-by="partOf" />-->
 
+        <one-to-one field="previousVersion" target-entity="Bean\Component\CreativeWork\Model\CreativeWork" inversed-by="nextVersion">
+            <join-column name="id_previous_version" referenced-column-name="id" />
+        </one-to-one>
+
+        <one-to-one field="nextVersion" target-entity="Bean\Component\CreativeWork\Model\CreativeWork" mapped-by="previousVersion" />
+
         <field name="position" type="integer">
             <options>
                 <option name="default">1</option>

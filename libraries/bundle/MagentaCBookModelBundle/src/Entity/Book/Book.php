@@ -14,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCategoryItem;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\CategoryItemContainerInterface;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 
 /**
  * @ORM\Entity()
@@ -29,6 +31,33 @@ class Book extends \Bean\Component\Book\Model\Book implements OrganizationAwareI
         $this->status = self::STATUS_DRAFT;
         $this->bookCategoryItems = new ArrayCollection();
         $this->chapters = new ArrayCollection();
+    }
+
+    public function isAccessibleToIndividual(IndividualMember $member)
+    {
+        $accessible = false;
+        $groups = $member->getGroups();
+        $catItems = $this->getBookCategoryItems();
+
+        /** @var BookCategoryItem $catItem */
+        foreach ($catItems as $catItem) {
+            if ($groups->count() === 0) {
+                return $catItem->getCategory()->isPublic();
+            }
+            /** @var IndividualGroup $group */
+            foreach ($groups as $group) {
+                if ($catItem->isAccessibleToGroup($group)) {
+                    return true;
+                }
+            }
+        }
+
+        return $accessible;
+    }
+
+    protected function getObjectProperties()
+    {
+        return array_merge(parent::getObjectProperties(), ['bookCategoryItems']);
     }
 
     public function addCategoryItem(CategoryItem $item)
@@ -48,6 +77,7 @@ class Book extends \Bean\Component\Book\Model\Book implements OrganizationAwareI
         $items = $this->getBookCategoryItems();
         /** @var BookCategoryItem $item */
         foreach ($items as $item) {
+            $this->removeBookCategoryItem($item);
             $clone->addBookCategoryItem($item);
         }
         return $clone;

@@ -9,6 +9,7 @@ class Book extends CreativeWork implements BookInterface
 {
     const STATUS_DRAFT = 'DRAFT';
     const STATUS_PUBLISHED = 'PUBLISHED';
+    const STATUS_ARCHIVED = 'ARCHIVED';
 
     public function __construct()
     {
@@ -29,6 +30,11 @@ class Book extends CreativeWork implements BookInterface
     {
         $clone = clone $this;
         $clone->setVersionNumber($this->getVersionNumber() + 1);
+
+        if (!empty($previousVersion = $this->getPreviousVersion())) {
+            $previousVersion->setStatus(self::STATUS_ARCHIVED);
+            $previousVersion->setEnabled(false);
+        }
 
         $this->setStatus(self::STATUS_PUBLISHED);
         $this->setEnabled(true);

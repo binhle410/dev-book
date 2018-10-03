@@ -9,6 +9,7 @@ use Bean\Component\Person\Model\Person;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
 use Magenta\Bundle\CBookModelBundle\Entity\System\AccessControl\ACRole;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
@@ -38,7 +39,15 @@ class IndividualMember extends MemberModel
 
     public function getBooksToRead()
     {
-
+        $draftBooks = $this->organization->getDraftBooksHavingPreviousVersions();
+        $books = [];
+        /** @var Book $b */
+        foreach ($draftBooks as $b) {
+            if ($b->isAccessibleToIndividual($this)) {
+                $books[] = $b;
+            }
+        }
+        return $books;
     }
 
     public function initiatePin()

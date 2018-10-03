@@ -46,7 +46,8 @@ class BookReaderController extends Controller
     {
         $this->checkAccess($accessCode, $employeeCode);
         $member = $this->getMemberByPinCodeEmployeeCode($accessCode, $employeeCode);
-        $books = $member->getOrganization()->getPublishedBooks();
+        $books = $member->getBooksToRead();
+
 
         return $this->render('@MagentaCBookAdmin/Book/index.html.twig', [
             'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',

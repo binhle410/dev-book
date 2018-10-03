@@ -55,6 +55,21 @@ class Organisation extends OrganizationModel
     }
 
     /**
+     * @return Collection
+     */
+    public function getDraftBooksHavingPreviousVersions(): Collection
+    {
+        $c = Criteria::create();
+        $expr = Criteria::expr();
+        $c->where($expr->andX(
+            $expr->eq('status', Book::STATUS_DRAFT),
+            $expr->eq('enabled', false),
+            $expr->neq('previousVersion', null)
+        ));
+        return $this->books->matching($c);
+    }
+
+    /**
      * @ORM\ManyToMany(
      *     targetEntity="Magenta\Bundle\CBookModelBundle\Entity\User\User",
      *     mappedBy="adminOrganisations", cascade={"persist","merge"}

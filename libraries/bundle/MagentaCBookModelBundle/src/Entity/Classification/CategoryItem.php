@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Base\AppCategory;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCategoryItem;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\CategoryItemContainerInterface;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup;
 use Sonata\ClassificationBundle\Entity\BaseCategory as BaseCategory;
 
 //use Gedmo\Mapping\Annotation as Gedmo;
@@ -35,135 +36,166 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
  * @ORM\DiscriminatorMap({"book" = "Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCategoryItem", "media" = "Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\MediaCategoryItem"})
  * @ORM\HasLifecycleCallbacks
  */
-abstract class CategoryItem {
-	const TYPE_BOOK = 'BOOK';
-	const TYPE_MEDIA = 'MEDIA';
-	
-	/**
-	 * @var integer|null
-	 * @ORM\Id
-	 * @ORM\Column(type="integer",options={"unsigned":true})
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 * // Serializer\Groups(groups={"sonata_api_read", "sonata_api_write", "sonata_search"})
-	 */
-	protected $id;
-	
-	/**
-	 * @return int|null
-	 */
-	public function getId(): ?int {
-		return $this->id;
-	}
-	
-	public function __construct() {
-		$this->createdAt = new \DateTime();
-	}
-	
-	public abstract function getType();
-	
-	public function getCategoryName() {
-		return $this->category->getName();
-	}
-	
-	/**
-	 * @var Category|null
-	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Classification\Category", inversedBy="items")
-	 * @ORM\JoinColumn(name="id_category", referencedColumnName="id", onDelete="CASCADE")
-	 */
-	protected $category;
-	
-	/**
-	 * @var CategoryItemContainerInterface
-	 * @ORM\ManyToOne(targetEntity="Bean\Component\Thing\Model\Thing")
-	 * @ORM\JoinColumn(name="id_thing", referencedColumnName="id", onDelete="CASCADE")
-	 */
-	protected $item;
-	
-	/**
-	 * @var \DateTime
-	 * @ORM\Column(type="datetime",nullable=true)
-	 */
-	protected $createdAt;
-	
-	/**
-	 * @var \DateTime|null
-	 * @ORM\Column(type="datetime",nullable=true)
-	 */
-	protected $updatedAt;
-	
-	/**
-	 * @var integer
-	 * @ORM\Column(type="integer", nullable=true, options={"default":0})
-	 */
-	protected $position;
-	
-	/**
-	 * @return int
-	 */
-	public function getPosition(): int {
-		return $this->position;
-	}
-	
-	/**
-	 * @param int $position
-	 */
-	public function setPosition(int $position): void {
-		$this->position = $position;
-	}
-	
-	/**
-	 * @return Category|null
-	 */
-	public function getCategory(): ?Category {
-		return $this->category;
-	}
-	
-	/**
-	 * @param Category $category |null
-	 */
-	public function setCategory(?Category $category): void {
-		$this->category = $category;
-	}
-	
-	/**
-	 * @return CategoryItemContainerInterface
-	 */
-	public function getItem(): CategoryItemContainerInterface {
-		return $this->item;
-	}
-	
-	/**
-	 * @param CategoryItemContainerInterface $item
-	 */
-	public function setItem(CategoryItemContainerInterface $item): void {
-		$this->item = $item;
-	}
-	
-	/**
-	 * @return \DateTime
-	 */
-	public function getCreatedAt(): \DateTime {
-		return $this->createdAt;
-	}
-	
-	/**
-	 * @param \DateTime $createdAt
-	 */
-	public function setCreatedAt(\DateTime $createdAt): void {
-		$this->createdAt = $createdAt;
-	}
-	
-	/**
-	 * @return \DateTime|null
-	 */
-	public function getUpdatedAt(): ?\DateTime {
-		return $this->updatedAt;
-	}
-	
-	/**
-	 * @param \DateTime|null $updatedAt
-	 */
-	public function setUpdatedAt(?\DateTime $updatedAt): void {
-		$this->updatedAt = $updatedAt;
-	}
+abstract class CategoryItem
+{
+    const TYPE_BOOK = 'BOOK';
+    const TYPE_MEDIA = 'MEDIA';
+
+    /**
+     * @var integer|null
+     * @ORM\Id
+     * @ORM\Column(type="integer",options={"unsigned":true})
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * // Serializer\Groups(groups={"sonata_api_read", "sonata_api_write", "sonata_search"})
+     */
+    protected $id;
+
+    /**
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
+    public function isAccessibleToGroup(IndividualGroup $group)
+    {
+        if ($this->category->isPublic()) {
+            $deniedGroups = $this->category->getAccessDeniedGroups();
+            if ($deniedGroups->contains($group)) {
+                return false;
+            }
+            return true;
+        } else {
+            $grantedGroups = $this->category->getAccessGrantedGroups();
+            if ($grantedGroups->contains($group)) {
+                return true;
+            }
+            return false;
+        }
+    }
+
+    public abstract function getType();
+
+    public function getCategoryName()
+    {
+        return $this->category->getName();
+    }
+
+    /**
+     * @var Category|null
+     * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Classification\Category", inversedBy="items")
+     * @ORM\JoinColumn(name="id_category", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $category;
+
+    /**
+     * @var CategoryItemContainerInterface|null
+     * @ORM\ManyToOne(targetEntity="Bean\Component\Thing\Model\Thing")
+     * @ORM\JoinColumn(name="id_thing", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $item;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime",nullable=true)
+     */
+    protected $createdAt;
+
+    /**
+     * @var \DateTime|null
+     * @ORM\Column(type="datetime",nullable=true)
+     */
+    protected $updatedAt;
+
+    /**
+     * @var integer
+     * @ORM\Column(type="integer", nullable=true, options={"default":0})
+     */
+    protected $position;
+
+    /**
+     * @return int
+     */
+    public function getPosition(): int
+    {
+        return $this->position;
+    }
+
+    /**
+     * @param int $position
+     */
+    public function setPosition(int $position): void
+    {
+        $this->position = $position;
+    }
+
+    /**
+     * @return Category|null
+     */
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param Category $category |null
+     */
+    public function setCategory(?Category $category): void
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * @return CategoryItemContainerInterface|null
+     */
+    public function getItem(): ?CategoryItemContainerInterface
+    {
+        return $this->item;
+    }
+
+    /**
+     * @param CategoryItemContainerInterface|null $item
+     */
+    public function setItem(?CategoryItemContainerInterface $item): void
+    {
+        $this->item = $item;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime|null $updatedAt
+     */
+    public function setUpdatedAt(?\DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
 }

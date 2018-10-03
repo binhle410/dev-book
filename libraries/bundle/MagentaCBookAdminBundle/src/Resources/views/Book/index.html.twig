@@ -10,11 +10,13 @@
             </tr>
             </thead>
             <tbody>
-            {% for book in books %}
+            {% for draft in books %}
+                {% set book = draft.previousVersion %}
                 <tr class="hand-hover">
                     <td>{{ loop.index }}</td>
                     <td>
-                        <a href="{{ path('magenta_book_reader_book', {'accessCode': accessCode, 'employeeCode': employeeCode, 'bookId': book.id}) }}">{{ book.name }} ({{ book.bookEdition }})</a>
+                        <a href="{{ path('magenta_book_reader_book', {'accessCode': accessCode, 'employeeCode': employeeCode, 'bookId': book.id}) }}">{{ book.name }}
+                            ({{ book.bookEdition }})</a>
                     </td>
                 </tr>
             {% endfor %}
