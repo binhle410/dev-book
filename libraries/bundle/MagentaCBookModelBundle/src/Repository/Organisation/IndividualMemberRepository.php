@@ -38,11 +38,11 @@ class IndividualMemberRepository extends ServiceEntityRepository
 
     public function findOneByOrganisationCodeNric($code, $nric)
     {
-        $qb = $this->createQueryBuilder('member');
+        $qb = $this->createQueryBuilder('m');
         $expr = $qb->expr();
         $qb
-            ->join('member.person', 'person')
-            ->join('member.organization', 'organisation')
+            ->join('m.person', 'person')
+            ->join('m.organization', 'organisation')
             ->andWhere($expr->like('organisation.code', $expr->literal($code)))
             ->andWhere($expr->like('person.idNumber', $expr->literal($nric)))
             ;

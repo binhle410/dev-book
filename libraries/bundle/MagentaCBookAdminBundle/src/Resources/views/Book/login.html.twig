@@ -1,6 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <script>
+        let url = localStorage.getItem('uniqueUrl');
+        if (!(url == undefined || url == null || url === '')) {
+            window.location = url;
+        }
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -49,6 +56,11 @@
         .main-header, .logo img {
             background-color: #d2d6de;
         }
+
+        /* Alert */
+        .container .alert {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -71,27 +83,40 @@
                 <h2 class="presentation-subtitle text-center">Sign in with your NRIC and Date of Birth to access your
                     Books on the Cloud</h2>
                 <form class="register-form" method="post"
-                      action="{{ path('magenta_book_index', {'accessCode': 1, 'employeeCode': 1}) }}">
+                      action="">
+                    {% for errorMsg in app.flashes('error') %}
+                        <div class="alert alert-danger alert-with-icon" data-notify="container">
+                            <div class="container">
+                                <div class="alert-wrapper">
+                                    {#<button type="button" class="close" data-dismiss="alert" aria-label="Close">#}
+                                    {#<i class="nc-icon nc-simple-remove"></i>#}
+                                    {#</button>#}
+                                    <div class="message"><i class="nc-icon nc-bell-55"></i> {{ errorMsg }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                     <div class="input-group form-group-no-border">
                               <span class="input-group-addon pk-input-group-addon rounded-right-0">
-                                  <i class="nc-icon nc-badge"></i>
+                                  <i class="nc-icon nc-shop"></i>
                               </span>
-                        <input type="text" name="code" class="form-control" placeholder="Company Code">
+                        <input type="text" name="organisation-code" class="form-control" placeholder="Company Code">
                     </div>
                     <div class="input-group form-group-no-border">
                                 <span class="input-group-addon pk-input-group-addon rounded-right-0">
                                   <i class="nc-icon nc-badge"></i>
                                 </span>
-                        <input type="text" name="nric" class="form-control" placeholder="NRIC/Work Permit Number">
+                        <input type="text" name="id-number" class="form-control" placeholder="NRIC/Work Permit Number">
                     </div>
                     <div class="input-group form-group-no-border date">
                                 <span class="input-group-addon pk-input-group-addon">
                                   <i class="nc-icon nc-calendar-60"></i>
                                 </span>
-                        <input type="date" class="form-control" placeholder="Date of Birth" name="dp">
+                        <input type="date" class="form-control" placeholder="Date of Birth" name="dob">
                     </div>
-                    <button class="btn btn-danger btn-block btn-round">Login</button>
+                    <button type="submit" class="btn btn-danger btn-block btn-round">Login</button>
                 </form>
+                <p><br/></p>
                 <div class="title-brand">
                     <div class="fog-low">
                         <img src="{{ asset('img/fog-low.png') }}" alt="">

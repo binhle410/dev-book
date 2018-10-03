@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="{{ asset('assets/pk2/css/paper-kit.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/pk2/css/nucleo-icons.css') }}"/>
     <link rel="stylesheet" href="{{ asset('build/css/app.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('bundles/sonatacore/vendor/components-font-awesome/css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet"
+          href="{{ asset('bundles/sonatacore/vendor/components-font-awesome/css/font-awesome.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/codemirror/codemirror.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/froala/2.8.4/froala_editor.pkgd.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/froala/2.8.4/froala_style.min.css') }}"/>
@@ -51,7 +52,15 @@
                            href="{{ path('magenta_book_contact', {'accessCode': accessCode, 'employeeCode': employeeCode}) }}"
                            routerLink="/contacts">
                             <i class="nc-icon nc-layout-11"></i>
-                            <p class="">CONTACT</p>
+                            <p class="">CONTACTS</p>
+                        </a>
+                    </li>
+                    <li class="nav-item hand-hover">
+                        <a class="nav-link logout" rel="tooltip" title="Employee Contacts" data-placement="bottom"
+                           href="{{ path('magenta_book_login') }}"
+                           routerLink="/contacts">
+                            <i class="nc-icon nc-lock-circle-open"></i>
+                            <p class="">LOGOUT</p>
                         </a>
                     </li>
                 </ul>
@@ -67,6 +76,17 @@
 <script src="{{ asset('build/app.js') }}"></script>
 <script src="{{ asset('assets/pk2/js/paper-kit.js') }}"></script>
 <script src="{{ asset('assets/froala/2.8.4/froala_editor.pkgd.min.js') }}"></script>
+<script>
+    let url = localStorage.getItem('uniqueUrl');
+    if (url == undefined || url == null || url === '') {
+        localStorage.setItem('uniqueUrl', '{{ path('magenta_book_index',{accessCode:accessCode,employeeCode:employeeCode}) }}');
+    }
+    $(document).ready(function () {
+        $('.logout').click(function (e) {
+            localStorage.clear();
+        })
+    });
+</script>
 {% block javascripts_book %}{% endblock %}
 </body>
 </html>
