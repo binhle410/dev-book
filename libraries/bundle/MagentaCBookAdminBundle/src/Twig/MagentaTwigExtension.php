@@ -64,12 +64,16 @@ class MagentaTwigExtension extends AbstractExtension
         }
         $pos = $chapter->getPosition();
         $cpos = $current->getPosition();
-        if ($cpos === 1) {
-            if ($pos > 3) {
-                $class .= 'hide';
+
+        $siblings = $current->getSiblingChapters();
+        if (count($siblings) > 3) {
+            if ($cpos === 1) {
+                if ($pos > 3) {
+                    $class .= 'hide-chapter';
+                }
+            } elseif (($pos < $cpos - 1 || $pos > $cpos + 1)) {
+                $class .= 'hide-chapter';
             }
-        } elseif (($pos < $cpos - 1 || $pos > $cpos + 1)) {
-            $class .= 'hide';
         }
         return $class;
     }

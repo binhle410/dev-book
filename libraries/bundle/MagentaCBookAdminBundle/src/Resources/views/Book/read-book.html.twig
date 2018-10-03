@@ -288,7 +288,8 @@
             $tocSidebar.tree('selectNode', node);
 
             {% block toc_modal %}
-            $('#toc-modal .modal-body').tree({
+            $tocModal = $('#toc-modal .modal-body');
+            $tocModal.tree({
                 data: toc,
                 closedIcon: $('<i class="nc-icon nc-minimal-right"></i>'),
                 openedIcon: $('<i class="nc-icon nc-minimal-down"></i>'),
@@ -299,6 +300,19 @@
                 //     );
                 // }
             });
+
+            $tocModal.on(
+                'tree.click',
+                function (event) {
+                    // The clicked node is 'event.node'
+                    // var node = event.node;
+                    let url = '{{ path('magenta_book_reader_chapter',{accessCode:accessCode,employeeCode:employeeCode,chapterId:0}) }}';
+                    let redirectUrl = url.replace('/chapter/0', '/chapter/' + event.node.id);
+                    // alert(node.name);
+                    console.log('From Toc Modal: Go to Chapter Page', event, url, redirectUrl);
+                    window.location = redirectUrl;
+                }
+            );
 
             $('#toc-modal a.chapter-link').click(() => {
                 $('#toc-modal').modal('hide');
