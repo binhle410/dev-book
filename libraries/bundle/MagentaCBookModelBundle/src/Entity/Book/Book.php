@@ -42,7 +42,7 @@ class Book extends \Bean\Component\Book\Model\Book implements OrganizationAwareI
         /** @var BookCategoryItem $catItem */
         foreach ($catItems as $catItem) {
             if ($groups->count() === 0) {
-                return $catItem->getCategory()->isPublic();
+                $accessible = $accessible || $catItem->getCategory()->isPublic();
             }
             /** @var IndividualGroup $group */
             foreach ($groups as $group) {
@@ -121,14 +121,17 @@ class Book extends \Bean\Component\Book\Model\Book implements OrganizationAwareI
 
     public function addChapter(ChapterInterface $chapter)
     {
-        $this->chapters->add($chapter);
-        $chapter->setBook($this);
-        if (empty($chapter->getParentChapter())) {
-            $chapter->setPosition(0);
+        if (!$this->chapters->contains($chapter)) {
+            $this->chapters->add($chapter);
+            $chapter->setBook($this);
+            if (empty($chapter->getParentChapter())) {
+                $chapter->setPosition(0);
+            }
+            if ($this->chapters->count() > 0) {
+                $chapter->setPosition($this->getLastChapterPosition() + 1);
+            }
         }
-        if ($this->chapters->count() > 1) {
-            $chapter->setPosition($this->getLastChapterPosition() + 1);
-        }
+
         foreach ($chapter->getSubChapters() as $subChapter) {
             $this->addChapter($subChapter);
         }

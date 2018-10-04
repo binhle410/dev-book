@@ -49,6 +49,10 @@ class BookAdminController extends BaseCRUDAdminController
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
 
+        if ($request->isMethod('get')) {
+            return new RedirectResponse($this->get('router')->generate('admin_magenta_cbookmodel_book_book_show', ['id' => $object->getId()]));
+        }
+
         $edition = $request->request->get('edition-text');
         $object->setBookEdition($edition);
 
