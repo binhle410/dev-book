@@ -255,7 +255,7 @@
             <a href="{{ path('admin_magenta_cbookmodel_book_chapter_show',{id: chapter.id}) }}">
                 <strong
                         id="chapter-{{ i+1 }}"
-                        class="offset-anchor chapter-name">{{ i+1 }}.{{ chapter.name }}
+                        class="offset-anchor chapter-name">{{ i+1 }}.{{ chapter.name|raw }}
                 </strong>
             </a>
             <hr style="margin-top:1px;margin-bottom:5px; border-bottom: dashed; border-width: thin;"/>
@@ -263,7 +263,7 @@
         <div class="editable" data-name="chapter-{{ chapter.id }}-text">
             {% set chapterText = chapter.text|striptags %}
             {#{{ chapter.text | raw }}#}
-            {{ chapterText|length > 250 ? chapterText|slice(0, 250) ~ '...' : chapterText }}
+            {{ ( chapterText|length > 250 ? chapterText|slice(0, 250) ~ '...' : chapterText )|raw}}
         </div>
         <div>
             {#{% for ii, sub in chapter.subChapters %}#}
