@@ -221,7 +221,7 @@
                         <div class="editable" data-name="chapter-{{ chapter.id }}-text">
                             {% set chapterText = chapter.text|striptags %}
                             {#{{ chapter.text | raw }}#}
-                            {{ chapterText|length > 250 ? chapterText|slice(0, 250) ~ '...' : chapterText }}
+                            {{ ( chapterText|length > 250 ? chapterText|slice(0, 250) ~ '...' : chapterText ) |raw}}
                         </div>
                         <div>
                             {#{% for ii, sub in chapter.subChapters %}#}
