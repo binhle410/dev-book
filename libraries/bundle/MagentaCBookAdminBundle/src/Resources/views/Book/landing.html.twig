@@ -5,6 +5,8 @@
         let url = localStorage.getItem('uniqueUrl');
         if (!(url == undefined || url == null || url === '')) {
             window.location = url;
+        } else {
+            window.location = '{{ path('magenta_book_login',{orgSlug:orgSlug}) }}';
         }
     </script>
 {% endblock %}

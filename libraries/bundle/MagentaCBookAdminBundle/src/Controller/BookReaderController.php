@@ -1,4 +1,5 @@
 <?php
+
 namespace Magenta\Bundle\CBookAdminBundle\Controller;
 
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
@@ -13,7 +14,7 @@ class BookReaderController extends Controller
 {
     public function landingAction($orgSlug, Request $request)
     {
-        return $this->render('@MagentaCBookAdmin/Book/landing.html.twig', []);
+        return $this->render('@MagentaCBookAdmin/Book/landing.html.twig', ['orgSlug' => $orgSlug]);
     }
 
     public function loginAction($orgSlug, Request $request)
