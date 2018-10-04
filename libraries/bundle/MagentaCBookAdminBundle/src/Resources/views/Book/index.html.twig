@@ -16,7 +16,9 @@
                     <td>{{ loop.index }}</td>
                     <td>
                         <a href="{{ path('magenta_book_reader_book', {'accessCode': accessCode, 'employeeCode': employeeCode, 'bookId': book.id}) }}">{{ book.name }}
-                            ({{ book.bookEdition }})</a>
+                            <br/>
+                        Edition: {{ book.bookEdition }}
+                        </a>
                     </td>
                 </tr>
             {% endfor %}
