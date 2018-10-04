@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     {% block javascripts_head %}
-    <script>
-        localStorage.clear();
-    </script>
+        <script>
+            localStorage.clear();
+        </script>
     {% endblock javascripts_head %}
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -53,6 +53,12 @@
         /* Header */
         .main-header, .logo img {
             background-color: #d2d6de;
+        }
+
+        @media (min-width: 992px) {
+            .page-header.section-dark .content-center {
+                margin-top: 100px;
+            }
         }
 
         /* Alert */
