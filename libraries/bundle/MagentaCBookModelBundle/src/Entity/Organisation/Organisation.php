@@ -63,7 +63,7 @@ class Organisation extends OrganizationModel
         $expr = Criteria::expr();
         $c->where($expr->andX(
             $expr->eq('status', Book::STATUS_DRAFT),
-            $expr->eq('enabled', false),
+//            $expr->eq('enabled', false),
             $expr->neq('previousVersion', null)
         ));
         return $this->books->matching($c);
