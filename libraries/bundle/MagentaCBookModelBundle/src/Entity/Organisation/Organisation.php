@@ -181,6 +181,12 @@ class Organisation extends OrganizationModel
     protected $code;
 
     /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $slug;
+
+    /**
      * @return Media
      */
     public function getLogo(): Media
@@ -274,5 +280,21 @@ class Organisation extends OrganizationModel
     public function setRoles(Collection $roles): void
     {
         $this->roles = $roles;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param string|null $slug
+     */
+    public function setSlug(?string $slug): void
+    {
+        $this->slug = $slug;
     }
 }

@@ -53,6 +53,11 @@ class BookAdminController extends BaseCRUDAdminController
             return new RedirectResponse($this->get('router')->generate('admin_magenta_cbookmodel_book_book_show', ['id' => $object->getId()]));
         }
 
+        if ($object->getStatus() !== Book::STATUS_DRAFT) {
+            $this->addFlash('error', 'Not a Draft Version so it cannot be published!');
+            return new RedirectResponse($this->get('router')->generate('admin_magenta_cbookmodel_book_book_show', ['id' => $object->getId()]));
+        }
+
         $edition = $request->request->get('edition-text');
         $object->setBookEdition($edition);
 
