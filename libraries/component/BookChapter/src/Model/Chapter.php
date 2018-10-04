@@ -11,6 +11,16 @@ class Chapter extends CreativeWork implements ChapterInterface
 {
     private $siblingChapters;
 
+    protected function getObjectProperties()
+    {
+        return array_merge(parent::getObjectProperties(), ['subChapters']);
+    }
+
+    protected function getObjectArrayProperties()
+    {
+        return array_merge(parent::getObjectArrayProperties(), ['subChapters' => 'setParentChapter']);
+    }
+
     public function getSiblingChapters()
     {
         if (!empty($this->siblingChapters)) {
@@ -51,6 +61,9 @@ class Chapter extends CreativeWork implements ChapterInterface
     {
         if (!empty($parentChapter)) {
             $this->book = $parentChapter->getBook();
+            if (method_exists($this->book, 'addChapter')) {
+                $this->book->addChapter($this);
+            }
         }
         $this->parentChapter = $parentChapter;
     }
@@ -65,6 +78,9 @@ class Chapter extends CreativeWork implements ChapterInterface
     public function addSubChapter(ChapterInterface $chapter)
     {
         $this->addElementToArrayProperty($chapter, 'subChapters');
+        if (empty($chapter->getParentChapter())) {
+            $chapter->setPosition(0);
+        }
         $chapter->setParentChapter($this);
         $chapter->setPosition($this->getLastSubChapterPosition() + 1);
     }

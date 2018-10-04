@@ -62,6 +62,10 @@ class BookReaderController extends Controller
         $this->checkAccess($accessCode, $employeeCode);
         $bookRepo = $this->getDoctrine()->getRepository(Book::class);
         $book = $bookRepo->find($bookId);
+        if (empty($book)) {
+            $this->addFlash('error', 'The Book you requested for could not be found!');
+            return new RedirectResponse($this->get('router')->generate('magenta_book_index', ['employeeCode' => $employeeCode, 'accessCode' => $accessCode]));
+        }
 
         return $this->render('@MagentaCBookAdmin/Book/read-book.html.twig', [
             'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',

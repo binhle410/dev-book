@@ -16,16 +16,6 @@ class Book extends CreativeWork implements BookInterface
         parent::__construct();
     }
 
-    protected function getObjectArrayProperties()
-    {
-        return array_merge(parent::getObjectArrayProperties(), ['chapters' => 'setBook']);
-    }
-
-    protected function getObjectProperties()
-    {
-        return array_merge(parent::getObjectProperties(), ['chapters']);
-    }
-
     public function publish()
     {
         $clone = clone $this;

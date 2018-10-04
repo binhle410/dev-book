@@ -62,22 +62,40 @@
         }
     </style>
 {% endblock %}
-{% block nav_title_text %}{{ book.name|length > 19 ? book.name|slice(0, 50) ~ '...' : book.name }}{% endblock %}
+
 {% block nav_title %}
-    {{ parent() }}
-    {% set chapter = mainContentItem %}
-    {#<div class="dropdown subchapter-nav" id="chapter-{{ chapter.listNumber }}-nav">#}
-    {#<a href="#" class="btn-neutral dropdown-toggle" data-toggle="dropdown">#}
-    {#<span class="spy-subchapter-navtitle">{{ chapter.name }}</span>#}
-    {#<b class="caret"></b>#}
-    {#</a>#}
-    {#<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">#}
-    {#<li class="dropdown-header">Choose sub-chapter</li>#}
-    {#{% for ii, sub in chapter.subChapters %}#}
-    {#<a class="sub dropdown-item" href="#chapter-{{ sub.listNumber }}" id ="{{ sub.listNumber }}">{{ sub.listNumber }}. {{ sub.name }}</a>#}
-    {#{% endfor %}#}
-    {#</ul>#}
-    {#</div>#}
+    <div class="dropdown chapter-nav">
+        <a href="#" class="btn-neutral dropdown-toggle" data-toggle="dropdown">
+            <span id="spy-chapter-navtitle">
+                {% block nav_title_text %}{{ book.name|length > 19 ? book.name|slice(0, 50) ~ '...' : book.name }}{% endblock %}
+            </span>
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            {#<li class="dropdown-header">Choose chapter</li>#}
+            {% for i, chapter in book.rootChapters %}
+                {# #chapter-{{ chapter.listNumber }} #}
+                <a class="dropdown-item"
+                   href="{{ path('magenta_book_reader_chapter',{'accessCode':accessCode,'employeeCode':employeeCode,'chapterId':chapter.id}) }}">{{ chapter.listNumber }}
+                    . {{ chapter.name }}</a>
+            {% endfor %}
+        </ul>
+    </div>
+    {% for i, chapter in book.rootChapters %}
+        <div class="dropdown subchapter-nav" id="chapter-{{ chapter.listNumber }}-nav" style="display: none">
+            <a href="#" class="btn-neutral dropdown-toggle" data-toggle="dropdown">
+                <span class="spy-subchapter-navtitle"></span>
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li class="dropdown-header">Choose sub-chapter</li>
+                {% for ii, sub in chapter.subChapters %}
+                    <a class="sub dropdown-item" href="#chapter-{{ sub.listNumber }}">{{ sub.listNumber }}
+                        . {{ sub.name }}</a>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
 {% endblock %}
 {% block book_title %}
     {% set parentChapter = mainContentItem.parentChapter %}
@@ -95,7 +113,7 @@
 {% block content_title %}
     <span id="chapter-{{ mainContentItem.listNumber }}">
         {{ mainContentItem.listNumber }}. {{ parent() }}
-</span>
+    </span>
 {% endblock %}
 {% block pagination %}
     {% set chapter = mainContentItem %}

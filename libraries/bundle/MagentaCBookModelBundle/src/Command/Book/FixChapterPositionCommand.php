@@ -52,6 +52,9 @@ class FixChapterPositionCommand extends Command
 
         $this
             ->setName('magenta:book:fix-chapter-position')
+            ->setDefinition(array(
+                new InputArgument('bookId', InputArgument::OPTIONAL, 'Book ID')
+            ))
             ->setDescription('Fix Chapter Position')
             ->setHelp(<<<'EOT'
 The <info>magenta:book:fix-chapter-position</info> command fixes chapter position
@@ -68,7 +71,13 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $bookRepo = $this->registry->getRepository(Book::class);
-        $books = $bookRepo->findBy(['enabled' => true, 'status' => Book::STATUS_PUBLISHED]);
+        $bookId = $input->getArgument('bookId');
+        if (!empty($bookId)) {
+            $book = $bookRepo->find($bookId);
+            $books = [$book];
+        } else {
+            $books = $bookRepo->findBy(['enabled' => true, 'status' => Book::STATUS_PUBLISHED]);
+        }
 
         /** @var Book $book */
         foreach ($books as $book) {

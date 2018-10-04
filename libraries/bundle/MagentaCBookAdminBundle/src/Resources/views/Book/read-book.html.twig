@@ -130,37 +130,14 @@
 
 {% block nav_title %}
     <div class="dropdown chapter-nav">
-        <a href="#" class="btn-neutral dropdown-toggle" data-toggle="dropdown">
-            <span id="spy-chapter-navtitle">{% block nav_title_text %}Your book on the cloud{% endblock %}</span>
-            <b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            {#<li class="dropdown-header">Choose chapter</li>#}
-            {% for i, chapter in book.rootChapters %}
-                {# #chapter-{{ chapter.listNumber }} #}
-                <a class="dropdown-item"
-                   href="{{ path('magenta_book_reader_chapter',{'accessCode':accessCode,'employeeCode':employeeCode,'chapterId':chapter.id}) }}">{{ chapter.listNumber }}
-                    . {{ chapter.name }}</a>
-            {% endfor %}
-        </ul>
+            <span id="spy-chapter-navtitle">
+                {% block nav_title_text %}
+                    <a href="{{ path('magenta_book_index',{accessCode:accessCode,employeeCode:employeeCode}) }}">
+                        Your book on the cloud
+                    </a>
+                {% endblock %}
+            </span>
     </div>
-
-    {% for i, chapter in book.rootChapters %}
-        <div class="dropdown subchapter-nav" id="chapter-{{ chapter.listNumber }}-nav" style="display: none">
-            <a href="#" class="btn-neutral dropdown-toggle" data-toggle="dropdown">
-                <span class="spy-subchapter-navtitle"></span>
-                <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li class="dropdown-header">Choose sub-chapter</li>
-                {% for ii, sub in chapter.subChapters %}
-                    <a class="sub dropdown-item" href="#chapter-{{ sub.listNumber }}">{{ sub.listNumber }}
-                        . {{ sub.name }}</a>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endfor %}
-
 {% endblock %}
 
 {% block body %}
@@ -180,7 +157,8 @@
                     <div class="editable" data-objectid="{{ mainContentItem.id }}" data-type="main-content"
                          data-field="name">
                         <h4 style="text-align: center;margin-top:5px;">
-                            {% block content_title %}{{ mainContentItem.name|raw }}
+                            {% block content_title %}
+                                {{ mainContentItem.name|raw }}
                             {% endblock %}
                         </h4>
                     </div>

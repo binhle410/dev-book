@@ -55,6 +55,24 @@ class Book extends \Bean\Component\Book\Model\Book implements OrganizationAwareI
         return $accessible;
     }
 
+    public function __clone()
+    {
+        parent::__clone();
+        $rootChapters = $this->getRootChapters();
+        $this->setChapters(new ArrayCollection());
+
+        /** @var Chapter $rootChapter */
+        foreach ($rootChapters as $rootChapter) {
+            $clonedRootChapter = clone $rootChapter;
+            $this->addChapter($clonedRootChapter);
+        }
+    }
+
+    protected function getObjectArrayProperties()
+    {
+        return array_merge(parent::getObjectArrayProperties(), []);
+    }
+
     protected function getObjectProperties()
     {
         return array_merge(parent::getObjectProperties(), ['bookCategoryItems']);
@@ -105,7 +123,15 @@ class Book extends \Bean\Component\Book\Model\Book implements OrganizationAwareI
     {
         $this->chapters->add($chapter);
         $chapter->setBook($this);
-        $chapter->setPosition($this->getLastSubChapterPosition() + 1);
+        if (empty($chapter->getParentChapter())) {
+            $chapter->setPosition(0);
+        }
+        if ($this->chapters->count() > 1) {
+            $chapter->setPosition($this->getLastChapterPosition() + 1);
+        }
+        foreach ($chapter->getSubChapters() as $subChapter) {
+            $this->addChapter($subChapter);
+        }
     }
 
     public function removeChapter(ChapterInterface $chapter)
@@ -114,7 +140,7 @@ class Book extends \Bean\Component\Book\Model\Book implements OrganizationAwareI
         $chapter->setBook(null);
     }
 
-    public function getLastSubChapterPosition()
+    public function getLastChapterPosition()
     {
         $position = 0;
         $rootChapters = $this->getRootChapters();
