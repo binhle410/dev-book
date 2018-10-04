@@ -23,7 +23,7 @@
             {% if _user_image %}
                 <img src="{{ _user_image }}" class="img-circle" alt="Avatar"/>
             {% endif %}
-            <p>{{ app.user.person.name }}</p>
+            <p>{{ app.user.person is not empty?app.user.person.name:app.user.email }}</p>
         </li>
         {#
             Uncomment to add some information
