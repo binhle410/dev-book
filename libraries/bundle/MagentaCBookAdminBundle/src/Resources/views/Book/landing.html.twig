@@ -1,0 +1,10 @@
+{% extends '@MagentaCBookAdmin/Book/login.html.twig' %}
+
+{% block javascripts_head %}
+    <script>
+        let url = localStorage.getItem('uniqueUrl');
+        if (!(url == undefined || url == null || url === '')) {
+            window.location = url;
+        }
+    </script>
+{% endblock %}

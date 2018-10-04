@@ -1,13 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
+    {% block javascripts_head %}
     <script>
-        let url = localStorage.getItem('uniqueUrl');
-        if (!(url == undefined || url == null || url === '')) {
-            window.location = url;
-        }
+        localStorage.clear();
     </script>
-
+    {% endblock javascripts_head %}
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">

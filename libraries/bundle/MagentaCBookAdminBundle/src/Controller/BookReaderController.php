@@ -1,5 +1,4 @@
 <?php
-
 namespace Magenta\Bundle\CBookAdminBundle\Controller;
 
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
@@ -12,7 +11,12 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class BookReaderController extends Controller
 {
-    public function loginAction(Request $request)
+    public function landingAction($orgSlug, Request $request)
+    {
+        return $this->render('@MagentaCBookAdmin/Book/landing.html.twig', []);
+    }
+
+    public function loginAction($orgSlug, Request $request)
     {
         if ($request->isMethod('post')) {
             $dobStr = $request->request->get('dob');
@@ -42,7 +46,7 @@ class BookReaderController extends Controller
         return $this->render('@MagentaCBookAdmin/Book/login.html.twig', []);
     }
 
-    public function indexAction($accessCode, $employeeCode)
+    public function indexAction($orgSlug, $accessCode, $employeeCode)
     {
         $this->checkAccess($accessCode, $employeeCode);
         $member = $this->getMemberByPinCodeEmployeeCode($accessCode, $employeeCode);
@@ -52,12 +56,13 @@ class BookReaderController extends Controller
         return $this->render('@MagentaCBookAdmin/Book/index.html.twig', [
             'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
             'books' => $books,
+            'orgSlug' => $orgSlug,
             'accessCode' => $accessCode,
             'employeeCode' => $employeeCode
         ]);
     }
 
-    public function readBookAction($accessCode, $employeeCode, $bookId)
+    public function readBookAction($orgSlug, $accessCode, $employeeCode, $bookId)
     {
         $this->checkAccess($accessCode, $employeeCode);
         $bookRepo = $this->getDoctrine()->getRepository(Book::class);
@@ -72,12 +77,13 @@ class BookReaderController extends Controller
             'book' => $book,
             'mainContentItem' => $book,
             'subContentItems' => $book->getRootChapters(),
+            'orgSlug' => $orgSlug,
             'accessCode' => $accessCode,
             'employeeCode' => $employeeCode
         ]);
     }
 
-    public function readChapterAction($accessCode, $employeeCode, $chapterId)
+    public function readChapterAction($orgSlug, $accessCode, $employeeCode, $chapterId)
     {
         $registry = $this->getDoctrine();
         $chapterRepo = $registry->getRepository(Chapter::class);
@@ -94,12 +100,13 @@ class BookReaderController extends Controller
             'book' => $book = $chapter->getBook(),
             'mainContentItem' => $chapter,
             'subContentItems' => $chapter->getSubChapters(),
+            'orgSlug' => $orgSlug,
             'accessCode' => $accessCode,
             'employeeCode' => $employeeCode
         ]);
     }
 
-    public function contactAction($accessCode, $employeeCode)
+    public function contactAction($orgSlug, $accessCode, $employeeCode)
     {
         $this->checkAccess($accessCode, $employeeCode);
         $member = $this->getMemberByPinCodeEmployeeCode($accessCode, $employeeCode);
@@ -119,6 +126,7 @@ class BookReaderController extends Controller
         return $this->render('@MagentaCBookAdmin/Book/contact.html.twig', [
             'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
             'members' => $sortedMembers,
+            'orgSlug' => $orgSlug,
             'accessCode' => $accessCode,
             'employeeCode' => $employeeCode
         ]);

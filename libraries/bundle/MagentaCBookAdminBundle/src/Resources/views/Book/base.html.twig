@@ -42,14 +42,14 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <a class="nav-link hand-hover" rel="tooltip" title="Dashboard" data-placement="bottom"
-                           href="{{ path('magenta_book_index', {'accessCode': accessCode, 'employeeCode': employeeCode}) }}">
+                           href="{{ path('magenta_book_index', {orgSlug:orgSlug,'accessCode': accessCode, 'employeeCode': employeeCode}) }}">
                             <i class="nc-icon nc-bullet-list-67"></i>
                             <p class="">HOME</p>
                         </a>
                     </li>
                     <li class="nav-item hand-hover">
                         <a class="nav-link" rel="tooltip" title="Employee Contacts" data-placement="bottom"
-                           href="{{ path('magenta_book_contact', {'accessCode': accessCode, 'employeeCode': employeeCode}) }}"
+                           href="{{ path('magenta_book_contact', {orgSlug:orgSlug,'accessCode': accessCode, 'employeeCode': employeeCode}) }}"
                            routerLink="/contacts">
                             <i class="nc-icon nc-layout-11"></i>
                             <p class="">CONTACTS</p>
@@ -57,7 +57,7 @@
                     </li>
                     <li class="nav-item hand-hover">
                         <a class="nav-link logout" rel="tooltip" title="Employee Contacts" data-placement="bottom"
-                           href="{{ path('magenta_book_login') }}"
+                           href="{{ path('magenta_book_login',{orgSlug:orgSlug,}) }}"
                            routerLink="/contacts">
                             <i class="nc-icon nc-lock-circle-open"></i>
                             <p class="">LOGOUT</p>
@@ -91,7 +91,7 @@
 <script>
     let url = localStorage.getItem('uniqueUrl');
     if (url == undefined || url == null || url === '') {
-        localStorage.setItem('uniqueUrl', '{{ path('magenta_book_index',{accessCode:accessCode,employeeCode:employeeCode}) }}');
+        localStorage.setItem('uniqueUrl', '{{ path('magenta_book_index',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode}) }}');
     }
     $(document).ready(function () {
         $('.logout').click(function (e) {

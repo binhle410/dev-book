@@ -76,7 +76,7 @@
             {% for i, chapter in book.rootChapters %}
                 {# #chapter-{{ chapter.listNumber }} #}
                 <a class="dropdown-item"
-                   href="{{ path('magenta_book_reader_chapter',{'accessCode':accessCode,'employeeCode':employeeCode,'chapterId':chapter.id}) }}">{{ chapter.listNumber }}
+                   href="{{ path('magenta_book_reader_chapter',{orgSlug:orgSlug,'accessCode':accessCode,'employeeCode':employeeCode,'chapterId':chapter.id}) }}">{{ chapter.listNumber }}
                     . {{ chapter.name }}</a>
             {% endfor %}
         </ul>
@@ -101,9 +101,9 @@
     {% set parentChapter = mainContentItem.parentChapter %}
     <h3 style="text-align: center; margin-bottom:0px;">
         {% if parentChapter is empty %}
-            <a href="{{ path('magenta_book_reader_book',{accessCode:accessCode,employeeCode:employeeCode,bookId:book.id}) }}">{{ book.name }}</a>
+            <a href="{{ path('magenta_book_reader_book',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode,bookId:book.id}) }}">{{ book.name }}</a>
         {% else %}
-            <a href="{{ path('magenta_book_reader_chapter',{accessCode:accessCode,employeeCode:employeeCode,chapterId:parentChapter.id}) }}">
+            <a href="{{ path('magenta_book_reader_chapter',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode,chapterId:parentChapter.id}) }}">
                 {{ parentChapter.listNumber }}. {{ parentChapter.name }}
             </a>
         {% endif %}
@@ -122,7 +122,7 @@
             {% set previousParentChapter = mainContentItem.parentChapter.previousChapter %}
             {% if previousParentChapter is not empty %}
                 <li class="page-item">
-                    <a href="{{ path('magenta_book_reader_chapter',{accessCode:accessCode,employeeCode:employeeCode,chapterId: previousParentChapter.id}) }}"
+                    <a href="{{ path('magenta_book_reader_chapter',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode,chapterId: previousParentChapter.id}) }}"
                        class="page-link" aria-label="Next">
                         <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                     </a>
@@ -151,7 +151,7 @@
             <li class="page-item {{ paginationItemClass(item,chapter) }}"
                 data-group="{{ paginationItemGroup(item, chapter) }}">
                 <a class="page-link"
-                   href="{{ path('magenta_book_reader_chapter',{accessCode:accessCode,employeeCode:employeeCode,chapterId:item.id}) }}">{{ item.listNumber }}</a>
+                   href="{{ path('magenta_book_reader_chapter',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode,chapterId:item.id}) }}">{{ item.listNumber }}</a>
             </li>
         {% endfor %}
         <li class="page-item next-item-group {{ paginationItemGroup(chapter,chapter) * 3 >= chapter.siblingChapters|length?'disabled':'' }}">
@@ -163,7 +163,7 @@
             {% set nextParentChapter = mainContentItem.parentChapter.nextChapter %}
             {% if nextParentChapter is not empty %}
                 <li class="page-item">
-                    <a href="{{ path('magenta_book_reader_chapter',{accessCode:accessCode,employeeCode:employeeCode,chapterId: nextParentChapter.id}) }}"
+                    <a href="{{ path('magenta_book_reader_chapter',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode,chapterId: nextParentChapter.id}) }}"
                        class="page-link" aria-label="Next">
                         <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                     </a>

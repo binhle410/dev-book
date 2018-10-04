@@ -129,13 +129,23 @@
             color: #605ca8;
         }
 
-        .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active, .btn-outline-primary.active, .open > .btn-outline-primary.dropdown-toggle {
-            background-color: #3e3b6c;
-            border-color: #3e3b6c;
+        .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active, .btn-outline-primary.active, .open > .btn-outline-primary.dropdown-toggle, .page-item.active .page-link {
+            background-color: #605ca8;
+            border-color: #605ca8;
         }
 
-        a:hover, a:focus {
-            color: #3e3b6c;
+        .pagination > .page-item > .page-link, .pagination > .page-item:last-child > .page-link, .pagination > .page-item:first-child > .page-link {
+            color: #605ca8;
+            border-color: #605ca8;
+        }
+
+        .pagination > .page-item.active > .page-link {
+            color: white;
+        }
+
+        .pagination > li.active > a:focus, .pagination > li.active > a:hover {
+            background-color: #3e3b6c;
+            border-color: #3e3b6c;
         }
     </style>
 {% endblock %}
@@ -151,7 +161,7 @@
     <div class="dropdown chapter-nav">
             <span id="spy-chapter-navtitle">
                 {% block nav_title_text %}
-                    <a href="{{ path('magenta_book_index',{accessCode:accessCode,employeeCode:employeeCode}) }}">
+                    <a href="{{ path('magenta_book_index',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode}) }}">
                         Your book on the cloud
                     </a>
                 {% endblock %}
@@ -196,7 +206,7 @@
                     {% endif %}
                     {% for i, chapter in subContentItems %}
                         <div class="editable" data-objectid="{{ chapter.id }}" data-type="chapter" data-field="name">
-                            <a href="{{ path('magenta_book_reader_chapter',{accessCode: accessCode, employeeCode: employeeCode, chapterId: chapter.id}) }}">
+                            <a href="{{ path('magenta_book_reader_chapter',{orgSlug:orgSlug,accessCode: accessCode, employeeCode: employeeCode, chapterId: chapter.id}) }}">
                                 <strong
                                         id="chapter-{{ chapter.listNumber }}"
                                         class="chapter-name">{{ chapter.listNumber }}.{{ chapter.name }}
@@ -229,9 +239,9 @@
     <div class="d-md-none"
          style="position: fixed; width: 100%; bottom: 0px; background-color: white; text-align: center; padding: 5px 0px;">
         <a class="btn btn-outline-primary btn-sm btn-border btn-round"
-           href="{{ path('magenta_book_index', {'accessCode': accessCode, 'employeeCode': employeeCode}) }}">HOME</a>
+           href="{{ path('magenta_book_index', {orgSlug:orgSlug,'accessCode': accessCode, 'employeeCode': employeeCode}) }}">HOME</a>
         <a class="btn btn-sm btn-outline-primary btn-border btn-round"
-           href="{{ path('magenta_book_contact', {'accessCode': accessCode, 'employeeCode': employeeCode}) }}">CONTACTS</a>
+           href="{{ path('magenta_book_contact', {orgSlug:orgSlug,'accessCode': accessCode, 'employeeCode': employeeCode}) }}">CONTACTS</a>
         <a class="btn btn-sm btn-outline-primary btn-border btn-round" href="" data-toggle="modal"
            data-target="#toc-modal">BOOK TOC </a>
     </div>
@@ -289,7 +299,7 @@
                 function (event) {
                     // The clicked node is 'event.node'
                     // var node = event.node;
-                    let url = '{{ path('magenta_book_reader_chapter',{accessCode:accessCode,employeeCode:employeeCode,chapterId:0}) }}';
+                    let url = '{{ path('magenta_book_reader_chapter',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode,chapterId:0}) }}';
                     let redirectUrl = url.replace('/chapter/0', '/chapter/' + event.node.id);
                     // alert(node.name);
                     console.log('Go to Chapter Page', event, url, redirectUrl);
@@ -321,7 +331,7 @@
                 function (event) {
                     // The clicked node is 'event.node'
                     // var node = event.node;
-                    let url = '{{ path('magenta_book_reader_chapter',{accessCode:accessCode,employeeCode:employeeCode,chapterId:0}) }}';
+                    let url = '{{ path('magenta_book_reader_chapter',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode,chapterId:0}) }}';
                     let redirectUrl = url.replace('/chapter/0', '/chapter/' + event.node.id);
                     // alert(node.name);
                     console.log('From Toc Modal: Go to Chapter Page', event, url, redirectUrl);
