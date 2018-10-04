@@ -24,12 +24,14 @@ class BookAdminController extends BaseCRUDAdminController
         if ($parameters['action'] === 'show') {
             /** @var Book $book */
             $book = $this->admin->getSubject();
+            $orgSlug = "1";
             $accessCode = "1";
             $employeeCode = "1";
             $parameters['base_book_template'] = '@MagentaCBookAdmin/standard_layout.html.twig';
             $parameters['book'] = $book;
             $parameters['mainContentItem'] = $book;
             $parameters['subContentItems'] = $book->getRootChapters();
+            $parameters['orgSlug'] = $orgSlug;
             $parameters['accessCode'] = $accessCode;
             $parameters['employeeCode'] = $employeeCode;
         }
