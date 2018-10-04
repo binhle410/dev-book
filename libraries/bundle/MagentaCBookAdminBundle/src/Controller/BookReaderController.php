@@ -37,6 +37,7 @@ class BookReaderController extends Controller
             if (!empty($member) && $member->getPerson()->getBirthDate()->format('Y-m-d') === $dob->format('Y-m-d')) {
                 return new RedirectResponse($this->get('router')->generate('magenta_book_index',
                     [
+                        'orgSlug' => $orgSlug,
                         'accessCode' => $member->getPin(),
                         'employeeCode' => $member->getCode()
                     ]));
