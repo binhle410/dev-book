@@ -15,7 +15,7 @@
                 <tr class="hand-hover">
                     <td>{{ loop.index }}</td>
                     <td>
-                        <a href="{{ path('magenta_book_reader_book', {'accessCode': accessCode, 'employeeCode': employeeCode, 'bookId': book.id}) }}">{{ book.name }}
+                        <a href="{{ path('magenta_book_reader_book', {orgSlug:orgSlug,'accessCode': accessCode, 'employeeCode': employeeCode, 'bookId': book.id}) }}">{{ book.name }}
                             <br/>
                         Edition: {{ book.bookEdition }}
                         </a>
