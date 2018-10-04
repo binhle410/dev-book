@@ -1,4 +1,40 @@
 {% extends base_book_template %}
+{% block stylesheets_book %}
+    <style>
+        /* Link color */
+        a {
+            color: #3e3b6c;
+        }
+
+        a:hover, a:focus {
+            color: #605ca8;
+        }
+
+        .btn-outline-primary {
+            border-color: #605ca8;
+            color: #605ca8;
+        }
+
+        .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active, .btn-outline-primary.active, .open > .btn-outline-primary.dropdown-toggle, .page-item.active .page-link {
+            background-color: #605ca8;
+            border-color: #605ca8;
+        }
+
+        .pagination > .page-item > .page-link, .pagination > .page-item:last-child > .page-link, .pagination > .page-item:first-child > .page-link {
+            color: #605ca8;
+            border-color: #605ca8;
+        }
+
+        .pagination > .page-item.active > .page-link {
+            color: white;
+        }
+
+        .pagination > li.active > a:focus, .pagination > li.active > a:hover {
+            background-color: #3e3b6c;
+            border-color: #3e3b6c;
+        }
+    </style>
+{% endblock %}
 
 {% block body %}
     <div class="container">
@@ -17,7 +53,7 @@
                     <td>
                         <a href="{{ path('magenta_book_reader_book', {orgSlug:orgSlug,'accessCode': accessCode, 'employeeCode': employeeCode, 'bookId': book.id}) }}">{{ book.name }}
                             <br/>
-                        Edition: {{ book.bookEdition }}
+                            Edition: {{ book.bookEdition }}
                         </a>
                     </td>
                 </tr>
