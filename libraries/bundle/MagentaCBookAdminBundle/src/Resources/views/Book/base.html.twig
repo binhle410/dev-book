@@ -147,7 +147,18 @@
                 _index = -1,
                 fullscreenDiv = FullscreenElem._vars.fullscreenDiv,
                 prevButton = $("<div class='prevButton'></div>"),
-                nextButton = $("<div class='nextButton'></div>");
+                nextButton = $("<div class='nextButton'></div>"),
+                $zoomHolder = $('.hiddenStuff .zoomHolder');
+            ;
+            pz.on(PinchZoomer.FULLSCREEN_TOGGLE, function (e) {
+                if (!pz.fullscreen()) {
+                    pz.elem('<span></span>', false, false);
+                    $zoomHolder.css('height', 'auto');
+                    $zoomHolder.children('.controlHolder').hide();
+                }else{
+                    $zoomHolder.children('.controlHolder').show();
+                }
+            });
 
 
             //initTooltip();
@@ -155,7 +166,7 @@
             setup();
 
             $('img').click(function (e) {
-                console.log('hey 3')
+                console.log('hey 10')
                 // console.log($(this).parent().html());
                 pz.elem($(this).parent().html(), false, false);
                 pz.fullscreen(true);
