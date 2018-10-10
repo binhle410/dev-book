@@ -99,6 +99,7 @@
             localStorage.clear();
         })
 
+        $('img').wrap('<div class="zoomViewport"><div class="zoomContainer"></div></div>');
         $('img').zoomTarget({
             closeclick: true,
             targetsize: 2,
