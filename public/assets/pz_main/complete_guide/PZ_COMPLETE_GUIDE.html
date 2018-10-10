@@ -1,0 +1,1333 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Pinch Zoomer jQuery Plugin - Complete Guide </title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="description" content="This is the guide for PinchZoomer jQuery Plugin">
+<meta name="author" content="Ron Feliciano">
+<link href="css/prettify.min.css" type="text/css" rel="stylesheet" />
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+<link href="css/main.min.css" rel="stylesheet">
+<link href="css/text.min.css" rel="stylesheet">
+<link href="css/getting_started.min.css" rel="stylesheet">
+<link href="css/pinchzoomer.min.css" rel="stylesheet">
+<link href="css/preview.min.css" rel="stylesheet">
+
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+	<script src="assets/js/html5shiv.js"></script>
+<![endif]-->
+
+<script src="js/prettify.min.js" type="text/javascript" ></script>
+<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+<script src="js/hammer.min.js" type="text/javascript"></script>
+<script src="js/TweenMax.min.js" type="text/javascript"></script>
+<script src="js/jquery.pinchzoomer.min.js" type="text/javascript"></script>
+<script src="js/getting_started_html.js" type="text/javascript"></script>
+<meta name="format-detection" content="telephone=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="brand" href="#">
+      <img src="assets/pz_header.png" alt="PinchZoomer"/>
+      &nbsp;&nbsp;&nbsp;<span style="font-size:14px">Complete Guide for v2.x</span></a>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row-fluid divPad">
+    <div class="span12 divPad">
+      <ul class="gsnav">
+        <li><a href="#intro">1. Introduction</a></li>
+        <li><a href="#versionHistory">2. Version History</a></li>
+        <li><a href="#pluginSetup">3. Plugin setup</a></li>
+        <li class="navtab1"><a href="#templateFolder">3.1.  Copy the contents of <em>src/minified</em>&nbsp; folder</a></li>
+        <li class="navtab1"><a href="#addJsCss">3.2. Add Javascript and CSS in your HTML </a></li>
+        <li class="navtab1"><a href="#addZoom">3.3. Adding multi-touch zoom capability to your HTML content</a></li>
+        <li class="navtab1"><a href="#dataOptions">3.4. Setting options in <em>data-options</em>&nbsp; attribute</a></li>
+        <li class="navtab1"><a href="#editingZoomControl">3.5. Changing the style of the controls</a></li>
+        <li class="navtab2"><a href="#zoomControlCss">3.5.1. CSS only method</a></li>
+        <li class="navtab2"><a href="#zoomControlManual">3.5.2. Adding controls manually</a></li>
+        <li class="navtab1"><a href="#defMarkers">3.6. Defining Markers</a></li>
+        <li class="navtab2"><a href="#transformPreset">3.6.1. Adding Marker transformOrigin presets</a></li>
+		<li class="navtab2"><a href="#markerTooltips">3.6.2. Adding Marker Tooltips </a></li>
+        <li><a href="#tips">4. Important Tips</a></li>
+        <li class="navtab1"><a href="#autoContentSize">4.1 Automatic Content Sizing</a></li>
+        <li class="navtab1"><a href="#loadImages">4.2 Loading Images</a></li>
+        <li class="navtab1"><a href="#adaptiveImages">4.3. Using Adaptive Images</a></li>
+        <li><a href="#api">5. PinchZoomer API (for advanced users)</a></li>
+        <li><a href="#apiExamples">6. Examples</a></li>
+      </ul>
+    </div>
+  </div>
+  <hr>
+  <div id="intro" class="row-fluid divPad">
+    <div class="span12">
+      <h3>1. Introduction <a href="#"><span class="backToTop">back to top</span></a></h3>
+      Thank you for purchasing PinchZoomer jQuery Plugin. As of version 2.0, this plugin now support divs instead of just image. If you have version 1.x and want to migrate to version 2.x, please go through the guide because there are some changes from the 1.x version
+    </div>
+  </div>
+  <div id="versionHistory" class="row-fluid divPad">
+    <div class="span12">
+      <h3>2. Version History<a href="#"><span class="backToTop"> back to top</span></a></h3>
+	  <p>Version 2.2</p>
+		<p>Added</p>
+		&nbsp;&nbsp;&nbsp;- mouseover zoom option (default is disabled)<br><br>
+	  <p>Version 2.1.3</p>
+	  <p>Bug Fixes<br>
+		 &nbsp;&nbsp;&nbsp;- skipping content when zoomed using double tap or zoom buttons<br>
+		 &nbsp;&nbsp;&nbsp;- ghost image when dragging thumb scroller<br>
+		 &nbsp;&nbsp;&nbsp;- not scrolling sometimes when already zoomed out<br>
+	  </p>
+	  <p>Changed<br>
+         &nbsp;&nbsp;&nbsp;- typo in the guide. touchnswipe.min.css to pinchzoomer.min.css<br>
+		 &nbsp;&nbsp;&nbsp;- typo in the pz_options.html. removed {} in the generated HTML in the data-options<br>
+		</p>
+	  <p>Version 2.1</p>
+	  <p>Added</p>
+      <p>&nbsp;Options<br>
+		&nbsp;&nbsp;&nbsp;- zoom to Marker option (default is disabled)<br>
+		&nbsp;&nbsp;&nbsp;- drag limit to center  (default is disabled)<br>
+		&nbsp;&nbsp;&nbsp;- scroll page when content reaches its drag limit (default is disabled)<br>
+		&nbsp;&nbsp;&nbsp;- "smart" value for scaleMode option<br>
+		&nbsp;&nbsp;&nbsp;- initZoom<br><br>  
+		&nbsp;API<br> 
+		&nbsp;&nbsp;&nbsp;- transform function<br>
+        &nbsp;&nbsp;&nbsp;- zoomToMarker function<br><br> 
+		&nbsp;Feature<br> 
+		&nbsp;&nbsp;&nbsp;- marker tooltips now included<br><br>
+		&nbsp;Examples<br> 
+		&nbsp;&nbsp;&nbsp;-  Dynamic Options <br>
+		&nbsp;&nbsp;&nbsp;-  Add or Remove Markers<br>
+		&nbsp;&nbsp;&nbsp;-  Multilayer Zoom<br>
+		&nbsp;&nbsp;&nbsp;-  Map with Markers <br>
+      
+	  </p>	
+	  <p>Removed<br>
+		  &nbsp;- mousewheel plugin dependency 
+	  </p>	
+	  <p>Changed<br>
+         &nbsp;- The content keeps the zoom factor when window is resized or device changes orientation
+	  </p>
+      <p>Version 2.0</p>
+      <p>Added<br>
+        - Support for  HTML content (not just images)<br>
+        - Use of native scrolling when content is not zoomed<br>
+        - Markers <br>
+        - Native fullscreen<br>
+        - Adaptive image loading<br>
+        - More examples using API<br>
+      </p>
+      <p>Removed<br>
+        - Support for IE8 and below and Android 2.2.x (for IE8 and below and Android 2.2.x   support use version 1.x)<br>
+        - Modernizr(No longer required)<br>
+      </p>
+      <p>Changed<br>
+        - Improved API for events, content manipulation<br>
+        - Content options<br>
+        - Controls are always visible for improved performance<br>
+      </p>
+    </div>
+  </div>
+  <div id="pluginSetup" class="row-fluid divPad">
+    <div class="span12">
+      <h3>3. Plugin Setup <a href="#"><span class="backToTop">back to top</span></a></h3>
+      Below is a step by step process on how you can get this image zoomer plugin up and running. It is mostly editing HTML and CSS so you need at least a basic knowledge on the subject. If you are familiar with these, it should be easy. No need to worry about any javascript code because everything will  run automatically.
+    </div>
+  </div>
+  <div id="templateFolder" class="row-fluid divPad">
+    <div class="span12">
+      <h4>3.1.  Copy the contents of <em>src/minified</em>&nbsp; folder <a href="#"><span class="backToTop">back to top</span></a></h4>
+      The <em>src/minified</em>&nbsp; folder contains the basic files you need to make the plugin work. The <em>src/minified</em>&nbsp; folder should have the files below.<br>
+      <table class="table table-bordered table-striped" width="100%" border="1" cellpadding="5" cellspacing="0">
+        <tr>
+          <td width="25%" height="26" align="center"><strong>Javascript File (in js folder)</strong></td>
+          <td width="46%" align="center"><strong>Description</strong></td>
+          <td width="29%" align="center"><strong>Required</strong></td>
+        </tr>
+        <tr>
+          <td>jquery-1.11.3.min.js</td>
+          <td>jQuery source - http://jquery.com/</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>hammer.min.js</td>
+          <td>handles touch events - http://eightmedia.github.io/hammer.js/</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>TweenMax.min.js</td>
+          <td>handles animation - http://www.greensock.com/</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>jquery.pinchzoomer.min.js</td>
+          <td>main script</td>
+          <td>yes</td>
+        </tr>
+		<tr>
+          <td>tooltipster.bundle.min.js</td>
+          <td>tooltip plugin - http://iamceege.github.io/tooltipster/</td>
+          <td>no (but must be included to enable tooltips)</td>
+        </tr>
+      </table>
+      <table class="table table-bordered table-striped" width="100%" border="1" cellpadding="5" cellspacing="0">
+        <tr>
+          <td width="25%" height="26" align="center"><strong>CSS File (in css folder)</strong></td>
+          <td width="46%" align="center"><strong>Description</strong></td>
+		  <td width="29%" align="center"><strong>Required</strong></td>
+        </tr>
+        <tr>
+          <td>pinchzoomer.min.css</td>
+          <td>main CSS file that defines zoom buttons</td>
+		  <td>yes</td>	
+        </tr>
+		 <tr>
+          <td>tooltipster.bundle.min.css</td>
+          <td>main CSS file that defines zoom buttons</td>
+		  <td>no (but must be included if tooltip plugin is added)</td>	 
+        </tr>  
+      </table>
+      <table class="table table-bordered table-striped" width="100%" border="1" cellpadding="5" cellspacing="0">
+        <tr>
+          <td width="20%" height="26" align="center"><strong>Image File (in assets folder)</strong></td>
+          <td width="70%" align="center"><strong>Description</strong></td>
+        </tr>
+        <tr>
+          <td>preloader.gif</td>
+          <td>default preloader image</td>
+        </tr>
+        <tr>
+          <td>pz_sheet.png</td>
+          <td>image sprite containing control images</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div id="addJsCss" class="row-fluid divPad">
+    <div class="span12">
+      <h4>3.2. Add Javascript and CSS in your HTML <a href="#"><span class="backToTop">back to top</span></a></h4>
+      After copying the <em>js</em> and <em>css</em> folders in your project folder, you need to add them in your HTML. It should look something like:<br>
+      <br>
+      <pre id="scriptCode" class="prettyprint linenums">
+&lt;link href=&quot;css/pinchzoomer.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;script src=&quot;js/jquery-1.11.3.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/hammer.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/TweenMax.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/jquery.pinchzoomer.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;           </pre>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="span12 note">
+      Note: <strong><em>jQuery</em></strong>,<strong> Hammer JS</strong>, <strong><em>TweenMax </em></strong><em>and</em><strong><em> Tooltipster </em></strong>are 3rd party plugins that can be downloaded from their respective sites. If you already have these, there is no need to add them. It is recommended that you always use the latest  source for security and stability but if for some reason the new versions don't work, simply use the JS files included in this plugin.
+    </div>
+  </div>
+  <div id="addZoom" class="row-fluid divPad">
+    <div class="span12">
+      <h4>3.3. Adding multi-touch zoom capability to your HTML content <a href="#"><span class="backToTop">back to top</span></a></h4>
+      Adding zoom capability can be done with images and also HTML content by simply adding <em><strong>data-elem=&quot;<span class="prettyprint linenums">pinchzoomer</span>&quot;</strong></em> <br>
+      <br>
+      <div class="note">
+        Note: For images it is recommended to use <strong><em>data-src</em></strong> instead of the <strong><em>src</em></strong> for the image. See <strong><a href="#loadImages">section 4.2</a></strong> for details.
+      </div>
+      <div class="row-fluid divPad">
+        <div class="span6">
+          Image only example
+          <div class="zoomHolder">
+            <img data-src="assets/easter_chick.jpg" data-elem="pinchzoomer"/>
+          </div>
+          HTML
+          <pre class="prettyprint linenums codeHeight">&lt;div class=&quot;zoomHolder&quot;&gt;
+   &lt;img data-src=&quot;assets/easter_chick.jpg&quot; <span class="elemLight">data-elem=&quot;pinchzoomer&quot;</span>/&gt;
+&lt;/div&gt;</pre>
+CSS
+<pre class="prettyprint linenums text-left codeHeight">.zoomHolder
+{
+   width:100%;
+   height:auto;
+   position:relative;
+   overflow:hidden
+}</pre>
+        </div>
+        <div class="span6">
+          DIV example (contains 2 image layers)
+          <div class="zoomHolder">
+            <div data-elem="pinchzoomer">
+              <img id="streetLayer" data-src="assets/street_layer.jpg" data-elem="bg" class="layerImg"/>
+              <img id="buildingLayer" data-src="assets/detail_layer.png" class="layerImg"/>
+            </div>
+          </div>
+          HTML
+          <pre class="prettyprint linenums codeHeight">&lt;div class=&quot;zoomHolder&quot;&gt;
+   &lt;div <span class="elemLight">data-elem=&quot;pinchzoomer&quot;</span>&gt;<br>      &lt;img id=&quot;streetLayer&quot; data-src=&quot;assets/street_layer.jpg&quot; data-elem=&quot;bg&quot; class=&quot;layerImg&quot;/&gt;
+      &lt;img id=&quot;buildingLayer&quot; data-src=&quot;assets/detail_layer.png&quot; class=&quot;layerImg&quot;/&gt;<br>   &lt;/div&gt;
+&lt;/div&gt;</pre>
+ CSS
+      <pre id="layerCssCode" class="prettyprint linenums text-left codeHeight">.zoomHolder<br>{
+   width:100%;<br>   height:auto;<br>   position:relative;
+   overflow:hidden
+}<br>
+.layerImg
+{
+&nbsp;&nbsp;&nbsp;position:absolute;<br>   left:0px;<br>   top:0px;<br>   right:auto;<br>   bottom:auto; 
+}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="dataOptions" class="row-fluid divPad">
+    <div class="span12">
+      <h4>3.4. Setting  options in <em>data-options</em>&nbsp; attribute <a href="#"><span class="backToTop">back to top</span></a></h4>
+      While the default options are used in most scenarios, you may want to do some tweaking to make it look better in your website. Below are the list of options you can use to customize your image zoomer. Note that you can remove the options you don't want to change
+      <table class="table table-bordered table-striped" width="100%" border="1" cellpadding="5" cellspacing="0">
+        <tr>
+          <td width="20%" height="26" align="center"><strong>Option</strong></td>
+          <td width="10%" height="26" align="center"><strong>Default Value</strong></td>
+          <td width="70%" align="center"><strong>Description</strong></td>
+        </tr>
+        <tr>
+          <td>adjustHeight</td>
+          <td><em>0.0</em></td>
+          <td>valid value is <em>any number. </em>Adds to the height of the content</td>
+        </tr>
+		  
+		 <tr>
+          <td>adjustLeft</td>
+          <td><em>0.0</em></td>
+          <td>valid value is <em>any number. </em>Adds to the left position of the content</td>
+        </tr> 
+		  
+		   <tr>
+          <td>adjustHolderSize</td>
+          <td><em>true</em></td>
+          <td>valid value is <em>true</em> or <em>false</em>. If true, it will adjust the size of the content holder to fit the size of the content when scaleMode value is <em>widthOnly</em> or <em>heightOnly</em>.<br>This is useful because there will be no need to specify the width or height of the content holder.<br>It is recommended to set this to false if width and height of the content holder is set.</td>
+        </tr> 
+		  
+		 <tr>
+          <td>adjustWidth</td>
+          <td><em>0.0</em></td>
+          <td>valid value is <em>any number. </em>Adds to the width of the content.</td>
+        </tr> 
+		  
+		   <tr>
+          <td>adjustTop</td>
+          <td><em>0.0</em></td>
+          <td>valid value is <em>any number. </em>Adds to the left position of the content.</td>
+        </tr> 
+		  
+		<tr>
+          <td>animDuration</td>
+          <td><em>0.25</em></td>
+          <td>valid value is <em>any positive number. </em>This determines how long (in seconds) is the animation.</td>
+        </tr> 
+		  
+		<tr>
+		<td>allowCenterDrag</td>
+          <td><em>false</em></td>
+          <td>valid value is <em>true</em> or <em>false</em>. If <em>true</em>, it allows dragging to the center of the content holder. This works best with <em>zoomToMarker</em> enabled. </td>
+        </tr>   
+		  
+		  
+		 <tr>
+		<td>allowDrag</td>
+          <td><em>true</em></td>
+          <td>valid value is <em>true</em> or <em>false</em>. If <em>true</em>, it allows dragging the content when it is larger than its div holder.</td>
+        </tr>    
+		   <tr>
+		<td>allowHoverZoom</td>
+          <td><em>false</em></td>
+			   <td>valid value is <em>true</em> or <em>false</em>. If <em>true</em>, it allows zoom when the mouse is over the content.<br><em>Note that this will disable mouse drag, mousewheel zoom and double click zoom on desktop<br> but pinch to zoom and touch drag will still work on mobile devices.</em></td>
+        </tr>    
+        <tr>
+          <td>allowMouseWheelScroll</td>
+          <td><em>false</em></td>
+          <td>valid value is<em> true </em>or<em> false</em>. If <em>true</em>, it allows mousewheel to page scroll when on top of the zoom content</td>
+        </tr>
+        <tr>
+          <td>allowMouseWheelZoom</td>
+          <td><em>true</em></td>
+          <td>valid value is<em> true </em>or<em> false</em>. If <em>true</em>, it allows mousewheel to zoom the content</td>
+        </tr>
+        <tr>
+          <td>allowZoom</td>
+          <td><em>true</em></td>
+          <td>valid value is<em> true </em>or<em> false</em>. If <em>true</em>, it allows content zooming. </td>
+        </tr>
+        <tr>
+          <td>appendControlHolder</td>
+          <td><em>true</em></td>
+          <td>valid value is<em> true </em>or<em> false</em>. If true, zoom control holder is created and automatically added on top of the content.</td>
+        </tr>
+        <tr>
+          <td>appendControls</td>
+          <td><em>true</em></td>
+          <td>valid value is<em> true </em>or<em> false</em>. If true, zoom controls are created and automatically added on top of the content (or the control holder if  it is available).</td>
+        </tr>
+        <tr>
+          <td>crop</td>
+          <td><em>true</em></td>
+          <td>valid value is<em> true </em>or<em> false</em><em>.</em> If true, overflow:hidden will be added to the style of the div holder of the zoom content. </td>
+        </tr>
+        <tr>
+          <td>doubleTapZoom</td>
+          <td><em>2</em></td>
+          <td>valid value is <em>any positive number.</em> This value is the scale when the image is double tapped or double clicked.</td>
+        </tr>
+        <tr>
+          <td>dragStep</td>
+          <td><em>10</em></td>
+          <td>valid value is<em> any positive number.</em> This determines how much in pixels you want to move in the image when <em>moveLeft(), moveRight(), moveUp(), moveDown()</em> functions are called.</td>
+        </tr>
+        <tr>
+          <td>force3D</td>
+          <td><em>auto</em></td>
+          <td>valid value is<em> true </em>or<em> false</em> or <em>auto</em>. If <em>true</em> it will force the content to use 3D  acceleration. If value is <em>auto</em>, it will use 3D  acceleration while zooming or panning and resets removes 3D acceleration after zooming or panning is complete.</td>
+        </tr>
+		  
+		  
+		  <tr>
+          <td>fullscreenAdjustHeight</td>
+          <td><em>0.0</em></td>
+          <td>valid value is <em>any number. </em>Adds to the height of the content when in fullscreen.</td>
+        </tr> 
+		  
+		  <tr>
+          <td>fullscreenAdjustLeft</td>
+          <td><em>0.0</em></td>
+          <td>valid value is <em>any number. </em>Adds to the left position of the content when in fullscreen.</td>
+        </tr> 
+		  
+		   <tr>
+          <td>fullscreenAdjustWidth</td>
+          <td><em>0.0</em></td>
+          <td>valid value is <em>any number. </em>Adds to the width of the content when in fullscreen.</td>
+        </tr> 
+		  
+		    <tr>
+          <td>fullscreenAdjustTop</td>
+          <td><em>0.0</em></td>
+          <td>valid value is <em>any number. </em>Adds to the top position of the content when in fullscreen.</td>
+        </tr> 
+		  
+		  
+        <tr>
+          <td>fullscreenDivCss</td>
+          <td><em>fullscreenDiv</em></td>
+          <td>class name that will be applied to the content when in fullscreen</td>
+        </tr>
+        <tr>
+          <td>fullscreenScaleMode</td>
+          <td><em>proportionalInside</em></td>
+          <td>valid value is<em> widthOnly, heightOnly, proportionalInside, proportionalOutside</em>, <em> none </em>and<em> smart.</em><br>
+          This determines the initial size of the content based on its div holder when in fullscreen.<br>
+          <em>widthOnly</em> - resizes to the width of its div holder and proportionally resizes the height.<br><em>heightOnly</em> - resizes to the height of its div holder and proportionally resizes the width.<br><em>proportionalInside</em> - fits the content proportionally iniside its div holder.<br>
+          <em>proportionalOutside</em> - fills the div holder with the content.<br>
+          <em>none</em> - keeps the original size of the content.<br><em>smart</em> - same as <em>none</em>&nbsp; but when the content is bigger it will resize to fit inside its div holder.<br>&nbsp;&emsp;&emsp;- this also ignores the value of <em>minZoom</em> and <em>initZoom</em> to fit inside the div holder.</td>
+        </tr>
+        <tr>
+          <td>initX</td>
+          <td><em>0.5</em></td>
+          <td>valid value is<em> 0 to 1</em><em>.</em> This is the initial x position(0.5 here means it will be initially at the center) of the content relative to its div container when the content is larger than its div container.</td>
+        </tr>
+        <tr>
+          <td>initY</td>
+          <td><em>0</em></td>
+          <td>valid value is<em> 0 to 1</em><em>.</em> This is the initial y position(0 here means it will be initially at the top) of the content relative to its div container when the content is larger than its div container.</td>
+        </tr>
+		   <tr>
+          <td>initZoom</td>
+          <td><em>1</em></td>
+          <td>valid value is a <em>any positive number</em><em>.</em> Initial zoom factor of the content.</td>
+        </tr>
+        <tr>
+          <td>maxZoom</td>
+          <td><em>2</em></td>
+          <td>valid value is <em>any positive number</em><em>.</em> This is the maximum zoom value</td>
+        </tr>
+		  
+		 <tr>
+          <td>minZoom</td>
+          <td><em>1</em></td>
+          <td>valid value is <em>any positive number</em><em>.</em> This is the minimum zoom value</td>
+        </tr> 
+		  
+        <tr>
+          <td>preload</td>
+          <td><em>true</em></td>
+          <td>valid value is<em> true </em>or<em> false.</em> If true it will immediately load the images</td>
+        </tr>
+        <tr>
+          <td>preloaderUrl</td>
+          <td><em>assets/preloader.gif</em></td>
+          <td>valid value is<em> an image url</em><em>.</em> This determines the image used as a preloader.</td>
+        </tr>
+        <tr>
+          <td>resizeDuration</td>
+          <td><em>-1</em></td>
+          <td>valid value is<em> -1 or any positive number</em><em>.</em> This determines how long in seconds before checking if the size of the gallery is changed. <br>
+            <em>Note: Use this if you constantly change the size of your gallery or if your gallery is not resizing.</em></td>
+        </tr>
+        <tr>
+          <td>scaleMode</td>
+          <td><em>widthOnly</em></td>
+          <td>valid value is<em> widthOnly, heightOnly, proportionalInside, proportionalOutside</em>, <em> none </em>and<em> smart</em><em>.</em><br>
+          This determines the initial size of the content based on its div holder.<br><em>widthOnly</em> - resizes to the width of its div holder and proportionally resizes the height.<br><em>heightOnly</em> - resizes to the height of its div holder and proportionally resizes the width.<br><em>proportionalInside</em> - fits the content proportionally iniside its div holder.<br>
+          <em>proportionalOutside</em> - fills the div holder with the content.<br><em>none</em> - keeps the original size of the content.<br><em>smart</em> - same as <em>none</em>&nbsp; but when the content is bigger it will resize to fit inside its div holder.<br>&nbsp;&emsp;&emsp;- this also ignores the value of <em>minZoom</em> and <em>initZoom</em> to fit inside the div holder.</td>
+        </tr>
+        <tr>
+          <td>zoomPointX</td>
+          <td><em>0.5</em></td>
+          <td>valid value is<em> 0 to 1.0</em><em>.</em> The horizontal point (0.0 is left, 0.5 is center, 1, is right) where it is zoomed.</td>
+        </tr>
+        <tr>
+          <td>zoomPointY</td>
+          <td><em>0.5</em></td>
+          <td>valid value is<em> 0 to 1.0</em><em>. </em>The vertical point (0.0 is top, 0.5 is middle, 1, is bottom) where it is zoomed.</td>
+        </tr>
+        <tr>
+          <td>zoomStep</td>
+          <td><em>0.5</em></td>
+          <td>valid value is<em> any positive number</em><em>.</em> This determines how much scale you want to add or remove in the image when zoom control buttons are pressed.</td>
+        </tr>
+		<tr>
+          <td>zoomToMarker</td>
+          <td><em>false</em></td>
+          <td>valid value is<em> true </em>or<em> false.</em> If <em>true</em>, zooms and moves the clicked/pressed marker to the center of the content holder.<br>Works best when <em>allowCenterDrag</em> is set to <em>true</em></td>
+        </tr>  
+      </table>
+      Below is how you set the options. These options are set in the <strong><em>data-options</em></strong> attribute separated by <em>semi-colon</em> in a <em><strong>optionName:optionValue</strong></em> format. The example below  will set the preloader image source to <em>assets/preloader2.gif</em> and set the maximum zoom to 6 times the original size.
+      <pre id="optionsCode" class="prettyprint linenums">
+&lt;img src=&quot;assets/1.jpg&quot; data-elem=&quot;pinchzoomer&quot; <span class="optionsLight">data-options=&quot;preloaderUrl:assets/preloader2.gif; maxZoom:6;&quot;</span>/&gt;</pre>
+    </div>
+  </div>
+  <div id="editingZoomControl" class="row-fluid divPad">
+    <div class="span12">
+      <h4>3.5. Changing the style of the controls <a href="#"><span class="backToTop">back to top</span></a><a href="#"></a></h4>
+      There are two ways to change the style of the  controls. First method is by overriding the default CSS and the second method adding the control elements manually.<br>
+    </div>
+  </div>
+  <div id="zoomControlCss" class="row-fluid divPad">
+    <div class="span12">
+      <h4>3.5.1. CSS only method<a href="#"><span class="backToTop"> back to top</span></a></h4>
+      By default the controls are added automatically and are given a specific class. So to change the controls style, simply override the class name that are attached to the controls. You can override <em><strong> .zoomIn, .zoomOut, .fullscreenToggle</strong></em><strong></strong> and then set the <em>active</em> and <em>inactive</em> state by setting <em><strong>.zoomIn.on, .zoomIn.off, .zoomOut.on, .zoomOut.off, .fullscreenToggle.on, .fullscreenToggle.off</strong></em>. Also, if you don't want to display a certain control, simply set the CSS to <em>display:none</em>. Below is an example custom CSS. See how the style of the controls change. <br>
+      <br>
+      <div class="row-fluid">
+        <div class="span6 offset3">
+          <div class="zoomHolder">
+            <img data-src="assets/easter_chick.jpg" data-elem="pinchzoomer"/>
+            <div class="controlHolder" data-elem="controlHolder" style="width:130px; height:30px; background:rgba(255,255,255,0.70); top:10px; margin:auto; left:auto; right:auto; bottom:auto; position:relative">
+              <div class="zoomIn" data-elem="zoomIn" style="background:url(assets/pz_sheet_blue.png) no-repeat; display:inline-block; margin: 0px 5px 0px 5px;">
+              </div>
+              <div class="zoomOut" data-elem="zoomOut" style="background:url(assets/pz_sheet_blue.png) no-repeat; display:inline-block; margin: 0px 5px 0px 5px;background-position:-30px 0px;" >
+              </div>
+              <div class="fullscreenToggle" data-elem="fullscreenToggle" style="background:url(assets/pz_sheet_blue.png) no-repeat; display:inline-block; margin: 0px 5px 0px 5px;background-position:-60px 0px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row-fluid topPad">
+        <div class="span12">
+          HTML
+          <pre class="prettyprint linenums codeHeight">&lt;div class=&quot;zoomHolder&quot;&gt; 
+   &lt;img data-src=&quot;assets/easter_chick.jpg&quot; data-elem=&quot;pinchzoomer&quot;/&gt;<br>&lt;/div&gt;</pre>
+        </div>
+      </div>
+      <div class="row-fluid topPad">
+        <div class="span12">
+          CSS
+          <pre id="controlCssCode" class="prettyprint linenums codeHeight">.controlHolder
+{
+&nbsp;&nbsp;&nbsp;width:130px;
+&nbsp;&nbsp;&nbsp;height:30px;
+&nbsp;&nbsp;&nbsp;background:rgba(255,255,255,0.70);
+&nbsp;&nbsp;&nbsp;top:10px;
+&nbsp;&nbsp;&nbsp;margin:auto;
+&nbsp;&nbsp;&nbsp;left:auto;
+&nbsp;&nbsp;&nbsp;right:auto;
+&nbsp;&nbsp;&nbsp;bottom:auto;
+&nbsp;&nbsp;&nbsp;position:relative
+}<br>
+.zoomIn, .zoomOut, .fullscreenToggle
+{
+&nbsp;&nbsp;&nbsp;background:url(../assets/pz_sheet_blue.png) no-repeat;
+&nbsp;&nbsp;&nbsp;display:inline-block;
+&nbsp;&nbsp;&nbsp;margin: 0px 5px 0px 5px;
+}<br>
+.zoomOut
+{
+&nbsp;&nbsp;&nbsp;background-position:-30px 0px;
+}<br>
+.fullscreenToggle
+{
+&nbsp;&nbsp;&nbsp;background-position:-60px 0px;
+}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="zoomControlManual" class="row-fluid divPad">
+    <div class="span12">
+      <h4>3.5.2. Adding controls manually <a href="#"><span class="backToTop">back to top</span></a></h4>
+      It is relatively rare but sometimes you may want to manually add  controls. You can do this by adding the element(<em>div, img, etc</em>) and then add <strong><em>data-elem</em></strong> attribute and set the value to <strong><em>&quot;zoomIn&quot;</em></strong>, <strong><em>&quot;zoomOut&quot;</em></strong> or <strong><em>&quot;fullscreenToggle&quot;</em></strong>. You can also set the <em><strong>onCss</strong></em>(active state) <strong><em>offCss</em></strong>(inactive state) properties in the <strong><em>data-options</em></strong> attribute. The example below is similar to the example in the <em>CSS only method</em>. The difference is that the controls are added manually inside the div holder of the zoom content.<br>
+      <div class="row-fluid">
+        <div class="span6 offset3">
+          <div class="zoomHolder">
+            <img data-src="assets/easter_chick.jpg" data-elem="pinchzoomer"/>
+            <div class="controlHolder" data-elem="controlHolder" style="width:130px; height:30px; background:rgba(255,255,255,0.70); top:10px; margin:auto; left:auto; right:auto; bottom:auto; position:relative">
+              <div class="zoomIn" data-elem="zoomIn" style="background:url(assets/pz_sheet_blue.png) no-repeat; display:inline-block; margin: 0px 5px 0px 5px;">
+              </div>
+              <div class="zoomOut" data-elem="zoomOut" style="background:url(assets/pz_sheet_blue.png) no-repeat; display:inline-block; margin: 0px 5px 0px 5px;background-position:-30px 0px;" >
+              </div>
+              <div class="fullscreenToggle" data-elem="fullscreenToggle" style="background:url(assets/pz_sheet_blue.png) no-repeat; display:inline-block; margin: 0px 5px 0px 5px;background-position:-60px 0px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row-fluid topPad">
+        <div class="span12">
+          HTML
+          <pre class="prettyprint linenums codeHeight">&lt;div class=&quot;zoomHolder&quot;&gt; 
+   &lt;img data-src=&quot;assets/easter_chick.jpg&quot; data-elem=&quot;pinchzoomer&quot;/&gt;<br>   &lt;div class=&quot;controlHolder&quot; <span class="elemLight">data-elem=&quot;controlHolder&quot;</span> style=&quot;width:130px; height:30px; background:rgba(255,255,255,0.70); top:10px; margin:auto; left:auto; right:auto; bottom:auto; position:relative&quot;&gt;<br>      &lt;div class=&quot;zoomIn&quot; <span class="elemLight">data-elem=&quot;zoomIn&quot;</span> style=&quot;background:url(assets/pz_sheet_blue.png) no-repeat; display:inline-block; margin: 0px 5px 0px 5px;&quot;&gt;&lt;/div&gt;<br>      &lt;div class=&quot;zoomOut&quot; <span class="elemLight">data-elem=&quot;zoomOut&quot;</span> style=&quot;background:url(assets/pz_sheet_blue.png) no-repeat; display:inline-block; margin: 0px 5px 0px 5px;background-position:-30px 0px;&quot; &gt;&lt;/div&gt;<br>      &lt;div class=&quot;fullscreenToggle&quot; <span class="elemLight">data-elem=&quot;fullscreenToggle&quot;</span> style=&quot;background:url(assets/pz_sheet_blue.png) no-repeat; display:inline-block; margin: 0px 5px 0px 5px;background-position:-60px 0px;&quot;&gt;&lt;/div&gt;<br>   &lt;/div&gt;<br>&lt;/div&gt;</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="defMarkers" class="row-fluid divPad">
+    <div class="span12">
+      <h4>3.6. Defining Markers <a href="#"><span class="backToTop">back to top</span></a></h4>
+      A marker is an element(usually an image) in the zoom content that points to a specific location in the content. By default (with the <em>preserveScale</em> option), a marker's scale will not be affected even when the content is zoomed. To define a marker in your content simply add <em><strong>data-elem=&quot;marker&quot;</strong></em> and also add <strong><em>data-options </em></strong>attribute to set <strong><em>x</em></strong> and <strong><em>y</em></strong> for the marker position and <em><strong>transformOrigin</strong></em> for defining the point of transformation of the marker.<br>
+      <br>
+      <table class="table table-bordered table-striped" width="100%" border="1" cellpadding="5" cellspacing="0">
+        <tr>
+          <td width="20%" height="26" align="center"><strong>Option</strong></td>
+          <td width="10%" height="26" align="center"><strong>Default Value</strong></td>
+          <td width="70%" align="center"><strong>Description</strong></td>
+        </tr>
+        <tr>
+          <td>maxZoom</td>
+          <td><em>999</em></td>
+          <td>valid value is <em>any positive number. </em>This is the maximum zoom factor at which the marker is visible. </td>
+        </tr>
+        <tr>
+          <td>minZoom</td>
+          <td><em>0</em></td>
+          <td>valid value is <em>any positive number. </em>This is the minimum zoom factor at which the marker is visible. </td>
+        </tr>
+        <tr>
+          <td>preserveScale</td>
+          <td><em>true</em></td>
+          <td>valid value is<em> true </em>or<em> false.</em> If <em>true</em>, the marker will maintain its original scale at any zoom factor.</td>
+        </tr>
+        <tr>
+          <td>transformOrigin</td>
+          <td><em>50% 50%</em></td>
+          <td>valid value is <em>x-axis y-axis format. </em>This is the main point of the marker.</td>
+        </tr>
+        <tr>
+          <td>useRealZoom</td>
+          <td><em>false</em></td>
+          <td>valid value is<em> true </em>or<em> false.</em> If <em>true</em>, the <em>minZoom</em> and <em>maxZoom</em> will use the original size as basis to determine marker visibility</td>
+        </tr>
+        <tr>
+          <td>x</td>
+          <td><em>0</em></td>
+          <td>valid value is <em>any positive number. </em>This is the x position of the marker</td>
+        </tr>
+        <tr>
+          <td>y</td>
+          <td><em>0</em></td>
+          <td>valid value is <em>any positive number. </em>This is the y position of the marker</td>
+        </tr>
+      </table>
+    </div>
+    <div class="row-fluid">
+      <div class="text-center" style="padding:20px">
+        In the example below it will initially show the 2 markers and as you zoom in it will show additional markers. As stated in the options table, the visibility of markers are defined by the minZoom and maxZoom options.
+      </div>
+      <div class="span6 offset3">
+        <div class="zoomHolder">
+          <div  data-elem="pinchzoomer">
+            <img data-src="assets/flower_and_bee.jpg" data-elem="bg"/>
+            <img data-src="assets/bee_marker.png" class="marker" data-elem="marker" data-options="x:240; y:100; transformOrigin:50% 100%; maxZoom:1.5"/>
+            <img data-src="assets/flower_marker.png" class="marker" data-elem="marker"  data-options="x:450; y:260; transformOrigin:50% 100%; maxZoom:1.5"/>
+            <img data-src="assets/wings_marker.png" class="marker" data-elem="marker" data-options="x:250; y:100; transformOrigin:50% 100%; minZoom:1.6"/>
+            <img data-src="assets/legs_marker.png" class="marker" data-elem="marker"  data-options="x:300; y:165; transformOrigin:50% 100%; minZoom:1.6"/>
+            <img data-src="assets/disk_marker.png" class="marker" data-elem="marker" data-options="x:280; y:270; transformOrigin:50% 100%; minZoom:1.6"/>
+            <img data-src="assets/petal_marker.png" class="marker" data-elem="marker"  data-options="x:90; y:190; transformOrigin:50% 100%; minZoom:1.6"/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid topPad">
+      <div class="span12">
+        HTML
+        <pre id="customHtmlCode" class="prettyprint linenums codeHeight">&lt;div class=&quot;zoomHolder&quot;&gt; <br>   &lt;div data-elem=&quot;pinchzoomer&quot;&gt;<br>      &lt;img data-src=&quot;assets/flower_and_bee.jpg&quot; data-elem=&quot;bg&quot;/&gt;<br>      &lt;img data-src=&quot;assets/bee_marker.png&quot; class=&quot;marker&quot; <span class="elemLight">data-elem=&quot;marker&quot;</span> data-options=&quot;x:240; y:100; transformOrigin:50% 100%; maxZoom:1.5&quot;/&gt;
+      &lt;img data-src=&quot;assets/flower_marker.png&quot; class=&quot;marker&quot; <span class="elemLight">data-elem=&quot;marker&quot;</span>  data-options=&quot;x:450; y:260; transformOrigin:50% 100%; maxZoom:1.5&quot;/&gt;<br>      &lt;img data-src=&quot;assets/wings_marker.png&quot; class=&quot;marker&quot; <span class="elemLight">data-elem=&quot;marker&quot;</span> data-options=&quot;x:250; y:100; transformOrigin:50% 100%; minZoom:1.6&quot;/&gt;<br>      &lt;img data-src=&quot;assets/legs_marker.png&quot; class=&quot;marker&quot; <span class="elemLight">data-elem=&quot;marker&quot;</span>  data-options=&quot;x:300; y:165; transformOrigin:50% 100%; minZoom:1.6&quot;/&gt;<br>      &lt;img data-src=&quot;assets/disk_marker.png&quot; class=&quot;marker&quot; <span class="elemLight">data-elem=&quot;marker&quot;</span> data-options=&quot;x:280; y:270; transformOrigin:50% 100%; minZoom:1.6&quot;/&gt;<br>      &lt;img data-src=&quot;assets/petal_marker.png&quot; class=&quot;marker&quot; <span class="elemLight">data-elem=&quot;marker&quot;</span>  data-options=&quot;x:90; y:190; transformOrigin:50% 100%; minZoom:1.6&quot;/&gt;<br>   &lt;/div&gt;<br>&lt;/div&gt;</pre>
+      </div>
+    </div>
+  </div>
+  <div id="transformPreset" class="row-fluid divPad">
+    <div class="span12">
+      <h4>3.6.1. Adding Marker transformOrigin presets <a href="#"><span class="backToTop">back to top</span></a></h4>
+      It is very likely that the transformOrigin have the same values for each marker icon. Instead of specifying the same transformOrigin value over and over for each Marker instance, you can simply define the value once and then apply it to each Marker instance by simply setting the id. Also if you suddenly need to change the transformOrigin value, you can simply edit the transformOrigin preset. So in effect it works like a class in HTML.<br>
+      A transformOrigin preset can be defined by an empty div with data-elem=&quot;<span class="prettyprint linenums codeHeight">transformPreset</span>&quot;. Also, in the data-options attribute, the id of the preset and the transformOrigin value should also be defined. Example below is similar to the Marker example above except that the transformOrigin value in the options is a transformOrigin preset id.
+    </div>
+  </div>
+  <div class="row-fluid divPad">
+    <div class="span6 offset3">
+      <div data-elem="transformPreset" data-options="id:cb; transformOrigin:50% 100%">
+      </div>
+      <div class="zoomHolder">
+        <div id="markerTest" data-elem="pinchzoomer">
+          <img data-src="assets/flower_and_bee.jpg"/>
+          <img data-src="assets/bee_marker.png" class="marker" data-elem="marker" data-options="x:240; y:100; transformOrigin:cb; maxZoom:1.5"/>
+          <img data-src="assets/flower_marker.png" class="marker" data-elem="marker"  data-options="x:450; y:260; transformOrigin:cb; maxZoom:1.5"/>
+          <img data-src="assets/wings_marker.png" class="marker" data-elem="marker" data-options="x:250; y:100; transformOrigin:cb; minZoom:1.6"/>
+          <img data-src="assets/legs_marker.png" class="marker" data-elem="marker"  data-options="x:300; y:165; transformOrigin:cb; minZoom:1.6"/>
+          <img data-src="assets/disk_marker.png" class="marker" data-elem="marker" data-options="x:280; y:270; transformOrigin:cb; minZoom:1.6"/>
+          <img data-src="assets/petal_marker.png" class="marker" data-elem="marker"  data-options="x:90; y:190; transformOrigin:cb; minZoom:1.6"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid topPad">
+    <div class="span12">
+      HTML
+      <pre class="prettyprint linenums codeHeight">&lt;div <span class="elemLight">data-elem=&quot;transformPreset&quot;</span> <span class="optionsLight">data-options=&quot;id:cb; transformOrigin:50% 100%&quot;</span>&gt;&lt;/div&gt;
+&lt;div class=&quot;zoomHolder&quot;&gt; <br>   &lt;div  data-elem=&quot;pinchzoomer&quot;&gt;<br>      &lt;img data-src=&quot;assets/flower_and_bee.jpg&quot;/&gt;<br>      &lt;img data-src=&quot;assets/bee_marker.png&quot; class=&quot;marker&quot; <span class="elemLight">data-elem=&quot;marker&quot;</span> data-options=&quot;x:240; y:100; <span class="transformLight">transformOrigin:cb;</span> maxZoom:1.5&quot;/&gt;<br>      &lt;img data-src=&quot;assets/flower_marker.png&quot; class=&quot;marker&quot; <span class="elemLight">data-elem=&quot;marker&quot;</span>  data-options=&quot;x:450; y:260; <span class="transformLight">transformOrigin:cb;</span> maxZoom:1.5&quot;/&gt;<br>      &lt;img data-src=&quot;assets/wings_marker.png&quot; class=&quot;marker&quot; <span class="elemLight">data-elem=&quot;marker&quot;</span> data-options=&quot;x:250; y:100; <span class="transformLight">transformOrigin:cb;</span> minZoom:1.6&quot;/&gt;<br>      &lt;img data-src=&quot;assets/legs_marker.png&quot; class=&quot;marker&quot; <span class="elemLight">data-elem=&quot;marker&quot;</span>  data-options=&quot;x:300; y:165; <span class="transformLight">transformOrigin:cb;</span> minZoom:1.6&quot;/&gt;<br>      &lt;img data-src=&quot;assets/disk_marker.png&quot; class=&quot;marker&quot; <span class="elemLight">data-elem=&quot;marker&quot;</span> data-options=&quot;x:280; y:270; <span class="transformLight">transformOrigin:cb;</span> minZoom:1.6&quot;/&gt;<br>      &lt;img data-src=&quot;assets/petal_marker.png&quot; class=&quot;marker&quot; <span class="elemLight">data-elem=&quot;marker&quot;</span>  data-options=&quot;x:90; y:190; <span class="transformLight">transformOrigin:cb;</span> minZoom:1.6&quot;/&gt;<br>   &lt;/div&gt;<br>&lt;/div&gt;</pre>
+    </div>
+  </div>
+ 
+  <div id="markerTooltips" class="row-fluid divPad">
+    <div class="span12">
+      <h4>3.6.2. Adding Marker Tooltips <a href="#"><span class="backToTop">back to top</span></a></h4>
+      As of version 2.1, marker tooltips are now available.  Below are the steps on how to add tooltips.<br><br>
+		<h5>Step 1. Add the JS and CSS files.</h5>
+	  <pre class="prettyprint linenums">&lt;link href=&quot;css/tooltipster.bundle.min.css&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot;/&gt;<br>&lt;script src=&quot;js/tooltipster.bundle.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</pre><br>
+
+
+		<h5>Step 2. (Optional) If you want other themes, you can add the CSS in <em>css/plugins/tooltipster/sideTip/themes</em>.</h5>
+For example you can add something like
+	  <pre class="prettyprint linenums">&lt;link href=&quot;css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot; /&gt;</pre><br>
+
+		<h5>Step 2.1. Add theme name</h5>
+If you added a tooltip theme CSS in step 2, the theme name must be added in the <em>theme</em>&nbsp; attribute inside <em>tooltipOptions</em>&nbsp; in the <em>data-options</em>&nbsp; of the each marker element. It should look something like this
+	  <pre class="prettyprint linenums">&lt;img src="#" data-src="assets/marker.png" class="marker" data-elem="marker" data-options="x:490; y:80; <span class="optionsLight">tooltipOptions:{ theme:tooltipster-shadow }</span>"  data-tooltip="Simple text only"/&gt;</pre>
+		<div class="note"> Note: The 3rd party tooltip plugin used here is <a href="http://iamceege.github.io/tooltipster" target="_blank">Tooltipster</a>. Options you can add in the <em><strong>tooltipOptions</strong></em> can be found <a href="http://iamceege.github.io/tooltipster/#options" target="_blank">here</a></div><br>
+
+
+		<h5>Step 3. Add <em>data-tooltip</em>&nbsp; or <em>data-tooltip-html</em>&nbsp; to your marker</h5><br>
+		<h5>Step 3.1. Use <em>data-tooltip</em>&nbsp; for simple text</h5>
+		This is the easiest way to setup your tooltip
+<pre class="prettyprint linenums">&lt;img src=&quot;#&quot; data-src=&quot;assets/marker.png&quot; class=&quot;marker tooltip&quot; data-elem=&quot;marker&quot; data-options=&quot;x:490; y:80;&quot;  data-tooltip=&quot;Simple text only&quot;/&gt;
+</pre><br>
+
+		<h5>Step 3.2. Use <em>data-tooltip-html</em>&nbsp; to add html content</h5>
+
+There are two ways where you can define html content using <em>data-tooltip-html</em>. <br><br>
+		
+	  <h5>Step 3.2.1. Set the HTML content directly in <em>data-tooltip-html</em></h5>
+<pre class="prettyprint linenums">&lt;img src=&quot;#&quot; data-src=&quot;assets/marker.png&quot; class=&quot;marker&quot; data-elem=&quot;marker&quot;  data-options=&quot;x:180; y:330&quot;  data-tooltip-html=&quot;&lt;div&gt;With HTML&lt;/div&gt;&quot;/&gt;</pre>	
+<br>	
+
+		<h5>Step 3.2.2. Set using an <em>id</em>&nbsp; of a template in your HTML</h5>
+<pre class="prettyprint linenums">&lt;img src=&quot;#&quot; data-src=&quot;assets/marker.png&quot; class=&quot;marker&quot; data-elem=&quot;marker&quot;  data-options=&quot;x:180; y:330&quot;  data-tooltip-html=&quot;#markerInfo&quot;/&gt;</pre>	
+
+Somewhere in your HTML, define the content		
+<pre class="prettyprint linenums">&lt;div style=&quot;display:none&quot;&gt;<br>   &lt;div id=&quot;markerInfo&quot;&gt;
+      This is using id reference
+   &lt;/div&gt;<br>&lt;/div&gt;</pre>	
+		
+    </div>
+  </div>		
+	
+  <div id="tips" class="row-fluid divPad">
+    <div class="span12">
+      <h3>4. Important Tips <a href="#"><span class="backToTop">back to top</span></a><a href="#"></a></h3>
+    </div>
+  </div>
+  <div id="autoContentSize" class="row-fluid divPad">
+    <div class="span12">
+      <h4>4.1. Automatic Content Sizing <a href="#"><span class="backToTop">back to top</span></a><a href="#"></a></h4>
+      For the PinchZoomer plugin to work, the specific width and height of the content being zoomed must be known. This is not a problem for images since the width and height is determined when the it is loaded. Unfortunately for div elements, this is not the case. In order for a div to have a fixed width and height it must be set in CSS. This option would work but may require a lot of work if you have lots of PZ instances. An easier way to determine the width and height of the div is to use data-elem=&quot;bg&quot; to a content inside your div. This will ensure that the div holder gets resized exactly the same as the element with data-elem=&quot;bg&quot;<br><br>
+       <pre class="prettyprint linenums">&lt;div class=&quot;zoomHolder&quot;&gt;
+   &lt;div data-elem=&quot;pinchzoomer&quot;&gt;<br>      &lt;img id=&quot;streetLayer&quot; data-src=&quot;assets/street_layer.jpg&quot; <span class="elemLight">data-elem=&quot;bg&quot;</span> class=&quot;layerImg&quot;/&gt;
+      &lt;img id=&quot;buildingLayer&quot; data-src=&quot;assets/detail_layer.png&quot; class=&quot;layerImg&quot;/&gt;<br>   &lt;/div&gt;
+&lt;/div&gt;</pre>
+    </div>
+    
+    
+  </div>
+  <div id="loadImages" class="row-fluid divPad">
+    <div class="span12">
+      <h4>4.2. Loading Images <a href="#"><span class="backToTop">back to top</span></a></h4>
+      <p>It is possible that the images inside may affect the size of the  content holder. This usually happens if the content's width and height is not set. To make sure the  content holder has the correct size, images must be preloaded. To do this, the value of <em><strong>src</strong></em> attribute should be <strong><em>&quot;#&quot;</em></strong> and set the <strong><em>data-src</em></strong> attribute to the url of the image. </p>
+      Below is how you add image options. Options set below will always show the zoom controls.
+      <pre class="prettyprint linenums">&lt;div class=&quot;zoomHolder&quot;&gt;
+   &lt;div data-elem=&quot;pinchzoomer&quot;&gt;<br>      &lt;img id=&quot;streetLayer&quot; src=&quot;#&quot; <span class="srcLight">data-src=&quot;assets/street_layer.jpg&quot;</span> data-elem=&quot;bg&quot; class=&quot;layerImg&quot;/&gt;
+      &lt;img id=&quot;buildingLayer&quot; src=&quot;#&quot; <span class="srcLight">data-src=&quot;assets/detail_layer.png&quot;</span> class=&quot;layerImg&quot;/&gt;<br>   &lt;/div&gt;
+&lt;/div&gt;</pre>
+    </div>
+  </div>
+  <div id="adaptiveImages" class="row-fluid divPad">
+    <div class="span12">
+      <h4>4.3. Using Adaptive Images <a href="#"><span class="backToTop">back to top</span></a></h4>
+      <p>On most websites,  same images are loaded  whether it is viewed on a desktop or a small screen device. The problem  is that loading huge images especially on small screen devices will result to unnecessary load time, resources and lag. The solution for this is to deliver large version of the images for desktop and small images for small screen devices. Fortunately PinchZoomer has an adaptive image loader module that takes care of this task. Its main function is  to load images based on the screen size of the user. Check out the steps below on how to set it up.</p>
+    </div>
+    <p><br>
+      <strong><em>4.3.1. Add a div with data-elem=&quot;imageLoader&quot; attribute with data-options=&quot;adaptive:true&quot;</em></strong><br>
+      (Note: You can set this anywhere in the page)
+    <pre class="prettyprint linenums codeHeight">&lt;div data-elem=&quot;imageloader&quot; data-options=&quot;adaptive:true&quot;&gt;&lt;/div&gt;</pre>
+    In the data-options attribute you can also set these options below
+    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+      <tbody>
+        <tr>
+          <th scope="col">Option</th>
+          <th scope="col">Default Value</th>
+          <th scope="col">Description</th>
+        </tr>
+        <tr>
+          <td>loadDefaultOnFail</td>
+          <td><em>true</em></td>
+          <td>If <em>true</em>, if the adaptive image url fails to load, it will load the original url in<em> data-src. </em>If<em> false</em>, it will simply skip the image and move on to the next.</td>
+        </tr>
+        <tr>
+          <td>renameRule</td>
+          <td><em>folder</em></td>
+          <td>This is the rule on how to rename the url when using adaptive images. Possible values are <em><strong>&quot;folder&quot;</strong></em> and <strong><em>&quot;name&quot;</em></strong><br>
+            <strong><em>&quot;folder&quot; value </em></strong>means it will prepend the breakpoint name so if the original url is <em>&quot;assets/image1.jpg&quot;</em> if the screen size is small the image url that will be loaded will now be <em>&quot;assets/small/image1.jpg&quot;</em><br>
+            as for <strong><em>&quot;name&quot;</em></strong><em> it will append the breakpoint name so if the original url is <em>&quot;assets/image1.jpg&quot;</em> if the screen size is small the image url that will be loaded will now be <em>&quot;assets/image1_<em>small</em>.jpg&quot;</em></em></td>
+        </tr>
+        <tr>
+          <td valign="top">maxConnections</td>
+          <td valign="top"><em>6</em></td>
+          <td>This is the number of image requests at a time.</td>
+        </tr>
+        <tr>
+          <td valign="top">adaptive</td>
+          <td valign="top"><em>false</em></td>
+          <td>If <em>true</em> this enables adaptive images</td>
+        </tr>
+      </tbody>
+    </table>
+    </p>
+    <p> <strong><em><br>
+      4.3.2. Set custom breakpoints (OPTIONAL)</em></strong> <br>
+      Breakpoints  basically determine the image size that will be served to the users by comparing the users screen size to the breakpoint value. Below are the default breakpoints.</p>
+    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+      <tbody>
+        <tr>
+          <th width="48%" scope="col">Name</th>
+          <th width="52%" scope="col"> Value</th>
+        </tr>
+        <tr>
+          <td>small</td>
+          <td><strong><em>480</em></strong></td>
+        </tr>
+        <tr>
+          <td>medium</td>
+          <td><strong><em>960</em></strong></td>
+        </tr>
+        <tr>
+          <td valign="top">large</td>
+          <td valign="top"><strong><em>1280</em></strong></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    To illustrate how breakpoints are used, check out the table below on what image the user will get given the sample screen sizes.<br>
+    <em>Sample below assumes original url is "<strong>assets/image1.jpg</strong>" and renameRule option is "<strong>folder</strong>" </em>
+    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+      <tbody>
+        <tr>
+          <th width="48%" scope="col">Sample Screen Size</th>
+          <th width="52%" scope="col"> New Image URL</th>
+        </tr>
+        <tr>
+          <td><em><strong>400 </strong>x 300</em></td>
+          <td><em>assets/<strong>small</strong>/image1.jpg</em></td>
+        </tr>
+        <tr>
+          <td><em><strong>800</strong> x 600</em></td>
+          <td><em>assets/<strong>medium</strong>/image1.jpg</em></td>
+        </tr>
+        <tr>
+          <td valign="top"><em><strong>1024 </strong>x 768</em></td>
+          <td valign="top"><em>assets/<strong>medium</strong>/image1.jpg</em></td>
+        </tr>
+        <tr>
+          <td valign="top"><em><strong>1280</strong> x 800 </em></td>
+          <td valign="top"><em>assets/<strong>large</strong>/image1.jpg</em></td>
+        </tr>
+        <tr>
+          <td valign="top"><em><strong>1920 </strong>x 1080</em></td>
+          <td valign="top"><em>assets/<strong>large</strong>/image1.jpg</em></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    It is possible that the deault breakpoints <em></em>will not be enough. You may need to define more breakpoints or set different values. Below is how to set you own breakpoints (Note: You can set this anywhere in the page).
+    <pre class="prettyprint linenums codeHeight">&lt;div data-elem=&quot;breakpoints&quot; data-value=&quot;{name:phone; breakpoint:480}, {name:phablet; breakpoint:800}, {name:tablet; breakpoint:1280},  {name:desktop; breakpoint:1600}&quot;&gt;&lt;/div&gt;</pre>
+    Using the new custom breakpoints, the new image url will now look like
+    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+      <tbody>
+        <tr>
+          <th width="48%" scope="col">Sample Screen Size</th>
+          <th width="52%" scope="col"> New Image URL</th>
+        </tr>
+        <tr>
+          <td><em><strong>400 </strong>x 300</em></td>
+          <td><em>assets/<strong>phone</strong>/image1.jpg</em></td>
+        </tr>
+        <tr>
+          <td><em><strong>800</strong> x 600</em></td>
+          <td><em>assets/<strong>phablet</strong>/image1.jpg</em></td>
+        </tr>
+        <tr>
+          <td valign="top"><em><strong>1024 </strong>x 768</em></td>
+          <td valign="top"><em>assets/<strong>phablet</strong>/image1.jpg</em></td>
+        </tr>
+        <tr>
+          <td valign="top"><em><strong>1280</strong> x 800 </em></td>
+          <td valign="top"><em>assets/<strong>tablet</strong>/image1.jpg</em></td>
+        </tr>
+        <tr>
+          <td valign="top"><em><strong>1920 </strong>x 1080</em></td>
+          <td valign="top"><em>assets/<strong>desktop</strong>/image1.jpg</em></td>
+        </tr>
+      </tbody>
+    </table>
+    <p><br>
+      <strong><em>4.3.3. Set img src to &quot;#&quot; and set data-src with the original image url</em></strong> <br>
+      The <em>data-src</em> must be set in order for PinchZoomer to recognize that you want this specific image to be adaptive. See example below<br>
+      <br>
+      Without Adaptive Images
+    <pre class="prettyprint linenums codeHeight">&lt;div data-elem=&quot;pinchzoomer&quot;&gt; <br>&nbsp;&nbsp;&nbsp;&lt;!-- this is the normal way of defining img --&gt;<br>   &lt;img src=&quot;assets/1.jpg&quot;/&gt;<br>   &lt;img src=&quot;assets/2.jpg&quot;/&gt;<br>   &lt;img src=&quot;assets/3.jpg&quot;/&gt;
+&lt;/div&gt;</pre>
+    <br>
+    With Adaptive Images
+    <pre class="prettyprint linenums codeHeight">&lt;div data-elem=&quot;pinchzoomer&quot;&gt; <br>&nbsp;&nbsp;&nbsp;&lt;!-- this will load on demand at the same time will be adaptive if the 'adaptive' option is true --&gt;<br>   &lt;img src=&quot;#&quot;<span class="srcLight"> data-src=&quot;assets/1.jpg&quot;</span> /&gt;<br>   &lt;img src=&quot;#&quot;<span class="srcLight"> data-src=&quot;assets/2.jpg&quot;</span> /&gt;<br>   &lt;img src=&quot;#&quot; <span class="srcLight">data-src=&quot;assets/3.jpg&quot;</span> /&gt;
+&lt;/div&gt;</pre>
+    <em>Note: You do not need to manually add data-src attribute for each image. If you already have the src attribute set, simply use the <strong>&quot;Find and Replace&quot;</strong> function in your text editor to set the data-src. </em>So <em>in your text editor find <strong>src=</strong> and replace it with <strong>src=&quot;#&quot; data-src=</strong>.</em>
+    </p>
+    <p><br>
+      <strong><em>4.3.4. Use a set of url in data-src (OPTIONAL)</em></strong><br>
+      As an alternative
+      way of setting adaptive images, you can specify in data-src a set of url instead of just one url. These urls represent each of the breakpoint. This is useful when file names are different or each version come from different sites and don't have control over the images.</p>
+    <pre class="prettyprint linenums codeHeight">&lt;div data-elem=&quot;pinchzoomer&quot;&gt; <br>&nbsp;&nbsp;&nbsp;&lt;!-- each url is separated by comma and the url set is enclosed by square brackets<br>       &nbsp;each represent a breakpoint so in this case small, medium and large --&gt;
+&nbsp;&nbsp;&nbsp;&lt;img src=&quot;#&quot; <span class="srcLight">data-src=&quot;[assets/small/1.jpg, http://somesite.com/1.jpg, reallybig/big_image1.jpg]&quot;</span> /&gt;<br>&lt;/div&gt;</pre>
+    <p><br>
+      <strong><em>4.3.5. Set Image Size in CSS (OPTIONAL)</em></strong><br>
+      Since adaptive images delivers different image sizes on different screen sizes, it maybe necessary to set the width and height using CSS in order to make sure the images are displayed correctly  on any screen. To make this easier, a HTML and CSS generator is provided which can be found <a href="size_generator.html" target="_blank">here</a>. This will generate the original width and height of the image in CSS and automatically add the class attribute of the image in HTML. </p>
+    <p><br>
+      <strong><em>4.3.6. Add   images for each breakpoint</em></strong><br>
+      PinchZoomer's apadtive image implementation does not include a way to generate different sizes for your original image. You need a 3rd party program such as <a href="http://download.cnet.com/FastStone-Photo-Resizer/3000-2192_4-10319476.html" target="_blank">FastStone Photo Resizer</a>, an online tool like <a href="http://birme.net/" target="_blank">B.I.R.M.E</a> or any other tool that will batch resize your images for you.<br>
+      <br>
+      If your <em>renameRule</em> option is <em>&quot;folder&quot;(default)</em>, you must create a folder for each breakpoint name and add the correct image with correct sizes to each folder. The file names must also be the same for each image version.  For example you used the default breakpoints and have <em>&quot;assets/image1.jpg&quot;</em>, you must also add <em>&quot;assets/small/image1.jpg&quot;</em>, <em>&quot;assets/medium/image1.jpg&quot;</em> and <em>&quot;assets/large/image1.jpg&quot;</em><br>
+      <br>
+      If your <em>renameRule</em> option is <em>&quot;name&quot;</em>, there is no need to create a folder for each breakpoint but you need to append the breakpoint name to the image files. For example you used the default breakpoints and have <em>&quot;assets/image1.jpg&quot;</em>, you must also add <em>&quot;assets/image1_small.jpg&quot;</em>, <em>&quot;assets/image1_medium.jpg&quot;</em> and <em>&quot;assets/image1_large.jpg&quot;</em></p>
+  </div>
+	
+  <div id="api" class="row-fluid divPad">
+    <div class="span12">
+      <h4>5. PinchZoomer API (for advanced users) <a href="#"><span class="backToTop">back to top</span></a></h4>
+      Using the data-elem=&quot;pinchzoomer&quot; method is most likely used in most cases. However, there are  some cases that you would want to generate instances on the fly. This is where  jQuery comes in. 
+      <table class="table table-bordered table-striped" width="100%" border="1" cellpadding="5" cellspacing="0">
+        <tr>
+          <td width="40%" height="26" align="center"><strong>jQuery function</strong></td>
+          <td width="60%" height="26" align="center"><strong>Description</strong></td>
+        </tr>
+		<tr>
+          <td><span class="prettyprint linenums codeHeight">$(<em>selector</em>).pinchzoomer(<em>optionsObj</em>, <em>parseControls</em>)</span></td>
+          <td>this creates instances of PinchZoomer<br>
+          <em>selector</em> - defines which elements will have zoom function<br>
+			  <em>optionsObj</em> - (default is an empty object) - this is the object containing the options (Check out <a href="#dataOptions">section 3.4</a> for the  options that can be set)<br>
+		    <em>parseControls</em> -  (default is true) if true, it will add the controls</td>
+        </tr>
+	  </table>
+		<p>The simple example below shows how to use the jQuery plugin.</p>
+		<p>HTML
+		</p>
+		<pre class="prettyprint linenums codeHeight">&lt;div class=&quot;zoomHolder&quot;&gt; 
+   &lt;img id=&quot;pzImg&quot; data-src=&quot;assets/easter_chick.jpg&quot;/&gt;<br>&lt;/div&gt;</pre>
+	  <p>Javascript
+		</p>
+		<pre class="prettyprint linenums codeHeight">
+/* 
+   This code will 
+   - use the image with &quot;pzImg&quot; id
+   - set the initial options to maxZoom to 5 and scaleMode to &quot;smart&quot;
+   - not add controls 
+*/
+$(&quot;#pzImg&quot;).pinchzoomer({maxZoom:5, scaleMode:"smart"}, false);
+</pre><br>
+      Below are the static properties and function of <strong><em>PinchZoomer</em></strong>
+      <table class="table table-bordered table-striped" width="100%" border="1" cellpadding="5" cellspacing="0">
+        <tr>
+          <td width="40%" height="26" align="center"><strong>Static property</strong></td>
+          <td width="60%" height="26" align="center"><strong>Description</strong></td>
+        </tr>
+        <tr>
+          <td>objs : Array</td>
+          <td>array containing all the PinchZoomer objects.</td>
+        </tr>
+        <tr>
+          <td>transformPresets : Array</td>
+          <td>array containing all the marker transform presets</td>
+        </tr>
+        <tr>
+          <td>DRAG : String</td>
+          <td>holds event type "drag&quot;</td>
+        </tr>
+        <tr>
+          <td>ELEM_CHANGE : String</td>
+          <td>holds event type "elemchange&quot;</td>
+        </tr>
+        <tr>
+          <td>ELEM_HOLDER_CHANGE : String</td>
+          <td>holds event type "elemholderchange&quot;</td>
+        </tr>
+        <tr>
+          <td>FULLSCREEN_TOGGLE : String</td>
+          <td>holds event type "fullscreentoggle&quot;</td>
+        </tr>
+        <tr>
+          <td>GESTURE_END : String</td>
+          <td>holds event type "gestureend&quot;</td>
+        </tr>
+        <tr>
+          <td>GESTURE_START : String</td>
+          <td>holds event type "gesturestart&quot;</td>
+        </tr>
+        <tr>
+          <td>LOAD_COMPLETE : String</td>
+          <td>holds event type "resize&quot;</td>
+        </tr>
+        <tr>
+          <td>ZOOM : String</td>
+          <td>holds event type "zoom&quot;</td>
+        </tr>
+      </table>
+      Below is an sample code on how to access static properties of PinchZoomer
+      <pre class="prettyprint linenums codeHeight">//access static properties<br>var objs = PinchZoomer.objs,<br>&nbsp;&nbsp;&nbsp;&nbsp;transformPresets = PinchZoomer.transformPresets;</pre>
+      Below are the static functions of <strong><em>PinchZoomer</em></strong>
+      <table class="table table-bordered table-striped" width="100%" border="1" cellpadding="5" cellspacing="0">
+        <tr>
+          <td width="40%" height="26" align="center"><strong>Static function</strong></td>
+          <td width="60%" height="26" align="center"><strong>Description</strong></td>
+        </tr>
+        <tr>
+          <td>get (idOrIndex)</td>
+          <td>returns PinchZoomer object given the  id or index. The <em>id </em>parameter here is the id attribute of the element with PinchZoomer.</td>
+        </tr>
+        <tr>
+          <td>getTransformOrigin (idOrIndex)</td>
+          <td>returns animation preset given the preset id or index</td>
+        </tr>
+        <tr>
+          <td>init (elemsParam)</td>
+          <td>initialize and create instances of PinchZoomer
+            with the given <em>elemsParam</em>. If <em>elemsParam</em> is not defined, it will automatically look for elements with <em>data-elem=&quot;pinchzoomer&quot; </em>and create PinchZoomer instances.<br>
+            This also works the same way as jQuery so you can do something like $(elemsParam).pinchzoomer();</td>
+        </tr>
+        <tr>
+          <td>parseElem (elem, elemParent, vars, parseControls)</td>
+          <td>parses an element to create a PinchZoomer instance.<br>
+            <em>elem </em> is the element that will be parsed<br>
+            <em>elemParent </em> is the parent div of the element<br>
+            <em>vars </em>are the options/properties <em>(see <a href="#dataOptions">section 3.4</a> for list)</em><br>
+            <em>parseControls </em>accepts boolean value. If true, it will also parse controls.</td>
+        </tr>
+        <tr>
+          <td>remove (idOrIndex)</td>
+          <td>removes the PinchZoomer object given the  id or index.</td>
+        </tr>
+      </table>
+      Below is an sample code on how to access static functions of PinchZoomer
+      <pre class="prettyprint linenums codeHeight">//access static functions<br>var pz = PinchZoomer.get(&quot;pz1&quot;), // &quot;pz1&quot; here is the id of the element with data-elem=&quot;pinchzoomer&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;transformPreset = PinchZoomer.getTransformOrigin(&quot;tp1&quot;); // &quot;tp1&quot; is the id of the preset. See <a href="#transformPreset">section 3.6.1</a> for details<br>PinchZoomer.remove(&quot;pz1&quot;); // remove PinchZoomer instance given the id
+</pre>
+      <table class="table table-bordered table-striped" width="100%" border="1" cellpadding="5" cellspacing="0">
+        <tr>
+          <td width="40%" height="26" align="center"><strong>Public function</strong></td>
+          <td width="60%" height="26" align="center"><strong>Description</strong></td>
+        </tr>
+        <tr>
+          <td>addMarkers (newMarkers)</td>
+          <td>Adds markers in the PinchZoomer instance with the <em>newMarkers</em> parameter.<br>
+            <em>newMarkers</em> - allowed value is an array of <em>Marker</em> instances</td>
+        </tr>
+        <tr>
+          <td>elem (elem, removeOld, parseControls, overwriteVars)</td>
+          <td>if <em>elem</em> parameter is specified, it will replace the current element. If there are no parameters specified, it will return the current element.<br>
+            <em>elem</em> - element that will replace the current element<br>
+            <em>removeOld</em> - if true it will remove the old content if false it will just detach it.<br>
+            <em>parseControls</em> - if true, it will also parse and add controls<br>
+            <em>overwriteVars</em> - if true, this will overwrite the old options<br></td>
+        </tr>
+        <tr>
+          <td>elemHolder (newElemHolder)</td>
+          <td>if <em> newElemHolder </em> parameter is specified, it will replace the current div holder of the PinchZoomer instance to a new one. If there are no parameters specified, it will return the current div holder.<br>
+            <em>newElemHolder</em> - allowed value is a jQuery object</td>
+        </tr>
+        <tr>
+          <td>fullscreen (value)</td>
+          <td>if <em>value</em> is true, the PinchZoomer instance will go fullscreen mode. If false, it will return to normal</td>
+        </tr>
+        <tr>
+          <td>fullscreenToggle ()</td>
+          <td>toggles fullscreen<em></em></td>
+        </tr>
+        <tr>
+          <td>load ()</td>
+          <td>loads all the images with <em>data-src </em>in the PinchZoomer instance</td>
+        </tr>
+        <tr>
+          <td>markers (newMarkers)</td>
+          <td>replaces the markers with the <em>newMarkers </em>parameter or return array of markers if parameter is not specified<br>
+            <em>newMarkers</em> - allowed value is an array of Marker instances</td>
+        </tr>
+        <tr>
+          <td>off ()</td>
+          <td>same as<em> <a href="http://api.jquery.com/off/" target="_blank">jQuery off</a></em> function</td>
+        </tr>
+        <tr>
+          <td>on ()</td>
+          <td>same as<em> <a href="http://api.jquery.com/on/" target="_blank">jQuery on</a></em> function</td>
+        </tr>
+        <tr>
+          <td>one ()</td>
+          <td>same as<em> <a href="http://api.jquery.com/one/" target="_blank">jQuery one</a></em> function</td>
+        </tr>
+        <tr>
+          <td>resetElem (forceReset)</td>
+          <td>resets the element<em></em></td>
+        </tr>
+		<tr>
+          <td>transform (transformObj, duration)</td>
+          <td>accepts <em>transformObj</em>&nbsp; that can contain x, y and zoom values. duration - time in seconds to go to x and y position and also zoom<em></em></td>
+        </tr>  
+        <tr>
+          <td>vars (varsParam)</td>
+          <td>sets new options for the PinchZoomer instance<br>
+            varsParam is an object that contains the <em>option:value</em> pair like <em>{ maxZoom:5, zoomStep:0.75 }. (Check out <a href="#dataOptions">section 3.4</a> for the  options that can be set)</em></td>
+        </tr>
+        <tr>
+          <td>x (value, duration)</td>
+          <td>if value is specified, it will set the x position of the content. If there are no parameters specified, it will return the x position.<em><br>
+            value- </em>new x position<em><br>
+            duration - </em>time in seconds to go to the new x position</td>
+        </tr>
+        <tr>
+          <td>y (value, duration)</td>
+          <td>if value is specified, it will set the y position of the content. If there are no parameters specified, it will return the y position.<em><br>
+            value- </em>new y position<em><br>
+            duration - </em>time in seconds to go to the new y position</td>
+        </tr>
+        <tr>
+          <td>zoom (value, duration)</td>
+          <td>if value is specified, it will set the zoom factor of the content. If there are no parameters specified, it will return the zoom factor.<em><br>
+            value- </em>new zoom factor<em><br>
+            duration - </em>time in seconds to go to the new zoom factor</td>
+        </tr>
+        <tr>
+          <td>zoomIn (duration)</td>
+          <td>zooms in content by the factor set in <em>zoomStep</em> option<br>
+            <em>duration</em> -<em> </em>time in seconds to go to the new zoom factor</td>
+        </tr>
+        <tr>
+          <td>zoomOut (duration)</td>
+          <td>zooms out content by the factor set in <em>zoomStep</em> option<br>
+            <em>duration</em> - <em> </em>time in seconds to go to the new zoom factor</td>
+        </tr>
+		<tr>
+          <td>zoomToMarker (markerTarget, zoomLevel, duration)</td>
+          <td>zooms and moves the <em>markerTarget</em>&nbsp; (which is the marker element) to the center. <br>
+            <em>duration</em> - <em> </em>time in seconds to go to the new zoom factor</td>
+        </tr>  
+      </table>
+      Below is a sample code on how to access public functions of PinchZoomer
+      <pre class="prettyprint linenums codeHeight">var pz = PinchZoomer.get(&quot;pz1&quot;); // &quot;pz1&quot; here is the id of the element with data-elem=&quot;pinchzoomer&quot;
+
+//access public function example
+pz.x(30); // set x to 30
+var curX = pz.x(); // returns x
+
+//add an event listener
+pz.on(PinchZoomer.ZOOM, onZoom);
+pz.zoom(2); // set zoom factor to 2x 
+
+function onZoom()
+{
+   var curZoom = pz.zoom(); // returns zoom factor 
+   console.log(&quot;ZOOM: &quot; + curZoom);
+}</pre>
+      Below are static properties of <strong><em>Marker</em></strong>. These properties are used for adding event listeners only.
+      <table class="table table-bordered table-striped" width="100%" border="1" cellpadding="5" cellspacing="0">
+        <tr>
+          <td width="40%" height="26" align="center"><strong>Static property</strong></td>
+          <td width="60%" height="26" align="center"><strong>Description</strong></td>
+        </tr>
+        <tr>
+          <td>UPDATE : String</td>
+          <td>holds event type "update&quot;</td>
+        </tr>
+        <tr>
+          <td>ELEM_CHANGE : String</td>
+          <td>holds event type "elemchange&quot;</td>
+        </tr>
+      </table>
+      Below are public functions of <strong><em>Marker</em></strong>
+      <table class="table table-bordered table-striped" width="100%" border="1" cellpadding="5" cellspacing="0">
+        <tr>
+          <td width="40%" height="26" align="center"><strong>Public function</strong></td>
+          <td width="60%" height="26" align="center"><strong>Description</strong></td>
+        </tr>
+        <tr>
+          <td>elem (elemParam)</td>
+          <td>sets the marker element with <em>elemParam</em> or returns the current marker element if parameter is not set</td>
+        </tr>
+        <tr>
+          <td>off ()</td>
+          <td>same as<em> <a href="http://api.jquery.com/off/" target="_blank">jQuery off</a></em> function</td>
+        </tr>
+        <tr>
+          <td>on ()</td>
+          <td>same as<em> <a href="http://api.jquery.com/on/" target="_blank">jQuery on</a></em> function</td>
+        </tr>
+        <tr>
+          <td>one ()</td>
+          <td>same as<em> <a href="http://api.jquery.com/one/" target="_blank">jQuery one</a></em> function</td>
+        </tr>
+        <tr>
+          <td>vars (varsParam, forceUpdate)</td>
+          <td>sets the marker options with <em>varsParam</em> or returns the current marker options if parameter is not set.<br>
+            varsParam is an object that contains the <em>option:value</em> pair like <em>{ transformOrigin:'100% 0%', maxZoom:2 }. (Check out <a href="#defMarkers">section 3.6</a> for the  options that can be set)</em><br>
+            <em>forceUpdate</em> - if true, it will instantly update the marker instance. </td>
+        </tr>
+      </table>
+      Below is a sample code on how to access public functions of Marker
+      <pre class="prettyprint linenums codeHeight">var pz = PinchZoomer.get(&quot;pz1&quot;), // &quot;pz1&quot; here is the id of the element with data-elem=&quot;pinchzoomer&quot; is 
+    markers = pz.markers(), // return the array of markers
+    firstMarker = markers[0]; // get first marker
+
+//add event listener
+firstMarker.on(Marker.UPDATE, onMarkerUpdate);
+
+function onMarkerUpdate()
+{
+   console.log(&quot;MAKER UPDATE!&quot;);
+} </pre>
+    </div>
+  </div>
+  <div id="apiExamples" class="row-fluid divPad">
+    <h4>6. Examples <a href="#"><span class="backToTop">back to top</span></a></h4>
+  </div>
+  <div class="row-fluid text-center">
+    <ul class="thumbnails">
+      <li class="span4"> <a class="thumbnail" href="pz_gallery_example.html" target="_blank">
+        <div class="imgBg">
+          <img src="assets/gallery_thumb.jpg" alt="">
+        </div>
+        <h4>API Example - Gallery with Thumbnails</h4>
+        <p><span class="page-header text-center">This example shows a how easy it is to convert PinchZoomer to a product gallery with thumbnails and hotspots using the API.</span></p>
+        </a> </li>
+      <li class="span4"> <a class="thumbnail" href="pz_masonry_example.html" target="_blank">
+        <div class="imgBg">
+          <img src="assets/masonry_thumb.jpg" alt="">
+        </div>
+        <h4>API Example - Masonry Grid with Fullscreen Gallery</h4>
+        <p>This shows how to integrate Masonry plugin with a fullscreen PinchZoomer gallery.</p>
+        </a> </li>
+      <li class="span4"> <a class="thumbnail" href="pz_event_handler_example.html" target="_blank">
+        <div class="imgBg">
+          <img src="assets/event_thumb.jpg" alt="">
+        </div>
+        <h4>API Example - Event Logger</h4>
+        <p>This example shows the events that are fired.</p>
+        </a> </li>
+    </ul>
+  </div>
+  	
+  <div class="row-fluid text-center">
+    <ul class="thumbnails">
+      <li class="span4"> <a class="thumbnail" href="pz_add_remove_example.html" target="_blank">
+        <div class="imgBg">
+          <img src="assets/add_remove_thumb.jpg" alt="">
+        </div>
+        <h4>API Example - Add or Remove PinchZoomer Instance</h4>
+        <p><span class="page-header text-center">The example below shows how to add or remove PinchZoomer instances using the API.</span></p>
+        </a> </li>
+		
+		<li class="span4"> <a class="thumbnail" href="pz_options_example.html" target="_blank">
+        <div class="imgBg">
+          <img src="assets/options_thumb.jpg" alt="">
+        </div>
+        <h4>API Example - Dynamic Options</h4>
+        <p>This example shows how to change options on the fly.</p>
+        </a> </li>
+		
+		<li class="span4"> <a class="thumbnail" href="pz_add_remove_marker_example.html" target="_blank">
+        <div class="imgBg">
+          <img src="assets/add_remove_markers_thumb.jpg" alt="">
+        </div>
+        <h4>API Example - Add or Remove Markers</h4>
+        <p><span class="page-header text-center">This example shows how to dynamically add or remove markers.</span></p>
+        </a> </li>
+		
+		
+		
+		
+    </ul>
+  </div>
+	
+<div class="row-fluid text-center">
+    <ul class="thumbnails">
+      <li class="span4"> <a class="thumbnail" href="pz_multilayer_zoom_example.html" target="_blank">
+        <div class="imgBg">
+          <img src="assets/multi_layer_zoom_thumb.jpg" alt="">
+        </div>
+        <h4>HTML Example - Multilayer Zoom</h4>
+        <p><span class="page-header text-center">This example shows how the visibility of PinchZoomer contents are toggled based on the zoom level.</span></p>
+        </a> </li>
+		
+		<li class="span4"> <a class="thumbnail" href="pz_map_example.html" target="_blank">
+        <div class="imgBg">
+          <img src="assets/map_marker_thumb.png" alt="">
+        </div>
+        <h4>HTML Example - Map with Markers</h4>
+        <p><span class="page-header text-center">This example shows how to zoom in to a marker.</span></p>
+        </a> </li>
+		
+    </ul>
+  </div>
+</div>
+<hr>
+<footer>
+  <div class="row-fluid">
+    <div class="span2 offset3 text-center footerLink">
+      <a href="http://codecanyon.net/user/ronfeliciano/?ref=ronfeliciano" target="_blank">CONTACT</a>
+    </div>
+    <div class="span2 text-center footerLink">
+      <a href="http://codecanyon.net/user/ronfeliciano/portfolio/?ref=ronfeliciano" target="_blank">VISIT PORTFOLIO</a>
+    </div>
+    <div class="span2 text-center footerLink">
+      <a href="#">BACK TO TOP</a>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="span12 text-center footerCopyright">
+      Copyright © 2016. All Rights Reserved. Ron Feliciano
+    </div>
+  </div>
+</footer>
+</body>
+</html>

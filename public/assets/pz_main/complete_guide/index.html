@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PinchZoomer Content Zoomer jQuery Plugin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="description" content="This is a preview page for PinchZoomer jQuery Plugin">
+<meta name="author" content="Ron Feliciano">
+<link href="css/prettify.min.css" type="text/css" rel="stylesheet" />
+<link href="css/bootstrap.min.css" type="text/css" rel="stylesheet">
+<link href="css/bootstrap-responsive.min.css" type="text/css" rel="stylesheet">
+<link href="css/tooltipster.bundle.min.css" type="text/css" rel="stylesheet" />
+<link href="css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-light.min.css" type="text/css" rel="stylesheet" />
+<link href="css/pinchzoomer.min.css" type="text/css" rel="stylesheet">
+<link href="css/preview.min.css" type="text/css" rel="stylesheet">
+<script src="js/prettify.min.js" type="text/javascript" ></script>
+<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
+<script src="js/tooltipster.bundle.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+<script src="js/hammer.min.js" type="text/javascript"></script>
+<script src="js/TweenMax.min.js" type="text/javascript"></script>
+<script src="js/jquery.pinchzoomer.min.js" type="text/javascript"></script>
+<script src="js/preview.min.js" type="text/javascript"></script>
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+	<script src="../assets/js/html5shiv.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="brand" href="index.html#">
+      <img src="assets/pz_header.png" alt="PinchZoomer"/>
+      </a><!--/.nav-collapse -->
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li><a href="index.html#">Home</a></li>
+          <li><a href="index.html#features">Features</a></li>
+          <li><a href="index.html#examples">Examples</a></li>
+          <li><a href="http://codecanyon.net/user/ronfeliciano/?ref=ronfeliciano" target="_blank">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container divPad">
+  <div class="divPad">
+  </div>
+  <div class="page-header text-center">
+    <h2>PinchZoomer is an easy to setup jQuery plugin for mobile and desktop that adds pinch to zoom / mouse scroll zoom function to your HTML content.</h2>
+  </div>
+  <div class="row-fluid text-center divPad">
+    <div class="span8 offset2">
+      Pinch or mouse scroll to zoom
+      <div class="zoomHolder dottedBorder">
+        <div id="pz1" data-elem="pinchzoomer" class="heroImg" >
+          <img data-src="assets/bird.jpg" alt=" "/>
+          <img data-src="assets/red_marker.png" class="marker redMarker" data-elem="marker" data-options="x:490; y:110; transformOrigin:20px 28px" data-tooltip="Lorem ipsum dolor" alt=" "/>
+          <img data-src="assets/red_marker.png" class="marker redMarker" data-elem="marker" data-options="x:380; y:230; transformOrigin:20px 28px" data-tooltip="Nulla dictum odio lacus" alt=" "/>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="features" class="row-fluid text-center divPad">
+    <h3>Features</h3>
+  </div>
+  <div class="row-fluid text-center">
+    <ul class="thumbnails">
+      <li class="span4">
+        <div class="thumbnail">
+          <div class="imgBg">
+            <img src="assets/touch_enabled_thumb.jpg" alt="">
+          </div>
+          <h4>Touch enabled</h4>
+          <p>This provides the familiar touch gestures for zooming content in mobile devices.</p>
+        </div>
+      </li>
+      <li class="span4">
+        <div class="thumbnail">
+          <div class="imgBg">
+            <img src="assets/fully_responsive_thumb.jpg" alt="">
+          </div>
+          <h4>Fully responsive</h4>
+          <p>This plugin can adapt to any screen size so you will have an optimal   viewing experience whether you are using desktop or mobile devices.</p>
+        </div>
+      </li>
+      <li class="span4">
+        <div class="thumbnail">
+          <div class="imgBg">
+            <img src="assets/cross_browser_thumb.jpg" alt="">
+          </div>
+          <h4>Cross-browser, IOS and Android compatible</h4>
+          <p>Using IOS, Android, laptops, desktops or even an old browser such as IE9 should be no problem with this plugin.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="row-fluid text-center">
+    <ul class="thumbnails">
+      <li class="span4">
+        <div class="thumbnail">
+          <div class="imgBg">
+            <img src="assets/simple_setup_thumb.jpg" alt="">
+          </div>
+          <h4>Simple setup</h4>
+          <p>HTML beginner or hardcore jQuery developer? It doesn't matter because   all you need is a single line of code of either JS or HTML and   everything works automatically. </p>
+        </div>
+      </li>
+      <li class="span4">
+        <div class="thumbnail">
+          <div class="imgBg">
+            <img src="assets/customize_thumb.jpg" alt="">
+          </div>
+          <h4>Developer API</h4>
+          <p>This plugin allows developers to have more control using the PinchZoomer API.</p>
+        </div>
+      </li>
+      <li class="span4">
+        <div class="thumbnail">
+          <div class="imgBg">
+            <img src="assets/multi_viewer_thumb.jpg" alt="">
+          </div>
+          <h4>Multiple instances in one page</h4>
+          <p>Add multi-touch zooming capability to as many content as you want in one page.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="row-fluid text-center">
+    <ul class="thumbnails">
+      <li class="span4">
+        <div class="thumbnail">
+          <div class="imgBg">
+            <img src="assets/html_zoom_thumb.jpg" alt="">
+          </div>
+          <h4>Zoom DIV Content
+          </h4>
+          <p>Different elements like images, text, etc can be placed inside a DIV and be zoomed.</p>
+        </div>
+      </li>
+      
+      <li class="span4">
+        <div class="thumbnail">
+          <div class="imgBg">
+            <img src="assets/fullscreen_thumb.jpg" alt="">
+          </div>
+          <h4>Fullscreen Toggle support
+          </h4>
+          <p>Small screen devices need all the space they can get. This gives an option to the user to view the content without the clutter.</p>
+        </div>
+      </li>
+	  <li class="span4">
+        <div class="thumbnail">
+          <div class="imgBg">
+            <img src="assets/adaptive_thumb.jpg" alt="">
+          </div>
+          <h4>Adaptive Image Loading
+          </h4>
+          <p>Prevent unnecessary load time, resources and lag by delivering the correct image size to any screen size.</p>
+        </div>
+      </li>
+			
+    </ul>
+  </div>
+  <div class="row-fluid text-center">
+    <ul class="thumbnails">
+      
+	  <li class="span4">
+        <div class="thumbnail">
+          <div class="imgBg">
+            <img src="assets/marker_tooltip_thumb.jpg" alt="">
+          </div>
+          <h4>Marker and Tooltip support 
+          </h4>
+          <p>&nbsp;Add markers, zoom to markers or add tooltips to markers. These are great for maps, floor plans or even products.</p>
+        </div>
+      </li>	
+		
+	   <li class="span4">
+        <div class="thumbnail">
+          <div class="imgBg">
+            <img src="assets/hover_zoom_thumb.jpg" alt="">
+          </div>
+          <h4>Mouseover zoom support
+            <img src="assets/new.png" alt=""/>
+          </h4>
+			<p>&nbsp;Mouseover content to zoom on desktop while also allowing pinch to zoom on mobile devices. This option maximizes the best input possible in any device. (See example <a href="pz_gallery_example.html" target="_blank">here</a>)</p>
+        </div>
+      </li>	
+    </ul>
+  </div>
+  <hr>
+  <div id="examples" class="row-fluid text-center divPad">
+    <h3>HTML Examples</h3>
+  </div>
+	
+  <div class="row-fluid divPad">
+    <div class="span12 text-center">
+      <h4>Image Only</h4>
+      This is basically just an image with and added <span class="elemLight">data-elem=&quot;pinchzoomer&quot;</span> attribute. data-src is used instead of src to preload the image.
+    </div>
+  </div>
+	
+	
+  <div class="row-fluid divPad">
+    <div class="span6 text-center">
+      <div class="zoomHolder">
+        <img data-src="assets/easter_chick.jpg" data-elem="pinchzoomer" alt=" "/>
+      </div>
+    </div>
+    <div class="span6 text-left">
+      HTML
+      <pre id="addZoomCode" class="prettyprint linenums text-left codeHeight">&lt;div class=&quot;zoomHolder&quot;&gt;
+   &lt;img data-src=&quot;assets/easter_chick.jpg&quot; <span class="elemLight">data-elem=&quot;pinchzoomer&quot;</span>/&gt;
+&lt;/div&gt;</pre>
+      CSS
+      <pre class="prettyprint linenums text-left codeHeight">.zoomHolder
+{
+   width:100%;
+   height:auto;
+   position:relative;
+   overflow:hidden
+}</pre>
+    </div>
+  </div>
+  <div class="row-fluid divPad">
+    <div class="span12 text-center">
+      <h4>DIV with Images</h4>
+      This example shows how to use PinchZoomer using div. In this case it contains 2 layered images. <br>
+      Rollover or mousedown/touch the layer name to highlight the layers.
+    </div>
+  </div>
+  <div class="row-fluid divPad">
+    <div class="span6 text-center">
+      <div class="zoomHolder">
+        <div data-elem="pinchzoomer">
+          <img id="streetLayer" data-src="assets/street_layer.jpg" data-elem="bg" class="layerImg" alt=" "/>
+          <img id="buildingLayer" data-src="assets/detail_layer.png" class="layerImg" alt=" "/>
+        </div>
+      </div>
+    </div>
+    <div class="span6 text-left">
+      <div style="padding-bottom:20px">
+        <div id="streetToggle" style="display:inline-block; margin-right:20px; border:1px solid #CCC; padding:5px; background:#EEE; cursor:pointer">
+          Street Layer
+        </div>
+        <div id="buildingToggle" style="display:inline-block; border:1px solid #CCC; padding:5px; background:#EEE;cursor:pointer">
+          Building Layer
+        </div>
+      </div>
+      HTML
+      <pre id="layerCode" class="prettyprint linenums codeHeight">&lt;div class=&quot;zoomHolder&quot;&gt;<br>   &lt;div <span class="elemLight">data-elem=&quot;pinchzoomer&quot;</span>&gt;<br>      &lt;img id=&quot;streetLayer&quot; data-src=&quot;assets/street_layer.jpg&quot; data-elem=&quot;bg&quot; class=&quot;layerImg&quot;/&gt;
+      &lt;img id=&quot;buildingLayer&quot; data-src=&quot;assets/detail_layer.png&quot; class=&quot;layerImg&quot;/&gt;
+   &lt;/div&gt;<br>&lt;/div&gt;</pre>
+      CSS
+      <pre id="layerCssCode" class="prettyprint linenums text-left codeHeight">.zoomHolder<br>{
+   width:100%;<br>   height:auto;<br>   position:relative;
+   overflow:hidden
+}<br>
+.layerImg
+{
+&nbsp;&nbsp;&nbsp;position:absolute;<br>   left:0px;<br>   top:0px;<br>   right:auto;<br>   bottom:auto; 
+}</pre>
+    </div>
+  </div>
+  <div class="row-fluid divPad">
+    <div class="span12 text-center">
+      <h4>DIV with image and markers</h4>
+      This example shows how to use markers with PinchZoomer. 
+      This also shows how each marker's visibility can be toggled with different zoom levels.<br>
+      Zoom to show more detailed markers.
+    </div>
+  </div>
+  <div class="row-fluid divPad">
+    <div class="span6 text-center">
+      <div data-elem="transformPreset" data-options="id:cb; transformOrigin:50% 100%">
+      </div>
+      <div class="zoomHolder">
+        <div class="zoomHolder">
+          <div id="markerTest" data-elem="pinchzoomer">
+            <img data-src="assets/flower_and_bee.jpg" data-elem="bg" alt=" "/>
+            <img data-src="assets/bee_marker.png" class="marker" data-elem="marker" data-options="x:240; y:100; transformOrigin:cb; maxZoom:1.5" alt=" "/>
+            <img data-src="assets/flower_marker.png" class="marker" data-elem="marker"  data-options="x:450; y:260; transformOrigin:cb; maxZoom:1.5" alt=" "/>
+            <img data-src="assets/wings_marker.png" class="marker" data-elem="marker" data-options="x:250; y:100; transformOrigin:cb; minZoom:1.6" alt=" "/>
+            <img data-src="assets/legs_marker.png" class="marker" data-elem="marker"  data-options="x:300; y:165; transformOrigin:cb; minZoom:1.6" alt=" "/>
+            <img data-src="assets/disk_marker.png" class="marker" data-elem="marker" data-options="x:280; y:270; transformOrigin:cb; minZoom:1.6" alt=" "/>
+            <img data-src="assets/petal_marker.png" class="marker" data-elem="marker"  data-options="x:90; y:190; transformOrigin:cb; minZoom:1.6" alt=" "/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="span6 text-left">
+      HTML
+      <pre class="prettyprint linenums codeHeight">&lt;div data-elem=&quot;transformPreset&quot; data-options=&quot;id:cb; transformOrigin:50% 100%&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;zoomHolder&quot;&gt; <br>   &lt;div <span class="elemLight">data-elem=&quot;pinchzoomer&quot;</span>&gt;<br>      &lt;img data-src=&quot;assets/flower_and_bee.jpg&quot; data-elem=&quot;bg&quot;/&gt;<br>      &lt;img data-src=&quot;assets/bee_marker.png&quot; class=&quot;marker&quot; data-elem=&quot;marker&quot; data-options=&quot;x:240; y:100; transformOrigin:cb; maxZoom:1.5&quot;/&gt;<br>      &lt;img data-src=&quot;assets/flower_marker.png&quot; class=&quot;marker&quot; data-elem=&quot;marker&quot;  data-options=&quot;x:450; y:260; transformOrigin:cb; maxZoom:1.5&quot;/&gt;<br>      &lt;img data-src=&quot;assets/wings_marker.png&quot; class=&quot;marker&quot; data-elem=&quot;marker&quot; data-options=&quot;x:250; y:100; transformOrigin:cb; minZoom:1.6&quot;/&gt;<br>      &lt;img data-src=&quot;assets/legs_marker.png&quot; class=&quot;marker&quot; data-elem=&quot;marker&quot;  data-options=&quot;x:300; y:165; transformOrigin:cb; minZoom:1.6&quot;/&gt;<br>      &lt;img data-src=&quot;assets/disk_marker.png&quot; class=&quot;marker&quot; data-elem=&quot;marker&quot; data-options=&quot;x:280; y:270; transformOrigin:cb; minZoom:1.6&quot;/&gt;<br>      &lt;img data-src=&quot;assets/petal_marker.png&quot; class=&quot;marker&quot; data-elem=&quot;marker&quot;  data-options=&quot;x:90; y:190; transformOrigin:cb; minZoom:1.6&quot;/&gt;<br>   &lt;/div&gt;<br>&lt;/div&gt;</pre>
+      CSS
+      <pre class="prettyprint linenums text-left codeHeight">.zoomHolder<br>{<br>   width:100%;<br>   height:auto;<br>   position:relative;<br>   overflow:hidden<br>}<br>.marker<br>{<br>   position: absolute !important;<br>   left: 0px !important;<br>   top:0px !important;<br>   bottom: auto !important;<br>   right: auto !important<br>}<br>
+</pre>
+    </div>
+  </div>
+  <div id="apiExamples" class="row-fluid text-center divPad">
+    <h3>Other Examples</h3>
+  </div>
+  <div class="row-fluid text-center">
+    <ul class="thumbnails">
+      <li class="span4"> <a class="thumbnail" href="pz_gallery_example.html" target="_blank">
+        <div class="imgBg">
+          <img src="assets/gallery_thumb.jpg" alt="">
+        </div>
+        <h4>API Example - Gallery with Thumbnails</h4>
+        <p><span class="page-header text-center">This example shows a how easy it is to convert PinchZoomer to a product gallery with thumbnails and hotspots using the API. This is also an example showing mouseover to zoom content. </span></p>
+        </a> </li>
+      <li class="span4"> <a class="thumbnail" href="pz_masonry_example.html" target="_blank">
+        <div class="imgBg">
+          <img src="assets/masonry_thumb.jpg" alt="">
+        </div>
+        <h4>API Example - Masonry Grid with Fullscreen Gallery</h4>
+        <p>This shows how to integrate Masonry plugin with a fullscreen PinchZoomer gallery.</p>
+        </a> </li>
+      <li class="span4"> <a class="thumbnail" href="pz_event_handler_example.html" target="_blank">
+        <div class="imgBg">
+          <img src="assets/event_thumb.jpg" alt="">
+        </div>
+        <h4>API Example - Event Logger</h4>
+        <p>This example shows the events that are fired.</p>
+        </a> </li>
+    </ul>
+  </div>
+  	
+  <div class="row-fluid text-center">
+    <ul class="thumbnails">
+      <li class="span4"> <a class="thumbnail" href="pz_add_remove_example.html" target="_blank">
+        <div class="imgBg">
+          <img src="assets/add_remove_thumb.jpg" alt="">
+        </div>
+        <h4>API Example - Add or Remove PinchZoomer Instance</h4>
+        <p><span class="page-header text-center">The example below shows how to add or remove PinchZoomer instances using the API.</span></p>
+        </a> </li>
+		
+		<li class="span4"> <a class="thumbnail" href="pz_options_example.html" target="_blank">
+        <div class="imgBg">
+          <img src="assets/options_thumb.jpg" alt="">
+        </div>
+        <h4>API Example - Dynamic Options</h4>
+        <p>This example shows how to change options on the fly.</p>
+        </a> </li>
+		
+		<li class="span4"> <a class="thumbnail" href="pz_add_remove_marker_example.html" target="_blank">
+        <div class="imgBg">
+          <img src="assets/add_remove_markers_thumb.jpg" alt="">
+        </div>
+        <h4>API Example - Add or Remove Markers</h4>
+        <p><span class="page-header text-center">This example shows how to dynamically add or remove markers.</span></p>
+        </a> </li>
+		
+		
+		
+		
+    </ul>
+  </div>
+	
+<div class="row-fluid text-center">
+    <ul class="thumbnails">
+      <li class="span4"> <a class="thumbnail" href="pz_multilayer_zoom_example.html" target="_blank">
+        <div class="imgBg">
+          <img src="assets/multi_layer_zoom_thumb.jpg" alt="">
+        </div>
+        <h4>HTML Example - Multilayer Zoom</h4>
+        <p><span class="page-header text-center">This example shows how the visibility of PinchZoomer contents are toggled based on the zoom level.</span></p>
+        </a> </li>
+		
+		<li class="span4"> <a class="thumbnail" href="pz_map_example.html" target="_blank">
+        <div class="imgBg">
+          <img src="assets/map_marker_thumb.png" alt="">
+        </div>
+        <h4>HTML Example - Map with Markers</h4>
+        <p><span class="page-header text-center">This example shows how to zoom in to a marker.</span></p>
+        </a> </li>
+		
+    </ul>
+  </div>	
+	
+  <hr>
+  <footer>
+    <div class="row-fluid">
+      <div class="span2 offset3 text-center footerLink">
+        <a href="http://codecanyon.net/user/ronfeliciano/?ref=ronfeliciano" target="_blank">CONTACT</a>
+      </div>
+      <div class="span2 text-center footerLink">
+        <a href="http://codecanyon.net/user/ronfeliciano/portfolio/?ref=ronfeliciano" target="_blank">VISIT PORTFOLIO</a>
+      </div>
+      <div class="span2 text-center footerLink">
+        <a href="credits.html">CREDITS</a>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span12 text-center footerCopyright">
+        Copyright © 2016. All Rights Reserved. Ron Feliciano
+      </div>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

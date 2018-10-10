@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PinchZoomer Content Zoomer jQuery Plugin - API Example - Dynamic Options</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="description" content="This is an example of PinchZoomer.">
+<meta name="author" content="Ron Feliciano">
+<link href="css/prettify.min.css" type="text/css" rel="stylesheet" />
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+<link href="css/pinchzoomer.min.css" rel="stylesheet">
+<link href="css/preview.min.css" rel="stylesheet">
+<link href="css/tooltipster.bundle.min.css" rel="stylesheet" type="text/css" />
+<link href="css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-light.min.css" rel="stylesheet" type="text/css" />
+<link href="css/pz_options.min.css" rel="stylesheet">
+<script src="js/prettify.min.js" type="text/javascript"></script>
+<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
+<script src="js/tooltipster.bundle.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+<script src="js/hammer.min.js" type="text/javascript"></script>
+<script src="js/TweenMax.min.js" type="text/javascript"></script>
+<script src="js/jquery.pinchzoomer.min.js" type="text/javascript"></script>
+<script src="js/pz_options.js" type="text/javascript"></script>
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+	<script src="../assets/js/html5shiv.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="brand" href="index.html#">
+      <img src="assets/pz_header.png" alt="PinchZoomer" />
+      </a> 
+      <!--/.nav-collapse -->
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li> <a href="index.html#">Home</a> </li>
+          <li> <a href="index.html#features">Features</a> </li>
+          <li> <a href="index.html#examples">Examples</a> </li>
+          <li> <a href="http://codecanyon.net/user/ronfeliciano/?ref=ronfeliciano" target="_blank">Contact</a> </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page-header divPad exampleHeader">
+  <div class="container">
+    <h2>API Example - Dynamic Options</h2>
+    This example shows how to change options on the fly. Use the form below to try different settings. Mouseover or tap the options to see their description. You can also check the generated HTML code to see how to add these settings.
+  </div>
+</div>
+<div class="container ">
+  <div class="row-fluid text-center pad20">
+    <div class="span6 dottedBorder">
+      <div id="orientationHolder" class="landscapeHolder">
+        <div id="pzHolder" class="zoomHolder">
+          <div id="pz1" data-elem="tempItem">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="controlPad">
+    </div>
+    <div class="span6 pad20 formHolder">
+      <form class="form-horizontal text-left">
+        <fieldset>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>This will be the div holder for the PinchZoomer content.<br>Select other options to change the div holder size.</div>">
+              Div Holder Orientation
+            </div>
+            </label>
+            <div class="controls">
+              <label class="radio inline">
+                <input name="orientation" value="landscape" type="radio" checked="checked">
+                Landscape</label>
+              <label class="radio inline">
+                <input name="orientation" value="portrait" type="radio">
+                Portrait </label>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>PinchZoomer content. Select other options to change the content </div>">
+              Content
+            </div>
+            </label>
+            <div class="controls">
+              <label class="radio inline">
+                <input name="content" value="landscape" type="radio" checked="checked">
+                <img src="assets/thumbs/landscape.jpg" style="width:50px; height:auto" alt="landscape"/>
+              </label>
+              <label class="radio inline">
+                <input name="content" value="portrait" type="radio">
+                <img src="assets/thumbs/portrait.jpg" style="width:50px; height:auto" alt="portrait" />
+              </label>
+            </div>
+          </div>
+          <hr>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>Adds to the height of the content.</div>">
+              adjustHeight
+            </div>
+            </label>
+            <div class="controls">
+              <select name="adjustHeight" class="input-medium">
+                <option value="0" selected>0.0 (default)</option>
+                <option value="-10">-10</option>
+                <option value="-20">-20</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>Adds to the left position of the content.</div>">
+              adjustLeft
+            </div>
+            </label>
+            <div class="controls">
+              <select name="adjustLeft" class="input-medium">
+                <option value="0" selected>0.0 (default)</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" >
+            <div data-tooltip-html="<div>Adjust the size of the content holder to fit the size of the content when scaleMode value is <em>widthOnly</em> or <em>heightOnly</em>.<br>This is useful because there will be no need to specify the width or height of the content holder.<br>This is disabled in this example since width and height of the content holder is set.</div>">
+              adjustHolderSize
+            </div>
+            </label>
+            <div class="controls">
+              <input class="input-small"  type="text" placeholder="false" disabled>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>Adds to the width of the content.</div>">
+              adjustWidth
+            </div>
+            </label>
+            <div class="controls">
+              <select name="adjustWidth" class="input-medium">
+                <option value="0" selected>0.0 (default)</option>
+                <option value="-10">-10</option>
+                <option value="-20">-20</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>Adds to the left position of the content.</div>">
+              adjustTop
+            </div>
+            </label>
+            <div class="controls">
+              <select name="adjustTop" class="input-medium">
+                <option value="0" selected>0.0 (default)</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>This determines how long (in seconds) is the animation.</div>">
+              animDuration
+            </div>
+            </label>
+            <div class="controls">
+              <select name="animDuration" class="input-medium">
+                <option value="0.25" selected>0.25 (default)</option>
+                <option value="0.5">0.5</option>
+                <option value="1.0">1.0</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>If <em>true</em>, it allows dragging to the center of the content holder. This works best with <em>zoomToMarker</em> enabled. </div>">
+              allowCenterDrag
+            </div>
+            </label>
+            <div class="controls">
+              <select name="allowCenterDrag" class="input-medium">
+                <option value="true">true</option>
+                <option value="false" selected>false (default)</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>If <em>true</em>, it allows dragging the content when it is larger than its div holder.</div>">
+              allowDrag
+            </div>
+            </label>
+            <div class="controls">
+              <select name="allowDrag" class="input-medium">
+                <option value="true" selected>true (default)</option>
+                <option value="false">false</option>
+              </select>
+            </div>
+          </div>
+		  <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>If <em>true</em>, it allows zoom when the mouse is over the content.<br><em>Note that this will disable mouse drag, mousewheel zoom and double click zoom on desktop<br> but pinch to zoom and touch drag will still work on mobile devices.</em></div>">
+              allowHoverZoom (new)
+            </div>
+            </label>
+            <div class="controls">
+              <select name="allowHoverZoom" class="input-medium">
+                <option value="true">true</option>
+                <option value="false" selected>false (default)</option>
+              </select>
+            </div>
+          </div>	
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>If <em>true</em>, it allows mousewheel to page scroll when on top of the zoom content</div>">
+              allowMouseWheelScroll
+            </div>
+            </label>
+            <div class="controls">
+              <select name="allowMouseWheelScroll" class="input-medium">
+                <option value="true">true</option>
+                <option value="false" selected>false (default)</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>If <em>true</em>, it allows mousewheel to zoom the content</div>">
+              allowMouseWheelZoom
+            </div>
+            </label>
+            <div class="controls">
+              <select name="allowMouseWheelZoom" class="input-medium">
+                <option value="true" selected>true (default)</option>
+                <option value="false">false</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>If <em>true</em>, it allows content zooming.</div>">
+              allowZoom
+            </div>
+            </label>
+            <div class="controls">
+              <select name="allowZoom" class="input-medium">
+                <option value="true" selected>true (default)</option>
+                <option value="false">false</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" >
+            <div data-tooltip-html="<div>If <em>true</em>, zoom control holder is created and automatically added on top of the content.<br>This is disabled for this example</div>">
+              appendControlHolder
+            </div>
+            </label>
+            <div class="controls">
+              <input class="input-small"  type="text" placeholder="true (default)" disabled>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" >
+            <div data-tooltip-html="<div>If <em>true</em>, zoom controls are created and automatically added on top of the content (or the control holder if it is available).</div>">
+              appendControls
+            </div>
+            </label>
+            <div class="controls">
+              <input class="input-small" type="text" placeholder="true (default)" disabled>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" >
+            <div data-tooltip-html="<div>If <em>true</em>, it will limit the visible area to the content holder. </div>">
+              crop
+            </div>
+            </label>
+            <div class="controls">
+              <input class="input-small" type="text" placeholder="true (default)" disabled>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>This value is the scale when the content is double tapped or double clicked.</div>">
+              doubleTapZoom
+            </div>
+            </label>
+            <div class="controls">
+              <select name="doubleTapZoom" class="input-medium">
+                <option value="2.0" selected>2.0 (default)</option>
+                <option value="2.5">2.5</option>
+                <option value="3.0">3.0</option>
+              </select>
+            </div>
+          </div>
+		<div class="control-group">
+            <label class="control-label" >
+            <div data-tooltip-html="<div>Class name that will be applied to the content when in fullscreen.</div>">
+              dragStep
+            </div>
+            </label>
+            <div class="controls">
+              <input class="input-small" type="text" placeholder="10 (default)" disabled>
+            </div>
+          </div>	
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>If <em>true</em> it will force the content to use 3D acceleration. If value is <em>auto</em>, it will use 3D acceleration while zooming or panning and resets removes 3D acceleration after zooming or panning is complete.</div>">
+              force3D
+            </div>
+            </label>
+            <div class="controls">
+              <select name="force3D" class="input-medium">
+                <option value="auto">auto </option>
+                <option value="true">true</option>
+                <option value="false" selected>false (default)</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>Adds to the height of the content when in fullscreen.</div>">
+              fullscreenAdjustHeight
+            </div>
+            </label>
+            <div class="controls">
+              <select name="fullscreenAdjustHeight" class="input-medium">
+                <option value="0" selected>0.0 (default)</option>
+                <option value="-10">-10</option>
+                <option value="-20">-20</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>Adds to the left position of the content when in fullscreen.</div>">
+              fullscreenAdjustLeft
+            </div>
+            </label>
+            <div class="controls">
+              <select name="fullscreenAdjustLeft" class="input-medium">
+                <option value="0" selected>0.0 (default)</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>Adds to the width of the content when in fullscreen.</div>">
+              fullscreenAdjustWidth
+            </div>
+            </label>
+            <div class="controls">
+              <select name="fullscreenAdjustWidth" class="input-medium">
+                <option value="0" selected>0.0 (default)</option>
+                <option value="-10">-10</option>
+                <option value="-20">-20</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>Adds to the top position of the content when in fullscreen.</div>">
+              fullscreenAdjustTop
+            </div>
+            </label>
+            <div class="controls">
+              <select name="fullscreenAdjustTop" class="input-medium">
+                <option value="0" selected>0.0 (default)</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" >
+            <div data-tooltip-html="<div>Class name that will be applied to the content when in fullscreen.</div>">
+              fullscreenDivCss
+            </div>
+            </label>
+            <div class="controls">
+              <input class="input-medium" type="text" placeholder="fullscreenDiv (default)" disabled>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" >
+            <div data-tooltip-html="<div>This determines the initial size of the content based on its div holder when in fullscreen.<br><em>widthOnly</em> - resizes to the width of its div holder and proportionally resizes the height.<br><em>heightOnly</em> - resizes to the height of its div holder and proportionally resizes the width.<br><em>proportionalInside</em> - fits the content proportionally iniside its div holder.<br>
+          <em>proportionalOutside</em> - fills the div holder with the content.<br><em>none</em> - keeps the original size of the content.<br><em>smart</em> - same as <em>none</em> but when the content is bigger it will resize to fit inside its div holder.<br>&nbsp;&emsp;&emsp;- this also ignores the value of <em>minZoom</em> and <em>initZoom</em> to fit inside the div holder. </div>">
+              fullscreenScaleMode
+            </div>
+            </label>
+            <div class="controls">
+              <select name="fullscreenScaleMode" class="input-medium">
+                <option value="widthOnly">widthOnly</option>
+                <option value="heightOnly">heightOnly</option>
+                <option value="proportionalInside" selected>proportionalInside (default)</option>
+                <option value="proportionalOutside">proportionalOutside</option>
+                <option value="none">none</option>
+                <option value="smart">smart</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>This is the initial x position(0.5 means it will be initially at the center) of the content relative to its div container when the content is larger than its div container.</div>">
+              initX
+            </div>
+            </label>
+            <div class="controls">
+              <select name="initX" class="input-medium">
+                <option value="0.0" >0.0</option>
+                <option value="0.5" selected>0.5 (default)</option>
+                <option value="1.0">1.0</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>This is the initial y position(0.0 means it will be initially at the top) of the content relative to its div container when the content is larger than its div container.</div>">
+              initY
+            </div>
+            </label>
+            <div class="controls">
+              <select name="initY" class="input-medium">
+                <option value="0.0" selected>0.0  (default)</option>
+                <option value="0.5" >0.5</option>
+                <option value="1.0">1.0</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" >
+            <div data-tooltip-html="<div>Initial zoom factor of the content. </div>">
+              initZoom
+            </div>
+            </label>
+            <div class="controls">
+              <input class="input-small" type="text" placeholder="1.0 (default)" disabled>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>This is the maximum zoom value.</div>">
+              maxZoom
+            </div>
+            </label>
+            <div class="controls">
+              <select name="maxZoom" class="input-medium">
+                <option value="2.0" selected>2.0 (default)</option>
+                <option value="3.0">3.0 </option>
+                <option value="4.0">4.0</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>This is the minimum zoom value.</div>">
+              minZoom
+            </div>
+            </label>
+            <div class="controls">
+              <select name="minZoom" class="input-medium">
+                <option value="0.5">0.5</option>
+                <option value="0.75">0.75 </option>
+                <option value="1.0" selected>1.0 (default)</option>
+              </select>
+            </div>
+          </div>
+		  <div class="control-group">
+            <label class="control-label" >
+            <div data-tooltip-html="<div>If true it will immediately load the images.</div>">
+              preload
+            </div>
+            </label>
+            <div class="controls">
+              <input class="input-small" type="text" placeholder="true (default)" disabled>
+            </div>
+          </div>	
+		  <div class="control-group">
+            <label class="control-label" >
+            <div data-tooltip-html="<div>URL of the preloader.</div>">
+              preloaderUrl
+            </div>
+            </label>
+            <div class="controls">
+              <input class="input-medium" style="font-size: 11px" type="text" placeholder="assets/preloader.gif (default)" disabled>
+            </div>
+          </div>
+		  <div class="control-group">
+            <label class="control-label" >
+            <div data-tooltip-html="<div>This determines how long in seconds before checking if the size of the gallery is changed.</div>">
+              resizeDuration
+            </div>
+            </label>
+            <div class="controls">
+              <input class="input-small" type="text" placeholder="-1 (default)" disabled>
+            </div>
+          </div>	
+          <div class="control-group">
+            <label class="control-label" >
+            <div data-tooltip-html="<div>This determines the initial size of the content based on its div holder.<br><em>widthOnly</em> - resizes to the width of its div holder and proportionally resizes the height.<br><em>heightOnly</em> - resizes to the height of its div holder and proportionally resizes the width.<br><em>proportionalInside</em> - fits the content proportionally iniside its div holder.<br>
+          <em>proportionalOutside</em> - fills the div holder with the content.<br><em>none</em> - keeps the original size of the content.<br><em>smart</em> - same as <em>none</em> but when the content is bigger it will resize to fit inside its div holder.<br>&nbsp;&emsp;&emsp;- this also ignores the value of <em>minZoom</em> and <em>initZoom</em> to fit inside the div holder.</div>">
+              scaleMode
+            </div>
+            </label>
+            <div class="controls">
+              <select name="scaleMode" class="input-medium">
+                <option value="widthOnly">widthOnly (default)</option>
+                <option value="heightOnly">heightOnly</option>
+                <option value="proportionalInside">proportionalInside</option>
+                <option value="proportionalOutside">proportionalOutside</option>
+                <option value="none">none</option>
+                <option value="smart">smart</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>The horizontal point (0.0 is left, 0.5 is center, 1, is right) where it is zoomed using zoom buttons or zoom function.</div>">
+              zoomPointX
+            </div>
+            </label>
+            <div class="controls">
+              <select name="zoomPointX" class="input-medium">
+                <option value="0.0">0.0</option>
+                <option value="0.5" selected>0.5 (default)</option>
+                <option value="1.0">1.0</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>The vertical point (0.0 is top, 0.5 is middle, 1, is bottom) where it is zoomed using zoom buttons or zoom function.</div>">
+              zoomPointY
+            </div>
+            </label>
+            <div class="controls">
+              <select name="zoomPointY" class="input-medium">
+                <option value="0.0" >0.0</option>
+                <option value="0.5" selected>0.5 (default)</option>
+                <option value="1.0">1.0</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>This is the zoom factor that is added when using zoom buttons or zoom function.</div>">
+              zoomStep
+            </div>
+            </label>
+            <div class="controls">
+              <select name="zoomStep" class="input-medium">
+                <option value="0.25">0.25</option>
+                <option value="0.5" selected>0.5 (default) </option>
+                <option value="1.0">1.0</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">
+            <div data-tooltip-html="<div>If <em>true</em>, zooms and moves the clicked/pressed marker to the center of the content holder.<br>Works best when <em>allowCenterDrag</em> is set to <em>true</em></div>">
+              zoomToMarker
+            </div>
+            </label>
+            <div class="controls">
+              <select name="zoomToMarker" class="input-medium">
+                <option value="true">true</option>
+                <option value="false" selected>false (default)</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+  <div class="row-fluid divPad pad20">
+    <div class="span12">
+      <h4>HTML Code</h4>
+      <pre id="generatedCode" class="prettyprint linenums">
+         
+</pre>
+    </div>
+  </div>
+</div>
+<div class="divPad">
+</div>
+<hr>
+<div class="container">
+  <footer>
+    <div class="row-fluid">
+      <div class="span2 offset3 text-center footerLink">
+        <a href="http://codecanyon.net/user/ronfeliciano/?ref=ronfeliciano" target="_blank">CONTACT</a>
+      </div>
+      <div class="span2 text-center footerLink">
+        <a href="http://codecanyon.net/user/ronfeliciano/portfolio/?ref=ronfeliciano" target="_blank">VISIT PORTFOLIO</a>
+      </div>
+      <div class="span2 text-center footerLink">
+        <a href="credits.html">CREDITS</a>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span12 text-center footerCopyright">
+        Copyright © 2016. All Rights Reserved. Ron Feliciano
+      </div>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
