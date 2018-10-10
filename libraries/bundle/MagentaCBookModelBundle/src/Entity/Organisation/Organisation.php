@@ -82,7 +82,9 @@ class Organisation extends OrganizationModel
     public function addAdminUser(User $user)
     {
         $this->adminUsers->add($user);
-        $user->addAdminOrganisation($this);
+        if (!$user->getAdminOrganisations()->contains($this)) {
+            $user->addAdminOrganisation($this);
+        }
     }
 
     public function removeAdminUser(User $user)
@@ -173,6 +175,13 @@ class Organisation extends OrganizationModel
      * @ORM\OneToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Media\Media", mappedBy="logoOrganisation", cascade={"persist","merge"})
      */
     protected $logo;
+
+
+    /**
+     * @var boolean|null
+     * @ORM\Column(type="boolean",nullable=true)
+     */
+    protected $linkedToWellness;
 
     /**
      * @var string
@@ -297,4 +306,22 @@ class Organisation extends OrganizationModel
     {
         $this->slug = $slug;
     }
+
+    /**
+     * @return bool|null
+     */
+    public function getLinkedToWellness(): ?bool
+    {
+        return $this->linkedToWellness;
+    }
+
+    /**
+     * @param bool|null $linkedToWellness
+     */
+    public function setLinkedToWellness(?bool $linkedToWellness): void
+    {
+        $this->linkedToWellness = $linkedToWellness;
+    }
+
+
 }
