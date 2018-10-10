@@ -60,6 +60,10 @@
                 opacity: 1;
             }
         }
+
+        .bottom-nav {
+            margin-bottom: 20px;
+        }
     </style>
 {% endblock %}
 
@@ -123,17 +127,12 @@
             {% if previousParentChapter is not empty %}
                 <li class="page-item">
                     <a href="{{ path('magenta_book_reader_chapter',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode,chapterId: previousParentChapter.id}) }}"
-                       class="page-link" aria-label="Next">
-                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                       class="page-link" aria-label="Previous">
+                        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
                     </a>
                 </li>
             {% endif %}
 
-            <li class="page-item">
-                <a class="page-link" aria-label="Previous">
-                    <i class="fa fa-angle-double-left" aria-hidden="true"></i>
-                </a>
-            </li>
         {% endif %}
         <li class="page-item previous-item-group {{ chapter.position < 3 or chapter.siblingChapters|length <=3 ?'disabled':'' }}">
             <a class="page-link">

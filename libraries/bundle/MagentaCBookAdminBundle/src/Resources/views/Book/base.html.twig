@@ -88,6 +88,7 @@
 <script src="{{ asset('build/app.js') }}"></script>
 <script src="{{ asset('assets/pk2/js/paper-kit.js') }}"></script>
 <script src="{{ asset('assets/froala/2.8.4/froala_editor.pkgd.min.js') }}"></script>
+<script src="{{ asset('assets/zoomooz/jquery.zoomooz.min.js') }}"></script>
 <script>
     let url = localStorage.getItem('uniqueUrl');
     if (url == undefined || url == null || url === '') {
@@ -97,6 +98,11 @@
         $('.logout').click(function (e) {
             localStorage.clear();
         })
+
+        $('img').zoomTarget({
+            closeclick: true,
+            targetsize: 2,
+        });
     });
 </script>
 {% block javascripts_book %}{% endblock %}
