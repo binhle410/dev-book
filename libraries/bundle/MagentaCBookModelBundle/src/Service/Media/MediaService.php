@@ -24,7 +24,7 @@ class MediaService extends MediaManager {
 		
 		$format = $medium->getContext() . '_' . $format;
 		
-		return $url = $this->container->getParameter('MEDIA_API_BASE_URL') . $mediaPrefix . sprintf('/media/%d/binaries/%s/view.json', $mid, $format);
+		return $url = $this->container->getParameter('MEDIA_API_BASE_URL') . $mediaPrefix . sprintf('/media/%d/binaries/%s/view', $mid, $format);
 	}
 	
 	/**

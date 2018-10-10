@@ -82,22 +82,34 @@
     {% block body %}
         Loading...
     {% endblock %}
+
 </div>
 
 {#<script src="{{ asset('build/manifest.js') }}"></script>#}
 <script src="{{ asset('build/app.js') }}"></script>
 <script src="{{ asset('assets/pk2/js/paper-kit.js') }}"></script>
 <script src="{{ asset('assets/froala/2.8.4/froala_editor.pkgd.min.js') }}"></script>
+<script src="{{ asset('assets/pz_main/complete_guide/js/masonry.pkgd.min.js') }}"></script>
 
 
 {# Pinch Zoomer #}
-<link href="{{ asset('assets/pz_main/src/minified/css/pinchzoomer.min.css') }}" rel="stylesheet">
-<script src="{{ asset('assets/pz_main/src/minified/js/hammer.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/pz_main/src/minified/js/TweenMax.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/pz_main/src/minified/js/jquery.pinchzoomer.min.js') }}" type="text/javascript"></script>
+<style>
+    .zoomHolder
+    {
+        width:100%;
+        height:auto;
+        position:relative;
+        overflow:hidden
+    }
+</style>
+<link href="{{ asset('assets/pz_main/pinch_zoomer/css/pinchzoomer.min.css') }}" rel="stylesheet">
+<script src="{{ asset('assets/pz_main/pinch_zoomer/js/hammer.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/pz_main/pinch_zoomer/js/TweenMax.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/pz_main/pinch_zoomer/js/jquery.pinchzoomer.min.js') }}" type="text/javascript"></script>
+
 {# Pinch Zoomer Marker #}
 <link href="{{ asset('assets/pz_main/complete_guide/css/tooltipster.bundle.min.css') }}" type="text/css" rel="stylesheet"/>
-<script src="{{ asset('assets/pz_main/src/minified/js/tooltipster.bundle.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/pz_main/pinch_zoomer/js/tooltipster.bundle.min.js') }}" type="text/javascript"></script>
 
 <script>
     let url = localStorage.getItem('uniqueUrl');
@@ -108,8 +120,14 @@
         $('.logout').click(function (e) {
             localStorage.clear();
         })
+$('img').click(function (e) {
+    $(this).fullscreen(true);
+})
+        // $('img').wrap('<div class="zoomHolder"></div>');
+        // $("img").pinchzoomer({maxZoom:5,
+        //     allowDrag: true,
+        //     scaleMode:"smart"}, true);
 
-        $("img").pinchzoomer({maxZoom:5, scaleMode:"smart"}, false);
     });
 </script>
 {% block javascripts_book %}{% endblock %}

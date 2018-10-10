@@ -187,7 +187,7 @@
             </div>
             <div class="col-md-8 book-content">
                 {% block book_title %}
-                    <div class="editable" data-objectid="{{ mainContentItem.id }}" data-type="main-content"
+                    <div class="editable fr-view" data-objectid="{{ mainContentItem.id }}" data-type="main-content"
                          data-field="name">
                         <h4 style="text-align: center;margin-top:5px;">
                             {% block content_title %}
@@ -196,7 +196,7 @@
                         </h4>
                     </div>
                 {% endblock %}
-                <div class="editable" data-objectid="{{ mainContentItem.id }}" data-type="main-content"
+                <div class="editable fr-view" data-objectid="{{ mainContentItem.id }}" data-type="main-content"
                      data-field="text">
                     {% block content_body %}{{ mainContentItem.text|raw }}{% endblock %}
                 </div>
