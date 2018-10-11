@@ -111,8 +111,8 @@
                         {% endif %}
                     </div>
                     <div style="margin-left:auto; display: flex; flex-direction: row;">
-                        <a href="#" class="item-action"><i class="fa fa-pencil"> </i></a>
-                        <a href="#" class="item-action"><i class="fa fa-trash"> </i></a>
+                        <a href="{{ admin.generateUrl('edit',{id: element.id}) }}" class="item-action"><i class="fa fa-pencil"> </i></a>
+                        <a href="{{ admin.generateUrl('delete',{id: element.id}) }}" class="item-action"><i class="fa fa-trash"> </i></a>
                     </div>
                     {#<a class="label label-default pull-right" href="{{ admin.generateObjectUrl('edit', element) }}">edit <i class="fa fa-magic"></i></a>#}
                 </div>
