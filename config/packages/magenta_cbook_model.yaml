@@ -38,7 +38,12 @@ bean_book:
         book: Magenta\Bundle\CBookModelBundle\Entity\Book\Book
         book_page: Magenta\Bundle\CBookModelBundle\Entity\Book\BookPage
 #        book: Bean\Bundle\BookBundle\Doctrine\Orm\Book
-
+bean_creative_work:
+    persistence:
+        orm:
+            enabled:              true
+            manager_name:         null
+            inheritance_strategy: class
 doctrine:
     dbal:
         types:
@@ -156,11 +161,11 @@ security:
         strategy: unanimous
 
     providers:
+        # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
         magenta_user:
             id: magenta_user.user_provider.username_email
         magenta_username:
             id: magenta_user.user_provider.username
-
 
 knp_doctrine_behaviors:
     blameable:      false
@@ -254,3 +259,5 @@ sonata_media:
     category_manager: sonata.classification.manager.category
 
     db_driver: doctrine_orm # could be doctrine_orm, doctrine_mongodb or doctrine_phpcr
+
+

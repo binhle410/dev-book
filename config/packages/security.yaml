@@ -1,13 +1,4 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
-    providers:
-        in_memory: { memory: ~ }
-        magenta_user:
-#            id: fos_user.user_manager
-            id: magenta_user.user_provider.username_email
-        magenta_user_org_code_nric:
-            id: magenta_user.user_provider.org_code_nric
-
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
