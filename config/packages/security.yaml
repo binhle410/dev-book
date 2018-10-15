@@ -29,9 +29,9 @@ security:
             simple_form:
                 authenticator: magenta.security.authenticator.user_birthday
                 check_path: /api/login_check_org_code_nric
-    #                login_path: /api/login_org_code_nric
-    #                username_path: username
-    #                password_path: password
+                #                login_path: /api/login_org_code_nric
+                #                username_path: username
+                #                password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 

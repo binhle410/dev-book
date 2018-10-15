@@ -166,6 +166,8 @@ security:
             id: magenta_user.user_provider.username_email
         magenta_username:
             id: magenta_user.user_provider.username
+        magenta_user_org_code_nric:
+            id: magenta_user.user_provider.org_code_nric
 
 knp_doctrine_behaviors:
     blameable:      false
