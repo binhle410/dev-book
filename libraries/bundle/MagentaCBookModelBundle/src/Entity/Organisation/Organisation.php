@@ -171,10 +171,22 @@ class Organisation extends OrganizationModel
     protected $system;
 
     /**
-     * @var Media
+     * @var Media|null
      * @ORM\OneToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Media\Media", mappedBy="logoOrganisation", cascade={"persist","merge"})
      */
     protected $logo;
+
+    /**
+     * @param Media|null $logo
+     */
+    public function setLogo(?Media $logo): void
+    {
+        $this->logo = $logo;
+        if (!empty($logo)) {
+            $logo->setLogoOrganisation($this);
+            $logo->setOrganization($this);
+        }
+    }
 
 
     /**
@@ -196,19 +208,11 @@ class Organisation extends OrganizationModel
     protected $slug;
 
     /**
-     * @return Media
+     * @return Media|null
      */
-    public function getLogo(): Media
+    public function getLogo(): ?Media
     {
         return $this->logo;
-    }
-
-    /**
-     * @param Media $logo
-     */
-    public function setLogo(Media $logo): void
-    {
-        $this->logo = $logo;
     }
 
     /**

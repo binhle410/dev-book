@@ -205,6 +205,15 @@ sonata_media:
                 strategy: sonata.media.security.public_strategy
                 mode: http
 
+        organisation_logo:
+            providers:
+            - sonata.media.provider.image
+            formats:
+                small: { width: 200 , quality: 70}
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+
         default:
             providers:
                 - sonata.media.provider.dailymotion

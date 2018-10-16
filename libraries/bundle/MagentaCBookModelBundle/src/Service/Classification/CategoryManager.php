@@ -221,16 +221,16 @@ class CategoryManager extends \Sonata\ClassificationBundle\Entity\CategoryManage
 	}
 	
 	/**
-	 * @return Organisation
+	 * @return Organisation|null
 	 */
-	public function getOrganisation(): Organisation {
+	public function getOrganisation(): ?Organisation {
 		return $this->organisation;
 	}
 	
 	/**
-	 * @param Organisation $organisation
+	 * @param Organisation|null $organisation
 	 */
-	public function setOrganisation(Organisation $organisation): void {
+	public function setOrganisation(?Organisation $organisation): void {
 		$this->organisation = $organisation;
 	}
 }

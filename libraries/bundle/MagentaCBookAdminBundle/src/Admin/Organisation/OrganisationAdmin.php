@@ -23,6 +23,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -164,6 +165,11 @@ class OrganisationAdmin extends BaseAdmin
             ->add('name', null, ['label' => 'form.label_name'])
             ->add('code', null, ['label' => 'form.label_code'])
             ->add('slug', null, ['label' => 'form.label_slug'])
+            ->add('logo', MediaType::class, array(
+                'provider' => 'sonata.media.provider.file',
+                'context' => 'organisation_logo',
+                'new_on_update' => false
+            ))
 //                ->add('admin')
             ->end();
 
@@ -208,6 +214,7 @@ class OrganisationAdmin extends BaseAdmin
         if (!$object->isEnabled()) {
             $object->setEnabled(true);
         }
+        parent::preUpdate($object);
     }
 
     ///////////////////////////////////
