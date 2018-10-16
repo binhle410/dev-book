@@ -122,8 +122,8 @@ class AppCategory extends BaseCategory implements OrganizationAwareInterface {
 		return $this->organisation;
 	}
 	
-	public function setOrganization(?OrganizationInterface $organization) {
-		$this->organisation;
+	public function setOrganization(?OrganizationInterface $organisation) {
+        $this->organisation = $organisation;
 	}
 	
 	/**

@@ -6,6 +6,20 @@ services:
         tags:
         - { name: doctrine.orm.entity_listener }
 
+    magenta_doctrine_entity_listener_organisation:
+        class: Magenta\Bundle\CBookModelBundle\Doctrine\Organisation\OrganisationListener
+        arguments:
+        - '@service_container'
+        tags:
+        - { name: doctrine.orm.entity_listener }
+
+    magenta_doctrine_entity_listener_media:
+        class: Magenta\Bundle\CBookModelBundle\Doctrine\Media\MediaListener
+        arguments:
+        - '@service_container'
+        tags:
+        - { name: doctrine.orm.entity_listener }
+
     magenta_doctrine_entity_listener_person:
         class: Magenta\Bundle\CBookModelBundle\Doctrine\Person\PersonListener
         arguments:

@@ -87,7 +87,34 @@ doctrine:
                                 -
                                     type: postRemove
                                     method: postRemoveHandler
+                    -
+                        class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Organisation\\Organisation"
+                        listener:
+                        -
+                            class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Organisation\\OrganisationListener"
+                            event:
+                            -
+                                type: postLoad
+                                method: postLoadHandler
 
+                            -
+                                type: postPersist
+                                method: postPersistHandler
+                            -
+                                type: postUpdate
+                                method: postUpdateHandler
+                            -
+                                type: prePersist
+                                method: prePersistHandler
+                            -
+                                type: preUpdate
+                                method: preUpdateHandler
+                            -
+                                type: preRemove
+                                method: preRemoveHandler
+                            -
+                                type: postRemove
+                                method: postRemoveHandler
                     -
                         class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Person\\Person"
                         listener:
@@ -146,6 +173,35 @@ doctrine:
                             -
                                 type: postRemove
                                 method: postRemoveHandler
+                    -
+                        class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Media\\Media"
+                        listener:
+                        -
+                            class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Media\\MediaListener"
+                            event:
+                            -
+                                type: postLoad
+                                method: postLoadHandler
+
+                            -
+                                type: postPersist
+                                method: postPersistHandler
+                            -
+                                type: postUpdate
+                                method: postUpdateHandler
+                            -
+                                type: prePersist
+                                method: prePersistHandler
+                            -
+                                type: preUpdate
+                                method: preUpdateHandler
+                            -
+                                type: preRemove
+                                method: preRemoveHandler
+                            -
+                                type: postRemove
+                                method: postRemoveHandler
+
 security:
     encoders:
         Magenta\Bundle\CBookModelBundle\Entity\User\UserInterface: bcrypt
@@ -207,7 +263,7 @@ sonata_media:
 
         organisation_logo:
             providers:
-            - sonata.media.provider.image
+                - sonata.media.provider.image
             formats:
                 small: { width: 200 , quality: 70}
             download:
@@ -234,6 +290,8 @@ sonata_media:
 #            path: /upload/media
     providers:
         image:
+            filesystem: sonata.media.filesystem.s3
+        file:
             filesystem: sonata.media.filesystem.s3
 
     filesystem:

@@ -3,7 +3,9 @@ declare(strict_types = 1);
 
 namespace Bean\Component\Organization\Model;
 
-interface OrganizationInterface {
+use Bean\Component\Thing\Model\ThingInterface;
+
+interface OrganizationInterface extends ThingInterface {
 	/**
 	 * @return \DateTime|null
 	 */

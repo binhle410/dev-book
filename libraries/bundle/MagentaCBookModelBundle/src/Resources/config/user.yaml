@@ -29,6 +29,13 @@ services:
         tags:
         - {name: "console.command", command: "magenta:book:fix-chapter-position"}
 
+    magenta_user.command.fix_organisation_logo:
+        class: Magenta\Bundle\CBookModelBundle\Command\Classification\FixOrganisationLogoCategoryCommand
+        public: false
+        arguments: ['@doctrine.orm.entity_manager','@doctrine','@sonata.classification.manager.category']
+        tags:
+        - {name: "console.command", command: "magenta:classification:fix-organisation-logo-category"}
+
     magenta_user.command.create_user:
         class: Magenta\Bundle\CBookModelBundle\Command\User\CreateUserCommand
         public: false

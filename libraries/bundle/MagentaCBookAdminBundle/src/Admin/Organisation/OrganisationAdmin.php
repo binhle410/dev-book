@@ -166,7 +166,7 @@ class OrganisationAdmin extends BaseAdmin
             ->add('code', null, ['label' => 'form.label_code'])
             ->add('slug', null, ['label' => 'form.label_slug'])
             ->add('logo', MediaType::class, array(
-                'provider' => 'sonata.media.provider.file',
+                'provider' => 'sonata.media.provider.image',
                 'context' => 'organisation_logo',
                 'new_on_update' => false
             ))
@@ -193,6 +193,8 @@ class OrganisationAdmin extends BaseAdmin
         foreach ($ausers as $u) {
             $object->addAdminUser($u);
         }
+        $logo = $object->getLogo();
+        $logo->setOrganization($object);
     }
 
     /**

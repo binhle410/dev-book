@@ -75,10 +75,10 @@ class BeanPlaygroundController extends Controller
             'context' => 'default'
         ));
 
-        $bookRepo = $this->getDoctrine()->getRepository(Book::class);
-        $book = $bookRepo->find(7);
-
-        $clonedBook = clone $book;
+//        $bookRepo = $this->getDoctrine()->getRepository(Book::class);
+//        $book = $bookRepo->find(7);
+//
+//        $clonedBook = clone $book;
 
         $form = $builder->getForm();
         $data = null;
@@ -90,6 +90,8 @@ class BeanPlaygroundController extends Controller
 
         $quotient = (int)(5 / 3);
         $remainder = 5 % 3;
+
+        $this->container->get('sonata.classification.manager.category')->initiateRootCategories('organisation_logo');
 
         return $this->render('bean_playground/index.html.twig', [
             'form' => $form->createView(),
