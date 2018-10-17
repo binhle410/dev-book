@@ -24,13 +24,6 @@
     </style>
 {% endblock %}
 
-           {% block body_attributes -%}
-               class="sidebar-collapse sonata-bc skin-purple-light skin-red-light fixed
-               {% if app.request.cookies.get('sonata_sidebar_hide') -%}
-                   sidebar-collapse
-               {%- endif -%}"
-           {%- endblock -%}
-
 {% block javascripts %}
     {{ parent() }}
     <script>

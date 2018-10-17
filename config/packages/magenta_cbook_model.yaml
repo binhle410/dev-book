@@ -8,6 +8,7 @@ parameters:
 
     MEDIA_API_BASE_URL: '%env(resolve:MEDIA_API_BASE_URL)%'
     MEDIA_API_PREFIX: '%env(MEDIA_API_PREFIX)%'
+    MEDIA_API_PREFIX_SLASH: '%env(MEDIA_API_PREFIX_SLASH)%'
     PDF_API_BASE_URL:  '%env(resolve:PDF_API_BASE_URL)%'
     PDF_DOWNLOAD_PREFIX: '%env(resolve:PDF_DOWNLOAD_PREFIX)%'
 
@@ -232,6 +233,20 @@ knp_doctrine_behaviors:
     translatable:   true
     sluggable:      false
     soft_deletable: false
+
+
+# Sonata Bundles
+sonata_notification:
+    consumers:
+        register_default: false
+    admin:
+        enabled: false
+
+    backend: sonata.notification.backend.doctrine
+    backends:
+        doctrine: ~
+    class:
+        message: Magenta\Bundle\CBookModelBundle\Entity\Messaging\SonataNotificationMessage
 
 sonata_classification:
     class:

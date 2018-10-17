@@ -33,7 +33,7 @@ class BookReaderController extends Controller
                 } else {
                     $repo = $this->getDoctrine()->getRepository(IndividualMember::class);
                     /** @var IndividualMember $member */
-                    $member = $repo->findOneByOrganisationCodeNric($orgCode, $idNumber);
+                    $member = $repo->findOneByOrganisationCodeNric(trim($orgCode), trim($idNumber));
                     if (!empty($member) && $member->getPerson()->getBirthDate()->format('Y-m-d') === $dob->format('Y-m-d')) {
                         return new RedirectResponse($this->get('router')->generate('magenta_book_index',
                             [

@@ -18,8 +18,8 @@ twig:
 
     globals:
         media_endpoint: '%MEDIA_API_BASE_URL%%MEDIA_API_PREFIX%'
-        image_upload_endpoint: '%MEDIA_API_BASE_URL%%MEDIA_API_PREFIX%/providers/sonata.media.provider.image/media.json'
-        file_upload_endpoint: '%MEDIA_API_BASE_URL%%MEDIA_API_PREFIX%/providers/sonata.media.provider.file/media.json'
+        image_upload_endpoint: '%MEDIA_API_BASE_URL%%MEDIA_API_PREFIX_SLASH%providers/sonata.media.provider.image/media.json'
+        file_upload_endpoint: '%MEDIA_API_BASE_URL%%MEDIA_API_PREFIX_SLASH%providers/sonata.media.provider.file/media.json'
 
 
 fos_ck_editor:
