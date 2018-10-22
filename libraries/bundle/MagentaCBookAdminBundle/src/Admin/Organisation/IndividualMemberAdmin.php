@@ -190,7 +190,7 @@ class IndividualMemberAdmin extends BaseAdmin {
                 'datepicker_use_button' => false
                 ])
 			->add('email', null, [
-				'required' => true,
+				'required' => false,
 				'label'    => 'form.label_email'
 			])
 			->add('person.user.plainPassword', TextType::class, [

@@ -189,6 +189,12 @@ class Organisation extends OrganizationModel
     }
 
     /**
+     * @var \DateTime|null
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $synchronisedAt;
+
+    /**
      * @var integer
      * @ORM\Column(type="integer", nullable=true)
      */
@@ -389,4 +395,21 @@ class Organisation extends OrganizationModel
     {
         $this->regNo = $regNo;
     }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getSynchronisedAt(): ?\DateTime
+    {
+        return $this->synchronisedAt;
+    }
+
+    /**
+     * @param \DateTime|null $synchronisedAt
+     */
+    public function setSynchronisedAt(?\DateTime $synchronisedAt): void
+    {
+        $this->synchronisedAt = $synchronisedAt;
+    }
+
 }

@@ -138,6 +138,19 @@ class IndividualMember extends MemberModel
     protected $wellnessId;
 
     /**
+     * @var integer
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $wellnessPin;
+
+
+    /**
+     * @var integer
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $wellnessEmployeeCode;
+
+    /**
      * @var boolean
      * @ORM\Column(type="boolean", options={"default":true})
      */
@@ -311,5 +324,37 @@ class IndividualMember extends MemberModel
     public function setWellnessId(int $wellnessId): void
     {
         $this->wellnessId = $wellnessId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWellnessPin(): int
+    {
+        return $this->wellnessPin;
+    }
+
+    /**
+     * @param int $wellnessPin
+     */
+    public function setWellnessPin(int $wellnessPin): void
+    {
+        $this->wellnessPin = $wellnessPin;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWellnessEmployeeCode(): int
+    {
+        return $this->wellnessEmployeeCode;
+    }
+
+    /**
+     * @param int $wellnessEmployeeCode
+     */
+    public function setWellnessEmployeeCode(int $wellnessEmployeeCode): void
+    {
+        $this->wellnessEmployeeCode = $wellnessEmployeeCode;
     }
 }

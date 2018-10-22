@@ -145,7 +145,6 @@ doctrine:
                                 type: postRemove
                                 method: postRemoveHandler
 
-
                     -
                         class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Book\\Book"
                         listener:
@@ -174,6 +173,37 @@ doctrine:
                             -
                                 type: postRemove
                                 method: postRemoveHandler
+
+                    -
+                        class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Book\\Chapter"
+                        listener:
+                        -
+                            class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Book\\ChapterListener"
+                            event:
+                            -
+                                type: postLoad
+                                method: postLoadHandler
+
+                            -
+                                type: postPersist
+                                method: postPersistHandler
+                            -
+                                type: postUpdate
+                                method: postUpdateHandler
+                            -
+                                type: prePersist
+                                method: prePersistHandler
+                            -
+                                type: preUpdate
+                                method: preUpdateHandler
+                            -
+                                type: preRemove
+                                method: preRemoveHandler
+                            -
+                                type: postRemove
+                                method: postRemoveHandler
+
+
                     -
                         class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Media\\Media"
                         listener:

@@ -164,7 +164,7 @@ class OrganisationAdmin extends BaseAdmin
 //                ->add('username')
             ->add('name', null, ['label' => 'form.label_name'])
             ->add('code', null, ['label' => 'form.label_code'])
-            ->add('code', null, ['label' => 'form.label_code'])
+            ->add('regNo', null, ['label' => 'form.label_reg_no'])
             ->add('slug', null, ['label' => 'form.label_slug'])
             ->add('logo', MediaType::class, array(
                 'provider' => 'sonata.media.provider.image',

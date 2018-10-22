@@ -1,18 +1,11 @@
 <?php
-/*
- * This file is part of the FOSUserBundle package.
- *
- * (c) FriendsOfSymfony <http://friendsofsymfony.github.com/>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Magenta\Bundle\CBookModelBundle\Command\Book;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Chapter;
+use Magenta\Bundle\CBookModelBundle\Service\Book\BookService;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\Command\Command;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserManipulator;
@@ -35,12 +28,14 @@ class FixChapterPositionCommand extends Command
 
     private $manager;
     private $registry;
+    protected $bookService;
 
-    public function __construct(ObjectManager $manager, RegistryInterface $registry)
+    public function __construct(ObjectManager $manager, RegistryInterface $registry, BookService $bs)
     {
         parent::__construct();
         $this->manager = $manager;
         $this->registry = $registry;
+        $this->bookService = $bs;
     }
 
     /**
@@ -81,22 +76,14 @@ EOT
 
         /** @var Book $book */
         foreach ($books as $book) {
-            $chapters = $book->rearrangeRootChapters();
-            $this->rearrangeChapters($chapters, $output);
+//            $this->rearrangeChapters($chapters, $output);
+            $output->writeln('Working on ' . $book->getName());
+            $this->bookService->rearrangeChapters($book);
+            $output->writeln('DONE with ' . $book->getName());
         }
 
-        $output->writeln('Flushing');
-        $this->manager->flush();
+        $output->writeln('DONE');
+//        $this->manager->flush();
     }
 
-    private function rearrangeChapters($chapters, $output)
-    {
-        /** @var Chapter $chapter */
-        foreach ($chapters as $chapter) {
-            $output->writeln('Persisting ' . $chapter->getName());
-            $this->manager->persist($chapter);
-            $subChapters = $chapter->rearrangeSubChapters();
-            $this->rearrangeChapters($subChapters, $output);
-        }
-    }
 }

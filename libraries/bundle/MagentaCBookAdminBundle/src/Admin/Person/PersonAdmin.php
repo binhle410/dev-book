@@ -35,6 +35,7 @@ class PersonAdmin extends BaseAdmin
         parent::configureFormFields($form);
         $form->add('name');
         $form->add('email', null, ['required' => false]);
+        $form->add('idNumber', null, ['required' => true]);
         $form->add('user.username', TextType::class, ['required' => true, 'label' => 'form.label_username']);
         $form->add('user.plainPassword', TextType::class, ['required' => false, 'label' => 'form.label_password']);
         $form->add('user.adminOrganisations', ModelType::class, [

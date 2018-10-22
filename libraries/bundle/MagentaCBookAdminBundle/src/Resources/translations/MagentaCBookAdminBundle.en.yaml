@@ -134,23 +134,16 @@ form:
     label_product_serial_number: Product Serial Number
     label_description: Description
     label_visited_at: Visit Time
-    label_appointment: Appointment
+
     label_assign_technician: Assign Technician
     label_assignee_history: Technician(s)
     label_service_notes: Service Notes
     label_service_note: Service Note
     label_customer: Customer
     label_status: Status
-    label_appointment_time: Appointment Time
-    label_appointment_from:  Appointment Time (From)
-    label_appointment_at: Appointment Date
-    label_appointment_to: Appointment Time (To)
-    label_appointments: Appointments
-    label_service_zone: Service Zone
+    label_reg_no: Reg No.
+
     label_priority: Priority
-    label_case_detail: Case Description
-    label_warranty: Warranty
-    label_extended_warranty_period_approved: Approve Extension
     label_reference_number: Reference Number
     label_full_text_search: Search
     label_near_expiry_period: Near-Expiry Period (days)

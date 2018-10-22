@@ -22,13 +22,6 @@ services:
         class: Magenta\Bundle\CBookModelBundle\Security\OrgCodeNricUserProvider
         arguments: ['@magenta_user.user_manager']
 
-    magenta_book.command.fix_chapter_position:
-        class: Magenta\Bundle\CBookModelBundle\Command\Book\FixChapterPositionCommand
-        public: false
-        arguments: ['@doctrine.orm.entity_manager','@doctrine']
-        tags:
-        - {name: "console.command", command: "magenta:book:fix-chapter-position"}
-
     magenta_user.command.fix_organisation_logo:
         class: Magenta\Bundle\CBookModelBundle\Command\Classification\FixOrganisationLogoCategoryCommand
         public: false

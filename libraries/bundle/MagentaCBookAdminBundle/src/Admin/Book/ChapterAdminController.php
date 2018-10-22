@@ -75,6 +75,7 @@ class ChapterAdminController extends BaseCRUDAdminController
                 $qb
                     ->getQuery()
                     ->execute();
+                $this->get('magenta_book.book_service')->rearrangeChapters($object->getBook());
             }
         };
 
@@ -108,7 +109,7 @@ class ChapterAdminController extends BaseCRUDAdminController
 
             $manager->remove($object);
             $manager->flush();
-
+            $this->get('magenta_book.book_service')->rearrangeChapters($object->getBook());
             if (empty($chapterId)) {
                 return new RedirectResponse($this->get('router')->generate('admin_magenta_cbookmodel_book_book_show', ['id' => $book->getId()]));
             }

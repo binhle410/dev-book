@@ -5,3 +5,22 @@ services:
             - '@service_container'
         tags:
             - {name: jms_serializer.event_listener, event: serializer.pre_serialize, class: 'Magenta\Bundle\CBookModelBundle\Entity\Media\Media', method: onPreSerialize }
+
+    magenta_book.command.fix_chapter_position:
+        class: Magenta\Bundle\CBookModelBundle\Command\Book\FixChapterPositionCommand
+        public: false
+        arguments: ['@doctrine.orm.entity_manager','@doctrine','@Magenta\Bundle\CBookModelBundle\Service\Book\BookService']
+        tags:
+        - {name: "console.command", command: "magenta:book:fix-chapter-position"}
+
+    Magenta\Bundle\CBookModelBundle\Service\Book\BookService:
+        class: Magenta\Bundle\CBookModelBundle\Service\Book\BookService
+        arguments:
+        - '@service_container'
+        - '@doctrine.orm.entity_manager'
+        - '@doctrine'
+        public: false
+
+    magenta_book.book_service:
+        alias: 'Magenta\Bundle\CBookModelBundle\Service\Book\BookService'
+        public: true
