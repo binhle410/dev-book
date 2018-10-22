@@ -23,7 +23,7 @@
                 {% block nav_title_text %}
                     <a href="{{ path('magenta_book_index',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode}) }}">
                         {#Your book on the cloud#}
-                        <img height="20" src="{{ privateMediumUrl(book.organisation.logo.id) }}" />
+                        <img height="20" src="{{ privateMediumUrl(book.organisation.logo.id,'small') }}" />
                     </a>
                 {% endblock %}
             </span>
