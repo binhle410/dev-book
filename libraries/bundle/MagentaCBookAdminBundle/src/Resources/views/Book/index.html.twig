@@ -35,7 +35,9 @@
         }
     </style>
 {% endblock %}
-
+{% block nav_title %}
+    <img height="40" src="{{ privateMediumUrl(logo.id,'small') }}" />
+{% endblock %}
 {% block body %}
     <div class="container">
         <table v-if="!reading" class="table table-striped">

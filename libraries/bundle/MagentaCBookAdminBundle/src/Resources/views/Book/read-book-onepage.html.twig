@@ -19,11 +19,10 @@
 
 {% block nav_title %}
     <div class="dropdown chapter-nav">
-            <span id="spy-chapter-navtitle1">
+            <span id="spy-chapter-navtitle">
                 {% block nav_title_text %}
                     <a href="{{ path('magenta_book_index',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode}) }}">
-                        {#Your book on the cloud#}
-                        <img height="20" src="{{ privateMediumUrl(book.organisation.logo.id,'small') }}" />
+                        Your book on the cloud
                     </a>
                 {% endblock %}
             </span>
