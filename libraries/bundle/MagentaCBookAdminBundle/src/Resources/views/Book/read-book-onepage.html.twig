@@ -1,0 +1,259 @@
+{% extends '@MagentaCBookAdmin/Book/read-book.html.twig' %}
+
+{% block stylesheets_book %}
+    {{ parent() }}
+    <style>
+        .card:not(.card-plain):hover {
+            transform: none;
+        }
+
+        .card-body {
+            padding-top: 0px;
+        }
+
+        .card-body p {
+            margin-top: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block nav_title %}
+    <div class="dropdown chapter-nav">
+            <span id="spy-chapter-navtitle1">
+                {% block nav_title_text %}
+                    <a href="{{ path('magenta_book_index',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode}) }}">
+                        {#Your book on the cloud#}
+                        {% thumbnail book.organisation.logo, 'small' %}
+                    </a>
+                {% endblock %}
+            </span>
+    </div>
+{% endblock %}
+
+{% block body %}
+    {#<div style="padding-top:35px;"></div>#}
+    <div class="container">
+        <div class="row">
+            <div class="d-none d-md-block col-md-4 book-toc">
+                <div class="positionh" {#style="position: fixed"#}>
+                    {% block new_chapter %}{% endblock %}
+                    {% block toc_heading %}<h3>Table of contents</h3> {% endblock %}
+                    {% block toc_help %} {% endblock %}
+                    <div id="toc-sidebar"></div>
+                </div>
+            </div>
+            <div class="col-md-8 book-content">
+                {% block book_title %}
+                    <div class="editable fr-view" data-objectid="{{ mainContentItem.id }}" data-type="main-content"
+                         data-field="name">
+                        <h4 style="text-align: center;margin-top:5px;">
+                            {% block content_title %}
+                                {{ mainContentItem.name|raw }}
+                            {% endblock %}
+                        </h4>
+                    </div>
+                {% endblock %}
+                <div class="editable fr-view" data-objectid="{{ mainContentItem.id }}" data-type="main-content"
+                     data-field="text">
+                    {% block content_body %}{{ mainContentItem.text|raw }}{% endblock %}
+                </div>
+
+                <div class="admin-buttons">
+                    {#<i id="edit-button" class="fa fa-edit hand-hover"></i>#}
+                    {#<i id="save-button" class="fa fa-save hand-hover" style="display: none;"></i>#}
+                </div>
+
+                {% block chapters %}
+                    {% if subContentItems|length > 0 %}
+                    {% endif %}
+                    {% for i, chapter in subContentItems %}
+                        <div class="editable" data-objectid="{{ chapter.id }}" data-type="chapter" data-field="name">
+                            <a data-toggle="collapse" href="#chapter-{{ chapter.id }}" role="button"
+                               aria-expanded="false" aria-controls="chapter-{{ chapter.id }}">
+                                <strong
+                                        id="chapter-{{ chapter.listNumber }}"
+                                        class="chapter-name">{{ chapter.listNumber }}. {{ chapter.name }}
+                                </strong>
+                            </a>
+                            <hr style="margin-top:1px;margin-bottom:5px; border-bottom: dashed; border-width: thin;"/>
+                        </div>
+                        <div class="editable" data-name="chapter-{{ chapter.id }}-text">
+                            {% set chapterText = chapter.text|striptags %}
+                            <div class="collapse" id="chapter-{{ chapter.id }}">
+                                <div class="card card-body">
+                                    {#{{ chapter.text | raw }}#}
+                                    {{ chapterText |raw }}
+
+                                    {% for i, subChapter in chapter.subChapters %}
+                                        <p>
+                                            <a data-toggle="collapse" href="#chapter-{{ subChapter.id }}" role="button"
+                                               aria-expanded="false" aria-controls="chapter-{{ subChapter.id }}">
+                                                <strong
+                                                        id="chapter-{{ subChapter.listNumber }}"
+                                                        class="chapter-name">{{ subChapter.listNumber }}
+                                                    . {{ subChapter.name }}
+                                                </strong>
+                                            </a>
+                                        </p>
+                                        <hr style="margin-top:1px;margin-bottom:5px; border-bottom: dashed; border-width: thin;"/>
+                                        <div class="collapse" id="chapter-{{ subChapter.id }}">
+                                            <div class="card card-body">
+                                                {{ subChapter.text|raw }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            {#{% for ii, sub in chapter.subChapters %}#}
+                            {#<div class="editable" data-objectid="{{ sub.id }}" data-type="chapter" data-field="name"><h4#}
+                            {#id="chapter-{{ i+1 }}-{{ ii+1 }}" class="offset-anchor chapter-name">{{ i+1 }}#}
+                            {#.{{ ii+1 }}. {{ sub.name }}</h4></div>#}
+                            {#<div class="editable" data-name="chapter-{{ sub.id }}-text">{{ sub.text | raw }}</div>#}
+                            {#{% endfor %}#}
+                        </div>
+                    {% endfor %}
+                {% endblock %}
+                <nav class="bottom-nav">
+                    {% block pagination %}
+                    {% endblock %}
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="d-md-none"
+         style="position: fixed; width: 100%; bottom: 0px; background-color: white; text-align: center; padding: 5px 0px;">
+        <a class="btn btn-outline-primary btn-sm btn-border btn-round"
+           href="{{ path('magenta_book_index', {orgSlug:orgSlug,'accessCode': accessCode, 'employeeCode': employeeCode}) }}">HOME</a>
+        <a class="btn btn-sm btn-outline-primary btn-border btn-round"
+           href="{{ path('magenta_book_contact', {orgSlug:orgSlug,'accessCode': accessCode, 'employeeCode': employeeCode}) }}">CONTACTS</a>
+        {#<a class="btn btn-sm btn-outline-primary btn-border btn-round" href="" data-toggle="modal"#}
+        {#data-target="#toc-modal">BOOK TOC </a>#}
+    </div>
+    <div class="modal fade" id="toc-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">{{ book.name }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <div class="right-side">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts_book %}
+    <script>
+        {% import '@MagentaCBookAdmin/Book/macro_chapter_tree.html.twig' as toc_tree %}
+
+        {% block toc_tree_data %}
+        var toc = {{ toc_tree.navigate_child(true, book.rootChapters,0) }}
+                {% endblock %}
+
+                {% block onCreateLi %}
+            window.onCreateLi = function (node, $li) {
+                // $li.find('.jqtree-title').html(
+                //     `<a href="${node.href}">${node.name}</a>  <i class="fa fa-plus-circle" aria-hidden="true"> </i>`
+                // );
+            }
+        {% endblock %}
+
+        $(document).ready(($) => {
+            var $tocSidebar = $('#toc-sidebar');
+            $tocSidebar.tree({
+                data: toc,
+                closedIcon: $('<i class="fa fa-arrow-circle-right"></i>'),
+                openedIcon: $('<i class="fa fa-arrow-circle-down"></i>'),
+                dragAndDrop: false,
+                saveState: true,
+                onCreateLi: onCreateLi
+            });
+
+            {% block toc_click %}
+            $tocSidebar.on(
+                'tree.click',
+                function (event) {
+                    // The clicked node is 'event.node'
+                    // var node = event.node;
+                    let url = '{{ path('magenta_book_reader_chapter',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode,chapterId:0}) }}';
+                    let redirectUrl = url.replace('/chapter/0', '/chapter/' + event.node.id);
+                    // alert(node.name);
+                    console.log('Go to Chapter Page', event, url, redirectUrl);
+                    window.location = redirectUrl;
+                }
+            );
+            {% endblock %}
+
+            var node = $tocSidebar.tree('getNodeById', {{ mainContentItem.id }});
+            $tocSidebar.tree('selectNode', node);
+
+            {% block toc_modal %}
+            $tocModal = $('#toc-modal .modal-body');
+            $tocModal.tree({
+                data: toc,
+                closedIcon: $('<i class="nc-icon nc-minimal-right"></i>'),
+                openedIcon: $('<i class="nc-icon nc-minimal-down"></i>'),
+                dragAndDrop: false,
+                saveState: true,
+                // onCreateLi: function (node, $li) {
+                //     $li.find('.jqtree-title').html(
+                //         `<a href="${node.href}" class="chapter-link">${node.name}</a>`
+                //     );
+                // }
+            });
+
+            $tocModal.on(
+                'tree.click',
+                function (event) {
+                    // The clicked node is 'event.node'
+                    // var node = event.node;
+                    let url = '{{ path('magenta_book_reader_chapter',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode,chapterId:0}) }}';
+                    let redirectUrl = url.replace('/chapter/0', '/chapter/' + event.node.id);
+                    // alert(node.name);
+                    console.log('From Toc Modal: Go to Chapter Page', event, url, redirectUrl);
+                    window.location = redirectUrl;
+                }
+            );
+
+            $('#toc-modal a.chapter-link').click(() => {
+                $('#toc-modal').modal('hide');
+            })
+            {% endblock %}
+
+            $('body').scrollspy({target: '#cbook-navbar', offset: 75})
+            $(window).scroll((e) => {
+                var currentChapter = $('.dropdown-item.active:not(.sub)').text();
+                if (currentChapter) {
+                    $('#spy-chapter-navtitle').text(currentChapter)
+                    console.log('currentChapter is not null ' + currentChapter)
+                } else {
+                    if (typeof href != "undefined") {
+                        var href = $('.dropdown-item.active').attr('href');
+                        var id = href.substring(0, href.lastIndexOf('-'));
+                        console.log('heyeee', href, id);
+                        $('#spy-chapter-navtitle').text($(id).text());
+                    } else {
+                        // console.log('jquery lookup of (\'.dropdown-item.active\') is not found');
+                    }
+                }
+                $('.subchapter-nav').hide();
+                $('.sub.dropdown-item.active').parents('.subchapter-nav').show();
+                $('.sub.dropdown-item.active').parents('.subchapter-nav').find('.spy-subchapter-navtitle').text($('.sub.dropdown-item.active').text());
+                if ($(window).scrollTop() < 50) {
+                    $('#spy-chapter-navtitle').text('Your book on the cloud');
+                }
+            })
+        })
+    </script>
+{% endblock %}

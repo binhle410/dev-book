@@ -81,7 +81,7 @@ class BookReaderController extends Controller
                 ]));
         }
 
-        return $this->render('@MagentaCBookAdmin/Book/read-book.html.twig', [
+        return $this->render('@MagentaCBookAdmin/Book/read-book-onepage.html.twig', [
             'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
             'book' => $book,
             'mainContentItem' => $book,
