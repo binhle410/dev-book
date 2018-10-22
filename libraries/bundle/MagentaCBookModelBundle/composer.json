@@ -26,8 +26,8 @@
     "sonata-project/classification-bundle": "^3.7.1",
     "knplabs/doctrine-behaviors": "^1.5",
     "aws/aws-sdk-php": "^3.56",
-    "symfony/dotenv": "*"
-
+    "symfony/dotenv": "*",
+    "sonata-project/notification-orm-pack": "^1.0"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.2",

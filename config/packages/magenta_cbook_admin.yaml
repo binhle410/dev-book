@@ -136,17 +136,23 @@ sonata_admin:
                     - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\OrganisationAdmin
                     - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\IndividualGroupAdmin
                     - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\IndividualMemberAdmin
+                    - sonata.notification.admin.message
 
     #                    - Sonata\MediaBundle\Admin\ORM\MediaAdmin
-#                    - sonata.user.admin.group
-#                    - sonata.classification.admin.context
-#                    - sonata.classification.admin.category
-#                    - sonata.classification.admin.collection
-#                    - sonata.classification.admin.tag
-#                    - sonata.notification.admin.message
+    #                    - sonata.user.admin.group
+    #                    - sonata.classification.admin.context
+    #                    - sonata.classification.admin.category
+    #                    - sonata.classification.admin.collection
+    #                    - sonata.classification.admin.tag
 
     title_logo: https://www.magenta-consulting.com/images/logo.png
     search: false
+
+sonata_notification:
+    admin:
+        enabled: true
+        message:
+            class: Magenta\Bundle\CBookAdminBundle\Admin\Messaging\SonataNotificationMessageAdmin
 
 sonata_classification:
     admin:

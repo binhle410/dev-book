@@ -269,8 +269,6 @@ knp_doctrine_behaviors:
 sonata_notification:
     consumers:
         register_default: false
-    admin:
-        enabled: false
 
     backend: sonata.notification.backend.doctrine
     backends:
