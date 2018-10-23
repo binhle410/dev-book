@@ -2,6 +2,10 @@
 {% block stylesheets %}
     {{ parent() }}
     <style>
+        .navbar-right .sonata-action-element {
+            display: none;
+        }
+
         .sonata-tree__item .label {
             font-size: 9px;
         }
@@ -54,6 +58,9 @@
         });
     </script>
 {% endblock %}
+{% block tab_menu %}
+
+{% endblock %}
 
 {# copied from parent #}
 {% import _self as app_tree %}
@@ -104,8 +111,10 @@
                         {% endif %}
                     </div>
                     <div style="margin-left:auto; display: flex; flex-direction: row;">
-                        <a href="{{ admin.generateUrl('edit',{id: element.id}) }}" class="item-action"><i class="fa fa-pencil"> </i></a>
-                        <a href="{{ admin.generateUrl('delete',{id: element.id}) }}" class="item-action"><i class="fa fa-trash"> </i></a>
+                        <a href="{{ admin.generateUrl('edit',{id: element.id}) }}" class="item-action"><i
+                                    class="fa fa-pencil"> </i></a>
+                        <a href="{{ admin.generateUrl('delete',{id: element.id}) }}" class="item-action"><i
+                                    class="fa fa-trash"> </i></a>
                     </div>
                     {#<a class="label label-default pull-right" href="{{ admin.generateObjectUrl('edit', element) }}">edit <i class="fa fa-magic"></i></a>#}
                 </div>
@@ -184,7 +193,7 @@
                 {#<a href="{{ path('admin_magenta_cbookmodel_book_book_create',{}) }}" class="btn btn-primary"><i class="fa fa-plus"></i> <i class="fa fa-book"></i> New Book</a>#}
             </div>
             <div class="box-content">
-                <div style="padding-left: 10px; display: flex;align-items:left;flex-direction: column">
+                <div style="padding-left: 10px; display: flex; flex-direction: column">
                     {% if hasParent is not empty %}
                         <div class="sonata-tree__item" style="display: flex;align-items:center;">
                             <a href="{{ admin.generateUrl('tree',{'parent':selectedCategory.parent.id}) }}">
@@ -197,7 +206,7 @@
                     {% set categories = selectedCategory.children %}
                     {% for category in categories %}
                         <div class="sonata-tree__item" style="display: flex;align-items:center;">
-                            <div style="display: flex; align-items: center;">
+                            <div style="display: flex; flex-direction: column;">
                                 {% if not category.enabled %}
                                     <span class="label label-danger" style="margin-left:auto; margin-right: 5px;"><i
                                                 class="fa fa-times"></i></span>
@@ -245,7 +254,7 @@
                                 {% else %}
                                     {% if categoryItem.type == 'MEDIA' %}
                                         {#<a class="item-action">#}
-                                            {#<i class="fa fa-pencil"> </i>#}
+                                        {#<i class="fa fa-pencil"> </i>#}
                                         {#</a>#}
                                     {% endif %}
                                 {% endif %}

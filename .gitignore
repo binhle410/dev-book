@@ -2,6 +2,9 @@
 /.idea/
 ###< IDEA ###
 
+### Upload folder
+/public/upload/
+#################
 
 ###> symfony/framework-bundle ###
 /.env

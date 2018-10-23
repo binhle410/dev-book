@@ -49,8 +49,14 @@ class ChapterAdminController extends BaseCRUDAdminController
                 $position = null;
             } elseif ($positionType === 'before') {
                 $position = $targetChapter->getPosition();
+                $object->setParentChapter($targetChapter->getParentChapter());
+                $manager->persist($object);
+                $manager->flush($object);
             } elseif ($positionType === 'after') {
                 $position = $targetChapter->getPosition() + 1;
+                $object->setParentChapter($targetChapter->getParentChapter());
+                $manager->persist($object);
+                $manager->flush($object);
             }
 
             if ($position !== null) {

@@ -206,6 +206,9 @@
             "ref": "a66e8a7b75a1825cf2414d5dd53c7ed38c8654d1"
         }
     },
+    "markbaker/complex": {
+        "version": "1.4.7"
+    },
     "michelf/php-markdown": {
         "version": "1.8.0"
     },
@@ -265,6 +268,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "0.4.0"
+    },
+    "phpoffice/phpspreadsheet": {
+        "version": "1.5.0"
     },
     "phpoption/phpoption": {
         "version": "1.5.0"

@@ -20,7 +20,7 @@ twig:
         media_endpoint: '%MEDIA_API_BASE_URL%%MEDIA_API_PREFIX%'
         image_upload_endpoint: '%MEDIA_API_BASE_URL%%MEDIA_API_PREFIX_SLASH%providers/sonata.media.provider.image/media.json'
         file_upload_endpoint: '%MEDIA_API_BASE_URL%%MEDIA_API_PREFIX_SLASH%providers/sonata.media.provider.file/media.json'
-
+        wellness_evoucher_base: '%WELLNESS_EVOUCHER_BASE_URL%'
 
 fos_ck_editor:
     default_config: default

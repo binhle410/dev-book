@@ -52,12 +52,20 @@ class BookReaderController extends Controller
 
     public function indexAction($orgSlug, $accessCode, $employeeCode)
     {
-        $this->checkAccess($accessCode, $employeeCode);
+        try {
+            $this->checkAccess($accessCode, $employeeCode);
+        } catch (UnauthorizedHttpException $e) {
+            return new RedirectResponse($this->get('router')->generate('magenta_book_login',
+                [
+                    'orgSlug' => $orgSlug
+                ]));
+        }
+
         $member = $this->getMemberByPinCodeEmployeeCode($accessCode, $employeeCode);
         $books = $member->getBooksToRead();
 
-
         return $this->render('@MagentaCBookAdmin/Book/index.html.twig', [
+            'member' => $member,
             'logo' => $member->getOrganization()->getLogo(),
             'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
             'books' => $books,
@@ -72,10 +80,13 @@ class BookReaderController extends Controller
         $this->checkAccess($accessCode, $employeeCode);
         $bookRepo = $this->getDoctrine()->getRepository(Book::class);
         $book = $bookRepo->find($bookId);
+        $member = $this->getMemberByPinCodeEmployeeCode($accessCode, $employeeCode);
+
         if (empty($book)) {
             $this->addFlash('error', 'The Book you requested for could not be found!');
             return new RedirectResponse($this->get('router')->generate('magenta_book_index',
                 [
+                    'member' => $member,
                     'orgSlug' => $orgSlug,
                     'employeeCode' => $employeeCode,
                     'accessCode' => $accessCode
@@ -83,6 +94,7 @@ class BookReaderController extends Controller
         }
 
         return $this->render('@MagentaCBookAdmin/Book/read-book-onepage.html.twig', [
+            'member' => $member,
             'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
             'book' => $book,
             'mainContentItem' => $book,
@@ -106,6 +118,7 @@ class BookReaderController extends Controller
         }
 
         return $this->render('@MagentaCBookAdmin/Book/read-chapter.html.twig', [
+            'member' => $member,
             'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
             'book' => $book = $chapter->getBook(),
             'mainContentItem' => $chapter,
@@ -134,6 +147,7 @@ class BookReaderController extends Controller
         }
         ksort($sortedMembers);
         return $this->render('@MagentaCBookAdmin/Book/contact.html.twig', [
+            'member' => $member,
             'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
             'members' => $sortedMembers,
             'orgSlug' => $orgSlug,
@@ -145,7 +159,7 @@ class BookReaderController extends Controller
     private function checkAccess($accessCode, $employeeCode)
     {
         $member = $this->getMemberByPinCodeEmployeeCode($accessCode, $employeeCode);
-        if (empty($member) || !$member->isEnabled()) {
+        if (empty($member) || !$member->isEnabled() || !$member->getOrganization()->isEnabled()) {
             $this->handleUnauthorisation();
         }
     }

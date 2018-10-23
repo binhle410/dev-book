@@ -8,7 +8,7 @@
         }
 
         .card-body {
-            padding-top: 0px;
+            padding: 0px;
         }
 
         .card-body p {
@@ -17,23 +17,23 @@
     </style>
 {% endblock %}
 
-{% block nav_title %}
-    <div class="dropdown chapter-nav">
-            <span id="spy-chapter-navtitle">
-                {% block nav_title_text %}
-                    <a href="{{ path('magenta_book_index',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode}) }}">
-                        Your book on the cloud
-                    </a>
-                {% endblock %}
-            </span>
-    </div>
-{% endblock %}
+{#{% block nav_title %}#}
+    {#<div class="dropdown chapter-nav">#}
+            {#<span id="spy-chapter-navtitle">#}
+                {#{% block nav_title_text %}#}
+                    {#<a href="{{ path('magenta_book_index',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode}) }}">#}
+                        {#Your book on the cloud#}
+                    {#</a>#}
+                {#{% endblock %}#}
+            {#</span>#}
+    {#</div>#}
+{#{% endblock %}#}
 
 {% block body %}
     {#<div style="padding-top:35px;"></div>#}
     <div class="container">
         <div class="row">
-            <div class="d-none d-md-block col-md-4 book-toc">
+            <div class="d-none d-md-none col-md-4 book-toc">
                 <div class="positionh" {#style="position: fixed"#}>
                     {% block new_chapter %}{% endblock %}
                     {% block toc_heading %}<h3>Table of contents</h3> {% endblock %}
@@ -41,7 +41,7 @@
                     <div id="toc-sidebar"></div>
                 </div>
             </div>
-            <div class="col-md-8 book-content">
+            <div class="offset-md-2 col-md-8 book-content">
                 {% block book_title %}
                     <div class="editable fr-view" data-objectid="{{ mainContentItem.id }}" data-type="main-content"
                          data-field="name">
@@ -84,7 +84,7 @@
                                     {{ chapterText |raw }}
 
                                     {% for i, subChapter in chapter.subChapters %}
-                                        <p>
+
                                             <a data-toggle="collapse" href="#chapter-{{ subChapter.id }}" role="button"
                                                aria-expanded="false" aria-controls="chapter-{{ subChapter.id }}">
                                                 <strong
@@ -93,8 +93,8 @@
                                                     . {{ subChapter.name }}
                                                 </strong>
                                             </a>
-                                        </p>
-                                        <hr style="margin-top:1px;margin-bottom:5px; border-bottom: dashed; border-width: thin;"/>
+
+                                        {#<hr style="margin-top:1px;margin-bottom:5px; border-bottom: dashed; border-width: thin;"/>#}
                                         <div class="collapse" id="chapter-{{ subChapter.id }}">
                                             <div class="card card-body">
                                                 {{ subChapter.text|raw }}

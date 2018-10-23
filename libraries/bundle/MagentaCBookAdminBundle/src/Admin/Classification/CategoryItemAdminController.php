@@ -24,8 +24,54 @@ abstract class CategoryItemAdminController extends BaseCRUDAdminController
     public function deleteAction($id)
     {
         $this->admin->setTemplate('delete', '@MagentaCBookAdmin/Admin/Classification/CategoryItem/CRUD/delete.html.twig');
-
         return parent::deleteAction($id);
+    }
+
+    /**
+     * @param CategoryItem $object
+     * @return RedirectResponse|Response
+     */
+    protected function redirectTo($object)
+    {
+        $request = $this->getRequest();
+
+        $url = false;
+
+        if (null !== $request->get('btn_update_and_list')) {
+            return $this->redirectToList();
+        }
+        if (null !== $request->get('btn_create_and_list')) {
+            return $this->redirectToList();
+        }
+
+        if (null !== $request->get('btn_create_and_create')) {
+            $params = [];
+            if ($this->admin->hasActiveSubClass()) {
+                $params['subclass'] = $request->get('subclass');
+            }
+            $url = $this->admin->generateUrl('create', $params);
+        }
+
+        if ('DELETE' === $this->getRestMethod()) {
+//            return $this->redirectToList();
+            return $this->createResponse($object);
+        }
+
+        if (!$url) {
+            foreach (['edit', 'show'] as $route) {
+                if ($this->admin->hasRoute($route) && $this->admin->hasAccess($route, $object)) {
+                    $url = $this->admin->generateObjectUrl($route, $object);
+
+                    break;
+                }
+            }
+        }
+
+        if (!$url) {
+            return $this->redirectToList();
+        }
+
+        return new RedirectResponse($url);
     }
 
     public abstract function createItem(): CategoryItemContainerInterface;

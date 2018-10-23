@@ -52,7 +52,7 @@ class IndividualMember extends MemberModel
 
     public function initiatePin()
     {
-        if (empty($this->pinCode)) {
+        if (empty($this->pin)) {
             $this->pin = str_replace('O', '0', User::generate4DigitCode());
         }
         return $this;
@@ -60,7 +60,7 @@ class IndividualMember extends MemberModel
 
     public function initiateCode()
     {
-        if (empty($this->employeeCode)) {
+        if (empty($this->code)) {
             $this->code = str_replace('O', '0', User::generate4DigitCode() . '-' . User::generateTimestampBasedCode());
         }
         return $this;
@@ -132,21 +132,21 @@ class IndividualMember extends MemberModel
     protected $synchronisedAt;
 
     /**
-     * @var integer
+     * @var integer|null
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $wellnessId;
 
     /**
-     * @var integer
-     * @ORM\Column(type="integer", nullable=true)
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $wellnessPin;
 
 
     /**
-     * @var integer
-     * @ORM\Column(type="integer", nullable=true)
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $wellnessEmployeeCode;
 
@@ -311,49 +311,49 @@ class IndividualMember extends MemberModel
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getWellnessId(): int
+    public function getWellnessId(): ?int
     {
         return $this->wellnessId;
     }
 
     /**
-     * @param int $wellnessId
+     * @param int|null $wellnessId
      */
-    public function setWellnessId(int $wellnessId): void
+    public function setWellnessId(?int $wellnessId): void
     {
         $this->wellnessId = $wellnessId;
     }
 
     /**
-     * @return int
+     * @return null|string
      */
-    public function getWellnessPin(): int
+    public function getWellnessPin(): ?string
     {
         return $this->wellnessPin;
     }
 
     /**
-     * @param int $wellnessPin
+     * @param null|string $wellnessPin
      */
-    public function setWellnessPin(int $wellnessPin): void
+    public function setWellnessPin(?string $wellnessPin): void
     {
         $this->wellnessPin = $wellnessPin;
     }
 
     /**
-     * @return int
+     * @return null|string
      */
-    public function getWellnessEmployeeCode(): int
+    public function getWellnessEmployeeCode(): ?string
     {
         return $this->wellnessEmployeeCode;
     }
 
     /**
-     * @param int $wellnessEmployeeCode
+     * @param null|string $wellnessEmployeeCode
      */
-    public function setWellnessEmployeeCode(int $wellnessEmployeeCode): void
+    public function setWellnessEmployeeCode(?string $wellnessEmployeeCode): void
     {
         $this->wellnessEmployeeCode = $wellnessEmployeeCode;
     }

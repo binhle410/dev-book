@@ -85,6 +85,7 @@ class IndividualMemberListener
                     $manager->persist($person);
                 }
             }
+
             $person->removeIndividualMember($member);
             $m_person->addIndividualMember($member);
             $manager->persist($m_person);

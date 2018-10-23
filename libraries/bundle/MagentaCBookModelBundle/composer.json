@@ -27,7 +27,8 @@
     "knplabs/doctrine-behaviors": "^1.5",
     "aws/aws-sdk-php": "^3.56",
     "symfony/dotenv": "*",
-    "sonata-project/notification-orm-pack": "^1.0"
+    "sonata-project/notification-orm-pack": "^1.0",
+    "phpoffice/phpspreadsheet": "^1.5"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.2",

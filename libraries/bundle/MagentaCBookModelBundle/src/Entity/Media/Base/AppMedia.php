@@ -33,6 +33,7 @@ abstract class AppMedia extends BaseMedia implements MediaInterface, CategoryIte
     {
         parent::__construct();
         $this->enabled = true;
+        $this->mediaCategoryItems = new ArrayCollection();
     }
 
     public function getOrganization(): ?OrganizationInterface

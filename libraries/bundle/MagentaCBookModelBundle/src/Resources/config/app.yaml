@@ -13,6 +13,14 @@ services:
         tags:
         - {name: "console.command", command: "magenta:book:fix-chapter-position"}
 
+    Magenta\Bundle\CBookModelBundle\Service\Spreadsheet\SpreadsheetService:
+        class: Magenta\Bundle\CBookModelBundle\Service\Spreadsheet\SpreadsheetService
+        public: false
+
+    magenta_book.spreadsheet_service:
+        alias: 'Magenta\Bundle\CBookModelBundle\Service\Spreadsheet\SpreadsheetService'
+        public: true
+
     Magenta\Bundle\CBookModelBundle\Service\Book\BookService:
         class: Magenta\Bundle\CBookModelBundle\Service\Book\BookService
         arguments:

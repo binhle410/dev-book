@@ -153,11 +153,9 @@ class OrganisationAdmin extends BaseAdmin
 
     protected function configureFormFields(FormMapper $formMapper)
     {
-
         $formMapper
             ->with('General', ['class' => 'col-md-6'])->end()
             ->with('Security', ['class' => 'col-md-6'])->end();
-
 
         $formMapper
             ->with('General')

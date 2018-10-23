@@ -106,6 +106,8 @@ filter:
     label_name: Name
 
 form_group:
+    member_details: Member Details
+    member_groups: Member Groups
     user_details: User Details
     groups: Groups
 form:

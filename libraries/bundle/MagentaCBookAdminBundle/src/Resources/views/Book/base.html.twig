@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CBook</title>
-    <link rel="stylesheet" href="{{ asset('assets/pk2/css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/bs/4.0.0/bootstrap.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/pk2/css/paper-kit.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/pk2/css/nucleo-icons.css') }}"/>
     <link rel="stylesheet" href="{{ asset('build/css/app.css') }}"/>
@@ -55,14 +55,16 @@
                             <p class="">CONTACTS</p>
                         </a>
                     </li>
-                    <li class="nav-item hand-hover">
-                        <a class="nav-link" rel="tooltip" title="Employee Contacts" data-placement="bottom"
-                           href="#"
-                           routerLink="/contacts">
-                            <i class="nc-icon nc-atom"></i>
-                            <p class="">MY WELLNESS</p>
-                        </a>
-                    </li>
+                    {% if member.organization.linkedToWellness is not empty and member.wellnessId is not empty and member.wellnessPin is not empty %}
+                        <li class="nav-item hand-hover">
+                            <a class="nav-link" rel="tooltip" title="Employee Contacts" data-placement="bottom"
+                               href="{{ wellness_evoucher_base ~ '/' ~ member.wellnessPin ~ '/' ~ member.wellnessEmployeeCode }}"
+                               routerLink="/contacts">
+                                <i class="nc-icon nc-atom"></i>
+                                <p class="">MY WELLNESS</p>
+                            </a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item hand-hover">
                         <a class="nav-link logout" rel="tooltip" title="Employee Contacts" data-placement="bottom"
                            href="{{ path('magenta_book_login',{orgSlug:orgSlug,}) }}"
@@ -163,7 +165,7 @@
                     pz.elem('<span></span>', false, false);
                     $zoomHolder.css('height', 'auto');
                     $zoomHolder.children('.controlHolder').hide();
-                }else{
+                } else {
                     $zoomHolder.children('.controlHolder').show();
                 }
             });
