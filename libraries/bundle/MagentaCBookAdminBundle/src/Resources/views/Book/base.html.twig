@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <link rel="manifest" href="{{ path('magenta_book_manifest',{orgSlug:orgSlug}) }}">
+    <meta name="theme-color" content="#fff"/>
+
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -40,6 +43,11 @@
 
             <div class="navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav ml-auto">
+                    <li class="nav-item" data-menuanchor="btn-add-to-homescreen">
+                        <a class="nav-link hand-hover" rel="tooltip" title="Dashboard" data-placement="bottom" href="#" id="btn-add-to-homescreen" style="display: none;">
+                            <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                            Install Mobile App</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link hand-hover" rel="tooltip" title="Dashboard" data-placement="bottom"
                            href="{{ path('magenta_book_index', {orgSlug:orgSlug,'accessCode': accessCode, 'employeeCode': employeeCode}) }}">
@@ -143,8 +151,84 @@
 
     });
 </script>
+
+<script>
+    {# PWA #}
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('{{ path('magenta_book_service_worker',{'orgSlug':orgSlug}) }}').then(function (registration) {
+                // Registration was successful
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, function (err) {
+                // registration failed :(
+                console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+    }
+</script>
 {% block javascripts_book %}{% endblock %}
 <script>
+    (function ($) {
+        $(document).ready(function ($) {
+            // https://developers.google.com/web/fundamentals/app-install-banners/
+            let deferredPrompt;
+            let btnAdd = document.getElementById('btn-add-to-homescreen');
+            window.addEventListener('beforeinstallprompt', (e) => {
+                // Prevent Chrome 67 and earlier from automatically showing the prompt
+                e.preventDefault();
+// Stash the event so it can be triggered later.
+                deferredPrompt = e;
+                // Update UI notify the user they can add to home screen
+                btnAdd.style.display = 'block';
+            });
+
+            /**
+             * To show the add to home screen prompt, call prompt() on the saved event from within a user gesture.
+             * It will show a modal dialog, asking the user to to add your app to their home screen.
+             * Then, listen for the promise returned by the userChoice property. The promise returns an object with
+             * an outcome property after the prompt has shown and the user has responded to it.
+             */
+            btnAdd.addEventListener('click', (e) => {
+                // hide our user interface that shows our A2HS button
+                btnAdd.style.display = 'none';
+                // Show the prompt
+                deferredPrompt.prompt();
+                // Wait for the user to respond to the prompt
+                deferredPrompt.userChoice
+                    .then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the Wellness prompt');
+                        } else {
+                            console.log('User dismissed the Wellness prompt');
+                        }
+                        deferredPrompt = null;
+                    });
+            });
+
+            /**
+             * The mini-infobar is a Chrome UI component and is not controllable by the site,
+             * but can be easily dismissed by the user. Once dismissed by the user,
+             * it will not appear again until a sufficient amount of time has passed (currently 3 months).
+             * The mini-infobar will appear when the site meets the add to home screen criteria,
+             * regardless of whether you preventDefault() on the beforeinstallprompt event or not.
+             */
+
+            /**
+             * To determine if the app was successfully added to the user's home screen after they accepted the prompt,
+             * you can listen for the appinstalled event.
+             */
+            window.addEventListener('appinstalled', (evt) => {
+                app.logEvent('wellness', 'installed');
+            });
+        });
+
+        /* OnLoad Window */
+        var init = function () {
+
+        };
+        window.onload = init;
+
+    })(jQuery);
     (function (window, $) {
         $(function () {
             var pzItems = $("[data-elem='pzItem']"),

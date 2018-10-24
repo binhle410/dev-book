@@ -1,0 +1,22 @@
+{
+	"short_name": "Cloudbook",
+	"name": "{{ org.name }} Cloudbook",
+	"icons": [{
+		"src": "{{ privateMediumUrl(org.logo.id,'organisation_logo_small') }}",
+		"sizes": "192x192",
+		"type": "image/png"
+	}, {
+		"src": "{{ privateMediumUrl(org.logo.id,'organisation_logo_upper_small') }}",
+		"sizes": "256x256",
+		"type": "image/png"
+	}, {
+		"src": "{{ privateMediumUrl(org.logo.id,'organisation_logo_medium') }}",
+		"type": "image/png",
+		"sizes": "512x512"
+	}],
+	"start_url": "/{{orgSlug}}/app",
+	"background_color": "#fff",
+	"display": "fullscreen",
+	"scope": "/{{orgSlug}}/",
+	"theme_color": "#fff"
+}

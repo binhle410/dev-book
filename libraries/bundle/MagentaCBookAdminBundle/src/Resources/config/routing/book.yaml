@@ -1,3 +1,14 @@
+magenta_book_manifest:
+  path:      /{orgSlug}/manifest.json
+  controller: MagentaCBookAdminBundle:BookPWA:manifest
+  defaults:   { format: reference }
+
+magenta_book_service_worker:
+  path:      /{orgSlug}/service-worker.js
+  controller: MagentaCBookAdminBundle:BookPWA:serviceWorker
+  defaults:   { format: reference }
+
+
 magenta_book_app:
   path:      /{orgSlug}/app
   controller: MagentaCBookAdminBundle:BookReader:landing

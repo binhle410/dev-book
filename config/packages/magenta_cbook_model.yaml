@@ -310,7 +310,9 @@ sonata_media:
             providers:
                 - sonata.media.provider.image
             formats:
-                small: { width: 200 , quality: 70}
+                small: { width: 192 , quality: 70}
+                upper_small: { width: 300 , quality: 70}
+                medium: { width: 600 , quality: 70}
             download:
                 strategy: sonata.media.security.public_strategy
                 mode: http
