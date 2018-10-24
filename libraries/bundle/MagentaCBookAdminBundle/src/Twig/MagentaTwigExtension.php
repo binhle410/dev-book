@@ -35,6 +35,7 @@ class MagentaTwigExtension extends AbstractExtension
             new \Twig_SimpleFunction('currentOrganisation', array($this, 'getCurrentOrganisation')),
             new \Twig_SimpleFunction('organisationBySubdomain', array($this, 'organisationBySubdomain')),
             new \Twig_SimpleFunction('privateMediumUrl', array($this, 'privateMediumUrl')),
+            new \Twig_SimpleFunction('publicMediumUrl', array($this, 'publicMediumUrl')),
             new \Twig_SimpleFunction('paginationItemGroup', array($this, 'paginationItemGroup')),
             new \Twig_SimpleFunction('paginationItemClass', array($this, 'paginationItemClass')),
         );
@@ -99,6 +100,12 @@ class MagentaTwigExtension extends AbstractExtension
     {
 //		if($type === )
 
+    }
+    public function publicMediumUrl($mediumId, $format = 'admin')
+    {
+        $c = $this->container;
+
+        return $c->get('sonata.media.manager.media')->generatePublicUrl($mediumId, $format);
     }
 
     public function privateMediumUrl($mediumId, $format = 'admin')

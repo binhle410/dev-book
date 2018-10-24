@@ -1,5 +1,5 @@
 magenta_book_manifest:
-  path:      /{orgSlug}/manifest.json
+  path:      /{orgSlug}/{accessCode}/{employeeCode}/manifest.json
   controller: MagentaCBookAdminBundle:BookPWA:manifest
   defaults:   { format: reference }
 

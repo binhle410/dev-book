@@ -10,8 +10,8 @@ var CACHE_NAME = 'my-site-cache-v1';
 var urlsToCache = [	
 	'/assets/bs/4.0.0/bootstrap.min.css',
 	'/assets/pk2/css/paper-kit.css',	
-	'assets/pk2/css/nucleo-icons.css',
-	'build/css/app.css',
+	'/assets/pk2/css/nucleo-icons.css',
+	'/build/css/app.css',
 	'/bundles/sonatacore/vendor/components-font-awesome/css/font-awesome.min.css',
 	'/assets/codemirror/codemirror.min.css',
 	'/assets/froala/2.8.4/froala_editor.pkgd.min.css',
@@ -38,8 +38,8 @@ self.addEventListener('install', function(event) {
 
 self.addEventListener('fetch', function (event) {
     console.log('The service worker is serving the asset.');
-    evt.respondWith(fromNetwork(evt.request, 400).catch(function () {
-        return fromCache(evt.request);
+    event.respondWith(fromNetwork(event.request, 400).catch(function () {
+        return fromCache(event.request);
     }));
 
     /**
@@ -98,7 +98,7 @@ function fromNetwork(request, timeout) {
 }
 
 function fromCache(request) {
-    return caches.open(CACHE).then(function (cache) {
+    return caches.open(CACHE_NAME).then(function (cache) {
         return cache.match(request).then(function (matching) {
             return matching || Promise.reject('no-match');
         });

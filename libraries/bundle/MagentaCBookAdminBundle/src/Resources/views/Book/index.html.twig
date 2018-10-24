@@ -1,5 +1,6 @@
 {% extends base_book_template %}
 {% block stylesheets_book %}
+
     <style>
         .navbar .navbar-brand {
             padding: 0px;
@@ -40,7 +41,7 @@
     </style>
 {% endblock %}
 {% block nav_title %}
-    <img height="40" src="{{ privateMediumUrl(logo.id,'small') }}"/>
+    <img height="40" src="{{ publicMediumUrl(logo.id,'small') }}"/>
 {% endblock %}
 {% block body %}
     <div class="container">

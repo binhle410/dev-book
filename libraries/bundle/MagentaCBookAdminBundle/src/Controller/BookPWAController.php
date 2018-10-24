@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class BookPWAController extends Controller
 {
-    public function manifestAction($orgSlug, Request $request)
+    public function manifestAction($orgSlug, $accessCode, $employeeCode, Request $request)
     {
         $orgRepo = $this->getDoctrine()->getRepository(Organisation::class);
 
@@ -20,10 +20,14 @@ class BookPWAController extends Controller
         if (empty($org)) {
             throw new NotFoundHttpException();
         }
-        return $this->render('@MagentaCBookAdmin/Book/ProgressWebApp/manifest.html.twig', [
+        $response = $this->render('@MagentaCBookAdmin/Book/ProgressWebApp/manifest.html.twig', [
             'org' => $org,
-            'orgSlug' => $orgSlug
+            'orgSlug' => $orgSlug,
+            'accessCode' => $accessCode,
+            'employeeCode' => $employeeCode,
         ]);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     public function serviceWorkerAction($orgSlug, Request $request)
@@ -35,6 +39,8 @@ class BookPWAController extends Controller
         if (empty($org)) {
             throw new NotFoundHttpException();
         }
-        return $this->render('@MagentaCBookAdmin/Book/ProgressWebApp/service-worker-app.html.twig');
+        $response = $this->render('@MagentaCBookAdmin/Book/ProgressWebApp/service-worker-app.html.twig');
+        $response->headers->set('Content-Type', 'application/javascript');
+        return $response;
     }
 }
