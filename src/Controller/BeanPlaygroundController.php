@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Bean\Component\Thing\Model\Thing;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -90,6 +91,11 @@ class BeanPlaygroundController extends Controller
 
         $quotient = (int)(5 / 3);
         $remainder = 5 % 3;
+
+        $manager = $this->get('doctrine.orm.default_entity_manager');
+        $qb = $manager->createQueryBuilder();
+
+
 
         $this->container->get('sonata.classification.manager.category')->initiateRootCategories('organisation_logo');
 

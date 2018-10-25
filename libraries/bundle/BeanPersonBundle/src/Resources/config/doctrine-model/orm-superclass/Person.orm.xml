@@ -5,9 +5,18 @@
                           http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <mapped-superclass name="Bean\Component\Person\Model\Person">
+
+        <unique-constraints>
+            <unique-constraint columns="email" name="email_idx" />
+        </unique-constraints>
+
         <!-- field parts shall be ignored here -->
         <field name="birthDate" type="datetime" nullable="true"/>
-        <field name="email" type="string" nullable="true"/>
+        <field name="email" type="string" nullable="true">
+            <options>
+                <option name="collation">utf8_bin</option>
+            </options>
+        </field>
         <field name="telephone" type="string" nullable="true"/>
         <field name="givenName" type="string" nullable="true"/>
         <field name="familyName" type="string" nullable="true"/>
