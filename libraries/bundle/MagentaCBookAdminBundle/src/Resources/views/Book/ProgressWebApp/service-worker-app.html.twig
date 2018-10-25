@@ -6,10 +6,10 @@ Cache our files.
 Confirm whether all the required assets are cached or not.
 */
 
-var CACHE_NAME = 'my-site-cache-v1';
-var urlsToCache = [	
+var CACHE_NAME = 'cbook-cache-v1';
+var urlsToCache = [
 	'/assets/bs/4.0.0/bootstrap.min.css',
-	'/assets/pk2/css/paper-kit.css',	
+	'/assets/pk2/css/paper-kit.css',
 	'/assets/pk2/css/nucleo-icons.css',
 	'/build/css/app.css',
 	'/bundles/sonatacore/vendor/components-font-awesome/css/font-awesome.min.css',
@@ -36,71 +36,55 @@ self.addEventListener('install', function(event) {
 	);
 });
 
-self.addEventListener('fetch', function (event) {
-    console.log('The service worker is serving the asset.');
-    event.respondWith(fromNetwork(event.request, 400).catch(function () {
-        return fromCache(event.request);
-    }));
-
-    /**
-     * If we want to cache new requests cumulatively,
-     * we can do so by handling the response of the fetch request
-     * and then adding it to the cache, like below.
-     */
-    // event.respondWith(
-    //     caches.match(event.request)
-    //         .then(function (response) {
-    //             // Cache hit - return response
-    //             if (response) {
-    //                 return response;
-    //             }
-    //
-    //             // IMPORTANT: Clone the request. A request is a stream and
-    //             // can only be consumed once. Since we are consuming this
-    //             // once by cache and once by the browser for fetch, we need
-    //             // to clone the response.
-    //             var fetchRequest = event.request.clone();
-    //
-    //             return fetch(fetchRequest).then(
-    //                 function (response) {
-    //                     // Check if we received a valid response
-    //                     if (!response || response.status !== 200 || response.type !== 'basic') {
-    //                         return response;
-    //                     }
-    //
-    //                     // IMPORTANT: Clone the response. A response is a stream
-    //                     // and because we want the browser to consume the response
-    //                     // as well as the cache consuming the response, we need
-    //                     // to clone it so we have two streams.
-    //                     var responseToCache = response.clone();
-    //
-    //                     caches.open(CACHE_NAME)
-    //                         .then(function (cache) {
-    //                             // cache.put(event.request, responseToCache);
-    //                         });
-    //
-    //                     return response;
-    //                 }
-    //             );
-    //         })
-    // );
+self.addEventListener('fetch', function(event) {
+	console.log('The service worker is serving the asset.');
+	if (event.request.url.indexOf('book') == -1) {
+		console.log('load from network beofre cache for index page');
+		event.respondWith(fromNetwork(event.request, 400).catch(function() {
+			return fromCache(event.request);
+		}));
+	} else {
+		event.respondWith(fromCache(event.request, 400).catch(function() {
+			return fromNetwork(event.request);
+		}));
+	}
 });
 
 function fromNetwork(request, timeout) {
-    return new Promise(function (fulfill, reject) {
+	// IMPORTANT: Clone the request. A request is a stream and
+	// can only be consumed once. Since we are consuming this
+	// once by cache and once by the browser for fetch, we need
+	// to clone the response.
+	var fetchRequest = request.clone();
 
-        var timeoutId = setTimeout(reject, timeout);
-        fetch(request).then(function (response) {
-            clearTimeout(timeoutId);
-            fulfill(response);
-        }, reject);
-    });
+	return fetch(fetchRequest).then(
+		function(response) {
+			// Check if we received a valid response
+			if (!response || response.status !== 200 || response.type !== 'basic') {
+				return response;
+			}
+
+			// IMPORTANT: Clone the response. A response is a stream
+			// and because we want the browser to consume the response
+			// as well as the cache consuming the response, we need
+			// to clone it so we have two streams.
+			var responseToCache = response.clone();
+
+			caches.open(CACHE_NAME)
+				.then(function(cache) {
+					console.log('cache.put');
+					cache.put(request, responseToCache);
+				});
+
+			return response;
+		}
+	);
 }
 
 function fromCache(request) {
-    return caches.open(CACHE_NAME).then(function (cache) {
-        return cache.match(request).then(function (matching) {
-            return matching || Promise.reject('no-match');
-        });
-    });
+	return caches.open(CACHE_NAME).then(function(cache) {
+		return cache.match(request).then(function(matching) {
+			return matching || Promise.reject('no-match');
+		});
+	});
 }

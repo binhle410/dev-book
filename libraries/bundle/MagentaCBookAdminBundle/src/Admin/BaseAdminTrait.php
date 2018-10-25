@@ -26,6 +26,7 @@ use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrineORMAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -343,6 +344,7 @@ trait BaseAdminTrait
         $name, $object = null
     )
     {
+        /** @var ContainerInterface $container */
         $container = $this->getConfigurationPool()->getContainer();
         $user = $container->get(UserService::class)->getUser();
         $isAdmin = $container->get('security.authorization_checker')->isGranted('ROLE_ADMIN');

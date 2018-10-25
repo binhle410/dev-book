@@ -7,8 +7,8 @@
         {% set _profile_text      = 'profile_edit'|trans({}, 'MagentaCBookAdminBundle') %}
         {% set _user_image        = 'https://gooddonegreat.com/app/img/placeholders/avatar-150x150.png' %}
 
-        {#{% set _profile_uri       = url('admin_app_user_user_edit',{ 'id':app.user.id }) %}#}
-        {% set _profile_uri       = '#' %}
+        {% set _profile_uri       = url('admin_magenta_cbookmodel_person_person_edit',{ 'id':app.user.person.id }) %}
+        {#{% set _profile_uri       = '#' %}#}
 
         {# Customize this with your profile picture implementation, see below for example #}
         {#{% set _user_image  = app.user.profilePicture|default(asset(sonata_user.defaultAvatar)) %}#}

@@ -1,6 +1,8 @@
 {% extends base_book_template %}
 {% block nav_title %}
-CONTACT LIST
+    <a href="{{ path('magenta_book_index',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode}) }}">
+        CONTACT LIST
+    </a>
 {% endblock %}
 
 {% block body %}

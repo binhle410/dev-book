@@ -163,6 +163,7 @@ class User extends AbstractUser {
 				return true;
 			}
 		}
+
 		if( ! empty($member)) {
 			$_permission = $permission;
 			if($permission === 'LIST') {

@@ -12,22 +12,27 @@
         }
 
         .card-body p {
-            margin-top: 10px;
+            margin-top: 0px;
         }
+
+        .chapter-title {
+            display: flex;
+            font-weight: bolder;
+            cursor: pointer;
+        }
+
+        .chapter-name {
+            padding-left: 5px;
+        }
+
     </style>
 {% endblock %}
 
-{#{% block nav_title %}#}
-    {#<div class="dropdown chapter-nav">#}
-            {#<span id="spy-chapter-navtitle">#}
-                {#{% block nav_title_text %}#}
-                    {#<a href="{{ path('magenta_book_index',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode}) }}">#}
-                        {#Your book on the cloud#}
-                    {#</a>#}
-                {#{% endblock %}#}
-            {#</span>#}
-    {#</div>#}
-{#{% endblock %}#}
+{% block nav_title %}
+    <a href="{{ path('magenta_book_index',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode}) }}">
+        <img class="logo"
+                height="40" src="{{ publicMediumUrl(logo.id,'small') }}"/></a>
+{% endblock %}
 
 {% block body %}
     {#<div style="padding-top:35px;"></div>#}
@@ -66,16 +71,17 @@
                     {% if subContentItems|length > 0 %}
                     {% endif %}
                     {% for i, chapter in subContentItems %}
-                        <div class="editable" data-objectid="{{ chapter.id }}" data-type="chapter" data-field="name">
-                            <a data-toggle="collapse" href="#chapter-{{ chapter.id }}" role="button"
-                               aria-expanded="false" aria-controls="chapter-{{ chapter.id }}">
-                                <strong
-                                        id="chapter-{{ chapter.listNumber }}"
-                                        class="chapter-name">{{ chapter.listNumber }}. {{ chapter.name }}
-                                </strong>
-                            </a>
-                            <hr style="margin-top:1px;margin-bottom:5px; border-bottom: dashed; border-width: thin;"/>
+                        <div id="chapter-number-{{ chapter.listNumber }}" class="editable chapter-title"
+                             data-objectid="{{ chapter.id }}" data-type="chapter"
+                             data-field="name" data-toggle="collapse" data-target="#chapter-{{ chapter.id }}"
+                             role="button"
+                             aria-expanded="false" aria-controls="chapter-{{ chapter.id }}">
+                            <div class="chapter-number">{{ chapter.listNumber }}.</div>
+                            <div class="chapter-name">
+                                {{ chapter.name }}
+                            </div>
                         </div>
+                        <hr style="margin-top:1px;margin-bottom:5px; border-bottom: dashed; border-width: thin;"/>
                         <div class="editable" data-name="chapter-{{ chapter.id }}-text">
                             {% set chapterText = chapter.text|striptags %}
                             <div class="collapse" id="chapter-{{ chapter.id }}">
@@ -84,17 +90,18 @@
                                     {{ chapterText |raw }}
 
                                     {% for i, subChapter in chapter.subChapters %}
-
-                                            <a data-toggle="collapse" href="#chapter-{{ subChapter.id }}" role="button"
-                                               aria-expanded="false" aria-controls="chapter-{{ subChapter.id }}">
-                                                <strong
-                                                        id="chapter-{{ subChapter.listNumber }}"
-                                                        class="chapter-name">{{ subChapter.listNumber }}
-                                                    . {{ subChapter.name }}
-                                                </strong>
-                                            </a>
-
-                                        {#<hr style="margin-top:1px;margin-bottom:5px; border-bottom: dashed; border-width: thin;"/>#}
+                                        <div id="chapter-number-{{ subChapter.listNumber }}" class="chapter-title"
+                                             data-toggle="collapse" data-target="#chapter-{{ subChapter.id }}"
+                                             role="button"
+                                             aria-expanded="false" aria-controls="chapter-{{ subChapter.id }}">
+                                            <div class="chapter-number">
+                                                {{ subChapter.listNumber }}.
+                                            </div>
+                                            <div class="chapter-name">
+                                                {{ subChapter.name }}
+                                            </div>
+                                        </div>
+                                        <hr style="margin-top:1px;margin-bottom:5px;"/>
                                         <div class="collapse" id="chapter-{{ subChapter.id }}">
                                             <div class="card card-body">
                                                 {{ subChapter.text|raw }}

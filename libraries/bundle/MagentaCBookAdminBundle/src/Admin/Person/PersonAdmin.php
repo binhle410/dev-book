@@ -16,7 +16,7 @@ class PersonAdmin extends BaseAdmin
 
     public function isGranted($name, $object = null)
     {
-        return $this->isAdmin();
+        return parent::isGranted($name, $object);
     }
 
     public function getNewInstance()

@@ -260,8 +260,7 @@
             pzItems.detach();
             setup();
 
-            $('img').click(function (e) {
-                console.log('hey 10')
+            $("img").not(".logo").click(function (e) {
                 // console.log($(this).parent().html());
                 pz.elem($(this).parent().html(), false, false);
                 pz.fullscreen(true);

@@ -95,6 +95,13 @@ abstract class AppMedia extends BaseMedia implements MediaInterface, CategoryIte
     protected $logoOrganisation;
 
     /**
+     * @var Organisation
+     * @ORM\OneToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="appIcon")
+     * @ORM\JoinColumn(name="id_app_icon_organisation", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $appIconOrganisation;
+
+    /**
      * @var Organisation|null
      * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="mediaAssets")
      * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
@@ -215,5 +222,21 @@ abstract class AppMedia extends BaseMedia implements MediaInterface, CategoryIte
     public function setCreativeWork(?CreativeWork $creativeWork): void
     {
         $this->creativeWork = $creativeWork;
+    }
+
+    /**
+     * @return Organisation
+     */
+    public function getAppIconOrganisation(): Organisation
+    {
+        return $this->appIconOrganisation;
+    }
+
+    /**
+     * @param Organisation $appIconOrganisation
+     */
+    public function setAppIconOrganisation(Organisation $appIconOrganisation): void
+    {
+        $this->appIconOrganisation = $appIconOrganisation;
     }
 }

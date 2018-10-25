@@ -120,6 +120,7 @@ form:
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
 
+    label_linked_to_wellness: Linked To Wellness
     label_id_number: NRIC/Passport Number
     label_dob: Birthday
     label_organisation: Organisation
@@ -144,7 +145,10 @@ form:
     label_customer: Customer
     label_status: Status
     label_reg_no: Reg No.
-
+    label_code: Code
+    label_admin_users: Admin Users
+    label_app_icon: App Icon (Square Image only)
+    label_slug: Slug
     label_priority: Priority
     label_reference_number: Reference Number
     label_full_text_search: Search
