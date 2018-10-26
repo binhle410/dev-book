@@ -6,6 +6,7 @@ namespace Magenta\Bundle\CBookAdminBundle\Admin\Organisation;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseCRUDAdminController;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class OrganisationAdminController extends BaseCRUDAdminController
@@ -41,9 +42,7 @@ class OrganisationAdminController extends BaseCRUDAdminController
                 $explodedFileName = explode('.', $_FILES[$fileFieldName]['name']);
                 $file_ext = strtolower(end($explodedFileName));
 
-                $filePath = $this->getParameter(
-                        'kernel.root_dir'
-                    ) . '/../public/upload/import/members/' . $id . '_' . $file_name;
+                $filePath = $this->get('magenta_book.spreadsheet_service')->getMemberImportFolder() . $id . '_' . $file_name;
                 file_exists($filePath) ? unlink($filePath) : "";
 
                 $expensions = array("xls", "xlsx");
@@ -71,7 +70,7 @@ class OrganisationAdminController extends BaseCRUDAdminController
                 }
             }
         } else {
-
+            return new JsonResponse(['message' => 'Import is in progress']);
         }
         return $this->redirectToList();
     }

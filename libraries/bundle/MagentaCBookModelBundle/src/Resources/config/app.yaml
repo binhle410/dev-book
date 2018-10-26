@@ -15,6 +15,8 @@ services:
 
     Magenta\Bundle\CBookModelBundle\Service\Spreadsheet\SpreadsheetService:
         class: Magenta\Bundle\CBookModelBundle\Service\Spreadsheet\SpreadsheetService
+        arguments:
+            - '@service_container'
         public: false
 
     magenta_book.spreadsheet_service:

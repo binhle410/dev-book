@@ -110,6 +110,7 @@ form_group:
     member_groups: Member Groups
     user_details: User Details
     groups: Groups
+
 form:
     group_name: 'Group name'
     username: Username
@@ -157,8 +158,8 @@ form:
     label_tos: TOS
     label_data_policy: Data Protection Policy
     label_name: Name
-    label_family_name: Family Name
-    label_given_name: Given Name
+    label_family_name: Last Name
+    label_given_name: First Name
     label_telephone: Contact Number
     label_dialing_code: Country Dialing Code
     label_created_at: Created At

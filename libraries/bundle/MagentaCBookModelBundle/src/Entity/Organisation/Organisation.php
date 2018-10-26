@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Category;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
+use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
 use Magenta\Bundle\CBookModelBundle\Entity\System\System;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 
@@ -36,8 +37,23 @@ class Organisation extends OrganizationModel
         $this->categories = new ArrayCollection();
         $this->memberGroups = new ArrayCollection();
         $this->adminUsers = new ArrayCollection();
-        $this->members = new ArrayCollection();
+        $this->individualMembers = new ArrayCollection();
         $this->mediaAssets = new ArrayCollection();
+    }
+
+    /**
+     * @param Person $person
+     * @return IndividualMember|null
+     */
+    public function getIndividualMemberFromPerson(Person $person)
+    {
+        $c = Criteria::create();
+        $c->where(Criteria::expr()->eq('person', $person));
+        $col = $this->individualMembers->matching($c);
+        if (empty($f = $col->first())) {
+            return null;
+        }
+        return $f;
     }
 
     /**

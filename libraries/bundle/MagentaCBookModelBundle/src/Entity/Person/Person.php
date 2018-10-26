@@ -13,7 +13,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Magenta\Bundle\CBookModelBundle\Repository\Person\PersonRepository")
  * @ORM\Table(name="person__person")
  */
 class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements IndividualMemberContainerInterface

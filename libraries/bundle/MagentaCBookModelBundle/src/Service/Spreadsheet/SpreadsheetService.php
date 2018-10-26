@@ -2,14 +2,24 @@
 
 namespace Magenta\Bundle\CBookModelBundle\Service\Spreadsheet;
 
+use Magenta\Bundle\CBookModelBundle\Service\BaseService;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class SpreadsheetService
+class SpreadsheetService extends BaseService
 {
+    const PATH_MEMBER_IMPORT = '/uploads/import/members';
+
+    public function getMemberImportFolder()
+    {
+        return $this->container->getParameter(
+                'kernel.root_dir'
+            ) . '/../public' . self::PATH_MEMBER_IMPORT . '/';
+    }
+
     public function createReader($filepath)
     {
         return IOFactory::createReaderForFile($filepath);

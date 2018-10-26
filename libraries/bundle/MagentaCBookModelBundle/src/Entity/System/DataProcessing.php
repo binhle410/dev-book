@@ -26,6 +26,21 @@ class DataProcessing
     protected $id;
 
     /**
+     * @return DataProcessing
+     */
+    public static function newInstance($resourceName, $type, $ownerId = null)
+    {
+        $obj = new DataProcessing();
+        $obj->setResourceName($resourceName);
+        if (!in_array($type, [self::TYPE_MEMBER_IMPORT])) {
+            throw new \InvalidArgumentException();
+        }
+        $obj->setType($type);
+        $obj->setOwnerId($ownerId);
+        return $obj;
+    }
+
+    /**
      * @return string
      */
     public function getId(): string

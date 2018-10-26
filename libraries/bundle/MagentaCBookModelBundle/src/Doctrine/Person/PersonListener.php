@@ -76,7 +76,9 @@ class PersonListener
                 }
             }
         } else {
-            $this->initiateUserFromPerson($person, $manager);
+            if (!empty($person->getEmail())) {
+                $this->initiateUserFromPerson($person, $manager);
+            }
         }
     }
 
@@ -187,6 +189,8 @@ class PersonListener
     {
         /** @var EntityManager $manger */
         $manager = $event->getEntityManager();
-        $this->initiateUserFromPerson($person, $manager);
+        if (!empty($person->getEmail())) {
+            $this->initiateUserFromPerson($person, $manager);
+        }
     }
 }

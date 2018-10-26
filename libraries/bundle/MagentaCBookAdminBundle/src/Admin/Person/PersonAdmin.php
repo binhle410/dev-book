@@ -42,7 +42,8 @@ class PersonAdmin extends BaseAdmin
     protected function configureFormFields(FormMapper $form)
     {
         parent::configureFormFields($form);
-        $form->add('name');
+        $form->add('givenName');
+        $form->add('familyName');
         $form->add('email', null, ['required' => false]);
         $form->add('idNumber', null, ['required' => true]);
         $form->add('user.username', TextType::class, ['required' => true, 'label' => 'form.label_username']);
