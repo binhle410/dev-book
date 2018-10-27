@@ -15,6 +15,7 @@ class DPJob
     const TYPE_MEMBER_IMPORT = 'MEMBER_IMPORT';
 
     const STATUS_WORK_IN_PROGRESS = 'WORK_IN_PROGRESS';
+    const STATUS_LOCKED = 'LOCKED';
     const STATUS_SUCCESSFUL = 'SUCCESSFUL';
     const STATUS_FAILED = 'FAILED';
 
@@ -29,6 +30,7 @@ class DPJob
     public function __construct()
     {
         $this->logs = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     /**
@@ -73,6 +75,18 @@ class DPJob
     }
 
     /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime")
+     */
+    protected $createdAt;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $startedAt;
+
+    /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
@@ -86,7 +100,7 @@ class DPJob
 
     /**
      * @var integer
-     * @ORM\Column(type="integer", options={"default":0})
+     * @ORM\Column(type="integer", name="job_index", options={"default":0})
      */
     protected $index = 0;
 
@@ -180,5 +194,53 @@ class DPJob
     public function setResourceName(?string $resourceName): void
     {
         $this->resourceName = $resourceName;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getLogs(): Collection
+    {
+        return $this->logs;
+    }
+
+    /**
+     * @param Collection $logs
+     */
+    public function setLogs(Collection $logs): void
+    {
+        $this->logs = $logs;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getStartedAt(): \DateTime
+    {
+        return $this->startedAt;
+    }
+
+    /**
+     * @param \DateTime $startedAt
+     */
+    public function setStartedAt(\DateTime $startedAt): void
+    {
+        $this->startedAt = $startedAt;
     }
 }

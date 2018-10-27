@@ -37,8 +37,14 @@ class DPLog
     protected $job;
 
     /**
+     * @var array|null
+     * @ORM\Column(type="magenta_json",nullable=true)
+     */
+    protected $trace;
+
+    /**
      * @var integer|null
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", name="job_index", nullable=true)
      */
     protected $index;
 
@@ -52,7 +58,7 @@ class DPLog
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $value;
+    protected $code;
 
     /**
      * @var string|null
@@ -117,17 +123,17 @@ class DPLog
     /**
      * @return null|string
      */
-    public function getValue(): ?string
+    public function getCode(): ?string
     {
-        return $this->value;
+        return $this->code;
     }
 
     /**
-     * @param null|string $value
+     * @param null|string $code
      */
-    public function setValue(?string $value): void
+    public function setCode(?string $code): void
     {
-        $this->value = $value;
+        $this->code = $code;
     }
 
     /**
@@ -161,4 +167,21 @@ class DPLog
     {
         $this->message = $message;
     }
+
+    /**
+     * @return array|null
+     */
+    public function getTrace(): ?array
+    {
+        return $this->trace;
+    }
+
+    /**
+     * @param array|null $trace
+     */
+    public function setTrace(?array $trace): void
+    {
+        $this->trace = $trace;
+    }
+
 }

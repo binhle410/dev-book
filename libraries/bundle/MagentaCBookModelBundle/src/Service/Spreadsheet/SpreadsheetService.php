@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SpreadsheetService extends BaseService
 {
-    const PATH_MEMBER_IMPORT = '/uploads/import/members';
+    const PATH_MEMBER_IMPORT = '/uploads/import/member';
 
     public function getMemberImportFolder()
     {

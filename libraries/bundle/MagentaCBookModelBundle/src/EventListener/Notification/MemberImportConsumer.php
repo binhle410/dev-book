@@ -34,8 +34,12 @@ class MemberImportConsumer implements ConsumerInterface
         $message = $event->getMessage();
 
         $dp = $this->registry->getRepository(DPJob::class)->find($message->getValue('job-id'));
+
         if (!empty($dp)) {
-         $this->memberService->importMembers($dp);
+            $dp->setStatus(DPJob::STATUS_LOCKED);
+            $this->manager->persist($dp);
+            $this->manager->flush();
+            $this->memberService->importMembers($dp);
         }
     }
 }

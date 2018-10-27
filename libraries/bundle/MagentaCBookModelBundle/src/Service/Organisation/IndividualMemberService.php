@@ -2,10 +2,13 @@
 
 namespace Magenta\Bundle\CBookModelBundle\Service\Organisation;
 
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
 use Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing\DPJob;
+use Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing\DPLog;
 use Magenta\Bundle\CBookModelBundle\Service\BaseService;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -113,9 +116,30 @@ class IndividualMemberService extends BaseService
                 }
             }
         }
+
         $dp->setStatus(DPJob::STATUS_SUCCESSFUL);
         $this->manager->persist($dp);
-        $this->manager->flush();
+        try {
+            $this->manager->flush();
+        } catch (OptimisticLockException $ope) {
+            $error = new DPLog();
+            $error->setName('OptimisticLockException: ' . $ope->getFile());
+            $error->setLevel(DPLog::LEVEL_ERROR);
+            $error->setIndex($row);
+            $error->setJob($dp);
+            $error->setCode($ope->getCode());
+            $error->setTrace($ope->getTrace());
+            $error->setMessage($ope->getMessage());
+        } catch (ORMException $orme) {
+            $error = new DPLog();
+            $error->setName('ORMException: ' . $orme->getFile());
+            $error->setLevel(DPLog::LEVEL_ERROR);
+            $error->setIndex($row);
+            $error->setJob($dp);
+            $error->setCode($orme->getCode());
+            $error->setTrace($orme->getTrace());
+            $error->setMessage($orme->getMessage());
+        }
     }
 
 }
