@@ -1,15 +1,16 @@
 <?php
 
-namespace Magenta\Bundle\CBookModelBundle\Entity\System;
+namespace Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="system__data_processing")
+ * @ORM\Table(name="system__data_processing__job")
  */
-class DataProcessing
+class DPJob
 {
     const TYPE_MEMBER_IMPORT = 'MEMBER_IMPORT';
 
@@ -25,12 +26,17 @@ class DataProcessing
      */
     protected $id;
 
+    public function __construct()
+    {
+        $this->logs = new ArrayCollection();
+    }
+
     /**
-     * @return DataProcessing
+     * @return DPJob
      */
     public static function newInstance($resourceName, $type, $ownerId = null)
     {
-        $obj = new DataProcessing();
+        $obj = new DPJob();
         $obj->setResourceName($resourceName);
         if (!in_array($type, [self::TYPE_MEMBER_IMPORT])) {
             throw new \InvalidArgumentException();
@@ -46,6 +52,24 @@ class DataProcessing
     public function getId(): string
     {
         return $this->id;
+    }
+
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing\DPLog", mappedBy="job")
+     */
+    protected $logs;
+
+    public function addLog(DPLog $log)
+    {
+        $this->logs->add($log);
+        $log->setJob($this);
+    }
+
+    public function removeLog(DPLog $log)
+    {
+        $this->logs->removeElement($log);
+        $log->setJob(null);
     }
 
     /**

@@ -7,6 +7,10 @@ use Bean\Component\Thing\Model\Thing;
 
 class Person extends Thing implements PersonInterface
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     /**
      * @var \DateTime|null
@@ -24,6 +28,13 @@ class Person extends Thing implements PersonInterface
      * @var string|null
      */
     protected $familyName;
+
+    /**
+     * Gender of the person. While http://schema.org/Male and http://schema.org/Female may be used,
+     * text strings are also acceptable for people who do not identify as a binary gender.
+     * @var string|null
+     */
+    protected $gender;
 
     /**
      * Email address.
@@ -117,5 +128,21 @@ class Person extends Thing implements PersonInterface
     public function setTelephone(?string $telephone): void
     {
         $this->telephone = $telephone;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    /**
+     * @param null|string $gender
+     */
+    public function setGender(?string $gender): void
+    {
+        $this->gender = $gender;
     }
 }

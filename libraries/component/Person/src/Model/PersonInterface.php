@@ -54,4 +54,14 @@ interface PersonInterface {
      * @param null|string $telephone
      */
     public function setTelephone(?string $telephone): void;
+
+    /**
+     * @return null|string
+     */
+    public function getGender(): ?string;
+
+    /**
+     * @param null|string $telephone
+     */
+    public function setGender(?string $gender): void;
 }

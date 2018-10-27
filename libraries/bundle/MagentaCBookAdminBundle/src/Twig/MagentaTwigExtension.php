@@ -2,9 +2,12 @@
 
 namespace Magenta\Bundle\CBookAdminBundle\Twig;
 
+use Magenta\Bundle\CBookAdminBundle\Service\Organisation\OrganisationService;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Chapter;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
+use Magenta\Bundle\CBookModelBundle\Service\ServiceContext;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
+use Sonata\AdminBundle\Admin\AdminInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -79,20 +82,12 @@ class MagentaTwigExtension extends AbstractExtension
         return $class;
     }
 
-    public function getCurrentOrganisation()
+    public function getCurrentOrganisation(AdminInterface $admin = null)
     {
-        $repo = $this->container->get('doctrine')->getRepository(Organisation::class);
-        $user = $this->container->get(UserService::class)->getUser();
-        if (empty($org = $user->getAdminOrganisation())) {
-            if (!empty($person = $user->getPerson())) {
-                /** @var OrganisationMember $m */
-                $m = $person->getMembers()->first();
-                if (!empty($m)) {
-                    return $m->getOrganization();
-                }
-            }
-        }
-
+        $context = new ServiceContext();
+        $context->setType(ServiceContext::TYPE_ADMIN_CLASS);
+        $context->setAttribute('parent', $admin->getParent());
+        $org = $this->container->get(OrganisationService::class)->getCurrentOrganisation($context);
         return $org;
     }
 
@@ -101,6 +96,7 @@ class MagentaTwigExtension extends AbstractExtension
 //		if($type === )
 
     }
+
     public function publicMediumUrl($mediumId, $format = 'admin')
     {
         $c = $this->container;

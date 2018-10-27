@@ -1,0 +1,9 @@
+services:
+    magenta_notification_consumer_member_import:
+        class: Magenta\Bundle\CBookModelBundle\EventListener\Notification\MemberImportConsumer
+        arguments:
+          - '@doctrine.orm.default_entity_manager'
+          - '@doctrine'
+          - '@magenta_book.individual_service'
+        tags:
+            - {name: "sonata.notification.consumer", type: "member-import" }

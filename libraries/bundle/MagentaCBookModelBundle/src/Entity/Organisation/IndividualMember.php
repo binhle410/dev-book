@@ -37,6 +37,22 @@ class IndividualMember extends MemberModel
         $this->enabled = true;
     }
 
+    /**
+     * @param Organisation $org
+     * @param Person $person
+     * @param null $email
+     * @return IndividualMember
+     */
+    public static function createInstance(Organisation $org, Person $person, $email = null)
+    {
+        $member = new IndividualMember();
+        $member->setEnabled(true);
+        $member->setOrganization($org);
+        $member->setPerson($person);
+        $member->setEmail($email);
+        return $member;
+    }
+
     public function getBooksToRead()
     {
         $draftBooks = $this->organization->getDraftBooksHavingPreviousVersions();

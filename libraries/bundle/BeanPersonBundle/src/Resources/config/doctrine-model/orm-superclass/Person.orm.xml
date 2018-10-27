@@ -18,6 +18,7 @@
             </options>
         </field>
         <field name="telephone" type="string" nullable="true"/>
+        <field name="gender" type="string" nullable="true"/>
         <field name="givenName" type="string" nullable="true"/>
         <field name="familyName" type="string" nullable="true"/>
 

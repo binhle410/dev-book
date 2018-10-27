@@ -19,9 +19,12 @@ class PersonListener
      */
     private $container;
 
+    private $personService;
+
     function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->personService = $container->get('magenta_book.person_service');
     }
 
     private function updateInfoAfterOperation(Person $person, LifecycleEventArgs $event)
@@ -84,44 +87,8 @@ class PersonListener
 
     protected function initiateUserFromPerson(Person $person, ObjectManager $manager)
     {
-        if (!$person->isSystemUserPersisted()) {
-            $userRepo = $this->container->get('doctrine')->getRepository(User::class);
-            $email = $person->getEmail();
-
-            // person null - user null
-            $pu = $person->initiateUser();
-            $manager->persist($pu); // to be detached later in case
-//			$manager->flush($pu);
-
-            /**
-             * This is only necessary if we cascade persist from person to user
-             */
-//			if(empty($pu = $person->getUser())) {
-//				$pu = $person->initiateUser();
-//				$manager->persist($pu);
-//				$manager->flush($pu);
-//			} else {
-//				$uow->computeChangeSet($manager->getClassMetadata(User::class), $pu);
-//				$pu = $person->initiateUser();
-//				$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(User::class), $pu);
-//			}
-
-            /** @var User $user */
-            $user = $userRepo->findOneBy(['email' => $email]);
-            if (!empty($user)) {
-                $pu->setPerson(null);
-                $manager->detach($pu);
-                if (!empty($pass = $pu->getPlainPassword())) {
-                    $user->setPlainPassword($pass);
-                }
-                $person->setUser($user);
-                $user->setPerson($person);
-//				$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(Person::class), $person);
-                $manager->persist($user);
-//				$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(User::class), $user);
-            }
-        }
-
+        $user = $this->personService->initiateUser($person);
+        $manager->persist($user);
     }
 
     public function preFlushHandler(Person $person, PreFlushEventArgs $event)
@@ -129,8 +96,6 @@ class PersonListener
         $manager = $event->getEntityManager();
         $registry = $this->container->get('doctrine');
         $email = $person->getEmail();
-
-
     }
 
     public function preUpdateHandler(Person $person, LifecycleEventArgs $event)

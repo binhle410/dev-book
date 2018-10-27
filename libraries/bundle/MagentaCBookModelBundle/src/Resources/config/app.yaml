@@ -34,3 +34,23 @@ services:
     magenta_book.book_service:
         alias: 'Magenta\Bundle\CBookModelBundle\Service\Book\BookService'
         public: true
+
+    Magenta\Bundle\CBookModelBundle\Service\Person\PersonService:
+        class: Magenta\Bundle\CBookModelBundle\Service\Person\PersonService
+        arguments:
+        - '@service_container'
+        public: false
+
+    magenta_book.person_service:
+        alias: 'Magenta\Bundle\CBookModelBundle\Service\Person\PersonService'
+        public: true
+
+    Magenta\Bundle\CBookModelBundle\Service\Organisation\IndividualMemberService:
+        class: Magenta\Bundle\CBookModelBundle\Service\Organisation\IndividualMemberService
+        arguments:
+        - '@service_container'
+        public: false
+
+    magenta_book.individual_service:
+        alias: 'Magenta\Bundle\CBookModelBundle\Service\Organisation\IndividualMemberService'
+        public: true

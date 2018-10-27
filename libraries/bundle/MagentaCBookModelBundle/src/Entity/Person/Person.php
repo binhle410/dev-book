@@ -25,6 +25,18 @@ class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements In
         $this->individualMembers = new ArrayCollection();
     }
 
+    public static function createInstance($idNumber, \DateTime $dob, $givenName = null, $familyName = null, $email = null)
+    {
+        $person = new Person();
+        $person->setEnabled(true);
+        $person->setIdNumber($idNumber);
+        $person->setBirthDate($dob);
+        $person->setEmail($email);
+        $person->setFamilyName($familyName);
+        $person->setGivenName($givenName);
+        return $person;
+    }
+
     public function initiateUser($emailRequired = true)
     {
         if (empty($this->user)) {
@@ -113,6 +125,12 @@ class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements In
     protected $idNumber;
 
     /**
+     * @var string|null
+     * @ORM\Column(type="string",nullable=true)
+     */
+    protected $nationalityString;
+
+    /**
      * @return User|null
      */
     public function getUser(): ?User
@@ -160,4 +178,19 @@ class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements In
         $this->individualMembers = $individualMembers;
     }
 
+    /**
+     * @return null|string
+     */
+    public function getNationalityString(): ?string
+    {
+        return $this->nationalityString;
+    }
+
+    /**
+     * @param null|string $nationalityString
+     */
+    public function setNationalityString(?string $nationalityString): void
+    {
+        $this->nationalityString = $nationalityString;
+    }
 }

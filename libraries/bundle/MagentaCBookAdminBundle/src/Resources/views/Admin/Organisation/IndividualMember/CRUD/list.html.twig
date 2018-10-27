@@ -1,4 +1,40 @@
 {% extends '@MagentaCBookAdmin/CRUD/list.html.twig' %}
 
+{% block list_table %}
+    {{ parent() }}
+    <!-- Modal -->
+    <div class="modal fade" id="member-import" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Import Joiner List</h4>
+                </div>
+                <div class="modal-body">
+                    <p><a class="btn btn-default" href="{{ asset('samples/member/member-list.xlsx') }}">Download sample excel</a>
+                    </p>
+                    <form action="{{ path('admin_magenta_cbookmodel_organisation_organisation_organisation_individualmember_memberImport',{'id':currentOrganisation(admin).id,'type':'joiner'}) }}"
+                          method="post" enctype="multipart/form-data">
+                        <input type="file" name="employee-list"/>
+                        <input type="submit" class="btn btn-primary" value="Submit"/>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
+ {% block sonata_admin_content_actions_wrappers %}
+     <ul class="nav navbar-nav navbar-right">
+         <li class="">
+             <input type="button" class="btn btn-small btn-success" value="Import Joiner List" data-toggle="modal"
+                    data-target="#member-import" style="margin-top:8px; margin-right: 5px;"/>
+         </li>
+     </ul>
+     {{ parent() }}
+ {% endblock sonata_admin_content_actions_wrappers %}
 

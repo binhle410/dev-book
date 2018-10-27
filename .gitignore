@@ -2,8 +2,12 @@
 /.idea/
 ###< IDEA ###
 
-### Upload folder
-/public/upload/
+### Upload folder and Import folder
+/public/uploads/*
+!/public/uploads
+!/public/uploads/import/member/.gitignore
+
+
 #################
 
 ###> symfony/framework-bundle ###

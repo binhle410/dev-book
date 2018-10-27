@@ -5,7 +5,7 @@ namespace Magenta\Bundle\CBookModelBundle\Service\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
-use Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing;
+use Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing\DPJob;
 use Magenta\Bundle\CBookModelBundle\Service\BaseService;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -14,6 +14,7 @@ class IndividualMemberService extends BaseService
 {
     protected $registry;
     protected $spreadsheetService;
+    protected $personService;
     protected $manager;
 
     public function __construct(ContainerInterface $container)
@@ -22,11 +23,12 @@ class IndividualMemberService extends BaseService
         $this->manager = $container->get('doctrine.orm.default_entity_manager');
         $this->registry = $container->get('doctrine');
         $this->spreadsheetService = $container->get('magenta_book.spreadsheet_service');
+        $this->personService = $container->get('magenta_book.person_service');
     }
 
-    public function importMembers(DataProcessing $dp)
+    public function importMembers(DPJob $dp)
     {
-        if ($dp->getType() !== DataProcessing::TYPE_MEMBER_IMPORT || $dp->getIndex() > 0) {
+        if ($dp->getType() !== DPJob::TYPE_MEMBER_IMPORT || $dp->getIndex() > 0) {
             return;
         }
 
@@ -57,8 +59,10 @@ class IndividualMemberService extends BaseService
             } else {
                 $_dob = null;
             }
-            $_email = trim($ws->getCell('F' . $row)->getValue());
-            $_password = trim($ws->getCell('G' . $row)->getValue());
+            $_gender = trim($ws->getCell('F' . $row)->getValue());
+            $_email = trim($ws->getCell('G' . $row)->getValue());
+            $_password = trim($ws->getCell('H' . $row)->getValue());
+            $_nationality = trim($ws->getCell('I' . $row)->getValue());
 
             /** @var Person $person */
             $person = $this->registry->getRepository(Person::class)->findOnePersonByIdNumberOrEmail($_idNumber, $_email);
@@ -69,7 +73,15 @@ class IndividualMemberService extends BaseService
                 if (empty($person->getIdNumber())) {
                     $person->setIdNumber($_idNumber);
                 }
+
                 $person->setEnabled(true);
+
+                if (!empty($_nationality)) {
+                    $person->setNationalityString(trim($_nationality));
+                }
+                if (!empty($_gender)) {
+                    $person->setGender(trim($_gender));
+                }
 
                 /** @var IndividualMember $member */
                 $member = $org->getIndividualMemberFromPerson($person);
@@ -77,20 +89,33 @@ class IndividualMemberService extends BaseService
                     $member->setEnabled(true);
                     continue;
                 } else {
-                    $member = new IndividualMember();
-                    $member->setEnabled(true);
-                    $member->setOrganization($org);
-                    $member->setPerson($person);
-                    $member->setEmail($_email);
+                    $member = IndividualMember::createInstance($org, $person, $_email);
                 }
                 $this->manager->persist($member);
                 $this->manager->persist($person);
             } else {
-
+                $person = Person::createInstance($_idNumber, $_dob, $_fname, $_lname, $_email);
+                if (!empty($_nationality)) {
+                    $person->setNationalityString(trim($_nationality));
+                }
+                if (!empty($_gender)) {
+                    $person->setGender(trim($_gender));
+                }
+                $this->manager->persist($person);
+                $member = IndividualMember::createInstance($org, $person, $_email);
+                $this->manager->persist($member);
             }
-
-
+            if (!empty($_email)) {
+                if (!empty($_password)) {
+                    $user = $this->personService->initiateUser($person);
+                    $user->setPlainPassword($_password);
+                    $this->manager->persist($user);
+                }
+            }
         }
+        $dp->setStatus(DPJob::STATUS_SUCCESSFUL);
+        $this->manager->persist($dp);
+        $this->manager->flush();
     }
 
 }

@@ -4,6 +4,7 @@ namespace Magenta\Bundle\CBookAdminBundle\Admin\Organisation;
 
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\CBookAdminBundle\Admin\Book\BookAdmin;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
@@ -31,7 +32,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class OrganisationAdmin extends BaseAdmin
 {
 
-    const CHILDREN = [BookAdmin::class => 'organisation'];
+    const CHILDREN = [BookAdmin::class => 'organisation', IndividualMemberAdmin::class=> 'organization'];
 
     protected $action;
 

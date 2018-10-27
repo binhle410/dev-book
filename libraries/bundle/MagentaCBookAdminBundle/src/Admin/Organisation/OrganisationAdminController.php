@@ -2,10 +2,9 @@
 
 namespace Magenta\Bundle\CBookAdminBundle\Admin\Organisation;
 
-
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseCRUDAdminController;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
-use Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing;
+use Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing\DPJob;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,10 +22,10 @@ class OrganisationAdminController extends BaseCRUDAdminController
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
         if ($request->isMethod('post')) {
-            $dpRepo = $this->getDoctrine()->getRepository(DataProcessing::class);
+            $dpRepo = $this->getDoctrine()->getRepository(DPJob::class);
             if (!empty($dp = $dpRepo->findOneBy([
-                'status' => DataProcessing::STATUS_WORK_IN_PROGRESS,
-                'type' => DataProcessing::TYPE_MEMBER_IMPORT,
+                'status' => DPJob::STATUS_WORK_IN_PROGRESS,
+                'type' => DPJob::TYPE_MEMBER_IMPORT,
                 'ownerId' => $id]))) {
                 $this->addFlash('sonata_type_error', 'An Import of Members is still being processed. You can only upload a new file after the processing is finished for ' . $object->getName());
                 return $this->redirectToList();
@@ -51,19 +50,22 @@ class OrganisationAdminController extends BaseCRUDAdminController
                     $errors[] = "Extension not allowed, please choose a valid Microsoft Excel file.";
                 }
 
-                if ($file_size > 2097152) {
-                    $errors[] = 'File size must be less than 2 MB';
+                if ($file_size > 6291456) {
+                    $errors[] = 'File size must be less than 6 MB';
                 }
 
                 if (empty($errors) == true) {
                     move_uploaded_file($file_tmp, $filePath);
-                    $dp = new DataProcessing();
+                    $dp = new DPJob();
                     $dp->setOwnerId($id);
-                    $dp->setType(DataProcessing::TYPE_MEMBER_IMPORT);
+                    $dp->setType(DPJob::TYPE_MEMBER_IMPORT);
                     $dp->setResourceName($id . '_' . $file_name);
                     $manager = $this->get('doctrine.orm.default_entity_manager');
                     $manager->persist($dp);
                     $manager->flush($dp);
+                    $this->get('sonata.notification.backend')->createAndPublish('member-import', array(
+                        'job-id' => $dp->getId()
+                    ));
                     $this->addFlash('sonata_flash_success', 'Member List was uploaded successfully! Start importing now...');
                 } else {
                     $this->addFlash('sonata_flash_error', implode(', ', $errors));

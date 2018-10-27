@@ -4,7 +4,7 @@ namespace Magenta\Bundle\CBookModelBundle\EventListener\Notification;
 
 use Doctrine\ORM\EntityManager;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
-use Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing;
+use Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing\DPJob;
 use Magenta\Bundle\CBookModelBundle\Service\Organisation\IndividualMemberService;
 use Magenta\Bundle\CBookModelBundle\Service\Spreadsheet\SpreadsheetService;
 use Sonata\NotificationBundle\Consumer\ConsumerEvent;
@@ -33,7 +33,7 @@ class MemberImportConsumer implements ConsumerInterface
     {
         $message = $event->getMessage();
 
-        $dp = $this->registry->getRepository(DataProcessing::class)->find($message->getValue('data-process'));
+        $dp = $this->registry->getRepository(DPJob::class)->find($message->getValue('job-id'));
         if (!empty($dp)) {
          $this->memberService->importMembers($dp);
         }
