@@ -35,7 +35,7 @@ class MemberImportConsumer implements ConsumerInterface
 
         $dp = $this->registry->getRepository(DPJob::class)->find($message->getValue('job-id'));
 
-        if (!empty($dp)) {
+        if (!empty($dp) && $dp->getStatus() === DPJob::STATUS_WORK_IN_PROGRESS) {
             $dp->setStatus(DPJob::STATUS_LOCKED);
             $this->manager->persist($dp);
             $this->manager->flush();
