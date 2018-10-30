@@ -51,8 +51,10 @@ class PersonService extends BaseService
                 $user->setPerson($person);
 //				$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(Person::class), $person);
 //				$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(User::class), $user);
+                $person->setPersisted(true);
                 return $user;
             }
+            $person->setPersisted(true);
             return $pu;
         }
         return $person->getUser();

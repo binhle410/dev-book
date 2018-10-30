@@ -35,6 +35,10 @@ class IndividualMemberService extends BaseService
             return;
         }
 
+        $dp->setStatus(DPJob::STATUS_LOCKED);
+        $this->manager->persist($dp);
+        $this->manager->flush();
+
         $resourceName = $dp->getResourceName();
         $reader = $this->spreadsheetService->createReader($filePath = $this->spreadsheetService->getMemberImportFolder() . $resourceName);
         $spreadsheet = $reader->load($filePath);
@@ -43,15 +47,22 @@ class IndividualMemberService extends BaseService
         /** @var Organisation $org */
         $org = $this->registry->getRepository(Organisation::class)->find($dp->getOwnerId());
 
-        $row = 2;
+        $row = 1;
+        $importedMembers = [];
         while (true) {
+            if (!$this->manager->isOpen()) {
+                throw new \Exception('EM is closeddddddddddddddd ' . $row);
+            }
+            $row++;
             $_serialNumber = $ws->getCell('A' . $row)->getValue();
             $_fname = $ws->getCell('B' . $row)->getValue();
-            if (empty($_fname) && empty($_serialNumber)) {
+            if (empty($_fname) || empty($_serialNumber)) {
                 break;
             }
+
             $_lname = $ws->getCell('C' . $row)->getValue();
             $_idNumber = trim($ws->getCell('D' . $row)->getValue());
+
             $_dobCell = $ws->getCell('E' . $row);
             $_dobString = $_dobCell->getValue();
             if (Date::isDateTime($_dobCell)) {
@@ -115,11 +126,26 @@ class IndividualMemberService extends BaseService
                     $this->manager->persist($user);
                 }
             }
+            $importedMembers[] = $member;
         }
 
         $dp->setStatus(DPJob::STATUS_SUCCESSFUL);
         $this->manager->persist($dp);
+        echo 'try flusing 111  ';
         try {
+
+            if (!$this->manager->isOpen()) {
+                throw new \Exception('EM is closed before flushed ' . $row);
+            } else {
+                echo $row . "rows are still ok before flushing .........  ";
+                /**
+                 * @var IndividualMember $member
+                 */
+                foreach ($importedMembers as $k => $member) {
+                    echo ' member ' . $k . ': ' . $member->getPerson()->getEmail();
+                }
+            }
+
             $this->manager->flush();
         } catch (OptimisticLockException $ope) {
             $error = new DPLog();
@@ -130,6 +156,16 @@ class IndividualMemberService extends BaseService
             $error->setCode($ope->getCode());
             $error->setTrace($ope->getTrace());
             $error->setMessage($ope->getMessage());
+//
+            if (!$this->manager->isOpen()) {
+                $this->manager = $this->manager->create(
+                    $this->manager->getConnection(),
+                    $this->manager->getConfiguration(),
+                    $this->manager->getEventManager()
+                );
+            }
+            $this->manager->persist($error);
+            $this->manager->flush();
         } catch (ORMException $orme) {
             $error = new DPLog();
             $error->setName('ORMException: ' . $orme->getFile());
@@ -139,6 +175,15 @@ class IndividualMemberService extends BaseService
             $error->setCode($orme->getCode());
             $error->setTrace($orme->getTrace());
             $error->setMessage($orme->getMessage());
+            if (!$this->manager->isOpen()) {
+                $this->manager = $this->manager->create(
+                    $this->manager->getConnection(),
+                    $this->manager->getConfiguration(),
+                    $this->manager->getEventManager()
+                );
+            }
+            $this->manager->persist($error);
+            $this->manager->flush();
         }
     }
 

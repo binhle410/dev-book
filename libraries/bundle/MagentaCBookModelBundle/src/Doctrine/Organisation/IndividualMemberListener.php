@@ -72,9 +72,13 @@ class IndividualMemberListener
         if (!empty($email) && (empty($person->getId()) || !(empty($person) || $pEmail === $email))) {
             /** @var Person $m_person */
             if (empty($m_person = $personRepo->findOneBy(['email' => $email]))) {
-                $m_person = new Person();
-                $m_person->copyScalarPropertiesFrom($person);
-                $m_person->setEmail($email);
+                if (empty($person) || !$person->isSystemUserPersisted()) {
+                    $m_person = new Person();
+                    $m_person->copyScalarPropertiesFrom($person);
+                    $m_person->setEmail($email);
+                } else {
+                    $m_person = $member->getPerson();
+                }
             }
             if (!empty($person->getId())) {
                 $personCS = $uow->getEntityChangeSet($person);

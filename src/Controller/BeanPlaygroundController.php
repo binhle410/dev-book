@@ -10,6 +10,8 @@ use function GuzzleHttp\Psr7\copy_to_string;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\BookPage;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
+use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
+use Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing\DPJob;
 use Sonata\MediaBundle\Form\Type\ApiMediaType;
 use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -41,71 +43,8 @@ class BeanPlaygroundController extends Controller
      */
     public function index(Request $request)
     {
-        $abc = $request->get('field_name');
-        $registry = $this->get('doctrine');
-//		$chapRepo = $registry->getRepository(Chapter::class);
-//		$chap     = $chapRepo->findAll()[0];
-//		$chap     = $chapRepo->find(6);
-//		$qb       = $this->container->get('doctrine.orm.default_entity_manager')->createQueryBuilder();
-
-////		$qb->select('c')->from(Chapter::class, 'c')
-////		   ->join('c.partOf', 'partOf');;
-////		$chapter = $qb->setFirstResult(0)->getQuery()->getResult();
-
-        /**
-         * select substr(first_name,1,1) as alpha, count(employee_id)
-         * from employees
-         * group by substr(first_name,1,1)
-         */
-//        $qb = $this->container->get('doctrine.orm.default_entity_manager')->createQueryBuilder();
-//        $expr = $qb->expr();
-//        $expr->length("p.website");
-//        $qb->select('m as member', $expr->substring("p.name", 1, '1') . ' as alpha');
-//        $qb->from(IndividualMember::class, 'm')
-//            ->join('m.person', 'p')
-//            ->groupBy('alpha');
-//        $results = $qb->getQuery()->getResult();
-
-//	    $manager = $this->get('doctrine.orm.default_entity_manager');
-//	    $page = new BookPage();
-//	    $page->setText('here comes the text');
-//	    $manager->persist($page);$manager->flush();
-        $builder = $this->createFormBuilder();
-        $builder->add('media', MediaType::class, array(
-            'provider' => 'sonata.media.provider.file',
-            'context' => 'default'
-        ));
-
-//        $bookRepo = $this->getDoctrine()->getRepository(Book::class);
-//        $book = $bookRepo->find(7);
-//
-//        $clonedBook = clone $book;
-
-        $form = $builder->getForm();
-        $data = null;
-
-        if ($request->getMethod() == 'POST') {
-            $form->handleRequest($request);
-            $data = $form->getData();
-        }
-
-        $quotient = (int)(5 / 3);
-        $remainder = 5 % 3;
-
-        $manager = $this->get('doctrine.orm.default_entity_manager');
-        $qb = $manager->createQueryBuilder();
-
-
-
-        $this->container->get('sonata.classification.manager.category')->initiateRootCategories('organisation_logo');
-
-        return $this->render('bean_playground/index.html.twig', [
-            'form' => $form->createView(),
-            'data' => $data,
-            'controller_name' => 'BeanPlaygroundController',
-            'chap' => 'abc ' . $quotient
-        ]);
-
+        $dp = $this->getDoctrine()->getRepository(DPJob::class)->find(3);
+        $this->get('magenta_book.individual_service')->importMembers($dp);
         return new JsonResponse(['link' => 'https://picsum.photos/1600/900']);
     }
 }

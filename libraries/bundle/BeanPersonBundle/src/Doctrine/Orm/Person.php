@@ -11,9 +11,11 @@ class Person extends PersonModel
     /** @var UserInterface $user */
     protected $user;
 
+    protected $persisted = false;
+
     public function isSystemUserPersisted()
     {
-        return !($this->user === null || empty($this->user->getId()));
+        return $this->persisted || !($this->user === null || empty($this->user->getId()));
 //		return $this->user !== null;
     }
 
@@ -39,5 +41,19 @@ class Person extends PersonModel
         }
     }
 
+    /**
+     * @return bool
+     */
+    public function isPersisted(): bool
+    {
+        return $this->persisted;
+    }
 
+    /**
+     * @param bool $persisted
+     */
+    public function setPersisted(bool $persisted): void
+    {
+        $this->persisted = $persisted;
+    }
 }

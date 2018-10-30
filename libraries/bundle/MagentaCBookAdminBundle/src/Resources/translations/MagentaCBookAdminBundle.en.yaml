@@ -112,6 +112,7 @@ form_group:
     groups: Groups
 
 form:
+    label_updated_at: Updated at
     group_name: 'Group name'
     username: Username
     email: Email

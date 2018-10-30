@@ -31,13 +31,13 @@ class PersonRepository extends ServiceEntityRepository
 
         if (!(empty($idNumber) || empty($email))) {
             $qb->where($expr->orX(
-                $expr->eq('idNumber', $idNumber),
-                $expr->eq('email', $email)
+                $expr->like('p.idNumber', $expr->literal($idNumber)),
+                $expr->like('p.email', $expr->literal($email))
             ));
         } elseif (empty($idNumber)) {
-            $qb->where($expr->eq('email', $email));
+            $qb->where($expr->like('p.email', $expr->literal($email)));
         } else {
-            $qb->where($expr->eq('idNumber', $idNumber));
+            $qb->where($expr->like('p.idNumber', $expr->literal($idNumber)));
         }
 // $qb->setMaxResults(1)->getQuery()->getOneOrNullResult();
         $r = $qb->getQuery()->getResult();

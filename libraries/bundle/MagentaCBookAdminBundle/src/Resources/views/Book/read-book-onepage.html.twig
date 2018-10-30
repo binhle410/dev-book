@@ -83,11 +83,11 @@
                         </div>
                         <hr style="margin-top:1px;margin-bottom:5px; border-bottom: dashed; border-width: thin;"/>
                         <div class="editable" data-name="chapter-{{ chapter.id }}-text">
-                            {% set chapterText = chapter.text|striptags %}
+                            {% set chapterText = chapter.text %}
                             <div class="collapse" id="chapter-{{ chapter.id }}">
                                 <div class="card card-body">
                                     {#{{ chapter.text | raw }}#}
-                                    {{ chapterText |raw }}
+                                    {{ chapterText | raw }}
 
                                     {% for i, subChapter in chapter.subChapters %}
                                         <div id="chapter-number-{{ subChapter.listNumber }}" class="chapter-title"

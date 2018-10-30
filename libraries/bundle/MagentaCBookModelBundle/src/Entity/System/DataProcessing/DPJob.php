@@ -14,7 +14,7 @@ class DPJob
 {
     const TYPE_MEMBER_IMPORT = 'MEMBER_IMPORT';
 
-    const STATUS_WORK_IN_PROGRESS = 'WORK_IN_PROGRESS';
+    const STATUS_PENDING = 'PENDING';
     const STATUS_LOCKED = 'LOCKED';
     const STATUS_SUCCESSFUL = 'SUCCESSFUL';
     const STATUS_FAILED = 'FAILED';
@@ -108,7 +108,7 @@ class DPJob
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $status = self::STATUS_WORK_IN_PROGRESS;
+    protected $status = self::STATUS_PENDING;
 
     /**
      * @var string|null

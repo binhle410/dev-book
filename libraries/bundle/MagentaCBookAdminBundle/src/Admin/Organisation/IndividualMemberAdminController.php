@@ -31,10 +31,10 @@ class IndividualMemberAdminController extends BaseCRUDAdminController
         if ($request->isMethod('post')) {
             $dpRepo = $this->getDoctrine()->getRepository(DPJob::class);
             if (!empty($dp = $dpRepo->findOneBy([
-                'status' => DPJob::STATUS_WORK_IN_PROGRESS,
+                'status' => DPJob::STATUS_PENDING,
                 'type' => DPJob::TYPE_MEMBER_IMPORT,
                 'ownerId' => $orgId]))) {
-                $this->addFlash('sonata_type_error', 'An Import of Members is still being processed. You can only upload a new file after the processing is finished for ' . $object->getName());
+                $this->addFlash('sonata_flash_error', 'An Import of Members is still being processed. You can only upload a new file after the processing is finished for ' . $object->getName());
                 return $this->redirectToList();
             }
 
@@ -61,7 +61,7 @@ class IndividualMemberAdminController extends BaseCRUDAdminController
                     $errors[] = 'File size must be less than 6 MB';
                 }
 
-                if (empty($errors) == true) {
+                if (empty($errors)) {
                     move_uploaded_file($file_tmp, $filePath);
                     $dp = new DPJob();
                     $dp->setOwnerId($orgId);
@@ -73,7 +73,7 @@ class IndividualMemberAdminController extends BaseCRUDAdminController
                     $this->get('sonata.notification.backend')->createAndPublish('member-import', array(
                         'job-id' => $dp->getId()
                     ));
-                    $this->addFlash('sonata_flash_success', 'Member List was uploaded successfully! Start importing now...');
+                    $this->addFlash('sonata_flash_success', 'Member List was uploaded successfully! Start importing now... Please check back in a few minutes');
                 } else {
                     $this->addFlash('sonata_flash_error', implode(', ', $errors));
                 }
