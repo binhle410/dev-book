@@ -72,14 +72,15 @@ EOT
             $books = [$book];
         } else {
             $books = $bookRepo->findBy(['enabled' => true, 'status' => Book::STATUS_PUBLISHED]);
+            $books = array_merge($books, $bookRepo->findBy(['enabled' => true, 'status' => Book::STATUS_DRAFT]));
         }
 
         /** @var Book $book */
         foreach ($books as $book) {
 //            $this->rearrangeChapters($chapters, $output);
-            $output->writeln('Working on ' . $book->getName());
+            $output->writeln('Working on ' . $book->getName() . ' (' . $book->getId() . ')');
             $this->bookService->rearrangeChapters($book);
-            $output->writeln('DONE with ' . $book->getName());
+            $output->writeln('DONE with ' . $book->getName() . ' (' . $book->getId() . ')');
         }
 
         $output->writeln('DONE');
