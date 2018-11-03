@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Category;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\Context;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
 use Magenta\Bundle\CBookModelBundle\Entity\System\System;
@@ -148,6 +149,17 @@ class Organisation extends OrganizationModel
      * @var Collection $categories ;
      */
     protected $categories;
+
+    public function getRootCategoriesByContext(Context $context)
+    {
+        $c = Criteria::create();
+        $expr = Criteria::expr();
+        $c->where($expr->andX(
+            $expr->eq('context', $context),
+            $expr->isNull('parent')
+        ));
+        return $this->categories->matching($c);
+    }
 
     public function addCategory(Category $category)
     {
@@ -454,6 +466,22 @@ class Organisation extends OrganizationModel
     public function getAppIcon(): ?Media
     {
         return $this->appIcon;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    /**
+     * @param Collection $categories
+     */
+    public function setCategories(Collection $categories): void
+    {
+        $this->categories = $categories;
     }
 
 }

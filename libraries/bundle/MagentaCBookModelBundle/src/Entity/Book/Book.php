@@ -16,6 +16,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCateg
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\CategoryItemContainerInterface;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 
 /**
  * @ORM\Entity()
@@ -241,7 +242,7 @@ class Book extends \Bean\Component\Book\Model\Book implements OrganizationAwareI
     /**
      * @return mixed
      */
-    public function getOrganisation()
+    public function getOrganisation(): ?Organisation
     {
         return $this->organisation;
     }

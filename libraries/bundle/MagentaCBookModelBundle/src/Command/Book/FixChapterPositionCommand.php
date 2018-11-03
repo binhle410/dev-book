@@ -72,7 +72,7 @@ EOT
             $books = [$book];
         } else {
             $books = $bookRepo->findBy(['enabled' => true, 'status' => Book::STATUS_PUBLISHED]);
-            $books = array_merge($books, $bookRepo->findBy(['enabled' => true, 'status' => Book::STATUS_DRAFT]));
+            $books = array_merge($books, $bookRepo->findBy(['status' => Book::STATUS_DRAFT]));
         }
 
         /** @var Book $book */

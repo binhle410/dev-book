@@ -57,8 +57,8 @@ class WellnessController extends Controller
         $books = $member->getBooksToRead();
 
 
-        return $this->render('@MagentaCBookAdmin/Book/index.html.twig', [
-            'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
+        return $this->render('@MagentaCBookAdmin/App/index.html.twig', [
+            'base_book_template' => '@MagentaCBookAdmin/App/base.html.twig',
             'books' => $books,
             'orgSlug' => $orgSlug,
             'accessCode' => $accessCode,
@@ -81,8 +81,8 @@ class WellnessController extends Controller
                 ]));
         }
 
-        return $this->render('@MagentaCBookAdmin/Book/read-book.html.twig', [
-            'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
+        return $this->render('@MagentaCBookAdmin/App/Book/read-book.html.twig', [
+            'base_book_template' => '@MagentaCBookAdmin/App/base.html.twig',
             'book' => $book,
             'mainContentItem' => $book,
             'subContentItems' => $book->getRootChapters(),
@@ -105,7 +105,7 @@ class WellnessController extends Controller
         }
 
         return $this->render('@MagentaCBookAdmin/Book/read-chapter.html.twig', [
-            'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
+            'base_book_template' => '@MagentaCBookAdmin/App/base.html.twig',
             'book' => $book = $chapter->getBook(),
             'mainContentItem' => $chapter,
             'subContentItems' => $chapter->getSubChapters(),
@@ -132,8 +132,8 @@ class WellnessController extends Controller
             $sortedMembers[$alpha][] = $m;
         }
         ksort($sortedMembers);
-        return $this->render('@MagentaCBookAdmin/Book/contact.html.twig', [
-            'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
+        return $this->render('@MagentaCBookAdmin/App/contact.html.twig', [
+            'base_book_template' => '@MagentaCBookAdmin/App/base.html.twig',
             'members' => $sortedMembers,
             'orgSlug' => $orgSlug,
             'accessCode' => $accessCode,

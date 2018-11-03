@@ -1,5 +1,5 @@
 {% extends base_book_template %}
-{% block stylesheets_book %}
+{% block stylesheets_app %}
 
     <style>
         .navbar .navbar-brand {
@@ -45,10 +45,10 @@
 {% endblock %}
 {% block body %}
     <div class="container">
+        {% block breadcrumb %} {{ rootCategory.name }} {% endblock %}
         <table v-if="!reading" class="table table-striped">
             <thead>
             <tr>
-                <th>#</th>
                 <th>Name</th>
             </tr>
             </thead>
@@ -56,8 +56,8 @@
             {% for draft in books %}
                 {% set book = draft.previousVersion %}
                 <tr class="hand-hover">
-                    <td>{{ loop.index }}</td>
                     <td>
+                        <i class="fa fa-book"></i>
                         <a href="{{ path('magenta_book_reader_book', {orgSlug:orgSlug,'accessCode': accessCode, 'employeeCode': employeeCode, 'bookId': book.id}) }}">{{ book.name }}
                             <br/>
                             Edition: {{ book.bookEdition }}

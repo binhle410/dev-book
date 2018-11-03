@@ -1,4 +1,4 @@
-{% extends '@MagentaCBookAdmin/Book/read-book.html.twig' %}
+{% extends '@MagentaCBookAdmin/App/Book/read-book.html.twig' %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -242,7 +242,7 @@
 {% block content_title %}{{ mainContentItem.name|raw }}{% endblock %}
 
 {% block toc_tree_data %}
-    {% import '@MagentaCBookAdmin/Book/macro_chapter_tree.html.twig' as toc_tree %}
+    {% import '@MagentaCBookAdmin/App/Book/macro_chapter_tree.html.twig' as toc_tree %}
     var toc = {{ toc_tree.navigate_child(true, book.rootChapters,0) }}
 {% endblock %}
 

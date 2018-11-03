@@ -4,7 +4,11 @@ namespace Magenta\Bundle\CBookAdminBundle\Controller;
 
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Chapter;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\Category;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\Context;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,13 +65,21 @@ class BookReaderController extends Controller
                 ]));
         }
 
+        $registry = $this->getDoctrine();
+
         $member = $this->getMemberByPinCodeEmployeeCode($accessCode, $employeeCode);
         $books = $member->getBooksToRead();
 
-        return $this->render('@MagentaCBookAdmin/Book/index.html.twig', [
+        /** @var Organisation $org */
+        $org = $member->getOrganization();
+
+        $rootCategory = $org->getRootCategoriesByContext($registry->getRepository(Context::class)->find('default'))->first();
+
+        return $this->render('@MagentaCBookAdmin/App/index.html.twig', [
+            'rootCategory' => $rootCategory,
             'member' => $member,
             'logo' => $member->getOrganization()->getLogo(),
-            'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
+            'base_book_template' => '@MagentaCBookAdmin/App/base.html.twig',
             'books' => $books,
             'orgSlug' => $orgSlug,
             'accessCode' => $accessCode,
@@ -93,10 +105,10 @@ class BookReaderController extends Controller
                 ]));
         }
 
-        return $this->render('@MagentaCBookAdmin/Book/read-book-onepage.html.twig', [
+        return $this->render('@MagentaCBookAdmin/App/Book/read-book-onepage.html.twig', [
             'logo' => $member->getOrganization()->getLogo(),
             'member' => $member,
-            'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
+            'base_book_template' => '@MagentaCBookAdmin/App/base.html.twig',
             'book' => $book,
             'mainContentItem' => $book,
             'subContentItems' => $book->getRootChapters(),
@@ -117,11 +129,12 @@ class BookReaderController extends Controller
         if (empty($member) || !$member->isEnabled()) {
             $this->handleUnauthorisation();
         }
-
+        /** @var Book $book */
+        $book = $chapter->getBook();
         return $this->render('@MagentaCBookAdmin/Book/read-chapter.html.twig', [
             'member' => $member,
-            'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
-            'book' => $book = $chapter->getBook(),
+            'base_book_template' => '@MagentaCBookAdmin/App/base.html.twig',
+            'book' => $book,
             'mainContentItem' => $chapter,
             'subContentItems' => $chapter->getSubChapters(),
             'orgSlug' => $orgSlug,
@@ -134,7 +147,8 @@ class BookReaderController extends Controller
     {
         $this->checkAccess($accessCode, $employeeCode);
         $member = $this->getMemberByPinCodeEmployeeCode($accessCode, $employeeCode);
-        $members = $member->getOrganization()->getIndividualMembers();
+        $org = $member->getOrganization();
+        $members = $org->getIndividualMembers();
         $sortedMembers = [];
         /** @var IndividualMember $m */
         foreach ($members as $m) {
@@ -147,9 +161,12 @@ class BookReaderController extends Controller
             $sortedMembers[$alpha][] = $m;
         }
         ksort($sortedMembers);
-        return $this->render('@MagentaCBookAdmin/Book/contact.html.twig', [
+
+
+        return $this->render('@MagentaCBookAdmin/App/contact.html.twig', [
             'member' => $member,
-            'base_book_template' => '@MagentaCBookAdmin/Book/base.html.twig',
+            'base_book_template' => '@MagentaCBookAdmin/App/base.html.twig',
+            'logo' => $org->getLogo(),
             'members' => $sortedMembers,
             'orgSlug' => $orgSlug,
             'accessCode' => $accessCode,

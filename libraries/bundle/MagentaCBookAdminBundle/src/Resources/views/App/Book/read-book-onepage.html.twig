@@ -1,6 +1,6 @@
-{% extends '@MagentaCBookAdmin/Book/read-book.html.twig' %}
+{% extends '@MagentaCBookAdmin/App/Book/read-book.html.twig' %}
 
-{% block stylesheets_book %}
+{% block stylesheets_app %}
     {{ parent() }}
     <style>
         .card:not(.card-plain):hover {
@@ -161,7 +161,7 @@
 
 {% block javascripts_book %}
     <script>
-        {% import '@MagentaCBookAdmin/Book/macro_chapter_tree.html.twig' as toc_tree %}
+        {% import '@MagentaCBookAdmin/App/Book/macro_chapter_tree.html.twig' as toc_tree %}
 
         {% block toc_tree_data %}
         var toc = {{ toc_tree.navigate_child(true, book.rootChapters,0) }}
