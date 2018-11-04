@@ -54,7 +54,7 @@ class BookReaderController extends Controller
         return $this->render('@MagentaCBookAdmin/Book/login.html.twig', []);
     }
 
-    public function indexAction($orgSlug, $accessCode, $employeeCode)
+    public function indexAction($orgSlug, $accessCode, $employeeCode, Request $request)
     {
         try {
             $this->checkAccess($accessCode, $employeeCode);
@@ -68,19 +68,32 @@ class BookReaderController extends Controller
         $registry = $this->getDoctrine();
 
         $member = $this->getMemberByPinCodeEmployeeCode($accessCode, $employeeCode);
-        $books = $member->getBooksToRead();
+//        $books = $member->getBooksToRead();
 
         /** @var Organisation $org */
         $org = $member->getOrganization();
 
         $rootCategory = $org->getRootCategoriesByContext($registry->getRepository(Context::class)->find('default'))->first();
 
+        $registry = $this->getDoctrine();
+        $parentId = $request->query->get('parent');
+        $selectedCategory = null;
+        if (!empty($parentId)) {
+            $catRepo = $registry->getRepository(Category::class);
+            $selectedCategory = $catRepo->find($parentId);
+        }
+
+        if (empty($selectedCategory)) {
+            $selectedCategory = $rootCategory;
+        }
+
         return $this->render('@MagentaCBookAdmin/App/index.html.twig', [
             'rootCategory' => $rootCategory,
+            'selectedCategory' => $selectedCategory,
             'member' => $member,
             'logo' => $member->getOrganization()->getLogo(),
             'base_book_template' => '@MagentaCBookAdmin/App/base.html.twig',
-            'books' => $books,
+//            'books' => $books,
             'orgSlug' => $orgSlug,
             'accessCode' => $accessCode,
             'employeeCode' => $employeeCode

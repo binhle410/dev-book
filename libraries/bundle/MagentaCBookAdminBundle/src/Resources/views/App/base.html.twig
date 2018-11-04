@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <link rel="manifest" href="{{ path('magenta_book_manifest',{orgSlug:orgSlug, accessCode:accessCode,employeeCode:employeeCode}) }}">
+    <link rel="manifest"
+          href="{{ path('magenta_book_manifest',{orgSlug:orgSlug, accessCode:accessCode,employeeCode:employeeCode}) }}">
 
     <meta name="theme-color" content="#fff"/>
 
@@ -45,7 +46,8 @@
             <div class="navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item" data-menuanchor="btn-add-to-homescreen">
-                        <a class="nav-link hand-hover" rel="tooltip" title="Dashboard" data-placement="bottom" href="#" id="btn-add-to-homescreen" style="display: none;">
+                        <a class="nav-link hand-hover" rel="tooltip" title="Dashboard" data-placement="bottom" href="#"
+                           id="btn-add-to-homescreen" style="display: none;">
                             <i class="fa fa-whatsapp" aria-hidden="true"></i>
                             Add to Home Screen</a>
                     </li>
@@ -123,6 +125,10 @@
         height: auto;
         position: relative;
         overflow: hidden
+    }
+
+    .navbar .navbar-nav .nav-item .nav-link {
+        margin: 10px 0px;
     }
 </style>
 <link href="{{ asset('assets/pz_main/pinch_zoomer/css/pinchzoomer.min.css') }}" rel="stylesheet">

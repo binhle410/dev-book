@@ -6,7 +6,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\BookCategory;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Base\AppCategory;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupCategory;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupIndividual;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\MemberGroup;
 use Sonata\ClassificationBundle\Entity\BaseCategory as BaseCategory;
 
@@ -32,188 +34,234 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
  * @ORM\Table(name="classification__category")
  * @ORM\HasLifecycleCallbacks
  */
-class Category extends AppCategory {
-	use ORMBehaviors\Translatable\Translatable;
-	
-	public function __construct() {
-		parent::__construct();
-		$this->items      = new ArrayCollection();
-		$this->accessGrantedGroups = new ArrayCollection();
-		$this->accessDeniedGroups  = new ArrayCollection();
-	}
-	
-	/**
-	 * @var \Doctrine\Common\Collections\Collection
-	 * @ORM\ManyToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup")
-	 * @ORM\JoinTable(name="classification__category__categories_groups__granted",
-	 *      joinColumns={@ORM\JoinColumn(name="id_category", referencedColumnName="id")},
-	 *      inverseJoinColumns={@ORM\JoinColumn(name="id_group", referencedColumnName="id")}
-	 *      )
-	 */
-	protected $accessGrantedGroups;
-	
-	public function addAccesGrantedGroup(IndividualGroup $gc) {
-		$this->accessGrantedGroups->add($gc);
-	}
-	
-	public function removeAccesGrantedGroup(IndividualGroup $gc) {
-		$this->accessGrantedGroups->removeElement($gc);
-	}
-	
-	/**
-	 * @var \Doctrine\Common\Collections\Collection
-	 * @ORM\ManyToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup")
-	 * @ORM\JoinTable(name="classification__category__categories_groups__denied",
-	 *      joinColumns={@ORM\JoinColumn(name="id_category", referencedColumnName="id")},
-	 *      inverseJoinColumns={@ORM\JoinColumn(name="id_group", referencedColumnName="id")}
-	 *      )
-	 */
-	protected $accessDeniedGroups;
-	
-	public function addAccesDeniedGroup(IndividualGroup $gc) {
-		$this->accessDeniedGroups->add($gc);
-	}
-	
-	public function removeAccesDeniedGroup(IndividualGroup $gc) {
-		$this->accessDeniedGroups->removeElement($gc);
-	}
-	
-	/**
-	 * @ORM\OneToMany(
-	 *     targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem",
-	 *     mappedBy="category", cascade={"persist"}, orphanRemoval=true
-	 * )
-	 * @ORM\OrderBy({"position"="ASC"})
-	 *
-	 * @var \Doctrine\Common\Collections\Collection $bookCategories ;
-	 */
-	protected $items;
-	
-	public function addItem(CategoryItem $item) {
-		$this->items->add($item);
-		$item->setCategory($this);
-	}
-	
-	public function removeItem(CategoryItem $item) {
-		$this->items->removeElement($item);
-		$item->setCategory(null);
-	}
-	
-	/**
-	 * @param string $locale
-	 */
-	public function setLocale($locale) {
-		$this->setCurrentLocale($locale);
-		
-		return $this;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getLocale() {
-		return $this->getCurrentLocale();
-	}
-	
-	public function getName() {
-		if($this->getCurrentLocale() === $this->getDefaultLocale()) {
-			return $this->name;
-		}
-		
-		return $this->translate(null, true)->getName();
-	}
-	
-	public function setName($name) {
-		if($this->getCurrentLocale() === $this->getDefaultLocale()) {
-			parent::setName($name);
-			
-			return $this;
-		}
-		$this->translate(null, true)->setName($name);
-		$this->translate(null, true)->setSlug($name);
-		
-		return $this;
-	}
-	
-	public function getSlug() {
-		if($this->getCurrentLocale() === $this->getDefaultLocale()) {
-			return $this->slug;
-		}
-		
-		return $this->translate(null, true)->getSlug();
-	}
-	
-	public function setSlug($slug) {
-		if($this->getCurrentLocale() === $this->getDefaultLocale()) {
-			parent::setSlug($slug);
-			
-			return $this;
-		}
-		$this->translate(null, true)->setSlug($slug);
-		
-		return $this;
-	}
-	
-	
-	public function getDescription() {
-		if($this->getCurrentLocale() === $this->getDefaultLocale()) {
-			return $this->description;
-		}
-		
-		return $this->translate(null, true)->getDescription();
-	}
-	
-	public function setDescription($description) {
-		if($this->getCurrentLocale() === $this->getDefaultLocale()) {
-			$this->description = $description;
-			
-			return $this;
-		}
-		$this->translate(null, true)->setDescription($description);
-		
-		return $this;
-	}
-	
-	/**
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getAccessGrantedGroups(): \Doctrine\Common\Collections\Collection {
-		return $this->accessGrantedGroups;
-	}
-	
-	/**
-	 * @param \Doctrine\Common\Collections\Collection $accessGrantedGroups
-	 */
-	public function setAccessGrantedGroups(\Doctrine\Common\Collections\Collection $accessGrantedGroups): void {
-		$this->accessGrantedGroups = $accessGrantedGroups;
-	}
-	
-	/**
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getAccessDeniedGroups(): \Doctrine\Common\Collections\Collection {
-		return $this->accessDeniedGroups;
-	}
-	
-	/**
-	 * @param \Doctrine\Common\Collections\Collection $accessDeniedGroups
-	 */
-	public function setAccessDeniedGroups(\Doctrine\Common\Collections\Collection $accessDeniedGroups): void {
-		$this->accessDeniedGroups = $accessDeniedGroups;
-	}
-	
-	/**
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getItems(): \Doctrine\Common\Collections\Collection {
-		return $this->items;
-	}
-	
-	/**
-	 * @param \Doctrine\Common\Collections\Collection $items
-	 */
-	public function setItems(\Doctrine\Common\Collections\Collection $items): void {
-		$this->items = $items;
-	}
-	
+class Category extends AppCategory
+{
+    use ORMBehaviors\Translatable\Translatable;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->items = new ArrayCollection();
+        $this->accessGrantedGroups = new ArrayCollection();
+        $this->accessDeniedGroups = new ArrayCollection();
+    }
+
+    public function isAccessibleToIndividual(IndividualMember $member)
+    {
+        $accessible = false;
+        $groups = $member->getGroups();
+
+        if ($this->public) {
+            $accessible = true;
+            /** @var IndividualGroup $group */
+            foreach ($groups as $group) {
+                if ($this->accessDeniedGroups->contains($group)) {
+                    return !$accessible;
+                }
+            }
+        } else {
+            /** @var IndividualGroup $group */
+            foreach ($groups as $group) {
+                if ($this->accessGrantedGroups->contains($group)) {
+                    return !$accessible;
+                }
+            }
+        }
+        return $accessible;
+    }
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     * @ORM\ManyToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup")
+     * @ORM\JoinTable(name="classification__category__categories_groups__granted",
+     *      joinColumns={@ORM\JoinColumn(name="id_category", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="id_group", referencedColumnName="id")}
+     *      )
+     */
+    protected $accessGrantedGroups;
+
+    public function addAccesGrantedGroup(IndividualGroup $gc)
+    {
+        $this->accessGrantedGroups->add($gc);
+    }
+
+    public function removeAccesGrantedGroup(IndividualGroup $gc)
+    {
+        $this->accessGrantedGroups->removeElement($gc);
+    }
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     * @ORM\ManyToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup")
+     * @ORM\JoinTable(name="classification__category__categories_groups__denied",
+     *      joinColumns={@ORM\JoinColumn(name="id_category", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="id_group", referencedColumnName="id")}
+     *      )
+     */
+    protected $accessDeniedGroups;
+
+    public function addAccesDeniedGroup(IndividualGroup $gc)
+    {
+        $this->accessDeniedGroups->add($gc);
+    }
+
+    public function removeAccesDeniedGroup(IndividualGroup $gc)
+    {
+        $this->accessDeniedGroups->removeElement($gc);
+    }
+
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem",
+     *     mappedBy="category", cascade={"persist"}, orphanRemoval=true
+     * )
+     * @ORM\OrderBy({"position"="ASC"})
+     *
+     * @var \Doctrine\Common\Collections\Collection $bookCategories ;
+     */
+    protected $items;
+
+    public function addItem(CategoryItem $item)
+    {
+        $this->items->add($item);
+        $item->setCategory($this);
+    }
+
+    public function removeItem(CategoryItem $item)
+    {
+        $this->items->removeElement($item);
+        $item->setCategory(null);
+    }
+
+    /**
+     * @param string $locale
+     */
+    public function setLocale($locale)
+    {
+        $this->setCurrentLocale($locale);
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->getCurrentLocale();
+    }
+
+    public function getName()
+    {
+        if ($this->getCurrentLocale() === $this->getDefaultLocale()) {
+            return $this->name;
+        }
+
+        return $this->translate(null, true)->getName();
+    }
+
+    public function setName($name)
+    {
+        if ($this->getCurrentLocale() === $this->getDefaultLocale()) {
+            parent::setName($name);
+
+            return $this;
+        }
+        $this->translate(null, true)->setName($name);
+        $this->translate(null, true)->setSlug($name);
+
+        return $this;
+    }
+
+    public function getSlug()
+    {
+        if ($this->getCurrentLocale() === $this->getDefaultLocale()) {
+            return $this->slug;
+        }
+
+        return $this->translate(null, true)->getSlug();
+    }
+
+    public function setSlug($slug)
+    {
+        if ($this->getCurrentLocale() === $this->getDefaultLocale()) {
+            parent::setSlug($slug);
+
+            return $this;
+        }
+        $this->translate(null, true)->setSlug($slug);
+
+        return $this;
+    }
+
+
+    public function getDescription()
+    {
+        if ($this->getCurrentLocale() === $this->getDefaultLocale()) {
+            return $this->description;
+        }
+
+        return $this->translate(null, true)->getDescription();
+    }
+
+    public function setDescription($description)
+    {
+        if ($this->getCurrentLocale() === $this->getDefaultLocale()) {
+            $this->description = $description;
+
+            return $this;
+        }
+        $this->translate(null, true)->setDescription($description);
+
+        return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAccessGrantedGroups(): \Doctrine\Common\Collections\Collection
+    {
+        return $this->accessGrantedGroups;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $accessGrantedGroups
+     */
+    public function setAccessGrantedGroups(\Doctrine\Common\Collections\Collection $accessGrantedGroups): void
+    {
+        $this->accessGrantedGroups = $accessGrantedGroups;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAccessDeniedGroups(): \Doctrine\Common\Collections\Collection
+    {
+        return $this->accessDeniedGroups;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $accessDeniedGroups
+     */
+    public function setAccessDeniedGroups(\Doctrine\Common\Collections\Collection $accessDeniedGroups): void
+    {
+        $this->accessDeniedGroups = $accessDeniedGroups;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getItems(): \Doctrine\Common\Collections\Collection
+    {
+        return $this->items;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $items
+     */
+    public function setItems(\Doctrine\Common\Collections\Collection $items): void
+    {
+        $this->items = $items;
+    }
+
 }

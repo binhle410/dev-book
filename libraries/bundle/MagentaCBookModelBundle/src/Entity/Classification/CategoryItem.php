@@ -5,10 +5,12 @@ namespace Magenta\Bundle\CBookModelBundle\Entity\Classification;
 use Bean\Component\Thing\Model\Thing;
 use Bean\Component\Thing\Model\ThingInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Base\AppCategory;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCategoryItem;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\CategoryItemContainerInterface;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Sonata\ClassificationBundle\Entity\BaseCategory as BaseCategory;
 
 //use Gedmo\Mapping\Annotation as Gedmo;
@@ -61,6 +63,33 @@ abstract class CategoryItem
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+    }
+
+    public function isAccessibleToIndividual(IndividualMember $member)
+    {
+        $accessible = false;
+        $groups = $member->getGroups();
+        $catItem = $this;
+
+        if ($groups->count() === 0) {
+            $accessible = $accessible || $catItem->getCategory()->isPublic();
+            if ($this->item instanceof Book) {
+                $accessible = !empty($this->item->getPreviousVersion());
+            }
+        }
+
+        /** @var IndividualGroup $group */
+        foreach ($groups as $group) {
+            if ($catItem->isAccessibleToGroup($group)) {
+                if ($this->item instanceof Book) {
+                    return !empty($this->item->getPreviousVersion());
+                }
+                return true;
+            }
+        }
+
+
+        return $accessible;
     }
 
     public function isAccessibleToGroup(IndividualGroup $group)

@@ -45,7 +45,10 @@
 {% endblock %}
 {% block body %}
     <div class="container">
-        {% block breadcrumb %} {{ rootCategory.name }} {% endblock %}
+        {% block breadcrumb %}
+            {% import '@MagentaCBookAdmin/App/Classification/macro_category_breadcrumb.html.twig' as bc %}
+            {{ bc.create_breadcrumb(orgSlug, accessCode, employeeCode, selectedCategory,0) }}
+        {% endblock %}
         <table v-if="!reading" class="table table-striped">
             <thead>
             <tr>
@@ -53,18 +56,57 @@
             </tr>
             </thead>
             <tbody>
-            {% for draft in books %}
-                {% set book = draft.previousVersion %}
-                <tr class="hand-hover">
+            {% set grandselectedCategory = selectedCategory.parent %}
+            {% if grandselectedCategory is not empty %}
+                <tr>
                     <td>
-                        <i class="fa fa-book"></i>
-                        <a href="{{ path('magenta_book_reader_book', {orgSlug:orgSlug,'accessCode': accessCode, 'employeeCode': employeeCode, 'bookId': book.id}) }}">{{ book.name }}
-                            <br/>
-                            Edition: {{ book.bookEdition }}
+                        <a href="{{ path('magenta_book_index',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode, parent: grandselectedCategory.id}) }}">
+                            <i class="fa fa-level-up"> </i>
+                            .. (Up one level)
                         </a>
                     </td>
                 </tr>
+            {% endif %}
+            {% for category in selectedCategory.children if category.accessibleToIndividual(member) %}
+                <tr class="hand-hover">
+                    <td>
+                        <div>
+                            <i class="fa fa-folder"></i> <a
+                                    href="{{ path('magenta_book_index',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode, parent: category.id}) }}">
+                                {{ category.name }}
+                            </a>
+                        </div>
+                        <div class="muted">
+                            <a href="{{ path('magenta_book_index',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode, parent: category.id}) }}">
+                                {{ category.description }}
+                            </a>
+                        </div>
+
+                    </td>
+                </tr>
             {% endfor %}
+
+            {% for catItem in selectedCategory.items if catItem.accessibleToIndividual(member) %}
+            {% set item = catItem.item %}
+                <tr class="hand-hover">
+                    <td>
+                        <i class="fa fa-{{ catItem.type == 'BOOK'?'book':'file' }}"></i>
+                        {% if catItem.type == 'BOOK' %}
+                            {% set book = item.previousVersion %}
+                            <a href="{{ path('magenta_book_reader_book', {orgSlug:orgSlug,'accessCode': accessCode, 'employeeCode': employeeCode, 'bookId': book.id}) }}">{{ book.name|raw }}
+                                <br/>
+                                Edition: {{ item.bookEdition }}
+                            </a>
+                            {% else %}
+                                <a class="item"
+                                   href="{{ path('sonata_media_download',{'id':item.id,'format':'reference'}) }}">
+                                    {{ item.name|raw }}
+                                </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+
             </tbody>
         </table>
     </div>

@@ -6,7 +6,7 @@ Cache our files.
 Confirm whether all the required assets are cached or not.
 */
 
-var CACHE_NAME = 'cbook-cache-v2';
+var CACHE_NAME = 'cbook-cache-v3';
 var urlsToCache = [
 	'/assets/bs/4.0.0/bootstrap.min.css',
 	'/assets/pk2/css/paper-kit.css',
@@ -38,7 +38,8 @@ self.addEventListener('install', function(event) {
 
 self.addEventListener('fetch', function(event) {
 	console.log('The service worker is serving the asset.');
-	if (event.request.url.indexOf('book',15) == 13) {
+    let bookPos = event.request.url.indexOf('book',15);
+	if (bookPos == -1) {
 		console.log('load from network before cache for index page');
 		event.respondWith(fromNetwork(event.request, 400).catch(function() {
 			return fromCache(event.request);
@@ -55,7 +56,7 @@ function fromNetwork(request, timeout) {
 	// can only be consumed once. Since we are consuming this
 	// once by cache and once by the browser for fetch, we need
 	// to clone the response.
-	var fetchRequest = request.clone();
+	let fetchRequest = request.clone();
 
 	return fetch(fetchRequest).then(
 		function(response) {
