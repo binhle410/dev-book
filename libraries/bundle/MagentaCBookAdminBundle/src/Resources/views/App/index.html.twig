@@ -99,7 +99,7 @@
                             </a>
                             {% else %}
                                 <a class="item"
-                                   href="{{ path('sonata_media_download',{'id':item.id,'format':'reference'}) }}">
+                                   href="{{ publicMediumUrl(logo.id,'reference') }}">
                                     {{ item.name|raw }}
                                 </a>
                         {% endif %}
