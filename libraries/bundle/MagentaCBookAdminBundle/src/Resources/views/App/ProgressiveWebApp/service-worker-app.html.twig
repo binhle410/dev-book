@@ -26,6 +26,9 @@ var urlsToCache = [
 
 
 self.addEventListener('install', function(event) {
+	for(let i = 0; i < urlsToCache.length; i++) {
+		urlsToCache[i] = 'https://' + window.location.host + urlsToCache[i];
+	}
 	// Perform install steps
 	event.waitUntil(
 		caches.open(CACHE_NAME)
@@ -39,6 +42,19 @@ self.addEventListener('install', function(event) {
 self.addEventListener('fetch', function(event) {
 	console.log('The service worker is serving the asset.');
     let bookPos = event.request.url.indexOf('book',15);
+
+	if(bookPos == -1){
+		if(urlsToCache.indexOf(event.request.url) != -1){
+
+			event.respondWith(fromCache(event.request, 400).catch(function() {
+			return fromNetwork(event.request);
+			}));
+
+			return;
+		}
+	} else {
+	}
+
 	if (bookPos == -1) {
 		console.log('load from network before cache for index page');
 		event.respondWith(fromNetwork(event.request, 400).catch(function() {
