@@ -70,7 +70,7 @@ class MediaService extends MediaManager
             'Key' => $path
         ]);
 
-        $request = $s3Client->createPresignedRequest($cmd, '+365 days');
+        $request = $s3Client->createPresignedRequest($cmd, '+6 days');
         $url = (string)$request->getUri();
         return $url;
     }

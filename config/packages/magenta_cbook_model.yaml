@@ -1,4 +1,6 @@
 parameters:
+    noreply_email: no-reply@magentapulse.com
+
     s3_version: latest
     s3_bucket_name: magenta-consulting
     s3_access_key: '%env(resolve:AWS_S3_ACCESS_KEY)%'
@@ -68,28 +70,28 @@ doctrine:
                         -
                             class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Organisation\\IndividualMemberListener"
                             event:
-                                -
-                                    type: postLoad
-                                    method: postLoadHandler
+                            -
+                                type: postLoad
+                                method: postLoadHandler
 
-                                -
-                                    type: postPersist
-                                    method: postPersistHandler
-                                -
-                                    type: postUpdate
-                                    method: postUpdateHandler
-                                -
-                                    type: prePersist
-                                    method: prePersistHandler
-                                -
-                                    type: preUpdate
-                                    method: preUpdateHandler
-                                -
-                                    type: preRemove
-                                    method: preRemoveHandler
-                                -
-                                    type: postRemove
-                                    method: postRemoveHandler
+                            -
+                                type: postPersist
+                                method: postPersistHandler
+                            -
+                                type: postUpdate
+                                method: postUpdateHandler
+                            -
+                                type: prePersist
+                                method: prePersistHandler
+                            -
+                                type: preUpdate
+                                method: preUpdateHandler
+                            -
+                                type: preRemove
+                                method: preRemoveHandler
+                            -
+                                type: postRemove
+                                method: postRemoveHandler
                     -
                         class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Organisation\\Organisation"
                         listener:
@@ -291,7 +293,7 @@ sonata_media:
     contexts:
         content_image:
             providers:
-                - sonata.media.provider.image
+            - sonata.media.provider.image
             formats:
                 small: { width: 100 , quality: 70}
                 big:   { width: 500 , quality: 70}
@@ -301,14 +303,14 @@ sonata_media:
 
         content_file:
             providers:
-                - sonata.media.provider.file
+            - sonata.media.provider.file
             download:
                 strategy: sonata.media.security.public_strategy
                 mode: http
 
         organisation_logo:
             providers:
-                - sonata.media.provider.image
+            - sonata.media.provider.image
             formats:
                 small: { width: 192 , quality: 100}
                 upper_small: { width: 256 , quality: 100}
@@ -319,11 +321,11 @@ sonata_media:
 
         default:
             providers:
-                - sonata.media.provider.dailymotion
-                - sonata.media.provider.youtube
-                - sonata.media.provider.image
-                - sonata.media.provider.file
-                - sonata.media.provider.vimeo
+            - sonata.media.provider.dailymotion
+            - sonata.media.provider.youtube
+            - sonata.media.provider.image
+            - sonata.media.provider.file
+            - sonata.media.provider.vimeo
             formats:
                 small: { width: 100 , quality: 70}
                 big:   { width: 500 , quality: 70}
@@ -334,7 +336,7 @@ sonata_media:
         server:
             path: 'https://s3-%s3_region%.amazonaws.com/%s3_bucket_name%/%s3_directory%'
             #https://s3-ap-southeast-1.amazonaws.com/magenta-consulting/local/default/0001/01/c5971b853c7c1407ebdb7dd7f0a31bf845aee71e.jpeg
-#            path: /upload/media
+    #            path: /upload/media
     providers:
         image:
             filesystem: sonata.media.filesystem.s3
@@ -353,7 +355,7 @@ sonata_media:
             region:      '%s3_region%'
             version:     '%s3_version%' # latest by default (cf. https://docs.aws.amazon.com/aws-sdk-php/v3/guide/guide/configuration.html#version)
             sdk_version: 3
-#            sdk_version: '%s3_sdk_version%' # 2 by default
+            #            sdk_version: '%s3_sdk_version%' # 2 by default
 
             directory:   "%s3_directory%"
 
@@ -361,10 +363,10 @@ sonata_media:
             #region:         s3.amazonaws.com # change if not using US Standard region
             storage:        standard # can be one of: standard or reduced
             acl:            private # this no longer works, private by default can be one of: public, private, open, auth_read, owner_read, owner_full_control
-#            encryption:     aes256 # can be aes256 or not set
+            #            encryption:     aes256 # can be aes256 or not set
             cache_control:  max-age=86400 # or any other
-#            meta:
- #               key1:       value1 #any amount of metas(sent as x-amz-meta-key1 = value1)
+    #            meta:
+    #               key1:       value1 #any amount of metas(sent as x-amz-meta-key1 = value1)
     # if you don't use default namespace configuration
     class:
         media: Magenta\Bundle\CBookModelBundle\Entity\Media\Media
@@ -375,5 +377,34 @@ sonata_media:
     category_manager: sonata.classification.manager.category
 
     db_driver: doctrine_orm # could be doctrine_orm, doctrine_mongodb or doctrine_phpcr
+
+
+monolog:
+    handlers:
+        critical_error_logging:
+            type:         fingers_crossed
+            action_level: critical
+            handler:      grouped
+        grouped:
+            type:    group
+            members: [streamed, deduplicated]
+        streamed:
+            type:  stream
+            path:  '%kernel.logs_dir%/%kernel.environment%.log'
+            level: debug
+        deduplicated:
+            type: deduplication
+            # the time in seconds during which duplicate entries are discarded (default: 60)
+            time: 60
+            handler: swift
+        swift:
+            type:       swift_mailer
+            from_email: '%noreply_email%'
+            to_email:   'binh@sunrise.vn'
+            subject:    'CBook - An Error Occurred! %%message%%'
+            level:      debug
+            formatter:  monolog.formatter.html
+            content_type: text/html
+
 
 
