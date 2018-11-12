@@ -161,18 +161,81 @@
 
 <script>
     {# PWA #}
+    let isSubscribed = false;
+    let swRegistration = null;
+    const applicationServerPublicKey = 'BKzKjfELEwI-VghXZiZQzBORcYhRveiCvkii2i0jET2P7FpgBbunJ5c4UPskGeCIWsokjt7TX0MdTDBt6NivcYk';
+
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
             navigator.serviceWorker.register('{{ path('magenta_book_service_worker',{'orgSlug':orgSlug}) }}').then(function (registration) {
                 // Registration was successful
                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                if ('PushManager' in window) {
+                    console.log('Push is supported');
+                    swRegistration = registration;
+                    // Set the initial subscription value
+                    swRegistration.pushManager.getSubscription()
+                        .then(function (subscription) {
+                            isSubscribed = !(subscription === null);
+
+                            updateSubscriptionOnServer(subscription);
+
+                            if (isSubscribed) {
+                                console.log('User IS subscribed.');
+                            } else {
+                                console.log('User is NOT subscribed.');
+                                console.log('Subscribe Now !!!');
+
+                                subscribeUser();
+                            }
+
+                        });
+                }
             }, function (err) {
                 // registration failed :(
                 console.log('ServiceWorker registration failed: ', err);
             });
         });
     }
+
+    function subscribeUser() {
+        const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
+        swRegistration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: applicationServerKey
+        })
+            .then(function (subscription) {
+                console.log('User is subscribed.');
+
+                updateSubscriptionOnServer(subscription);
+
+                isSubscribed = true;
+
+                updateBtn();
+            })
+            .catch(function (err) {
+                console.log('Failed to subscribe the user: ', err);
+                updateBtn();
+            });
+    }
+
+    function urlB64ToUint8Array(base64String) {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding)
+            .replace(/\-/g, '+')
+            .replace(/_/g, '/');
+
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+
+        for (let i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+    }
+
 </script>
+
 {% block javascripts_book %}{% endblock %}
 <script>
     (function ($) {

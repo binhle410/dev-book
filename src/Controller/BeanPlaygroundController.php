@@ -12,6 +12,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\Book\BookPage;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
 use Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing\DPJob;
+use Minishlink\WebPush\VAPID;
 use Sonata\MediaBundle\Form\Type\ApiMediaType;
 use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -45,6 +46,6 @@ class BeanPlaygroundController extends Controller
     {
         $dp = $this->getDoctrine()->getRepository(DPJob::class)->find(3);
         $this->get('magenta_book.individual_service')->importMembers($dp);
-        return new JsonResponse(['link' => 'https://picsum.photos/1600/900']);
+        return new JsonResponse(['link' => 'https://picsum.photos/1600/900','key'=>(VAPID::createVapidKeys())]);
     }
 }
