@@ -74,6 +74,7 @@ class OrganisationListener
     )
     {
         $this->updateInfoBeforeOperation($organisation, $event);
+
     }
 
     public

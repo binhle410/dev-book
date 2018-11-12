@@ -22,6 +22,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\User\User;
  */
 class Organisation extends OrganizationModel
 {
+    const PRE_CREATED_CONTEXT_ORG_LOGO = "organisation_logo";
 
     /**
      * @var int|null

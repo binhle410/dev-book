@@ -47,7 +47,9 @@ class MediaListener
 
         if (!$media->getCategory()) {
             $cid = $media->getContext();
-            $rootCategory = $this->container->get('doctrine')->getRepository(Category::class)->findOneBy(['parent' => null, 'context' => $cid, 'organisation' => $media->getOrganization()->getId()]);
+            if (!empty($orgId = $media->getOrganization()->getId())) {
+                $rootCategory = $this->container->get('doctrine')->getRepository(Category::class)->findOneBy(['parent' => null, 'context' => $cid, 'organisation' => $orgId]);
+            }
             if (empty($rootCategory)) {
                 $catManager->initiateRootCategories($cid);
                 /** @var Category $rootCategory */

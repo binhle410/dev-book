@@ -34,7 +34,7 @@ services:
         public: false
         arguments: ['@magenta_user.util.user_manipulator']
         tags:
-            - {name: "console.command", command: "magenta:user:create"}
+        - {name: "console.command", command: "magenta:user:create"}
 
     magenta_user.command.promote_user:
         class: Magenta\Bundle\CBookModelBundle\Command\User\PromoteUserCommand

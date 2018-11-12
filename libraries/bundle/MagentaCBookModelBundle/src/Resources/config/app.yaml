@@ -6,6 +6,13 @@ services:
         tags:
             - {name: jms_serializer.event_listener, event: serializer.pre_serialize, class: 'Magenta\Bundle\CBookModelBundle\Entity\Media\Media', method: onPreSerialize }
 
+    magenta_user.command.create_person:
+        class: Magenta\Bundle\CBookModelBundle\Command\Person\CreatePersonCommand
+        public: false
+        arguments: ['@doctrine.orm.default_entity_manager']
+        tags:
+        - {name: "console.command", command: "magenta:person:create"}
+
     magenta_book.command.fix_chapter_position:
         class: Magenta\Bundle\CBookModelBundle\Command\Book\FixChapterPositionCommand
         public: false
