@@ -44,8 +44,8 @@ class BeanPlaygroundController extends Controller
      */
     public function index(Request $request)
     {
-        $dp = $this->getDoctrine()->getRepository(DPJob::class)->find(3);
-        $this->get('magenta_book.individual_service')->importMembers($dp);
+//        $dp = $this->getDoctrine()->getRepository(DPJob::class)->find(3);
+//        $this->get('magenta_book.individual_service')->importMembers($dp);
         return new JsonResponse(['link' => 'https://picsum.photos/1600/900','key'=>(VAPID::createVapidKeys())]);
     }
 }
