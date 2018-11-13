@@ -39,6 +39,18 @@ self.addEventListener('install', function(event) {
 	);
 });
 
+
+self.addEventListener('push', function(event) {
+	if (event.data) {
+	console.log('This push event has data: ', event.data.text());
+	let notifOptions = {};
+	const promiseChain = self.registration.showNotification('You have an update', notifOptions);
+	event.waitUntil(promiseChain);
+	} else {
+	console.log('This push event has no data.');
+	}
+});
+
 self.addEventListener('fetch', function(event) {
 	console.log('The service worker is serving the asset.');
     let bookPos = event.request.url.indexOf('book',15);
