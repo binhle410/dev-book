@@ -35,6 +35,7 @@ class MagentaTwigExtension extends AbstractExtension
     public function getFunctions()
     {
         return array(
+            new \Twig_SimpleFunction('pwaPublicKey', array($this, 'getPwaPublicKey')),
             new \Twig_SimpleFunction('currentOrganisation', array($this, 'getCurrentOrganisation')),
             new \Twig_SimpleFunction('organisationBySubdomain', array($this, 'organisationBySubdomain')),
             new \Twig_SimpleFunction('privateMediumUrl', array($this, 'privateMediumUrl')),
@@ -42,6 +43,12 @@ class MagentaTwigExtension extends AbstractExtension
             new \Twig_SimpleFunction('paginationItemGroup', array($this, 'paginationItemGroup')),
             new \Twig_SimpleFunction('paginationItemClass', array($this, 'paginationItemClass')),
         );
+    }
+
+    public function getPwaPublicKey()
+    {
+        $path = $this->container->getParameter('PWA_PUBLIC_KEY_PATH');
+        return trim(file_get_contents($path));
     }
 
     public function paginationItemGroup(Chapter $chapter, Chapter $current)

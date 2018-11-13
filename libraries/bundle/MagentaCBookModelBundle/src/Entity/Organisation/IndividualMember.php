@@ -34,6 +34,7 @@ class IndividualMember extends MemberModel
         parent::__construct();
         $this->groupIndividuals = new ArrayCollection();
         $this->groups = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
         $this->enabled = true;
     }
 
@@ -101,6 +102,12 @@ class IndividualMember extends MemberModel
     {
         $this->groups->removeElement($gc);
     }
+
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\System\ProgressiveWebApp\Subscription", mappedBy="individualMember")
+     */
+    protected $subscriptions;
 
     /**
      * @var Collection
@@ -372,5 +379,21 @@ class IndividualMember extends MemberModel
     public function setWellnessEmployeeCode(?string $wellnessEmployeeCode): void
     {
         $this->wellnessEmployeeCode = $wellnessEmployeeCode;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getSubscriptions(): Collection
+    {
+        return $this->subscriptions;
+    }
+
+    /**
+     * @param Collection $subscriptions
+     */
+    public function setSubscriptions(Collection $subscriptions): void
+    {
+        $this->subscriptions = $subscriptions;
     }
 }

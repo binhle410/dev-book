@@ -12,7 +12,9 @@ use Magenta\Bundle\CBookModelBundle\Entity\Book\BookPage;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
 use Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing\DPJob;
+use Minishlink\WebPush\Subscription;
 use Minishlink\WebPush\VAPID;
+use Minishlink\WebPush\WebPush;
 use Sonata\MediaBundle\Form\Type\ApiMediaType;
 use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -47,6 +49,30 @@ class BeanPlaygroundController extends Controller
 //        $dp = $this->getDoctrine()->getRepository(DPJob::class)->find(3);
 //        $this->get('magenta_book.individual_service')->importMembers($dp);
 //        return new JsonResponse(['link' => 'https://picsum.photos/1600/900','key'=>(VAPID::createVapidKeys())]);
-        return new Response(VAPID::createVapidKeys());
+// here I'll get the subscription endpoint in the POST parameters
+// but in reality, you'll get this information in your database
+// because you already stored it (cf. push_subscription.php)
+        $subscription = Subscription::create(
+            [
+                'endpoint' => 'https://fcm.googleapis.com/fcm/send/eD9IUBJ7Zbg:APA91bHcexZWw3y88F6JXCibSMUhu2wxsAVQjcLsexh-2SdgNEd6-t0vL-a8wAZvRPGHAvBvMBs1VwgP56rZ3CZQTdQ0PpuK0gG9Wvl26iHW7sIlLf150CcWaTr4UnEQgt2sZmFPJJ7E',
+                'publicKey' => 'BP4AZpl+UGj37CB/3a2cCOYKeQ83SEj6jJIDK7sNAqMe3EL3ROfsF32v2clcDeHIoefbKR5PgAhYc4q7nH8J3Q0=',
+                'authToken' => 'YTopEigDsuQ3eCLlOuaFSg==',
+                'contentEncoding' => 'aesgcm', // one of PushManager.supportedContentEncodings
+            ]
+        );
+        $auth = array(
+            'VAPID' => array(
+                'subject' => 'https://github.com/Minishlink/web-push-php-example/',
+                'publicKey' => 'BOaSVoq5ShMGa_acdk_D_u368jY-dt4cCt1UfdpCd1418azBciTeWDy3ahIhL2G847tQ6T0taG3-CUqoA9E_ZBY',
+                'privateKey' => 'oFN6rOOFJD05hR2E_pNxO5iFY_19lv62OLjEFeiuT5Q', // in the real world, this would be in a secret file
+            ),
+        );
+        $webPush = new WebPush($auth);
+        $res = $webPush->sendNotification(
+            $subscription,
+            "Hello! Sorry for pushing you a lot.",
+            true
+        );
+        return new JsonResponse($res);
     }
 }

@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class DPJob
 {
     const TYPE_MEMBER_IMPORT = 'MEMBER_IMPORT';
+    const TYPE_PWA_PUSH_ORG_INDIVIDUAL = 'PWA_PUSH_ORG_INDIVIDUAL';
 
     const STATUS_PENDING = 'PENDING';
     const STATUS_LOCKED = 'LOCKED';
@@ -91,6 +92,12 @@ class DPJob
      * @ORM\Column(type="string", nullable=true)
      */
     protected $resourceName;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $resourceData;
 
     /**
      * @var string
@@ -243,4 +250,22 @@ class DPJob
     {
         $this->startedAt = $startedAt;
     }
+
+    /**
+     * @return null|string
+     */
+    public function getResourceData(): ?string
+    {
+        return $this->resourceData;
+    }
+
+    /**
+     * @param null|string $resourceData
+     */
+    public function setResourceData(?string $resourceData): void
+    {
+        $this->resourceData = $resourceData;
+    }
+
+
 }

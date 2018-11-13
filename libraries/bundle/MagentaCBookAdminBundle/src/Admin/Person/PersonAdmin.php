@@ -19,8 +19,12 @@ class PersonAdmin extends BaseAdmin
     public function isGranted($name, $object = null)
     {
 //        return parent::isGranted($name, $object);
-        if ($this->isAdmin() || empty($object)) {
+        if ($this->isAdmin()) {
             return true;
+        }
+
+        if (empty($object)) {
+            return false;
         }
 
         if (!is_array($name) && strtoupper($name) === 'EDIT') {

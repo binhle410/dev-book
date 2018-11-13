@@ -27,7 +27,7 @@ var urlsToCache = [
 
 self.addEventListener('install', function(event) {
 	for(let i = 0; i < urlsToCache.length; i++) {
-		urlsToCache[i] = 'https://' + window.location.host + urlsToCache[i];
+		urlsToCache[i] = 'https://' + '{{ pwa_hostname }}' + urlsToCache[i];
 	}
 	// Perform install steps
 	event.waitUntil(
@@ -46,7 +46,7 @@ self.addEventListener('fetch', function(event) {
 	if(bookPos == -1){
 		if(urlsToCache.indexOf(event.request.url) != -1){
 
-			event.respondWith(fromCache(event.request, 400).catch(function() {
+			event.respondWith(fromCache(event.request, 400).catch(function(err) {
 			return fromNetwork(event.request);
 			}));
 
@@ -55,13 +55,13 @@ self.addEventListener('fetch', function(event) {
 	} else {
 	}
 
-	if (bookPos == -1) {
+	if (bookPos == -1 || event.request.method != 'GET') {
 		console.log('load from network before cache for index page');
-		event.respondWith(fromNetwork(event.request, 400).catch(function() {
+		event.respondWith(fromNetwork(event.request, 400).catch(function(err) {
 			return fromCache(event.request);
 		}));
 	} else {
-		event.respondWith(fromCache(event.request, 400).catch(function() {
+		event.respondWith(fromCache(event.request, 400).catch(function(err) {
 			return fromNetwork(event.request);
 		}));
 	}
@@ -86,13 +86,15 @@ function fromNetwork(request, timeout) {
 			// as well as the cache consuming the response, we need
 			// to clone it so we have two streams.
 			var responseToCache = response.clone();
+			if(request.method === 'GET'){
+				caches.open(CACHE_NAME)
+					.then(function(cache) {
 
-			caches.open(CACHE_NAME)
-				.then(function(cache) {
-					console.log('cache.put');
-					cache.put(request, responseToCache);
-				});
+							console.log('cache.put');
+							cache.put(request, responseToCache);
 
+					});
+			}
 			return response;
 		}
 	);

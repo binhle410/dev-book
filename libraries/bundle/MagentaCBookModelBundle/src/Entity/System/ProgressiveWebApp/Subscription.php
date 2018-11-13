@@ -5,6 +5,7 @@ namespace Magenta\Bundle\CBookModelBundle\Entity\System\ProgressiveWebApp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 
 /**
  * @ORM\Entity()
@@ -28,15 +29,23 @@ class Subscription
         return $this->id;
     }
 
-    public static function createInstance($endpoint = null, $expirationTime = null, $p256dhKey = null, $authToken = null)
+    public static function createInstance($endpoint = null, $expirationTime = null, $p256dhKey = null, $authToken = null, $contentEncoding = 'aesgcm')
     {
         $instance = new Subscription();
         $instance->endpoint = $endpoint;
         $instance->expirationTime = $expirationTime;
         $instance->p256dhKey = $p256dhKey;
         $instance->authToken = $authToken;
+        $instance->contentEncoding = $contentEncoding;
         return $instance;
     }
+
+    /**
+     * @var IndividualMember
+     * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember", inversedBy="subscriptions")
+     * @ORM\JoinColumn(name="id_individual_member", referencedColumnName="id")
+     */
+    protected $individualMember;
 
     /**
      * @var string|null
@@ -55,6 +64,12 @@ class Subscription
      * @ORM\Column(type="string", nullable=true, name="endpoint")
      */
     protected $endpoint;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $contentEncoding;
 
     /**
      * @var double|null
@@ -124,5 +139,37 @@ class Subscription
     public function setExpirationTime(?float $expirationTime): void
     {
         $this->expirationTime = $expirationTime;
+    }
+
+    /**
+     * @return IndividualMember
+     */
+    public function getIndividualMember(): IndividualMember
+    {
+        return $this->individualMember;
+    }
+
+    /**
+     * @param IndividualMember $individualMember
+     */
+    public function setIndividualMember(IndividualMember $individualMember): void
+    {
+        $this->individualMember = $individualMember;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getContentEncoding(): ?string
+    {
+        return $this->contentEncoding;
+    }
+
+    /**
+     * @param null|string $contentEncoding
+     */
+    public function setContentEncoding(?string $contentEncoding): void
+    {
+        $this->contentEncoding = $contentEncoding;
     }
 }

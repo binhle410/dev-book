@@ -163,7 +163,7 @@
     {# PWA #}
     let isSubscribed = false;
     let swRegistration = null;
-    const applicationServerPublicKey = 'BKzKjfELEwI-VghXZiZQzBORcYhRveiCvkii2i0jET2P7FpgBbunJ5c4UPskGeCIWsokjt7TX0MdTDBt6NivcYk';
+    const applicationServerPublicKey = '{{- pwaPublicKey()|raw -}}';
 
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
@@ -178,7 +178,8 @@
                         .then(function (subscription) {
                             isSubscribed = !(subscription === null);
 
-                            updateSubscriptionOnServer(subscription);
+                            // what if a new user logged in to a machine that already subscribed
+                            // updateSubscriptionOnServer(subscription);
 
                             if (isSubscribed) {
                                 console.log('User IS subscribed.');
@@ -210,12 +211,9 @@
                 updateSubscriptionOnServer(subscription);
 
                 isSubscribed = true;
-
-                updateBtn();
             })
             .catch(function (err) {
                 console.log('Failed to subscribe the user: ', err);
-                updateBtn();
             });
     }
 
@@ -232,6 +230,42 @@
             outputArray[i] = rawData.charCodeAt(i);
         }
         return outputArray;
+    }
+
+    function updateSubscriptionOnServer(subscription) {
+        let url = '{{ path('magenta_book_pwa_push_notif_subscription',{orgSlug:orgSlug, accessCode:accessCode,employeeCode:employeeCode}) }}';
+        const key = subscription.getKey('p256dh');
+        const token = subscription.getKey('auth');
+        const contentEncoding = (PushManager.supportedContentEncodings || ['aesgcm'])[0];
+
+        let data = {
+            endpoint: subscription.endpoint,
+            p256dh: key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : null,
+            auth: token ? btoa(String.fromCharCode.apply(null, new Uint8Array(token))) : null,
+        };
+        data['expiration-time'] = subscription.expirationTime;
+        data['content-encoding'] = contentEncoding;
+
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        })
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Bad status code from server.');
+                }
+
+                return response.json();
+            })
+            .then(function (responseData) {
+                if (!(responseData.data && responseData.data.success)) {
+                    throw new Error('Bad response from server.');
+                }
+            });
+
     }
 
 </script>

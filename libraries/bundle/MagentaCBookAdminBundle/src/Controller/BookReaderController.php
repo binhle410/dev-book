@@ -9,6 +9,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Context;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
+use Magenta\Bundle\CBookModelBundle\Service\Organisation\IndividualMemberService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,7 +58,7 @@ class BookReaderController extends Controller
     public function indexAction($orgSlug, $accessCode, $employeeCode, Request $request)
     {
         try {
-            $this->checkAccess($accessCode, $employeeCode);
+            $this->checkAccess($accessCode, $employeeCode, $orgSlug);
         } catch (UnauthorizedHttpException $e) {
             return new RedirectResponse($this->get('router')->generate('magenta_book_login',
                 [
@@ -102,7 +103,7 @@ class BookReaderController extends Controller
 
     public function readBookAction($orgSlug, $accessCode, $employeeCode, $bookId)
     {
-        $this->checkAccess($accessCode, $employeeCode);
+        $this->checkAccess($accessCode, $employeeCode, $orgSlug);
         $bookRepo = $this->getDoctrine()->getRepository(Book::class);
         $book = $bookRepo->find($bookId);
         $member = $this->getMemberByPinCodeEmployeeCode($accessCode, $employeeCode);
@@ -158,7 +159,7 @@ class BookReaderController extends Controller
 
     public function contactAction($orgSlug, $accessCode, $employeeCode)
     {
-        $this->checkAccess($accessCode, $employeeCode);
+        $this->checkAccess($accessCode, $employeeCode, $orgSlug);
         $member = $this->getMemberByPinCodeEmployeeCode($accessCode, $employeeCode);
         $org = $member->getOrganization();
         $members = $org->getIndividualMembers();
@@ -187,25 +188,15 @@ class BookReaderController extends Controller
         ]);
     }
 
-    private function checkAccess($accessCode, $employeeCode)
+    private function checkAccess($accessCode, $employeeCode, $orgSlug = null)
     {
-        $member = $this->getMemberByPinCodeEmployeeCode($accessCode, $employeeCode);
-        if (empty($member) || !$member->isEnabled() || !$member->getOrganization()->isEnabled()) {
-            $this->handleUnauthorisation();
-        }
-    }
-
-    private function handleUnauthorisation()
-    {
-        throw new UnauthorizedHttpException('Cannot access book reader. Invalid access code');
+        $this->get('magenta_book.individual_service')->checkAccess($accessCode, $employeeCode, $orgSlug);
     }
 
     private function getMemberByPinCodeEmployeeCode($accessCode, $employeeCode)
     {
         if (empty($this->member)) {
-            $registry = $this->getDoctrine();
-            $memberRepo = $registry->getRepository(IndividualMember::class);
-            $this->member = $memberRepo->findOneByPinCodeEmployeeCode($accessCode, $employeeCode);
+            $this->member = $this->get('magenta_book.individual_service')->getMemberByPinCodeEmployeeCode($accessCode, $employeeCode);
         }
         return $this->member;
     }

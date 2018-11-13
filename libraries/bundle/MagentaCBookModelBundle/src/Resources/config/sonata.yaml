@@ -7,3 +7,12 @@ services:
           - '@magenta_book.individual_service'
         tags:
             - {name: "sonata.notification.consumer", type: "member-import" }
+
+    magenta_notification_consumer_pwa_push_notif:
+        class: Magenta\Bundle\CBookModelBundle\EventListener\Notification\PwaPushNotificationConsumer
+        arguments:
+        - '@doctrine.orm.default_entity_manager'
+        - '@doctrine'
+        - '@magenta_book.individual_service'
+        tags:
+        - {name: "sonata.notification.consumer", type: "pwa-push-notification" }

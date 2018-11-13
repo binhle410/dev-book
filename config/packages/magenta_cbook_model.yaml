@@ -13,6 +13,8 @@ parameters:
     MEDIA_API_PREFIX_SLASH: '%env(MEDIA_API_PREFIX_SLASH)%'
     PDF_API_BASE_URL:  '%env(resolve:PDF_API_BASE_URL)%'
     PDF_DOWNLOAD_PREFIX: '%env(resolve:PDF_DOWNLOAD_PREFIX)%'
+    PWA_PUBLIC_KEY_PATH: '%kernel.project_dir%/%env(PWA_PUBLIC_KEY_PATH)%'
+    PWA_PRIVATE_KEY_PATH: '%kernel.project_dir%/%env(PWA_PRIVATE_KEY_PATH)%'
 
     WELLNESS_EVOUCHER_BASE_URL: '%env(resolve:WELLNESS_EVOUCHER_BASE_URL)%'
 
