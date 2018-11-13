@@ -57,7 +57,7 @@ class BeanPlaygroundController extends Controller
                 'endpoint' => 'https://fcm.googleapis.com/fcm/send/eD9IUBJ7Zbg:APA91bHcexZWw3y88F6JXCibSMUhu2wxsAVQjcLsexh-2SdgNEd6-t0vL-a8wAZvRPGHAvBvMBs1VwgP56rZ3CZQTdQ0PpuK0gG9Wvl26iHW7sIlLf150CcWaTr4UnEQgt2sZmFPJJ7E',
                 'publicKey' => 'BP4AZpl+UGj37CB/3a2cCOYKeQ83SEj6jJIDK7sNAqMe3EL3ROfsF32v2clcDeHIoefbKR5PgAhYc4q7nH8J3Q0=',
                 'authToken' => 'YTopEigDsuQ3eCLlOuaFSg==',
-                'contentEncoding' => 'aesgcm', // one of PushManager.supportedContentEncodings
+                'contentEncoding' => 'aes128gcm', // one of PushManager.supportedContentEncodings
             ]
         );
         $auth = array(
