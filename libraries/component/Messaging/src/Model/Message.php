@@ -1,0 +1,155 @@
+<?php
+declare(strict_types=1);
+
+namespace Bean\Component\Messaging\Model;
+
+use Bean\Component\CreativeWork\Model\CreativeWork;
+use Bean\Component\Messaging\IoC\MessageContainerInterface;
+use Bean\Component\Thing\Model\ThingInterface;
+
+/**
+ * A single message from a sender to one or more organizations or people.
+ */
+class Message extends CreativeWork implements MessageInterface
+{
+    const STATUS_NEW = 'MESSAGE_NEW';
+    const STATUS_RECEIVED = 'MESSAGE_RECEIVED';
+    const STATUS_READ = 'MESSAGE_READ';
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->status = self::STATUS_NEW;
+    }
+
+    /**
+     * NOT part of schema.org
+     * @var \Countable|\IteratorAggregate|\ArrayAccess|array|null
+     */
+    protected $deliveries;
+
+    /**
+     * NOT part of schema.org
+     * @var ConversationInterface
+     */
+    protected $conversation;
+
+    /**
+     * @var MessageContainerInterface
+     */
+    protected $sender;
+
+    /**
+     * The date/time at which the message has been read by the recipient if a single recipient exists.
+     * @var \DateTime|null
+     */
+    protected $dateRead;
+
+    /**
+     * The date/time the message was received if a single recipient exists.
+     * @var \DateTime|null
+     */
+    protected $dateReceived;
+
+    /**
+     * The date/time at which the message was sent
+     * @var \DateTime|null
+     */
+    protected $dateSent;
+
+    /**
+     * @return ConversationInterface
+     */
+    public function getConversation(): ConversationInterface
+    {
+        return $this->conversation;
+    }
+
+    /**
+     * @param ConversationInterface $conversation
+     */
+    public function setConversation(ConversationInterface $conversation): void
+    {
+        $this->conversation = $conversation;
+    }
+
+    /**
+     * @return ThingInterface
+     */
+    public function getSender(): ThingInterface
+    {
+        return $this->sender;
+    }
+
+    /**
+     * @param ThingInterface $sender
+     */
+    public function setSender(ThingInterface $sender): void
+    {
+        $this->sender = $sender;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getDateRead(): ?\DateTime
+    {
+        return $this->dateRead;
+    }
+
+    /**
+     * @param \DateTime|null $dateRead
+     */
+    public function setDateRead(?\DateTime $dateRead): void
+    {
+        $this->dateRead = $dateRead;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getDateReceived(): ?\DateTime
+    {
+        return $this->dateReceived;
+    }
+
+    /**
+     * @param \DateTime|null $dateReceived
+     */
+    public function setDateReceived(?\DateTime $dateReceived): void
+    {
+        $this->dateReceived = $dateReceived;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getDateSent(): ?\DateTime
+    {
+        return $this->dateSent;
+    }
+
+    /**
+     * @param \DateTime|null $dateSent
+     */
+    public function setDateSent(?\DateTime $dateSent): void
+    {
+        $this->dateSent = $dateSent;
+    }
+
+    /**
+     * @return array|\ArrayAccess|\Countable|\IteratorAggregate|null
+     */
+    public function getDeliveries()
+    {
+        return $this->deliveries;
+    }
+
+    /**
+     * @param array|\ArrayAccess|\Countable|\IteratorAggregate|null $deliveries
+     */
+    public function setDeliveries($deliveries): void
+    {
+        $this->deliveries = $deliveries;
+    }
+}

@@ -1,21 +1,9 @@
 <?php
-declare(strict_types=1);
 
 namespace Bean\Component\Thing\Model;
 
-/**
- * Class Thing: The most generic type of item.
- * @package Bean\Component\Thing\Model
- */
-abstract class Thing implements ThingInterface
+trait ThingInterfaceTrait
 {
-
-    protected $id;
-
-    function __construct()
-    {
-        $this->createdAt = new \DateTime();
-    }
 
     public function __clone()
     {
@@ -102,43 +90,6 @@ abstract class Thing implements ThingInterface
 
         return true;
     }
-
-    /**
-     * NOT part of schema.org
-     * @var boolean
-     */
-    protected $enabled = false;
-
-    /**
-     * NOT part of schema.org
-     * @var \DateTime
-     */
-    protected $createdAt;
-
-    /**
-     * NOT part of schema.org
-     * @var \DateTime|null
-     */
-    protected $updatedAt;
-
-    /**
-     * NOT part of schema.org
-     * A thing may have a status like DRAFT, OPEN, CLOSED, EXPIRED, ARCHIVED
-     * @var string|null
-     */
-    protected $status;
-
-    /**
-     * The name of the item.
-     * @var string|null
-     */
-    protected $name;
-
-    /**
-     * A description of the item.
-     * @var string|null
-     */
-    protected $description;
 
     public function getId()
     {

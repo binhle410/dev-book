@@ -40,7 +40,7 @@ abstract class CreativeWork extends Thing implements CreativeWorkInterface
     /**
      * Indicates a CreativeWork that is (in some sense) a part of this CreativeWork.
      * Inverse property: partOf.
-     * @var \ArrayAccess|array|null
+     * @var \Countable|\IteratorAggregate|\ArrayAccess|array|null
      */
     protected $parts;
 

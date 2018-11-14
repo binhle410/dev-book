@@ -2,6 +2,7 @@
 
 namespace Magenta\Bundle\CBookModelBundle;
 
+use Bean\Component\Messaging\Model\Conversation;
 use Doctrine\Common\Persistence\Mapping\Driver\DefaultFileLocator;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\JsonLoginFactory;
 use Symfony\Component\Console\Application;
@@ -37,22 +38,41 @@ use Doctrine\ODM\PHPCR\Version as PHPCRVersion;
  *
  * @author Binh
  */
-class MagentaCBookModelBundle extends Bundle {
-	public function build(ContainerBuilder $container) {
-		parent::build($container);
-		$container->addCompilerPass(
-			DoctrineOrmMappingsPass::createXmlMappingDriver(
-				[
-					realpath(__DIR__ . '/Resources/config/doctrine-model/thing') => 'Bean\Component\Thing\Model',
-				],
-				[ 'bean_thing.persistence.orm.manager_name' ],
-				'bean_thing.backend_type_orm_custom',
-				[ 'BeanThingBundle' => 'Bean\Component\Thing\Model' ]
-			)
-		);
-	}
-	
-	public function registerCommands(Application $application) {
-	}
-	
+class MagentaCBookModelBundle extends Bundle
+{
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+//        $reflector = new \ReflectionClass(Conversation::class);
+//        $messagingCompSrcPath = dirname($reflector->getFileName(), 2);
+//        $container->addCompilerPass(
+//            DoctrineOrmMappingsPass::createXmlMappingDriver(
+//                [
+//                    realpath($messagingCompSrcPath . '/Resources/config/doctrine-model/orm-superclass') => 'Bean\Component\Messaging\Model',
+//                ],
+//                ['bean_thing.persistence.orm.manager_name'],
+//                'bean_thing.backend_type_orm_custom',
+//                ['BeanMessagingComponent' => 'Bean\Component\Messaging\Model']
+//            )
+//        );
+
+        $container->addCompilerPass(
+            DoctrineOrmMappingsPass::createXmlMappingDriver(
+                [
+                    realpath(__DIR__ . '/Resources/config/doctrine-model/thing') => 'Bean\Component\Thing\Model',
+                    realpath(__DIR__ . '/Resources/config/doctrine-model/messaging') => 'Bean\Component\Messaging\Model',
+//                    realpath(__DIR__ . '/Resources/config/doctrine-model/message-delivery') => 'Magenta\Bundle\CBookModelBundle\Entity\Messaging',
+                ],
+                ['bean_thing.persistence.orm.manager_name'],
+                'bean_thing.backend_type_orm_custom',
+                ['BeanThingBundle' => 'Bean\Component\Thing\Model']
+            )
+        );
+    }
+
+    public function registerCommands(Application $application)
+    {
+    }
+
 }

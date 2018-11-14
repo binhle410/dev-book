@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Bean\Component\CreativeWork\Model\CreativeWork;
+use Bean\Component\Messaging\Model\ConversationInterface;
 use Bean\Component\Thing\Model\Thing;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,6 +11,9 @@ use Doctrine\Common\Collections\Criteria;
 use function GuzzleHttp\Psr7\copy_to_string;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\BookPage;
+use Magenta\Bundle\CBookModelBundle\Entity\Messaging\Conversation;
+use Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message;
+use Magenta\Bundle\CBookModelBundle\Entity\Messaging\MessageDelivery;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
 use Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing\DPJob;
@@ -20,6 +25,7 @@ use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -67,12 +73,31 @@ class BeanPlaygroundController extends Controller
                 'privateKey' => 'oFN6rOOFJD05hR2E_pNxO5iFY_19lv62OLjEFeiuT5Q', // in the real world, this would be in a secret file
             ),
         );
-        $webPush = new WebPush($auth);
-        $res = $webPush->sendNotification(
-            $subscription,
-            "Hello! Sorry for pushing you a lot.",
-            true
-        );
-        return new JsonResponse($res);
+//        $webPush = new WebPush($auth);
+//        $res = $webPush->sendNotification(
+//            $subscription,
+//            "Hello! Sorry for pushing you a lot.",
+//            true
+//        );
+
+        $m = $this->get('doctrine.orm.default_entity_manager');
+        $id = 32036;
+
+        $conversation = $this->getDoctrine()->getRepository(CreativeWork::class)->find($id);
+        if (!$conversation instanceof ConversationInterface) {
+            throw new NotFoundHttpException('con of ConInterface not found');
+        }
+
+        $msg = $this->getDoctrine()->getRepository(Message::class)->find(32039);
+        $recipient = $this->getDoctrine()->getRepository(IndividualMember::class)->find(32029);
+        $msg->setAbout('about text 32039');
+
+        $delivery = new MessageDelivery();
+        $delivery->setMessage($msg);
+        $delivery->setRecipient($recipient);
+
+        $m->persist($msg);
+        $m->flush();
+        return new JsonResponse([$id, json_encode($conversation), json_encode($recipient)]);
     }
 }

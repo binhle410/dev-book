@@ -24,9 +24,10 @@
             <discriminator-mapping value="media" class="Magenta\Bundle\CBookModelBundle\Entity\Media\Media" />
             <!--<discriminator-mapping value="media-object" class="Bean\Component\Media\Model\MediaObject" />-->
             <!--<discriminator-mapping value="media-app" class="Magenta\Bundle\CBookModelBundle\Entity\Media\Base\AppMedia" />-->
-
-
             <discriminator-mapping value="message-template" class="Magenta\Bundle\CBookModelBundle\Entity\Messaging\MessageTemplate" />
+            <discriminator-mapping value="conversation" class="Magenta\Bundle\CBookModelBundle\Entity\Messaging\Conversation" />
+            <discriminator-mapping value="message" class="Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message" />
+
         </discriminator-map>
 
         <field name="createdAt" type="datetime"/>

@@ -1,8 +1,8 @@
 {
-    "name": "beancomponent/conversation",
+    "name": "beancomponent/messaging",
     "type": "php-component",
-    "description": "Provides a Component for Conversation Domain Model.",
-    "keywords": [ "php Conversation components" ],
+    "description": "Provides a Component for Messaging Domain Model.",
+    "keywords": [ "php Messaging components" ],
     "license": "MIT",
     "authors": [
         {
@@ -20,10 +20,10 @@
 
     },
     "autoload": {
-        "psr-4": { "Bean\\Component\\Conversation\\": "src/" }
+        "psr-4": { "Bean\\Component\\Messaging\\": "src/" }
     },
     "autoload-dev": {
-        "psr-4": { "Bean\\Component\\Conversation\\spec\\": "tests/spec/" }
+        "psr-4": { "Bean\\Component\\Messaging\\spec\\": "tests/spec/" }
     },
     "extra": {
         "branch-alias": {

@@ -176,7 +176,6 @@ class BookReaderController extends Controller
         }
         ksort($sortedMembers);
 
-
         return $this->render('@MagentaCBookAdmin/App/contact.html.twig', [
             'member' => $member,
             'base_book_template' => '@MagentaCBookAdmin/App/base.html.twig',
