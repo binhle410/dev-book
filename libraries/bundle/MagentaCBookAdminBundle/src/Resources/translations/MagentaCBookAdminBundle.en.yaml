@@ -2,6 +2,7 @@ person: System Users
 individualgroup: Groups
 individualmember: Members
 profile_edit: Profile
+message: Alerts & Notices
 
 breadcrumb:
     link_person_list: Users

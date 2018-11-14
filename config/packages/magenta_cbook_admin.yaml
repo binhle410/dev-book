@@ -138,6 +138,7 @@ sonata_admin:
                     - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\IndividualGroupAdmin
                     - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\IndividualMemberAdmin
 #                    - Magenta\Bundle\CBookAdminBundle\Admin\System\AccessControl\ACRoleAdmin
+                    - Magenta\Bundle\CBookAdminBundle\Admin\Messaging\MessageAdmin
                     - sonata.notification.admin.message
 
     #                    - Sonata\MediaBundle\Admin\ORM\MediaAdmin
