@@ -9,9 +9,11 @@ use Bean\Component\Organization\Model\OrganizationInterface;
 use Bean\Component\Person\Model\Person;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
+use Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message;
 use Magenta\Bundle\CBookModelBundle\Entity\System\AccessControl\ACRole;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 
@@ -54,6 +56,16 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
         $member->setPerson($person);
         $member->setEmail($email);
         return $member;
+    }
+
+    public function isMessageDelivered(Message $message)
+    {
+        $c = Criteria::create();
+        $expr = Criteria::expr();
+
+        $c->where($expr->eq('message', $message));
+
+        return $this->messageDeliveries->matching($c)->count() > 0;
     }
 
     public function getBooksToRead()

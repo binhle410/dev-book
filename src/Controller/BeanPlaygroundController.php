@@ -92,12 +92,21 @@ class BeanPlaygroundController extends Controller
         $recipient = $this->getDoctrine()->getRepository(IndividualMember::class)->find(32029);
         $msg->setAbout('about text 32039');
 
-        $delivery = new MessageDelivery();
-        $delivery->setMessage($msg);
-        $delivery->setRecipient($recipient);
+        $delivery = $this->getDoctrine()->getRepository(MessageDelivery::class)->find(1);
+        $deliveries = $recipient->getMessageDeliveries();
+        $d = [];
+        /** @var MessageDelivery $de */
+        foreach ($deliveries as $de) {
+            $dr = '';
+            if (!empty($de->getDateRead())) {
+                $dr = $de->getDateRead()->format('d-m-Y');
+            }
+            $d[] = $de->getId() . ' - ' . $dr;
+        }
 
-        $m->persist($msg);
-        $m->flush();
-        return new JsonResponse([$id, json_encode($conversation), json_encode($recipient)]);
+        $delivered = $recipient->isMessageDelivered($msg);
+//        $m->persist($delivery);
+//        $m->flush();
+        return new JsonResponse([$id, $d, $delivered]);
     }
 }

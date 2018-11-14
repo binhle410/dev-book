@@ -55,4 +55,17 @@ class MessageDelivery implements MessageDeliveryInterface
      */
     protected $dateRead;
 
+    /**
+     * The date/time at which the message has been sent to the recipient
+     * @var \DateTime|null
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $createdAt;
+
+    /**
+     * @var \DateTime|null
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $updatedAt;
+
 }
