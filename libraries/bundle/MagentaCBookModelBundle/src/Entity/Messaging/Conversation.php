@@ -13,5 +13,13 @@ use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
  */
 class Conversation extends \Bean\Component\Messaging\Model\Conversation
 {
-
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message",
+     *     mappedBy="conversation", cascade={"persist"}
+     * )
+     *
+     * @var \Doctrine\Common\Collections\Collection $messages
+     */
+    protected $messages;
 }

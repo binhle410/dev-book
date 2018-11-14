@@ -28,7 +28,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MessageAdmin extends BaseAdmin
 {
-    
+
     protected $action;
 
     protected $datagridValues = array(
@@ -112,7 +112,7 @@ class MessageAdmin extends BaseAdmin
         $listMapper->add('_action', 'actions', [
                 'actions' => array(
 //					'impersonate' => array( 'template' => 'admin/Message/list__action__impersonate.html.twig' ),
-                    'cbook' => array('template' => '@MagentaCBookAdmin/Admin/Organisation/Action/list__action__cbooks.html.twig'),
+//                    'cbook' => array('template' => '@MagentaCBookAdmin/Admin/Organisation/Action/list__action__cbooks.html.twig'),
                     'edit' => array(),
                     'delete' => array(),
 
@@ -128,8 +128,8 @@ class MessageAdmin extends BaseAdmin
             ->add('createdAt');
 
         if ($this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
-            $listMapper
-                ->add('impersonating', 'string', ['template' => 'SonataMessageBundle:Admin:Field/impersonating.html.twig']);
+//            $listMapper
+//                ->add('impersonating', 'string', ['template' => 'SonataMessageBundle:Admin:Field/impersonating.html.twig']);
         }
 
         $listMapper->remove('impersonating');
@@ -140,39 +140,9 @@ class MessageAdmin extends BaseAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->with('General', ['class' => 'col-md-6'])->end()
-            ->with('Security', ['class' => 'col-md-6'])->end();
+            ->add('name',null,['label'=>'form.label_title'])
 
-        $formMapper
-            ->with('General')
-//                ->add('Messagename')
-            ->add('name', null, ['label' => 'form.label_name'])
-            ->add('code', null, ['label' => 'form.label_code'])
-            ->add('regNo', null, ['label' => 'form.label_reg_no'])
-            ->add('slug', null, ['label' => 'form.label_slug'])
-            ->add('logo', MediaType::class, array(
-                'provider' => 'sonata.media.provider.image',
-                'context' => 'organisation_logo',
-                'new_on_update' => false
-            ))
-            ->add('appIcon', MediaType::class, array(
-                'provider' => 'sonata.media.provider.image',
-                'context' => 'organisation_logo',
-                'new_on_update' => false
-            ))
 
-//                ->add('admin')
-            ->end();
-
-//		$adminMessageAdmin->g
-        $formMapper->with('Security')
-            ->add('linkedToWellness')
-            ->add('enabled')
-            ->add('adminMessages', ModelAutocompleteType::class, [
-                'required' => false,
-                'property' => 'Messagename',
-                'multiple' => true
-            ])
             ->end();
     }
 
@@ -181,12 +151,7 @@ class MessageAdmin extends BaseAdmin
      */
     public function preValidate($object)
     {
-        $aMessages = $object->getAdminMessages();
-        foreach ($aMessages as $u) {
-            $object->addAdminMessage($u);
-        }
-        $logo = $object->getLogo();
-        $logo->setOrganization($object);
+
     }
 
     /**
@@ -216,10 +181,6 @@ class MessageAdmin extends BaseAdmin
     ///
     ///
     ///////////////////////////////////
-    /**
-     * @var MessageManagerInterface
-     */
-    protected $MessageManager;
 
 
     /**

@@ -21,9 +21,16 @@ class Message extends \Bean\Component\Messaging\Model\Message {
 
 	/**
 	 * @var Organisation|null
-	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="messageTemplates", cascade={"persist","merge"})
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation")
 	 * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $organisation;
+
+    /**
+     * @var Conversation|null
+     * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Messaging\Conversation", inversedBy="messages")
+     * @ORM\JoinColumn(name="id_conversation", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $conversation;
 
 }

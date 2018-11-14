@@ -107,6 +107,6 @@ class BeanPlaygroundController extends Controller
         $delivered = $recipient->isMessageDelivered($msg);
 //        $m->persist($delivery);
 //        $m->flush();
-        return new JsonResponse([$id, $d, $delivered]);
+        return new JsonResponse([$id, $msg->getConversation()->getName(), $delivered]);
     }
 }
