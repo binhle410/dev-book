@@ -4,7 +4,7 @@ namespace Bean\Component\Thing\Model;
 
 trait ThingInterfaceTrait
 {
-
+    
     public function __clone()
     {
         if ($this->id) {
@@ -25,7 +25,7 @@ trait ThingInterfaceTrait
             }
         }
     }
-
+    
     public function copyScalarPropertiesFrom(ThingInterface $thing)
     {
         $vars = get_object_vars($this);
@@ -45,17 +45,17 @@ trait ThingInterfaceTrait
             }
         }
     }
-
+    
     protected function getObjectArrayProperties()
     {
         return [];
     }
-
+    
     protected function getObjectProperties()
     {
         return [];
     }
-
+    
     /**
      * NOT part of schema.org
      *
@@ -67,11 +67,11 @@ trait ThingInterfaceTrait
     protected function addElementToArrayProperty($element, $prop)
     {
         $this->{$prop}[] = $element;
-
+        
         return true;
-
+        
     }
-
+    
     /**
      * NOT part of schema.org
      *
@@ -87,15 +87,15 @@ trait ThingInterfaceTrait
             return false;
         }
         unset($this->{$prop}[$key]);
-
+        
         return true;
     }
-
+    
     public function getId()
     {
         return $this->id;
     }
-
+    
     /**
      * @return bool
      */
@@ -103,7 +103,7 @@ trait ThingInterfaceTrait
     {
         return $this->enabled;
     }
-
+    
     /**
      * @param bool $enabled
      */
@@ -111,7 +111,7 @@ trait ThingInterfaceTrait
     {
         $this->enabled = $enabled;
     }
-
+    
     /**
      * @return \DateTime
      */
@@ -119,7 +119,7 @@ trait ThingInterfaceTrait
     {
         return $this->createdAt;
     }
-
+    
     /**
      * @param \DateTime $createdAt
      */
@@ -127,7 +127,7 @@ trait ThingInterfaceTrait
     {
         $this->createdAt = $createdAt;
     }
-
+    
     /**
      * @return \DateTime
      */
@@ -135,7 +135,7 @@ trait ThingInterfaceTrait
     {
         return $this->updatedAt;
     }
-
+    
     /**
      * @param \DateTime $updatedAt
      */
@@ -143,7 +143,7 @@ trait ThingInterfaceTrait
     {
         $this->updatedAt = $updatedAt;
     }
-
+    
     /**
      * @return null|string
      */
@@ -151,8 +151,8 @@ trait ThingInterfaceTrait
     {
         return $this->name;
     }
-
-
+    
+    
     /**
      * @param null|string $name
      */
@@ -160,7 +160,7 @@ trait ThingInterfaceTrait
     {
         $this->name = $name;
     }
-
+    
     /**
      * @return null|string
      */
@@ -168,7 +168,7 @@ trait ThingInterfaceTrait
     {
         return $this->description;
     }
-
+    
     /**
      * @param null|string $description
      */
@@ -176,7 +176,7 @@ trait ThingInterfaceTrait
     {
         $this->description = $description;
     }
-
+    
     /**
      * @return null|string
      */
@@ -184,7 +184,7 @@ trait ThingInterfaceTrait
     {
         return $this->status;
     }
-
+    
     /**
      * @param null|string $status
      */
@@ -192,5 +192,30 @@ trait ThingInterfaceTrait
     {
         $this->status = $status;
     }
-
+    
+    
+    /**
+     * @return bool|null
+     */
+    public function isLocked(): bool
+    {
+        return !empty($this->locked);
+    }
+    
+    /**
+     * @return bool|null
+     */
+    public function getLocked(): ?bool
+    {
+        return $this->locked;
+    }
+    
+    /**
+     * @param bool|null $locked
+     */
+    public function setLocked(?bool $locked): void
+    {
+        $this->locked = $locked;
+    }
+    
 }

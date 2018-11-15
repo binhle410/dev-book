@@ -31,7 +31,8 @@ class BaseAdmin extends AbstractAdmin {
 	const CONTROLLER = null;
 	const CHILDREN = null;
 	const ADMIN_CODE = null;
-	
+	const TEMPLATES = null;
+
 	protected
 		$translationDomain = 'MagentaCBookAdminBundle'; // default is 'messages'
 	

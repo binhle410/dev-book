@@ -31,41 +31,46 @@ class MessageDelivery implements MessageDeliveryInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
+    
     use MessageDeliveryInterfaceTrait;
-
+    
     /**
      * @var MessageInterface
      * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message", inversedBy="deliveries")
      * @ORM\JoinColumn(name="id_message", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $message;
-
+    
     /**
      * @var MessageDeliverableInterface
      * @ORM\ManyToOne(targetEntity="Bean\Component\Thing\Model\Thing")
      * @ORM\JoinColumn(name="id_recipient", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $recipient;
-
+    
     /**
      * The date/time at which the message has been read by the recipient if a single recipient exists.
      * @var \DateTime|null
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $dateRead;
-
+    
     /**
      * The date/time at which the message has been sent to the recipient
      * @var \DateTime|null
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $createdAt;
-
+    
     /**
      * @var \DateTime|null
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $updatedAt;
-
+    
+    /**
+     * @var boolean|null
+     * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+     */
+    protected $locked = false;
 }

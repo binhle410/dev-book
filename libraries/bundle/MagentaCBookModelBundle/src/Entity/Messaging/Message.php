@@ -2,8 +2,10 @@
 
 namespace Magenta\Bundle\CBookModelBundle\Entity\Messaging;
 
+use Bean\Component\Organization\IoC\OrganizationAwareInterface;
 use Bean\Component\Organization\Model\IndividualMember as MemberModel;
 
+use Bean\Component\Organization\Model\OrganizationInterface;
 use Bean\Component\Thing\Model\Thing;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,20 +19,46 @@ use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
  * @ORM\Entity()
  * @ORM\Table(name="messaging__message")
  */
-class Message extends \Bean\Component\Messaging\Model\Message {
-
-	/**
-	 * @var Organisation|null
-	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation")
-	 * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
-	 */
-	protected $organisation;
-
+class Message extends \Bean\Component\Messaging\Model\Message implements OrganizationAwareInterface
+{
+    
+    /**
+     * @var Organisation|null
+     * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation")
+     * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $organisation;
+    
     /**
      * @var Conversation|null
      * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Messaging\Conversation", inversedBy="messages")
      * @ORM\JoinColumn(name="id_conversation", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $conversation;
-
+    
+    public function getOrganization(): ?OrganizationInterface
+    {
+        return $this->organisation;
+    }
+    
+    public function setOrganization(?OrganizationInterface $organization)
+    {
+        $this->organisation = $organization;
+    }
+    
+    /**
+     * @return Organisation|null
+     */
+    public function getOrganisation(): ?Organisation
+    {
+        return $this->organisation;
+    }
+    
+    /**
+     * @param Organisation|null $organisation
+     */
+    public function setOrganisation(?Organisation $organisation): void
+    {
+        $this->organisation = $organisation;
+    }
 }

@@ -28,6 +28,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MessageAdmin extends BaseAdmin
 {
+    const TEMPLATES = ['edit' => '@MagentaCBookAdmin/Admin/Messaging/Message/CRUD/edit.html.twig'];
 
     protected $action;
 
@@ -140,18 +141,21 @@ class MessageAdmin extends BaseAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name',null,['label'=>'form.label_title'])
-
-
+            ->add('name', null, ['label' => 'form.label_title'])
+            ->add('text', null, ['label' => 'form.label_body'])
             ->end();
     }
 
     /**
-     * @param Organisation $object
+     * @param Message $object
      */
     public function preValidate($object)
     {
-
+        parent::preValidate($object);
+        $request = $this->getRequest();
+        if (null !== $request->get('btn_publish')) {
+            $object->deliver();
+        }
     }
 
     /**

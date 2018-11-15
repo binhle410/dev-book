@@ -12,51 +12,63 @@ use Bean\Component\Thing\Model\ThingInterface;
  */
 class Message extends CreativeWork implements MessageInterface
 {
+    const STATUS_DRAFT = 'MESSAGE_DRAFT';
     const STATUS_NEW = 'MESSAGE_NEW';
+    const STATUS_DELIVERY_IN_PROGRESS = 'DELIVERY_IN_PROGRESS';
+    const STATUS_DELIVERY_SUCCESSFUL = 'DELIVERY_SUCCESSFUL';
     const STATUS_RECEIVED = 'MESSAGE_RECEIVED';
     const STATUS_READ = 'MESSAGE_READ';
-
+    
     public function __construct()
     {
         parent::__construct();
         $this->status = self::STATUS_NEW;
     }
-
+    
+    public function deliver()
+    {
+        if ($this->status === self::STATUS_DRAFT) {
+            $this->status = self::STATUS_NEW;
+        }
+        
+        return $this->status;
+    }
+    
     /**
      * NOT part of schema.org
      * @var \Countable|\IteratorAggregate|\ArrayAccess|array|null
      */
     protected $deliveries;
-
+    
     /**
      * NOT part of schema.org
      * @var ConversationInterface
      */
     protected $conversation;
-
+    
     /**
      * @var MessageContainerInterface
      */
     protected $sender;
-
+    
     /**
      * The date/time at which the message has been read by the recipient if a single recipient exists.
      * @var \DateTime|null
      */
     protected $dateRead;
-
+    
     /**
      * The date/time the message was received if a single recipient exists.
      * @var \DateTime|null
      */
     protected $dateReceived;
-
+    
     /**
      * The date/time at which the message was sent
      * @var \DateTime|null
      */
     protected $dateSent;
-
+    
     /**
      * @return ConversationInterface
      */
@@ -64,7 +76,7 @@ class Message extends CreativeWork implements MessageInterface
     {
         return $this->conversation;
     }
-
+    
     /**
      * @param ConversationInterface $conversation
      */
@@ -72,7 +84,7 @@ class Message extends CreativeWork implements MessageInterface
     {
         $this->conversation = $conversation;
     }
-
+    
     /**
      * @return ThingInterface
      */
@@ -80,7 +92,7 @@ class Message extends CreativeWork implements MessageInterface
     {
         return $this->sender;
     }
-
+    
     /**
      * @param ThingInterface $sender
      */
@@ -88,7 +100,7 @@ class Message extends CreativeWork implements MessageInterface
     {
         $this->sender = $sender;
     }
-
+    
     /**
      * @return \DateTime|null
      */
@@ -96,7 +108,7 @@ class Message extends CreativeWork implements MessageInterface
     {
         return $this->dateRead;
     }
-
+    
     /**
      * @param \DateTime|null $dateRead
      */
@@ -104,7 +116,7 @@ class Message extends CreativeWork implements MessageInterface
     {
         $this->dateRead = $dateRead;
     }
-
+    
     /**
      * @return \DateTime|null
      */
@@ -112,7 +124,7 @@ class Message extends CreativeWork implements MessageInterface
     {
         return $this->dateReceived;
     }
-
+    
     /**
      * @param \DateTime|null $dateReceived
      */
@@ -120,7 +132,7 @@ class Message extends CreativeWork implements MessageInterface
     {
         $this->dateReceived = $dateReceived;
     }
-
+    
     /**
      * @return \DateTime|null
      */
@@ -128,7 +140,7 @@ class Message extends CreativeWork implements MessageInterface
     {
         return $this->dateSent;
     }
-
+    
     /**
      * @param \DateTime|null $dateSent
      */
@@ -136,7 +148,7 @@ class Message extends CreativeWork implements MessageInterface
     {
         $this->dateSent = $dateSent;
     }
-
+    
     /**
      * @return array|\ArrayAccess|\Countable|\IteratorAggregate|null
      */
@@ -144,7 +156,7 @@ class Message extends CreativeWork implements MessageInterface
     {
         return $this->deliveries;
     }
-
+    
     /**
      * @param array|\ArrayAccess|\Countable|\IteratorAggregate|null $deliveries
      */
