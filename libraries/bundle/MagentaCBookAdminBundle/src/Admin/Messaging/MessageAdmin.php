@@ -29,9 +29,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class MessageAdmin extends BaseAdmin
 {
     const TEMPLATES = ['edit' => '@MagentaCBookAdmin/Admin/Messaging/Message/CRUD/edit.html.twig'];
-
+    
     protected $action;
-
+    
     protected $datagridValues = array(
         // display the first page (default = 1)
 //        '_page' => 1,
@@ -40,15 +40,15 @@ class MessageAdmin extends BaseAdmin
         // name of the ordered field (default = the model's id field, if any)
         '_sort_by' => 'updatedAt',
     );
-
+    
     public function getNewInstance()
     {
         /** @var Message $object */
         $object = parent::getNewInstance();
-
+        
         return $object;
     }
-
+    
     /**
      * @param string $name
      * @param Message $object
@@ -58,23 +58,27 @@ class MessageAdmin extends BaseAdmin
         $container = $this->getConfigurationPool()->getContainer();
         $isAdmin = $container->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
 //        $pos = $container->get(MessageService::class)->getPosition();
-//        if (in_array($name, ['CREATE', 'DELETE', 'LIST'])) {
-//            return $isAdmin;
-//        }
+        if (in_array($name, ['EDIT', 'DELETE'])) {
+            if (empty($object)) {
+                return $isAdmin;
+            } else {
+                return $object->getStatus() === Message::STATUS_DRAFT;
+            }
+        }
 //        if (empty($isAdmin)) {
 //            return false;
 //        }
-
+        
         return parent::isGranted($name, $object);
     }
-
+    
     public function toString($object)
     {
         return $object instanceof Organisation
             ? $object->getName()
             : 'Message'; // shown in the breadcrumb on the create view
     }
-
+    
     public function createQuery($context = 'list')
     {
         /** @var ProxyQueryInterface $query */
@@ -84,27 +88,27 @@ class MessageAdmin extends BaseAdmin
         }
 
 //        $query->andWhere()
-
+        
         return $query;
     }
-
+    
     public function configureRoutes(RouteCollection $collection)
     {
         parent::configureRoutes($collection);
 //		$collection->add('show_Message_profile', $this->getRouterIdParameter() . '/show-Message-profile');
-
+    
     }
-
+    
     public function getTemplate($name)
     {
         return parent::getTemplate($name);
     }
-
+    
     protected function configureShowFields(ShowMapper $showMapper)
     {
-
+    
     }
-
+    
     /**
      * {@inheritdoc}
      */
@@ -127,17 +131,17 @@ class MessageAdmin extends BaseAdmin
         $listMapper
             ->addIdentifier('name')
             ->add('createdAt');
-
+        
         if ($this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
 //            $listMapper
 //                ->add('impersonating', 'string', ['template' => 'SonataMessageBundle:Admin:Field/impersonating.html.twig']);
         }
-
+        
         $listMapper->remove('impersonating');
         $listMapper->remove('groups');
 //		$listMapper->add('positions', null, [ 'template' => '::admin/Message/list__field_positions.html.twig' ]);
     }
-
+    
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
@@ -145,7 +149,7 @@ class MessageAdmin extends BaseAdmin
             ->add('text', null, ['label' => 'form.label_body'])
             ->end();
     }
-
+    
     /**
      * @param Message $object
      */
@@ -157,7 +161,7 @@ class MessageAdmin extends BaseAdmin
             $object->deliver();
         }
     }
-
+    
     /**
      * @param Message $object
      */
@@ -168,7 +172,7 @@ class MessageAdmin extends BaseAdmin
             $object->setEnabled(true);
         }
     }
-
+    
     /**
      * @param Message $object
      */
@@ -179,14 +183,14 @@ class MessageAdmin extends BaseAdmin
         }
         parent::preUpdate($object);
     }
-
+    
     ///////////////////////////////////
     ///
     ///
     ///
     ///////////////////////////////////
-
-
+    
+    
     /**
      * {@inheritdoc}
      */
@@ -199,6 +203,6 @@ class MessageAdmin extends BaseAdmin
 //			->add('groups')
 //		;
     }
-
-
+    
+    
 }

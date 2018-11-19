@@ -1,4 +1,11 @@
 services:
+    magenta_doctrine_entity_listener_messaging_message:
+        class: Magenta\Bundle\CBookModelBundle\Doctrine\Messaging\MessageListener
+        arguments:
+        - '@service_container'
+        tags:
+        - { name: doctrine.orm.entity_listener }
+
     magenta_doctrine_entity_listener_individual_member:
         class: Magenta\Bundle\CBookModelBundle\Doctrine\Organisation\IndividualMemberListener
         arguments:

@@ -42,7 +42,7 @@ class Message extends CreativeWork implements MessageInterface
     
     /**
      * NOT part of schema.org
-     * @var ConversationInterface
+     * @var ConversationInterface|null
      */
     protected $conversation;
     
@@ -70,9 +70,9 @@ class Message extends CreativeWork implements MessageInterface
     protected $dateSent;
     
     /**
-     * @return ConversationInterface
+     * @return ConversationInterface|null
      */
-    public function getConversation(): ConversationInterface
+    public function getConversation(): ?ConversationInterface
     {
         return $this->conversation;
     }

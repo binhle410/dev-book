@@ -14,6 +14,9 @@ use Sonata\NotificationBundle\Entity\BaseMessage;
  */
 class SonataNotificationMessage extends BaseMessage
 {
+    const TYPE_MEMBER_IMPORT = 'member-import';
+    const TYPE_PWA_PUSH_NOTIFICATION = 'pwa-push-notification';
+    
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -23,7 +26,7 @@ class SonataNotificationMessage extends BaseMessage
      * @var int
      */
     protected $id;
-
+    
     public function getId()
     {
         return $this->id;

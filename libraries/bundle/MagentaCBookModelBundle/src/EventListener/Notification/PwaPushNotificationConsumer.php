@@ -38,7 +38,7 @@ class PwaPushNotificationConsumer implements ConsumerInterface
 
         if (!empty($dp) && $dp->getStatus() === DPJob::STATUS_PENDING) {
             try {
-                $this->memberService->importMembers($dp);
+                $this->memberService->notifyOneOrganisationIndividualMembers($dp);
             } catch (\Exception $e) {
                 $error = new DPLog();
                 $error->setName('Exception: ' . $e->getFile());

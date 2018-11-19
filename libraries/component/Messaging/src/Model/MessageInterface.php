@@ -11,9 +11,9 @@ use Bean\Component\Thing\Model\ThingInterface;
 interface MessageInterface extends CreativeWorkInterface
 {
     /**
-     * @return ConversationInterface
+     * @return ConversationInterface|null
      */
-    public function getConversation(): ConversationInterface;
+    public function getConversation(): ?ConversationInterface;
 
     /**
      * @param ConversationInterface $conversation

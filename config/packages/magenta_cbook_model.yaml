@@ -67,6 +67,36 @@ doctrine:
                     entities:
                     #                    Will not work for Mere Interfaces
                     -
+                        class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Messaging\\Message"
+                        listener:
+                        -
+                            class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Messaging\\MessageListener"
+                            event:
+                            -
+                                type: postLoad
+                                method: postLoadHandler
+
+                            -
+                                type: postPersist
+                                method: postPersistHandler
+                            -
+                                type: postUpdate
+                                method: postUpdateHandler
+                            -
+                                type: prePersist
+                                method: prePersistHandler
+                            -
+                                type: preUpdate
+                                method: preUpdateHandler
+                            -
+                                type: preRemove
+                                method: preRemoveHandler
+                            -
+                                type: postRemove
+                                method: postRemoveHandler
+
+
+                    -
                         class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Organisation\\IndividualMember"
                         listener:
                         -

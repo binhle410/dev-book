@@ -22,6 +22,18 @@ use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
 class Message extends \Bean\Component\Messaging\Model\Message implements OrganizationAwareInterface
 {
     
+    public function __construct()
+    {
+        parent::__construct();
+    }
+    
+    public function markStatusAsDeliveryInProgress()
+    {
+        if ($this->status === self::STATUS_NEW) {
+            $this->status = self::STATUS_DELIVERY_IN_PROGRESS;
+        }
+    }
+    
     /**
      * @var Organisation|null
      * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation")

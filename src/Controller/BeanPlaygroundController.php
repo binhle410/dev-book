@@ -17,6 +17,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\Messaging\MessageDelivery;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
 use Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing\DPJob;
+use Magenta\Bundle\CBookModelBundle\Service\Organisation\IndividualMemberService;
 use Minishlink\WebPush\Subscription;
 use Minishlink\WebPush\VAPID;
 use Minishlink\WebPush\WebPush;
@@ -31,27 +32,30 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class BeanPlaygroundController extends Controller
 {
-
+    
     public function __invoke(Book $data)
     {
         /** @var ArrayCollection $chapters */
         $chapters = $data->getChapters();
-
+        
         $criteria = Criteria::create();
         $expr = Criteria::expr();
-
+        
         $criteria->where(
             $expr->eq('partOf', $data)
         );
-
+        
         return $chapters->matching($criteria);
     }
-
+    
     /**
      * @Route("/bean/playground", name="bean_playground")
      */
     public function index(Request $request)
     {
+        $dp = $this->getDoctrine()->getRepository(DPJob::class)->findOneBy(['type' => DPJob::TYPE_PWA_PUSH_ORG_INDIVIDUAL, 'status' => DPJob::STATUS_PENDING]);
+        $ms = $this->get('magenta_book.individual_service');
+        $ms->notifyOneOrganisationIndividualMembers($dp);
 //        $dp = $this->getDoctrine()->getRepository(DPJob::class)->find(3);
 //        $this->get('magenta_book.individual_service')->importMembers($dp);
 //        return new JsonResponse(['link' => 'https://picsum.photos/1600/900','key'=>(VAPID::createVapidKeys())]);

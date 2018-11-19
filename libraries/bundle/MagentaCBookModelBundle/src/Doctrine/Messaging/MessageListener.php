@@ -1,7 +1,8 @@
 <?php
 
-namespace Magenta\Bundle\CBookModelBundle\Doctrine\Book;
+namespace Magenta\Bundle\CBookModelBundle\Doctrine\Messaging;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -11,8 +12,10 @@ use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\BookCateg
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Context;
 use Magenta\Bundle\CBookModelBundle\Entity\Messaging\Conversation;
 use Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message;
+use Magenta\Bundle\CBookModelBundle\Entity\Messaging\SonataNotificationMessage;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
+use Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing\DPJob;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -25,9 +28,15 @@ class MessageListener
      */
     private $container;
     
+    /**
+     * @var Registry
+     */
+    private $registry;
+    
     function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->registry = $container->get('doctrine');
     }
     
     private function updateInfoAfterOperation(Message $message, LifecycleEventArgs $event)
@@ -45,9 +54,8 @@ class MessageListener
     {
         $this->updateInfo($message, $event);
         /** @var EntityManager $manager */
-        $manager = $event->getObjectManager();
+        $manager = $event->getEntityManager();
         $registry = $this->container->get('doctrine');
-        $categoryItems = $message->getBookCategoryItems();
         $uow = $manager->getUnitOfWork();
         
         $conversation = null;
@@ -66,8 +74,6 @@ class MessageListener
                 $message->setConversation($conversation);
             }
         }
-        
-        
     }
     
     
@@ -126,6 +132,22 @@ class MessageListener
     {
         /** @var EntityManager $manger */
         $manager = $event->getEntityManager();
-        
+        if ($message->getStatus() === Message::STATUS_NEW) {
+            $message->markStatusAsDeliveryInProgress();
+            $dpJobRepo = $this->registry->getRepository(DPJob::class);
+            $dp = $dpJobRepo->findOneBy(['type' => DPJob::TYPE_PWA_PUSH_ORG_INDIVIDUAL, 'resourceName' => $message->getId()]);
+            if (empty($dp)) {
+                $dp = DPJob::newInstance($message->getId(), DPJob::TYPE_PWA_PUSH_ORG_INDIVIDUAL, $message->getOrganisation()->getId());
+                $manager->persist($dp);
+                $manager->flush($dp);
+                
+                $this->container->get('sonata.notification.backend')->createAndPublish(SonataNotificationMessage::TYPE_PWA_PUSH_NOTIFICATION, array(
+                    'job-id' => $dp->getId()
+                ));
+            }
+            
+            $manager->persist($message);
+            $manager->flush($message);
+        }
     }
 }
