@@ -14,8 +14,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
 use Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message;
+use Magenta\Bundle\CBookModelBundle\Entity\Messaging\MessageDelivery;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
 use Magenta\Bundle\CBookModelBundle\Entity\System\AccessControl\ACRole;
+use Magenta\Bundle\CBookModelBundle\Entity\System\ProgressiveWebApp\Subscription;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 
 /**
@@ -44,6 +46,20 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
         $this->messageDeliveries = new ArrayCollection();
         $this->messages = new ArrayCollection();
         $this->enabled = true;
+    }
+    
+    public function readFromNotification(Message $message, Subscription $subscription)
+    {
+        /**
+         * @var MessageDelivery $delivery
+         */
+        $delivery = $this->getMessageDelivery($message);
+        if (empty($delivery)) {
+            return null;
+        }
+        $delivery->setFirstReadFrom($subscription);
+        $delivery->setDateRead(new \DateTime());
+        return $delivery;
     }
     
     public function deliver(Message $message)
@@ -83,6 +99,25 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     }
     
     public function getMessageDelivery(Message $message)
+    {
+        if (array_key_exists($message->getId(), $this->messageDeliveryCache)) {
+            if ($this->messageDeliveryCache[$message->getId()]) {
+                return $this->messageDeliveryCache[$message->getId()];
+            }
+        }
+        $c = Criteria::create();
+        $expr = Criteria::expr();
+        
+        $c->where($expr->eq('message', $message));
+        $deliveries = $this->messageDeliveries->matching($c);
+        if ($deliveries->count() > 0) {
+            return $this->messageDeliveryCache[$message->getId()] = $deliveries->first();
+            
+        }
+        return null;
+    }
+    
+    public function getMessageDeliveryBySubscription(Message $message, Subscription $subscription)
     {
         if (array_key_exists($message->getId(), $this->messageDeliveryCache)) {
             if ($this->messageDeliveryCache[$message->getId()]) {

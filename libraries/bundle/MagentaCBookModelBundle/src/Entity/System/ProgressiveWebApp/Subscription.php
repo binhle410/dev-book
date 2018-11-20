@@ -39,14 +39,20 @@ class Subscription
         $instance->contentEncoding = $contentEncoding;
         return $instance;
     }
-
+    
     /**
      * @var IndividualMember
      * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember", inversedBy="subscriptions")
      * @ORM\JoinColumn(name="id_individual_member", referencedColumnName="id")
      */
     protected $individualMember;
-
+    
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Messaging\MessageDelivery", mappedBy="firstReadFrom")
+     */
+    protected $deliveries;
+    
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true, name="p256dh_key")

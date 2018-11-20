@@ -26,6 +26,7 @@ class Message extends \Bean\Component\Messaging\Model\Message implements Organiz
     public function __construct()
     {
         parent::__construct();
+        $this->deliveries = new ArrayCollection();
     }
     
     public function markStatusAsDeliveryInProgress()
@@ -55,6 +56,12 @@ class Message extends \Bean\Component\Messaging\Model\Message implements Organiz
      * @ORM\JoinColumn(name="id_sender", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $sender;
+    
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Messaging\MessageDelivery", mappedBy="message")
+     */
+    protected $deliveries;
     
     public function getOrganization(): ?OrganizationInterface
     {

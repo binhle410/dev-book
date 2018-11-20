@@ -50,7 +50,7 @@ self.addEventListener('notificationclick', function (event) {
   let payload = event.data.json;
   let messageId = payload['message-id'];
   let subscriptionId = payload['subscription-id'];
-  url += messageId + '/read-by/' + subscriptionId;
+  url += messageId + '/subscription/' + subscriptionId;
   const promiseChain = clients.openWindow(url);
   event.waitUntil(promiseChain);
 });
