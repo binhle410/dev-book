@@ -7,6 +7,7 @@ use Bean\Component\Organization\Model\IndividualMember as MemberModel;
 
 use Bean\Component\Organization\Model\OrganizationInterface;
 use Bean\Component\Thing\Model\Thing;
+use Bean\Component\Thing\Model\ThingInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -34,6 +35,14 @@ class Message extends \Bean\Component\Messaging\Model\Message implements Organiz
         if ($this->status === self::STATUS_NEW) {
             $this->status = self::STATUS_DELIVERY_IN_PROGRESS;
         }
+    }
+    
+    /**
+     * @return IndividualMember|null
+     */
+    public function getSender(): ?ThingInterface
+    {
+        return parent::getSender();
     }
     
     /**

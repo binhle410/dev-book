@@ -7,12 +7,15 @@ use Magenta\Bundle\CBookModelBundle\Entity\Book\Chapter;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Category;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Context;
+use Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
+use Magenta\Bundle\CBookModelBundle\Entity\System\ProgressiveWebApp\Subscription;
 use Magenta\Bundle\CBookModelBundle\Service\Organisation\IndividualMemberService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class BookReaderController extends Controller
@@ -206,10 +209,10 @@ class BookReaderController extends Controller
         $manager->flush();
         
         $org = $member->getOrganization();
-        return $this->render('@MagentaCBookAdmin/App/contact.html.twig', [
+        return $this->render('@MagentaCBookAdmin/App/Messaging/read-message.html.twig', [
             'message' => $message,
             'member' => $member,
-            'base_book_template' => '@MagentaCBookAdmin/App/Messaging/read-message.html.twig',
+            'base_book_template' => '@MagentaCBookAdmin/App/base.html.twig',
             'logo' => $org->getLogo(),
             'orgSlug' => $orgSlug,
             'accessCode' => $accessCode,

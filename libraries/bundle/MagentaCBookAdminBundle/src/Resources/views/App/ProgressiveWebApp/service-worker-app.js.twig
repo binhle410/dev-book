@@ -41,7 +41,7 @@ self.addEventListener('install', function (event) {
 
 self.addEventListener('notificationclick', function (event) {
   const notification = event.notification;
-  let url = 'https://' + '{{ pwa_hostname|raw }}' + '/{{ accessCode|raw }}/{{ employeeCode|raw }}' + '/notif/';
+  let url = 'https://' + '{{ pwa_hostname|raw }}' + '/{{ orgSlug|raw }}/{{ accessCode|raw }}/{{ employeeCode|raw }}' + '/notif/';
   let payload = notification.data;
   let messageId = payload.messageId;
   let subscriptionId = payload.subscriptionId;
