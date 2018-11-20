@@ -40,7 +40,7 @@ class DPJob
      * @param null $ownerId
      * @return DPJob
      */
-    public static function newInstance($resourceName, $type, $ownerId = null)
+    public static function createInstance($resourceName, $type, $ownerId = null)
     {
         $obj = new DPJob();
         $obj->setResourceName($resourceName);

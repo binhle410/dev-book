@@ -19,23 +19,23 @@ class PwaPushNotificationConsumer implements ConsumerInterface
     protected $memberService;
     protected $manager;
     protected $registry;
-
+    
     public function __construct(EntityManager $manager, RegistryInterface $registry, IndividualMemberService $ms)
     {
         $this->manager = $manager;
         $this->registry = $registry;
         $this->memberService = $ms;
     }
-
+    
     /**
      * {@inheritdoc}
      */
     public function process(ConsumerEvent $event)
     {
         $message = $event->getMessage();
-
+        
         $dp = $this->registry->getRepository(DPJob::class)->find($message->getValue('job-id'));
-
+        
         if (!empty($dp) && $dp->getStatus() === DPJob::STATUS_PENDING) {
             try {
                 $this->memberService->notifyOneOrganisationIndividualMembers($dp);
@@ -49,7 +49,7 @@ class PwaPushNotificationConsumer implements ConsumerInterface
                 $error->setTrace($e->getTrace());
                 $error->setMessage($e->getMessage());
                 $dp->setStatus(DPJob::STATUS_PENDING);
-
+                
                 if (!$this->manager->isOpen()) {
                     $this->manager = $this->manager->create(
                         $this->manager->getConnection(),

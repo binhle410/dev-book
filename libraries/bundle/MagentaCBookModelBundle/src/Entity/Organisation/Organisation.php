@@ -130,7 +130,7 @@ class Organisation extends OrganizationModel
      *     mappedBy="organisation", cascade={"persist"}, orphanRemoval=true
      * )
      *
-     * @var Collection $conversations;
+     * @var Collection $conversations ;
      */
     protected $conversations;
     
@@ -140,7 +140,7 @@ class Organisation extends OrganizationModel
      *     mappedBy="organisation", cascade={"persist"}, orphanRemoval=true
      * )
      *
-     * @var Collection $messages;
+     * @var Collection $messages ;
      */
     protected $messages;
     
@@ -212,6 +212,18 @@ class Organisation extends OrganizationModel
      * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember", mappedBy="organization")
      */
     protected $individualMembers;
+    
+    public function addIndividualMember(IndividualMember $member)
+    {
+        $this->individualMembers->add($member);
+        $member->setOrganization($this);
+    }
+    
+    public function removeIndividualMember(IndividualMember $member)
+    {
+        $this->individualMembers->removeElement($member);
+        $member->setOrganization(null);
+    }
     
     /**
      * @var Collection

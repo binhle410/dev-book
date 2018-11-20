@@ -1,0 +1,80 @@
+{% extends '@SonataAdmin/CRUD/base_show.html.twig' %}
+
+{% block show %}
+  {{ parent() }}
+  <div class="sonata-ba-view">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box box-primary">
+          <div class="box-header">
+            <h4 class="box-title">
+              Notification Status
+            </h4>
+          </div>
+          <div class="box-body table-responsive no-padding">
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for member in subscribedMembers %}
+                <tr>
+                  <td>{{ member.name }}</td>
+                  <td>{{ member.email }}</td>
+                  <td>
+                    {% if member.isMessageDelivered(object) %}
+                      {% set delivery = member.messageDelivered(object) %}
+                      {% if delivery is not empty %}
+                        <i class="fa fa-check fa-success"> </i>
+                        <i class="fa fa-check fa-check-doubled fa-success"> </i>
+                      {% else %}
+                        <i class="fa fa-check"> </i>
+                      {% endif %}
+                    {% else %}
+                      <i class="fa fa-clock-o"> </i>
+                    {% endif %}
+
+                  </td>
+                </tr>
+
+              {% endfor %}
+              <tr>
+                <td>hello</td>
+                <td>hello</td>
+                <td>
+                  <i class="fa fa-clock-o"> </i>
+
+                </td>
+              </tr>
+              <tr>
+                <td>hello</td>
+                <td>hello</td>
+                <td>
+                  <i class="fa fa-check"> </i>
+
+                </td>
+              </tr>
+              <tr>
+                <td>hello</td>
+                <td>hello</td>
+                <td>
+                  <i class="fa fa-check fa-success"> </i> <i class="fa fa-check fa-check-doubled fa-success"> </i>
+
+                </td>
+              </tr>
+              </tbody>
+              <tfoot>
+
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+{% endblock %}

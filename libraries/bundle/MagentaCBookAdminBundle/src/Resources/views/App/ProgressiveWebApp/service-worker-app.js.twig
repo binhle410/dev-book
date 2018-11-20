@@ -1,0 +1,136 @@
+/*
+
+Inside of our install callback, we need to take the following steps:
+	Open a cache.
+Cache our files.
+Confirm whether all the required assets are cached or not.
+*/
+
+var CACHE_NAME = 'cbook-cache-v3';
+var urlsToCache = [
+  '/assets/bs/4.0.0/bootstrap.min.css',
+  '/assets/pk2/css/paper-kit.css',
+  '/assets/pk2/css/nucleo-icons.css',
+  '/build/css/app.css',
+  '/bundles/sonatacore/vendor/components-font-awesome/css/font-awesome.min.css',
+  '/assets/codemirror/codemirror.min.css',
+  '/assets/froala/2.8.4/froala_editor.pkgd.min.css',
+  '/assets/froala/2.8.4/froala_style.min.css',
+  '/assets/pz_main/pinch_zoomer/css/pinchzoomer.min.css',
+  '/assets/pz_main/pinch_zoomer/js/hammer.min.js',
+  '/assets/pz_main/pinch_zoomer/js/TweenMax.min.js',
+  '/assets/pz_main/pinch_zoomer/js/jquery.pinchzoomer.min.js',
+  '/assets/pz_main/complete_guide/css/tooltipster.bundle.min.css',
+  '/assets/pz_main/pinch_zoomer/js/tooltipster.bundle.min.js'
+];
+
+
+self.addEventListener('install', function (event) {
+  for (let i = 0; i < urlsToCache.length; i++) {
+    urlsToCache[i] = 'https://' + '{{ pwa_hostname }}' + urlsToCache[i];
+  }
+  // Perform install steps
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(function (cache) {
+        console.log('Opened cache');
+        return cache.addAll(urlsToCache);
+      })
+  );
+});
+
+self.addEventListener('notificationclick', function (event) {
+  const dismissedNotification = event.notification;
+  let url = '{{ path('magenta_book_index',
+    {
+      orgSlug : orgSlug,
+      accessCode: accessCode,
+      employeeCode: employeeCode
+    }) ~ '/notif/' }}';
+  let payload = event.data.json;
+  let messageId = payload['message-id'];
+  let subscriptionId = payload['subscription-id'];
+  url += messageId + '/read-by/' + subscriptionId;
+  const promiseChain = clients.openWindow(url);
+  event.waitUntil(promiseChain);
+});
+
+self.addEventListener('push', function (event) {
+  if (event.data) {
+    console.log('This push event has data: ', event.data.text());
+    let notifOptions = {};
+    const promiseChain = self.registration.showNotification('You have a message', notifOptions);
+    event.waitUntil(promiseChain);
+  } else {
+    console.log('This push event has no data.');
+  }
+});
+
+self.addEventListener('fetch', function (event) {
+  console.log('The service worker is serving the asset.');
+  let bookPos = event.request.url.indexOf('book', 15);
+
+  if (bookPos == -1) {
+    if (urlsToCache.indexOf(event.request.url) != -1) {
+
+      event.respondWith(fromCache(event.request, 400).catch(function (err) {
+        return fromNetwork(event.request);
+      }));
+
+      return;
+    }
+  } else {
+  }
+
+  if (bookPos == -1 || event.request.method != 'GET') {
+    console.log('load from network before cache for index page');
+    event.respondWith(fromNetwork(event.request, 400).catch(function (err) {
+      return fromCache(event.request);
+    }));
+  } else {
+    event.respondWith(fromCache(event.request, 400).catch(function (err) {
+      return fromNetwork(event.request);
+    }));
+  }
+});
+
+function fromNetwork(request, timeout) {
+  // IMPORTANT: Clone the request. A request is a stream and
+  // can only be consumed once. Since we are consuming this
+  // once by cache and once by the browser for fetch, we need
+  // to clone the response.
+  let fetchRequest = request.clone();
+
+  return fetch(fetchRequest).then(
+    function (response) {
+      // Check if we received a valid response
+      if (!response || response.status !== 200 || response.type !== 'basic') {
+        return response;
+      }
+
+      // IMPORTANT: Clone the response. A response is a stream
+      // and because we want the browser to consume the response
+      // as well as the cache consuming the response, we need
+      // to clone it so we have two streams.
+      var responseToCache = response.clone();
+      if (request.method === 'GET') {
+        caches.open(CACHE_NAME)
+          .then(function (cache) {
+
+            console.log('cache.put');
+            cache.put(request, responseToCache);
+
+          });
+      }
+      return response;
+    }
+  );
+}
+
+function fromCache(request) {
+  return caches.open(CACHE_NAME).then(function (cache) {
+    return cache.match(request).then(function (matching) {
+      return matching || Promise.reject('no-match');
+    });
+  });
+}

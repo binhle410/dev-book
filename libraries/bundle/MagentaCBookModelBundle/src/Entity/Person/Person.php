@@ -18,13 +18,21 @@ use Magenta\Bundle\CBookModelBundle\Entity\User\User;
  */
 class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements IndividualMemberContainerInterface
 {
-
+    
     public function __construct()
     {
         parent::__construct();
         $this->individualMembers = new ArrayCollection();
     }
-
+    
+    public function initiateIndividualMember(Organisation $org)
+    {
+        if (empty($member = $org->getIndividualMemberFromPerson($this))) {
+            $member = IndividualMember::createInstance($org, $this, $this->email);
+        };
+        return $member;
+    }
+    
     public static function createInstance($idNumber, \DateTime $dob, $givenName = null, $familyName = null, $email = null)
     {
         $person = new Person();
@@ -36,14 +44,14 @@ class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements In
         $person->setGivenName($givenName);
         return $person;
     }
-
+    
     public function initiateUser($emailRequired = true)
     {
         if (empty($this->user)) {
             $this->user = new User();
         }
         $this->user->setEnabled(true);
-
+        
         $this->user->addRole(User::ROLE_POWER_USER);
         if ($emailRequired) {
             if (empty($this->email)) {
@@ -78,10 +86,10 @@ class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements In
             $this->user->setPlainPassword($this->email);
         }
         $this->user->setPerson($this);
-
+        
         return $this->user;
     }
-
+    
     public function getIndividualMemberOfOrganisation(Organisation $org)
     {
         /** @var IndividualMember $m */
@@ -90,46 +98,49 @@ class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements In
                 return $m;
             }
         }
-
+        
         return null;
     }
-
+    
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember", mappedBy="person")
      */
     protected $individualMembers;
-
+    
     public function addIndividualMember(IndividualMember $member)
     {
         $this->individualMembers->add($member);
         $member->setPerson($this);
+        if (empty($member->getEmail())) {
+            $member->setEmail($this->email);
+        }
     }
-
+    
     public function removeIndividualMember(IndividualMember $member)
     {
         $this->individualMembers->removeElement($member);
         $member->setPerson(null);
     }
-
+    
     /**
      * @var User|null
      * @ORM\OneToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\User\User", mappedBy="person")
      */
     protected $user;
-
+    
     /**
      * @var string|null
      * @ORM\Column(type="string",nullable=true)
      */
     protected $idNumber;
-
+    
     /**
      * @var string|null
      * @ORM\Column(type="string",nullable=true)
      */
     protected $nationalityString;
-
+    
     /**
      * @return User|null
      */
@@ -137,7 +148,7 @@ class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements In
     {
         return $this->user;
     }
-
+    
     /**
      * @param User|null $user
      */
@@ -145,7 +156,7 @@ class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements In
     {
         $this->user = $user;
     }
-
+    
     /**
      * @return null|string
      */
@@ -153,7 +164,7 @@ class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements In
     {
         return $this->idNumber;
     }
-
+    
     /**
      * @param null|string $idNumber
      */
@@ -161,7 +172,7 @@ class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements In
     {
         $this->idNumber = $idNumber;
     }
-
+    
     /**
      * @return Collection
      */
@@ -169,7 +180,7 @@ class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements In
     {
         return $this->individualMembers;
     }
-
+    
     /**
      * @param Collection $individualMembers
      */
@@ -177,7 +188,7 @@ class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements In
     {
         $this->individualMembers = $individualMembers;
     }
-
+    
     /**
      * @return null|string
      */
@@ -185,7 +196,7 @@ class Person extends \Bean\Bundle\PersonBundle\Doctrine\Orm\Person implements In
     {
         return $this->nationalityString;
     }
-
+    
     /**
      * @param null|string $nationalityString
      */

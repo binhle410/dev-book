@@ -34,6 +34,17 @@ class MessageDelivery implements MessageDeliveryInterface
     
     use MessageDeliveryInterfaceTrait;
     
+    public static function createInstance(Message $message, MessageDeliverableInterface $recipient)
+    {
+        $d = new MessageDelivery();
+        $d->message = $message;
+        $d->recipient = $recipient;
+        $d->name = $message->getName();
+        $d->description = $message->getText();
+        $d->enabled = true;
+        return $d;
+    }
+    
     /**
      * @var MessageInterface
      * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message", inversedBy="deliveries")

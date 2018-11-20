@@ -70,6 +70,7 @@ class MessageListener
                     $c->setName('Public Conversation');
                     
                     $conversation = $c;
+                    $manager->persist($conversation);
                 }
                 $message->setConversation($conversation);
             }
@@ -137,7 +138,7 @@ class MessageListener
             $dpJobRepo = $this->registry->getRepository(DPJob::class);
             $dp = $dpJobRepo->findOneBy(['type' => DPJob::TYPE_PWA_PUSH_ORG_INDIVIDUAL, 'resourceName' => $message->getId()]);
             if (empty($dp)) {
-                $dp = DPJob::newInstance($message->getId(), DPJob::TYPE_PWA_PUSH_ORG_INDIVIDUAL, $message->getOrganisation()->getId());
+                $dp = DPJob::createInstance($message->getId(), DPJob::TYPE_PWA_PUSH_ORG_INDIVIDUAL, $message->getOrganisation()->getId());
                 $manager->persist($dp);
                 $manager->flush($dp);
                 

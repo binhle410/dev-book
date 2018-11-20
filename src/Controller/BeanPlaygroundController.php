@@ -55,7 +55,7 @@ class BeanPlaygroundController extends Controller
     {
         $dp = $this->getDoctrine()->getRepository(DPJob::class)->findOneBy(['type' => DPJob::TYPE_PWA_PUSH_ORG_INDIVIDUAL, 'status' => DPJob::STATUS_PENDING]);
         $ms = $this->get('magenta_book.individual_service');
-        $ms->notifyOneOrganisationIndividualMembers($dp);
+//        $ms->notifyOneOrganisationIndividualMembers($dp);
 //        $dp = $this->getDoctrine()->getRepository(DPJob::class)->find(3);
 //        $this->get('magenta_book.individual_service')->importMembers($dp);
 //        return new JsonResponse(['link' => 'https://picsum.photos/1600/900','key'=>(VAPID::createVapidKeys())]);
@@ -77,40 +77,42 @@ class BeanPlaygroundController extends Controller
                 'privateKey' => 'oFN6rOOFJD05hR2E_pNxO5iFY_19lv62OLjEFeiuT5Q', // in the real world, this would be in a secret file
             ),
         );
-//        $webPush = new WebPush($auth);
-//        $res = $webPush->sendNotification(
-//            $subscription,
-//            "Hello! Sorry for pushing you a lot.",
-//            true
-//        );
-
+        
+        $webPush = new WebPush($auth);
+        $res = $webPush->sendNotification(
+            $subscription,
+            json_encode(['msg' => "Hello! Sorry for pushing you a lot.", 'another-msg' => 'ok I am fine']),
+            true
+        );
+        
         $m = $this->get('doctrine.orm.default_entity_manager');
+        
         $id = 32036;
 
-        $conversation = $this->getDoctrine()->getRepository(CreativeWork::class)->find($id);
-        if (!$conversation instanceof ConversationInterface) {
-            throw new NotFoundHttpException('con of ConInterface not found');
-        }
+//        $conversation = $this->getDoctrine()->getRepository(CreativeWork::class)->find($id);
+//        if (!$conversation instanceof ConversationInterface) {
+//            throw new NotFoundHttpException('con of ConInterface not found');
+//        }
 
-        $msg = $this->getDoctrine()->getRepository(Message::class)->find(32039);
-        $recipient = $this->getDoctrine()->getRepository(IndividualMember::class)->find(32029);
-        $msg->setAbout('about text 32039');
+//        $msg = $this->getDoctrine()->getRepository(Message::class)->find(32039);
+//        $recipient = $this->getDoctrine()->getRepository(IndividualMember::class)->find(32029);
+//        $msg->setAbout('about text 32039');
 
-        $delivery = $this->getDoctrine()->getRepository(MessageDelivery::class)->find(1);
-        $deliveries = $recipient->getMessageDeliveries();
-        $d = [];
+//        $delivery = $this->getDoctrine()->getRepository(MessageDelivery::class)->find(1);
+//        $deliveries = $recipient->getMessageDeliveries();
+//        $d = [];
         /** @var MessageDelivery $de */
-        foreach ($deliveries as $de) {
-            $dr = '';
-            if (!empty($de->getDateRead())) {
-                $dr = $de->getDateRead()->format('d-m-Y');
-            }
-            $d[] = $de->getId() . ' - ' . $dr;
-        }
+//        foreach ($deliveries as $de) {
+//            $dr = '';
+//            if (!empty($de->getDateRead())) {
+//                $dr = $de->getDateRead()->format('d-m-Y');
+//            }
+//            $d[] = $de->getId() . ' - ' . $dr;
+//        }
 
-        $delivered = $recipient->isMessageDelivered($msg);
+//        $delivered = $recipient->isMessageDelivered($msg);
 //        $m->persist($delivery);
 //        $m->flush();
-        return new JsonResponse([$id, $msg->getConversation()->getName(), $delivered]);
+        return new JsonResponse([$id]);
     }
 }

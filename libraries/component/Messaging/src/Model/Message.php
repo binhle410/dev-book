@@ -22,7 +22,7 @@ class Message extends CreativeWork implements MessageInterface
     public function __construct()
     {
         parent::__construct();
-        $this->status = self::STATUS_NEW;
+        $this->status = self::STATUS_DRAFT;
     }
     
     public function deliver()
@@ -39,6 +39,18 @@ class Message extends CreativeWork implements MessageInterface
      * @var \Countable|\IteratorAggregate|\ArrayAccess|array|null
      */
     protected $deliveries;
+    
+    public function addDelivery(MessageDelivery $delivery)
+    {
+        $this->addElementToArrayProperty($delivery, 'deliveries');
+        $delivery->setMessage($this);
+    }
+    
+    public function removeDelivery(MessageDelivery $delivery)
+    {
+        $this->removeElementFromArrayProperty($delivery, 'deliveries');
+        $delivery->setMessage(null);
+    }
     
     /**
      * NOT part of schema.org

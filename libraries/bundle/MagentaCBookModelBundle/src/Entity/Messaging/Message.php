@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\AccessControl\ACRole;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
 
@@ -47,6 +48,13 @@ class Message extends \Bean\Component\Messaging\Model\Message implements Organiz
      * @ORM\JoinColumn(name="id_conversation", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $conversation;
+    
+    /**
+     * @var IndividualMember|null
+     * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember", inversedBy="messages")
+     * @ORM\JoinColumn(name="id_sender", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $sender;
     
     public function getOrganization(): ?OrganizationInterface
     {

@@ -13,7 +13,20 @@ class IndividualMemberRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, IndividualMember::class);
     }
-
+    
+    public function findHavingOrganisationSubscriptions($orgId)
+    {
+        $qb = $this->createQueryBuilder('individual_member')
+            ->join('individual_member.organization', 'organization')
+            ->join('individual_member.subscriptions', 'subscriptions')
+            ->leftJoin('individual_member.messageDeliveries', 'deliveries');
+        $expr = $qb->expr();
+        $qb
+            ->where($expr->eq('organization.id', $orgId))
+            ->andWhere($expr->isNull('deliveries'));;
+        return $qb->getQuery()->getResult();
+    }
+    
     /**
      * @param $pin
      * @param $employeeCode
@@ -26,16 +39,15 @@ class IndividualMemberRepository extends ServiceEntityRepository
         $expr = $qb->expr();
         $qb
             ->andWhere($expr->like('m.pin', $expr->literal($pin)))
-            ->andWhere($expr->like('m.code', $expr->literal($employeeCode)))
-            ;
+            ->andWhere($expr->like('m.code', $expr->literal($employeeCode)));
 
 //		return $qb->execute();
 //$query = $qb->getQuery()->getSQL();
         // to get just one result:
         return $qb->setMaxResults(1)->getQuery()->getOneOrNullResult();
-
+        
     }
-
+    
     public function findOneByOrganisationCodeNric($code, $nric)
     {
         $qb = $this->createQueryBuilder('m');
@@ -44,11 +56,10 @@ class IndividualMemberRepository extends ServiceEntityRepository
             ->join('m.person', 'person')
             ->join('m.organization', 'organisation')
             ->andWhere($expr->like('organisation.code', $expr->literal($code)))
-            ->andWhere($expr->like('person.idNumber', $expr->literal($nric)))
-            ;
+            ->andWhere($expr->like('person.idNumber', $expr->literal($nric)));
 
 //		return $qb->execute();
-
+        
         // to get just one result:
         return $qb->setMaxResults(1)->getQuery()->getOneOrNullResult();
     }

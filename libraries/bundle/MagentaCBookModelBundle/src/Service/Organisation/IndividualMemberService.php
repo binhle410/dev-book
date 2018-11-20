@@ -5,6 +5,8 @@ namespace Magenta\Bundle\CBookModelBundle\Service\Organisation;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use JMS\Serializer\Tests\Fixtures\DoctrinePHPCR\BlogPost;
+use Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message;
+use Magenta\Bundle\CBookModelBundle\Entity\Messaging\MessageDelivery;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
@@ -74,23 +76,14 @@ class IndividualMemberService extends BaseService
             }
             
             $memberRepo = $this->registry->getRepository(IndividualMember::class);
-            /** @var Organisation $org */
-            $org = $this->registry->getRepository(Organisation::class)->find($dp->getOwnerId());
+            /** @var Message $message */
+            $message = $this->registry->getRepository(Message::class)->find((int)$dp->getOwnerId());
             
             if ($dp->getStatus() === DPJob::STATUS_PENDING) {
-                $qb = $this->manager->createQueryBuilder()
-                    ->select('individual_member.id')
-                    ->from(IndividualMember::class, 'individual_member')
-                    ->join('individual_member.organization', 'organization')
-                    ->join('individual_member.subscriptions', 'subscriptions')
-                    ->leftJoin('individual_member.messageDeliveries', 'deliveries');
-                $expr = $qb->expr();
-                $qb
-                    ->where($expr->eq('organization.id', (int)$dp->getOwnerId()))
-                    ->andWhere($expr->isNull('deliveries'))//                    ->andWhere($expr->isNull(''))
-                ;
-                $sql = $qb->getQuery()->getSQL();
-                $members = $qb->getQuery()->getArrayResult();
+                
+                
+                $members = $memberRepo->findHavingOrganisationSubscriptions((int)$dp->getOwnerId());
+                
                 if (count($members) > 0) {
                     $dp->setStatus(DPJob::STATUS_LOCKED);
                     $this->manager->persist($dp);
@@ -137,14 +130,20 @@ class IndividualMemberService extends BaseService
                         $preparedSubscriptions[] = $preparedSub;
                         
                         $webPush->sendNotification(
-                            $$preparedSub,
-                            "New Notification ready!!!",
+                            $preparedSub,
+                            json_encode(['sender-name' => $message->getSender()->getName(),
+                                'message-id' => $message->getId(),
+                                'message-name' => $message->getName(),
+                                'subscription-id' => $_sub->getId()]),
                             false
                         );
                     }
                     
+                    $recipient = $member;
+                    $delivery = MessageDelivery::createInstance($message, $recipient);
+                    $this->manager->persist($delivery);
                 }
-    
+                
                 $res = $webPush->flush();
                 $dp->setStatus(DPJob::STATUS_PENDING);
                 $this->manager->persist($dp);
