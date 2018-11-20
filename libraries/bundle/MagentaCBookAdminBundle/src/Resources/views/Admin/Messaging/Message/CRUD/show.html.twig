@@ -23,7 +23,7 @@
               <tbody>
               {% for member in subscribedMembers %}
                 <tr>
-                  <td>{{ member.name }}</td>
+                  <td>{{ member.person.name }}</td>
                   <td>{{ member.email }}</td>
                   <td>
                     {% if member.isMessageDelivered(object) %}
@@ -40,32 +40,7 @@
 
                   </td>
                 </tr>
-
               {% endfor %}
-              <tr>
-                <td>hello</td>
-                <td>hello</td>
-                <td>
-                  <i class="fa fa-clock-o"> </i>
-
-                </td>
-              </tr>
-              <tr>
-                <td>hello</td>
-                <td>hello</td>
-                <td>
-                  <i class="fa fa-check"> </i>
-
-                </td>
-              </tr>
-              <tr>
-                <td>hello</td>
-                <td>hello</td>
-                <td>
-                  <i class="fa fa-check fa-success"> </i> <i class="fa fa-check fa-check-doubled fa-success"> </i>
-
-                </td>
-              </tr>
               </tbody>
               <tfoot>
 

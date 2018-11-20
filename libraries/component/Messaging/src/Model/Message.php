@@ -98,9 +98,9 @@ class Message extends CreativeWork implements MessageInterface
     }
     
     /**
-     * @return ThingInterface
+     * @return ThingInterface|null
      */
-    public function getSender(): ThingInterface
+    public function getSender(): ?ThingInterface
     {
         return $this->sender;
     }

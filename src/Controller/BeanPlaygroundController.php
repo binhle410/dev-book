@@ -79,12 +79,15 @@ class BeanPlaygroundController extends Controller
         );
         
         $webPush = new WebPush($auth);
-        $res = $webPush->sendNotification(
+        $webPush->sendNotification(
             $subscription,
-            json_encode(['msg' => "Hello! Sorry for pushing you a lot.", 'another-msg' => 'ok I am fine']),
-            true
+            json_encode(['sender-name' => 'Sender Name',
+                'message-id' => 1178,
+                'message-name' => 'Message Name',
+                'subscription-id' => 1]),
+            false
         );
-        
+        $res = $webPush->flush();
         $m = $this->get('doctrine.orm.default_entity_manager');
         
         $id = 32036;

@@ -6,6 +6,13 @@ services:
         tags:
             - {name: jms_serializer.event_listener, event: serializer.pre_serialize, class: 'Magenta\Bundle\CBookModelBundle\Entity\Media\Media', method: onPreSerialize }
 
+    magenta_user.command.send_message:
+        class: Magenta\Bundle\CBookModelBundle\Command\Messaging\SendMessageCommand
+        public: false
+        arguments: ['@doctrine.orm.default_entity_manager','@doctrine','@magenta_book.individual_service']
+        tags:
+        - {name: "console.command", command: "magenta:messaging:send-messages"}
+
     magenta_user.command.create_person:
         class: Magenta\Bundle\CBookModelBundle\Command\Person\CreatePersonCommand
         public: false

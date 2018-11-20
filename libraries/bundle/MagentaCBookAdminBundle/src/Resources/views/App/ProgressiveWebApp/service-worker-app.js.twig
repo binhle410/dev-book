@@ -27,7 +27,7 @@ var urlsToCache = [
 
 self.addEventListener('install', function (event) {
   for (let i = 0; i < urlsToCache.length; i++) {
-    urlsToCache[i] = 'https://' + '{{ pwa_hostname }}' + urlsToCache[i];
+    urlsToCache[i] = 'https://' + '{{ pwa_hostname|raw }}' + urlsToCache[i];
   }
   // Perform install steps
   event.waitUntil(
@@ -40,16 +40,11 @@ self.addEventListener('install', function (event) {
 });
 
 self.addEventListener('notificationclick', function (event) {
-  const dismissedNotification = event.notification;
-  let url = '{{ path('magenta_book_index',
-    {
-      orgSlug : orgSlug,
-      accessCode: accessCode,
-      employeeCode: employeeCode
-    }) ~ '/notif/' }}';
-  let payload = event.data.json;
-  let messageId = payload['message-id'];
-  let subscriptionId = payload['subscription-id'];
+  const notification = event.notification;
+  let url = 'https://' + '{{ pwa_hostname|raw }}' + '/{{ accessCode|raw }}/{{ employeeCode|raw }}' + '/notif/';
+  let payload = notification.data;
+  let messageId = payload.messageId;
+  let subscriptionId = payload.subscriptionId;
   url += messageId + '/subscription/' + subscriptionId;
   const promiseChain = clients.openWindow(url);
   event.waitUntil(promiseChain);
@@ -58,8 +53,20 @@ self.addEventListener('notificationclick', function (event) {
 self.addEventListener('push', function (event) {
   if (event.data) {
     console.log('This push event has data: ', event.data.text());
-    let notifOptions = {};
-    const promiseChain = self.registration.showNotification('You have a message', notifOptions);
+    let payload = event.data.json();
+    let messageId = payload['message-id'];
+    let subscriptionId = payload['subscription-id'];
+    let senderName = payload['sender-name'];
+    let messageName = payload['message-name'];
+
+    let notifOptions = {
+      body: messageName,
+      data: {
+        messageId: messageId,
+        subscriptionId: subscriptionId
+      }
+    };
+    const promiseChain = self.registration.showNotification('Message from ' + senderName, notifOptions);
     event.waitUntil(promiseChain);
   } else {
     console.log('This push event has no data.');

@@ -78,7 +78,15 @@ class BookPWAController extends Controller
         if (empty($org)) {
             throw new NotFoundHttpException();
         }
-        $response = $this->render('@MagentaCBookAdmin/App/ProgressiveWebApp/service-worker-app.js.twig');
+        $employeeCode = $request->get('employeeCode');
+        $accessCode = $request->get('accessCode');
+        
+        $response = $this->render('@MagentaCBookAdmin/App/ProgressiveWebApp/service-worker-app.js.twig', [
+            'orgSlug' => $orgSlug,
+            'accessCode' => $accessCode,
+            'employeeCode' => $employeeCode
+        
+        ]);
         $response->headers->set('Content-Type', 'application/javascript');
         return $response;
     }

@@ -4,6 +4,7 @@ namespace Magenta\Bundle\CBookModelBundle\Repository\Organisation;
 
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -18,12 +19,22 @@ class IndividualMemberRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('individual_member')
             ->join('individual_member.organization', 'organization')
-            ->join('individual_member.subscriptions', 'subscriptions')
-            ->leftJoin('individual_member.messageDeliveries', 'deliveries');
+            ->join('individual_member.subscriptions', 'subscriptions');
         $expr = $qb->expr();
         $qb
-            ->where($expr->eq('organization.id', $orgId))
-            ->andWhere($expr->isNull('deliveries'));;
+            ->where($expr->eq('organization.id', $orgId));
+//        if (!empty($message)) {
+//            if ($delivered === false) {
+//                $qb
+//                    ->leftJoin('subscriptions.deliveries', 'delivery')
+//                    ->leftJoin('delivery.message','message')
+//                    ->andWhere($expr->isNull('delivery'))
+//                ;
+//
+//            } elseif ($delivered === true) {
+//                $qb->andWhere($expr->isNotNull('deliveries'));
+//            }
+//        }
         return $qb->getQuery()->getResult();
     }
     

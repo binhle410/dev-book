@@ -21,9 +21,9 @@ interface MessageInterface extends CreativeWorkInterface
     public function setConversation(ConversationInterface $conversation): void;
 
     /**
-     * @return ThingInterface
+     * @return ThingInterface|null
      */
-    public function getSender(): ThingInterface;
+    public function getSender(): ?ThingInterface;
 
     /**
      * @param ThingInterface $sender

@@ -77,7 +77,7 @@ class IndividualMemberService extends BaseService
             
             $memberRepo = $this->registry->getRepository(IndividualMember::class);
             /** @var Message $message */
-            $message = $this->registry->getRepository(Message::class)->find((int)$dp->getOwnerId());
+            $message = $this->registry->getRepository(Message::class)->find((int)$dp->getResourceName());
             
             if ($dp->getStatus() === DPJob::STATUS_PENDING) {
                 
@@ -102,15 +102,19 @@ class IndividualMemberService extends BaseService
                     ),
                 );
                 $webPush = new WebPush($auth);
-                
+//                $multipleRun = false;
                 /**
                  * @var IndividualMember $member
                  */
                 foreach ($members as $member) {
-                    $row++;
-                    if ($row > 1000) {
-                        break;
+                    if ($member->isMessageDelivered($message)) {
+                        continue;
                     }
+                    $row++;
+//                    if ($row > 1000) {
+//                        $multipleRun = true;
+//                        break;
+//                    }
                     
                     $subscriptions = $member->getSubscriptions();
                     
@@ -118,7 +122,7 @@ class IndividualMemberService extends BaseService
                     /**
                      * @var Subscription $_sub
                      */
-                    foreach (subscriptions as $_sub) {
+                    foreach ($subscriptions as $_sub) {
                         $preparedSub = Subscription::create(
                             [
                                 'endpoint' => $_sub->getEndpoint(),
