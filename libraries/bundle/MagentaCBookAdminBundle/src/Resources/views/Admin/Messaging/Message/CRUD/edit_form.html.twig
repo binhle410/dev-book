@@ -1,7 +1,7 @@
 {% use '@SonataAdmin/CRUD/base_edit_form.html.twig' %}
 
 {% block sonata_form_actions %}
-    <button type="submit" class="btn btn-primary" name="btn_publish"><i class="fa fa-cloud-upload" aria-hidden="true"></i> {{ 'btn_publish'|trans({}, 'MagentaCBookAdminBundle') }}</button>
+    <button type="submit" class="btn btn-primary" name="btn_publish"><i class="fa fa-send" aria-hidden="true"></i> {{ 'btn_deliver'|trans({}, 'MagentaCBookAdminBundle') }}</button>
     {% if app.request.isxmlhttprequest %}
         {# NEXT_MAJOR: remove default filter #}
         {% if objectId|default(admin.id(object)) is not null %}

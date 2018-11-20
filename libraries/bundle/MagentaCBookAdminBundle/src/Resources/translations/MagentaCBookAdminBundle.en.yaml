@@ -5,6 +5,7 @@ individualmember: Members
 profile_edit: Profile
 message: Alerts & Notices
 btn_publish: Publish
+btn_deliver: Deliver
 
 btn_draft_update_and_edit_again: Update draft
 btn_draft_create_and_edit_again: Save draft
