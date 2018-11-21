@@ -118,32 +118,21 @@ class IndividualMemberAdmin extends BaseAdmin
 
     }
 
-    public function getTemplate($name)
-    {
-        $_name = strtoupper($name);
-        if ($_name === 'LIST') {
-        }
-
-        return parent::getTemplate($name);
-    }
-
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
             ->with('form_group.member_details', ['class' => 'col-md-6'])
-            ->add('name', null, ['label' => 'form.label_name'])
+            ->add('person.givenName', null, ['label' => 'form.label_given_name'])
+            ->add('person.familyName', null, ['label' => 'form.label_family_name'])
             ->add('email', null, ['label' => 'form.label_email'])
-            ->add('homeAddress', null, ['label' => 'form.label_address'])
-            ->add('homePostalCode', null, ['label' => 'form.label_postal_code'])
+            ->add('person.telephone', null, ['label' => 'form.label_telephone'])
+            ->add('person.idNumber', null, ['label' => 'form.label_id_number'])
+            ->add('person.birthDate', null, ['label' => 'form.label_dob'])
+            
             ->end()
-            ->with('form_group.member_groups', ['class' => 'col-md-6'])
-            ->add('warranties', null, [
-                'label' => false,
-                'associated_property' => 'id',
-                'template' => '@MagentaSIndividualMemberAdmin/Admin/IndividualMember/IndividualMember/CRUD/Association/show_one_to_many.html.twig'
-            ])
-            ->end();
-
+//            ->with('form_group.member_groups', ['class' => 'col-md-6'])
+////            ->end()
+        ;
     }
 
     /**

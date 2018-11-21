@@ -7,7 +7,9 @@ use Aws\Api\Service;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseCRUDAdminController;
 use Magenta\Bundle\CBookAdminBundle\Service\Organisation\OrganisationService;
 use Magenta\Bundle\CBookModelBundle\Entity\Messaging\SonataNotificationMessage;
+use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
+use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
 use Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing\DPJob;
 use Magenta\Bundle\CBookModelBundle\Service\ServiceContext;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -84,6 +86,29 @@ class IndividualMemberAdminController extends BaseCRUDAdminController
             return new JsonResponse(['message' => 'Import is in progress']);
         }
         return $this->redirectToList();
+    }
+    
+    public function editAction($id = null)
+    {
+        $request = $this->getRequest();
+        $id = $request->get($this->admin->getIdParameter());
+        /** @var IndividualMember $existingObject */
+        $existingObject = $this->admin->getObject($id);
+        
+        if (!$existingObject) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+        
+        /** @var Person $person */
+        $person = $existingObject->getPerson();
+        if (empty($person->getUser())) {
+            $user = $person->initiateUser();
+            $manager = $this->get('doctrine.orm.default_entity_manager');
+            $manager->persist($user);
+            $manager->flush($user);
+        }
+        
+        return parent::editAction($id);
     }
     
     public function listAction()
