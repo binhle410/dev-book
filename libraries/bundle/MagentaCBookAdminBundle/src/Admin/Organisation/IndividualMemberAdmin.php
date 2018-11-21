@@ -171,6 +171,8 @@ class IndividualMemberAdmin extends BaseAdmin
             ->add('createdAt', null, ['label' => 'form.label_created_at'])
             ->add('person.name', null, ['editable' => true, 'label' => 'form.label_name'])
             ->add('email', null, ['editable' => true, 'label' => 'form.label_email'])
+            ->add('person.birthDate', null, ['label' => 'form.label_dob'])
+            ->add('person.idNumber', null, ['label' => 'form.label_id_number'])
 //			->add('role', null, [
 //				'editable'            => true,
 //				'label'               => 'form.label_role',

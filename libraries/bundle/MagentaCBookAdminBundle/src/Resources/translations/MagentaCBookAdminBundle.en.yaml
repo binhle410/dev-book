@@ -127,6 +127,7 @@ form_group:
     groups: Groups
 
 form:
+    label_personal_info: Personal Info
     label_title: Title
     label_body: Body
     label_updated_at: Updated at
