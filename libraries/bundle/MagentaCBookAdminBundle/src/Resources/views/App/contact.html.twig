@@ -1,91 +1,107 @@
 {% extends base_book_template %}
 
 {% block nav_title %}
-    <a href="{{ path('magenta_book_index',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode}) }}">
-        <img class="logo"
-             height="40" src="{{ privateMediumUrl(logo.id,'small') }}"/></a>
+  <a href="{{ path('magenta_book_index',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode}) }}">
+    <img class="logo"
+         height="40" src="{{ privateMediumUrl(logo.id,'small') }}"/></a>
 {% endblock %}
 
 {% block stylesheets_app %}
-    {{ parent() }}
-    <style>
-        .blockquote {
-            border-bottom: none;
-            margin-bottom: 0px;
-        }
-    </style>
+  {{ parent() }}
+  <style>
+    .blockquote {
+      border-bottom: none;
+      margin-bottom: 0px;
+    }
+  </style>
 {% endblock %}
 
 {% block body %}
-    <div class="container" style="padding-top: 10px;">
-        <div class="text-center form-group">
-            {#<input type="text" value="" placeholder="Search by Name, Phone, Email or Title" class="form-control"/>#}
-        </div>
-        {% for letter, memberList in members %}
-            <div class="list-per-letter">
-                <div class="">
-                    <button type="button" class="btn btn-lg btn-info btn-outline-default btn-just-icon">
-                        <span class="letter-head">{{ letter }}</span>
-                    </button>
-                </div>
-                <div class="row">
-                    {% for member in memberList %}
-                        {% set person = member.person %}
-                        <blockquote class="blockquote employee-info col-md-4">
-                            <p class="mb-0"><strong><code>{{ person.name }}</code></strong></p>
-                            <p class="mb-0"><strong><i class="nc-icon nc-mobile"></i></strong> {{ person.telephone }}
-                            </p>
-                            <p class="mb-0"><strong><i class="nc-icon nc-email-85"></i></strong> {{ member.email }}</p>
-                            {% if member.groups.first is not empty %}
-                                <p class="mb-0">
-                                    <strong>
-                                        <i class="nc-icon nc-single-02"></i>
-                                    </strong>
-                                    {{ member.groups.first.name }}
-                                </p>
-                            {% endif %}
-                            <!--<footer class="blockquote-footer">Someone famous in <cite title="source Title">Source Title</cite></footer>-->
-                        </blockquote>
-                    {% endfor %}
-                </div>
-            </div>
-        {% endfor %}
-        {#<div class="list-per-letter">#}
-        {#<div class="">#}
-        {#<button type="button" class="btn btn-lg btn-info btn-outline-default btn-just-icon">#}
-        {#<span class="letter-head">P</span>#}
-        {#</button>#}
-        {#</div>#}
-        {#<div class="row">#}
-        {#<blockquote class="blockquote employee-info col-md-4">#}
-        {#<p class="mb-0"><strong><code>Peter Bean</code></strong></p>#}
-        {#<p class="mb-0"><strong><i class="nc-icon nc-mobile"></i></strong> 0938190244</p>#}
-        {#<p class="mb-0"><strong><i class="nc-icon nc-email-85"></i></strong> binh@sunrise.vn</p>#}
-        {#<p class="mb-0"><strong><i class="nc-icon nc-single-02"></i></strong> CTO</p>#}
-        {#<!--<footer class="blockquote-footer">Someone famous in <cite title="source Title">Source Title</cite></footer>-->#}
-        {#</blockquote>#}
-        {#<blockquote class="blockquote employee-info col-md-4">#}
-        {#<p class="mb-0"><strong><code>Peter Bean</code></strong></p>#}
-        {#<p class="mb-0"><strong><i class="nc-icon nc-mobile"></i></strong> 0938190244</p>#}
-        {#<p class="mb-0"><strong><i class="nc-icon nc-email-85"></i></strong> binh@sunrise.vn</p>#}
-        {#<p class="mb-0"><strong><i class="nc-icon nc-single-02"></i></strong> CTO</p>#}
-        {#<!--<footer class="blockquote-footer">Someone famous in <cite title="source Title">Source Title</cite></footer>-->#}
-        {#</blockquote>#}
-        {#<blockquote class="blockquote employee-info col-md-4">#}
-        {#<p class="mb-0"><strong><code>Peter Bean</code></strong></p>#}
-        {#<p class="mb-0"><strong><i class="nc-icon nc-mobile"></i></strong> 0938190244</p>#}
-        {#<p class="mb-0"><strong><i class="nc-icon nc-email-85"></i></strong> binh@sunrise.vn</p>#}
-        {#<p class="mb-0"><strong><i class="nc-icon nc-single-02"></i></strong> CTO</p>#}
-        {#<!--<footer class="blockquote-footer">Someone famous in <cite title="source Title">Source Title</cite></footer>-->#}
-        {#</blockquote>#}
-        {#<blockquote class="blockquote employee-info col-md-4">#}
-        {#<p class="mb-0"><strong><code>Peter Bean</code></strong></p>#}
-        {#<p class="mb-0"><strong><i class="nc-icon nc-mobile"></i></strong> 0938190244</p>#}
-        {#<p class="mb-0"><strong><i class="nc-icon nc-email-85"></i></strong> binh@sunrise.vn</p>#}
-        {#<p class="mb-0"><strong><i class="nc-icon nc-single-02"></i></strong> CTO</p>#}
-        {#<!--<footer class="blockquote-footer">Someone famous in <cite title="source Title">Source Title</cite></footer>-->#}
-        {#</blockquote>#}
-        {#</div>#}
-        {#</div>#}
+  <div class="container" style="padding-top: 10px;">
+    <div class="text-center form-group">
+      {#<input type="text" value="" placeholder="Search by Name, Phone, Email or Title" class="form-control"/>#}
     </div>
+    {% for letter, memberList in members %}
+      <div class="list-per-letter">
+        <div class="">
+          <button type="button" class="btn btn-lg btn-info btn-outline-default btn-just-icon">
+            <span class="letter-head">{{ letter }}</span>
+          </button>
+        </div>
+        <div class="row">
+          {% for member in memberList %}
+            {% set person = member.person %}
+            <blockquote class="blockquote employee-info col-md-4">
+              <div class="ml-5">
+                <p class="mb-0"><strong><code>{{ person.name }}</code></strong></p>
+                {% if person.telephone is not empty %}
+                  <p class="mb-0"><strong><i class="nc-icon nc-mobile"></i></strong> {{ person.telephone }}
+                  </p>
+                {% endif %}
+
+                {% if member.email is not empty %}
+                  <p class="mb-0"><strong><i class="nc-icon nc-email-85"></i></strong> {{ member.email }}</p>
+                {% endif %}
+                {% if member.department is not empty %}
+                  <p class="mb-0"><strong><i class="nc-icon nc-briefcase-24"></i></strong> {{ member.department }}</p>
+                {% endif %}
+                {% if member.designation is not empty %}
+                  <p class="mb-0"><strong><i class="nc-icon nc-badge"></i></strong> {{ member.designation }}</p>
+                {% endif %}
+                {% if member.groups.first is not empty %}
+                  <p class="mb-0">
+                    <strong>
+                      <i class="nc-icon nc-single-02"></i>
+                    </strong>
+                    {% for group in member.groups %}
+                      {{ loop.index > 1? ",":"" }}
+                      {{ group.name }}
+                    {% endfor %}
+                  </p>
+                {% endif %}
+              </div>
+              <!--<footer class="blockquote-footer">Someone famous in <cite title="source Title">Source Title</cite></footer>-->
+            </blockquote>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+    {#<div class="list-per-letter">#}
+    {#<div class="">#}
+    {#<button type="button" class="btn btn-lg btn-info btn-outline-default btn-just-icon">#}
+    {#<span class="letter-head">P</span>#}
+    {#</button>#}
+    {#</div>#}
+    {#<div class="row">#}
+    {#<blockquote class="blockquote employee-info col-md-4">#}
+    {#<p class="mb-0"><strong><code>Peter Bean</code></strong></p>#}
+    {#<p class="mb-0"><strong><i class="nc-icon nc-mobile"></i></strong> 0938190244</p>#}
+    {#<p class="mb-0"><strong><i class="nc-icon nc-email-85"></i></strong> binh@sunrise.vn</p>#}
+    {#<p class="mb-0"><strong><i class="nc-icon nc-single-02"></i></strong> CTO</p>#}
+    {#<!--<footer class="blockquote-footer">Someone famous in <cite title="source Title">Source Title</cite></footer>-->#}
+    {#</blockquote>#}
+    {#<blockquote class="blockquote employee-info col-md-4">#}
+    {#<p class="mb-0"><strong><code>Peter Bean</code></strong></p>#}
+    {#<p class="mb-0"><strong><i class="nc-icon nc-mobile"></i></strong> 0938190244</p>#}
+    {#<p class="mb-0"><strong><i class="nc-icon nc-email-85"></i></strong> binh@sunrise.vn</p>#}
+    {#<p class="mb-0"><strong><i class="nc-icon nc-single-02"></i></strong> CTO</p>#}
+    {#<!--<footer class="blockquote-footer">Someone famous in <cite title="source Title">Source Title</cite></footer>-->#}
+    {#</blockquote>#}
+    {#<blockquote class="blockquote employee-info col-md-4">#}
+    {#<p class="mb-0"><strong><code>Peter Bean</code></strong></p>#}
+    {#<p class="mb-0"><strong><i class="nc-icon nc-mobile"></i></strong> 0938190244</p>#}
+    {#<p class="mb-0"><strong><i class="nc-icon nc-email-85"></i></strong> binh@sunrise.vn</p>#}
+    {#<p class="mb-0"><strong><i class="nc-icon nc-single-02"></i></strong> CTO</p>#}
+    {#<!--<footer class="blockquote-footer">Someone famous in <cite title="source Title">Source Title</cite></footer>-->#}
+    {#</blockquote>#}
+    {#<blockquote class="blockquote employee-info col-md-4">#}
+    {#<p class="mb-0"><strong><code>Peter Bean</code></strong></p>#}
+    {#<p class="mb-0"><strong><i class="nc-icon nc-mobile"></i></strong> 0938190244</p>#}
+    {#<p class="mb-0"><strong><i class="nc-icon nc-email-85"></i></strong> binh@sunrise.vn</p>#}
+    {#<p class="mb-0"><strong><i class="nc-icon nc-single-02"></i></strong> CTO</p>#}
+    {#<!--<footer class="blockquote-footer">Someone famous in <cite title="source Title">Source Title</cite></footer>-->#}
+    {#</blockquote>#}
+    {#</div>#}
+    {#</div>#}
+  </div>
 {% endblock body %}

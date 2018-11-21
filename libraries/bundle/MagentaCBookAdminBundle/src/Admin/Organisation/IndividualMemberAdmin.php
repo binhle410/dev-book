@@ -36,9 +36,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class IndividualMemberAdmin extends BaseAdmin
 {
-
+    
     protected $action;
-
+    
     protected $datagridValues = array(
         // display the first page (default = 1)
 //        '_page' => 1,
@@ -47,7 +47,7 @@ class IndividualMemberAdmin extends BaseAdmin
         // name of the ordered field (default = the model's id field, if any)
         '_sort_by' => 'updatedAt',
     );
-
+    
     public function getNewInstance()
     {
         /** @var IndividualMember $object */
@@ -55,14 +55,14 @@ class IndividualMemberAdmin extends BaseAdmin
         if (empty($object->getPerson())) {
             $object->setPerson(new Person());
         }
-
+        
         if (empty($user = $object->getPerson()->getUser())) {
             $object->getPerson()->setUser(new User());
         }
-
+        
         return $object;
     }
-
+    
     /**
      * @param string $name
      * @param IndividualMember $object
@@ -71,14 +71,14 @@ class IndividualMemberAdmin extends BaseAdmin
     {
         return parent::isGranted($name, $object);
     }
-
+    
     public function toString($object)
     {
         return $object instanceof IndividualMember
             ? $object->getPerson()->getName()
             : 'IndividualMember'; // shown in the breadcrumb on the create view
     }
-
+    
     public function createQuery($context = 'list')
     {
         /** @var ProxyQueryInterface $query */
@@ -91,33 +91,33 @@ class IndividualMemberAdmin extends BaseAdmin
         /** @var QueryBuilder $qb */
         $qb = $query->getQueryBuilder();
         $rootAlias = $qb->getRootAliases()[0];
-
+        
         //        $query->andWhere()
-
+        
         {
             return $query;
         }
     }
-
+    
     public function getPersistentParameters()
     {
         $parameters = parent::getPersistentParameters();
         if (!$this->hasRequest()) {
             return $parameters;
         }
-
+        
         return array_merge($parameters, array(
             'organisation' => $this->getCurrentOrganisation(false)->getId()
         ));
     }
-
+    
     public function configureRoutes(RouteCollection $collection)
     {
         parent::configureRoutes($collection);
-		$collection->add('memberImport', 'member-import');
-
+        $collection->add('memberImport', 'member-import');
+        
     }
-
+    
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
@@ -128,13 +128,12 @@ class IndividualMemberAdmin extends BaseAdmin
             ->add('person.telephone', null, ['label' => 'form.label_telephone'])
             ->add('person.idNumber', null, ['label' => 'form.label_id_number'])
             ->add('person.birthDate', null, ['label' => 'form.label_dob'])
-            
             ->end()
 //            ->with('form_group.member_groups', ['class' => 'col-md-6'])
 ////            ->end()
         ;
     }
-
+    
     /**
      * {@inheritdoc}
      */
@@ -155,7 +154,7 @@ class IndividualMemberAdmin extends BaseAdmin
                 'label' => 'form.label_action'
             ]
         );
-
+        
         $listMapper
             ->add('createdAt', null, ['label' => 'form.label_created_at'])
             ->add('person.name', null, ['editable' => true, 'label' => 'form.label_name'])
@@ -170,16 +169,16 @@ class IndividualMemberAdmin extends BaseAdmin
             ->add('enabled', null, ['editable' => true, 'label' => 'form.label_enabled'])
             ->add('updatedAt', null, ['label' => 'form.label_updated_at']);
     }
-
+    
     protected function configureFormFields(FormMapper $formMapper)
     {
         /** @var ProxyQuery $productQuery */
         $acroleQuery = $this->getFilterByOrganisationQueryForModel(ACRole::class);
-
+        
         $c = $this->getConfigurationPool()->getContainer();
-
+        
         $passwordRequired = empty($this->subject);
-
+        
         $formMapper
             ->with('form_group.user_details', ['class' => 'col-md-6']);
         $formMapper
@@ -212,20 +211,31 @@ class IndividualMemberAdmin extends BaseAdmin
 //			])
             ->add('enabled');
         $formMapper->end();
-
+        
         $groupQuery = $this->getFilterByOrganisationQueryForModel(IndividualGroup::class);
         $formMapper
-            ->with('form_group.groups', ['class' => 'col-md-6']);
+            ->with('form_group.grouping', ['class' => 'col-md-6']);
         $formMapper->add('groups', ModelType::class, [
-            'label' => false,
+            'label' => 'form.label_groups',
+            'required' => false,
             'query' => $groupQuery,
             'class' => IndividualGroup::class,
             'multiple' => true,
             'property' => 'name'
         ]);
+        
+        $formMapper
+            ->add('department', null, [
+                'label' => 'form.label_department',
+                'required' => false
+            ])
+            ->add('designation', null, [
+                'label' => 'form.label_designation',
+                'required' => false
+            ]);
         $formMapper->end();
     }
-
+    
     /** @param IndividualMember $object */
     public function preValidate(
         $object
@@ -246,7 +256,7 @@ class IndividualMemberAdmin extends BaseAdmin
         }
         $object->setOrganization($this->getCurrentOrganisation());
     }
-
+    
     /**
      * @param IndividualMember $object
      */
@@ -257,7 +267,7 @@ class IndividualMemberAdmin extends BaseAdmin
             $object->setEnabled(true);
         }
     }
-
+    
     /**
      * @param IndividualMember $object
      */
@@ -265,13 +275,13 @@ class IndividualMemberAdmin extends BaseAdmin
     {
         parent::preUpdate($object);
     }
-
+    
     ///////////////////////////////////
     ///
     ///
     ///
     ///////////////////////////////////
-
+    
     /**
      * {@inheritdoc}
      */
@@ -279,10 +289,10 @@ class IndividualMemberAdmin extends BaseAdmin
     {
         $filterMapper
             ->add('id')
-            ->add('person.name')//			->add('locked')
+            ->add('person.name', null, ['label' => 'form.label_name'])//			->add('locked')
         ;
         parent::configureDatagridFilters($filterMapper);
     }
-
-
+    
+    
 }

@@ -122,17 +122,20 @@ sonata_admin:
 #            - { type: sonata.admin.block.admin_list, position: left }
 
         groups:
-            knowledge_base:
-                label: dashboard.knowledge_base
-                icon: '<i class="fa fa-book"></i>'
-                items:
-                    - sonata.classification.admin.category
-                    - sonata.media.admin.media
+#            knowledge_base:
+#                keep_open: true
+#                label: dashboard.knowledge_base
+#                icon: '<i class="fa fa-book"></i>'
+#                items:
+#                    - sonata.classification.admin.category
+#                    - sonata.media.admin.media
 
             system:
+                keep_open: true
                 label: dashboard.system
                 icon: '<i class="fa fa-users"></i>'
                 items:
+                    - sonata.classification.admin.category
                     - Magenta\Bundle\CBookAdminBundle\Admin\Person\PersonAdmin
                     - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\OrganisationAdmin
                     - Magenta\Bundle\CBookAdminBundle\Admin\Organisation\IndividualGroupAdmin

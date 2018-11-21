@@ -124,14 +124,13 @@ class IndividualGroupAdmin extends BaseAdmin {
 	protected function configureFormFields(FormMapper $formMapper) {
 		
 		$formMapper
-			->with('General', [ 'class' => 'col-md-6' ])->end()
-			->with('Profile', [ 'class' => 'col-md-6' ])->end();
+			->with('General', [ 'class' => 'col-md-6' ])->end();
 		
 		
 		$formMapper
 			->with('General')
 //                ->add('username')
-			->add('name', null, [ 'label' => 'list.label_name' ])
+			->add('name', null, [ 'label' => 'form.label_name' ])
 //                ->add('admin')
 			->end();
 		

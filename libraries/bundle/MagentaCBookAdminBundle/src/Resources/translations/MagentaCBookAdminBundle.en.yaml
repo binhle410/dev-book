@@ -124,9 +124,12 @@ form_group:
     member_details: Member Details
     member_groups: Member Groups
     user_details: User Details
-    groups: Groups
+    grouping: Grouping
 
 form:
+    label_groups: Groups
+    label_department: Department
+    label_designation: Designation
     label_personal_info: Personal Info
     label_title: Title
     label_body: Body
