@@ -1,0 +1,165 @@
+{% extends '@MagentaCBookAdmin/CRUD/list.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" type="text/css" href="{{ asset('assets/bs-duallistbox/dist/bootstrap-duallistbox.min.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('assets/bs-duallistbox/dist/jquery.bootstrap-duallistbox.min.js') }}"></script>
+  <script>
+    (function ($) {
+
+      /* ----------------------------------------------- */
+      /* ----------------------------------------------- */
+      /* OnLoad Page */
+      $(document).ready(function ($) {
+
+        $('.member-list').select2('destroy');
+        $memberSelect = $('#members-select');
+        $memberSelect.change(function (e) {
+          console.log(e);
+        })
+
+        window.members = [];
+        window.selectedMembers = [];
+        window.unselectedMembers = [];
+
+        $memberSelect.children("option").each(function () {
+          let member = {id: $(this).val(), name: $(this).text()};
+          let memberId = parseInt($(this).val());
+          window.members[memberId] = member;
+        });
+
+        let updateMemberSelection = function () {
+          console.log('member data', window.members);
+
+          $memberSelect.children("option:selected").each(function () {
+            let member = {id: $(this).val(), name: $(this).text()};
+            let memberId = parseInt($(this).val());
+            if (window.selectedMembers.indexOf(memberId) < 0) {
+              window.selectedMembers.push(parseInt($(this).val()));
+              let selectedIndex = window.unselectedMembers.indexOf(memberId);
+              if (selectedIndex > -1) {
+                window.unselectedMembers.splice(selectedIndex, 1);
+                console.log('added member', member);
+              }
+            } else {
+
+            }
+          });
+          $memberSelect.children("option:not(:selected)").each(function () {
+            let member = {id: $(this).val(), name: $(this).text()};
+            let memberId = parseInt($(this).val());
+            if (window.unselectedMembers.indexOf(memberId) < 0) {
+              window.unselectedMembers.push(parseInt($(this).val()));
+              let deselectedIndex = window.selectedMembers.indexOf(memberId);
+              if (deselectedIndex > -1) {
+                window.selectedMembers.splice(deselectedIndex, 1);
+                console.log('removed member', member);
+              }
+            } else {
+
+            }
+          });
+
+          console.log($(this).text() + " selected ", window.selectedMembers);
+          console.log($(this).text() + " unselected ", window.unselectedMembers);
+        };
+
+        updateMemberSelection();
+
+
+        let $memberDualListBox = $('select[name="duallistbox_members[]"]').bootstrapDualListbox({
+          nonSelectedListLabel: 'Non-members',
+          selectedListLabel: 'Members of this Group',
+        });
+
+        $('[name="duallistbox_members[]_helper1"]').change(function (e) {
+          updateMemberSelection();
+        })
+
+        $('[name="duallistbox_members[]_helper2"]').change(function (e) {
+          updateMemberSelection();
+        })
+
+
+      });
+      /* OnLoad Window */
+      var init = function () {
+
+      };
+      window.onload = init;
+
+    })(jQuery);
+  </script>
+{% endblock %}
+
+{% block list_table %}
+  <div class="col-xs-12 col-md-12">
+    {% set batchactions = admin.batchactions %}
+    {% if admin.hasRoute('batch') and batchactions|length %}
+    <form action="{{ admin.generateUrl('batch', {'filter': admin.filterParameters}) }}" method="POST">
+      <input type="hidden" name="_sonata_csrf_token" value="{{ csrf_token }}">
+      {% endif %}
+
+      {# Add a margin if no pager to prevent dropdown cropping on window #}
+      <div class="box box-primary" {% if admin.datagrid.pager.lastPage == 1 %}style="margin-bottom: 100px;"{% endif %}>
+        <div class="box-body {% if admin.datagrid.results|length > 0 %} {% endif %}">
+          {{ sonata_block_render_event('sonata.admin.list.table.top', { 'admin': admin }) }}
+
+          {% block list_header %}{% endblock %}
+
+          {% if admin.datagrid.results|length > 0 %}
+            <form id="demoform" action="#" method="post" class="sonata-ba-list">
+              <select id="members-select" class="member-list" multiple="multiple" size="20"
+                      name="duallistbox_members[]">
+                {% for object in admin.datagrid.results %}
+                  <option
+                      value="{{ object.id }}" {{ object.memberOfGroup(admin.individualGroup)?'selected="selected"':'' }}>{{ object.person.name }}
+                    - {{ object.person.idNumber }}</option>
+                {% endfor %}
+              </select>
+              {#<button type="submit" class="btn btn-primary btn-block">SAVE</button>#}
+            </form>
+          {% else %}
+            {% block no_result_content %}
+              <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">{{ 'no_result'|trans({}, 'SonataAdminBundle') }}</span>
+                  <div class="progress">
+                    <div class="progress-bar" style="width: 0%"></div>
+                  </div>
+                  <span class="progress-description">
+                                    {% if not app.request.xmlHttpRequest %}
+                                      <ul class="list-unstyled">
+                                        {% include get_admin_template('button_create', admin.code) %}
+                                    </ul>
+                                    {% endif %}
+                                </span>
+                </div><!-- /.info-box-content -->
+              </div>
+            {% endblock %}
+          {% endif %}
+
+          {{ sonata_block_render_event('sonata.admin.list.table.bottom', { 'admin': admin }) }}
+        </div>
+        {% block list_footer %} {% endblock %}
+      </div>
+      {% if admin.hasRoute('batch') and batchactions|length %}
+    </form>
+    {% endif %}
+  </div>
+{% endblock %}
+
+
+ {% block sonata_admin_content_actions_wrappers %}
+   <ul class="nav navbar-nav navbar-right">
+     <li class="">
+
+     </li>
+   </ul>
+   {{ parent() }}
+ {% endblock sonata_admin_content_actions_wrappers %}
+

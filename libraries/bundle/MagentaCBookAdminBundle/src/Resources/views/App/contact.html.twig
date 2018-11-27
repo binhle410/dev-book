@@ -32,7 +32,7 @@
           {% for member in memberList %}
             {% set person = member.person %}
             <blockquote class="blockquote employee-info col-md-4">
-              <div class="ml-5">
+              <div class="ml-5" style="text-align: left;">
                 <p class="mb-0"><strong><code>{{ person.name }}</code></strong></p>
                 {% if person.telephone is not empty %}
                   <p class="mb-0"><strong><i class="nc-icon nc-mobile"></i></strong> {{ person.telephone }}

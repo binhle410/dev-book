@@ -16,6 +16,7 @@ delete_or: Or
 link_delete: Delete
 
 breadcrumb:
+    link_groupmember_list: Group Members
     link_message_list: Messages
     link_message_create: New Message
 

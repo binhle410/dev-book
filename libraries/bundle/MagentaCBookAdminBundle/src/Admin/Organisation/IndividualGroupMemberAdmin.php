@@ -33,11 +33,25 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class IndividualMemberAdmin extends BaseAdmin
+class IndividualGroupMemberAdmin extends BaseAdmin
 {
+    const ENTITY = IndividualMember::class;
+    const CONTROLLER = IndividualGroupMemberAdminController::class;
+    const TEMPLATES = [
+        'list' => '@MagentaCBookAdmin/Admin/Organisation/IndividualGroupMember/CRUD/list.html.twig',
+    ];
+    
+    protected $classnameLabel = 'groupmember';
+    
+    protected $baseRouteName = 'groupmember';
+    
+    protected $baseRoutePattern = 'individual-group/{groupId}/member';
     
     protected $action;
+    
+    protected $maxPerPage = 32000;
     
     protected $datagridValues = array(
         // display the first page (default = 1)
@@ -45,8 +59,22 @@ class IndividualMemberAdmin extends BaseAdmin
         // reverse order (default = 'ASC')
         '_sort_order' => 'DESC',
         // name of the ordered field (default = the model's id field, if any)
-        '_sort_by' => 'enabled',
+        '_sort_by' => 'updatedAt',
     );
+    
+    public function getIndividualGroup()
+    {
+        $groupId = $this->getRequest()->get('groupId');
+        $groupAdmin = $this->getConfigurationPool()->getContainer()->get(IndividualGroupAdmin::class);
+        $group = $groupAdmin->getObject($groupId);
+        return $group;
+    }
+    
+    public function generateUrl($name, array $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_PATH)
+    {
+        $parameters['groupId'] = $this->getRequest()->get('groupId');
+        return parent::generateUrl($name, $parameters, $absolute);
+    }
     
     public function getNewInstance()
     {
@@ -93,10 +121,14 @@ class IndividualMemberAdmin extends BaseAdmin
         $rootAlias = $qb->getRootAliases()[0];
         
         //        $query->andWhere()
+
+//        $groupId = $this->getRequest()->get('groupId');
+//        $groupAlias = $query->entityJoin([['fieldName' => 'groups']]);
+//        $query->andWhere($expr->eq($groupAlias . '.id', $groupId));
         
-        {
-            return $query;
-        }
+        $query->andWhere($expr->eq($qb->getRootAliases()[0] . '.enabled', true));
+        
+        return $query;
     }
     
     public function getPersistentParameters()
@@ -114,7 +146,9 @@ class IndividualMemberAdmin extends BaseAdmin
     public function configureRoutes(RouteCollection $collection)
     {
         parent::configureRoutes($collection);
-        $collection->add('memberImport', 'member-import');
+        $collection->remove('create');
+        $collection->remove('edit');
+        $collection->remove('delete');
         
     }
     

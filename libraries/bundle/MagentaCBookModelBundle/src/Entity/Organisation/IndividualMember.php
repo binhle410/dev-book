@@ -185,6 +185,11 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
         $this->groups->removeElement($gc);
     }
     
+    public function isMemberOfGroup(IndividualGroup $group)
+    {
+        return $this->groups->contains($group);
+    }
+    
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\System\ProgressiveWebApp\Subscription", mappedBy="individualMember")

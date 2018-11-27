@@ -5,8 +5,8 @@ namespace Magenta\Bundle\CBookModelBundle\Entity\Organisation;
 use Bean\Component\Organization\Model\IndividualMemberGroup;
 use Bean\Component\Person\Model\Person;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Magenta\Bundle\CBookModelBundle\Entity\Classification\Collection;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
 
 /**

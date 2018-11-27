@@ -22,7 +22,7 @@ class BookReaderController extends Controller
 {
     public function landingAction($orgSlug, Request $request)
     {
-        return $this->render('@MagentaCBookAdmin/Book/landing.html.twig', ['orgSlug' => $orgSlug]);
+        return $this->render('@MagentaCBookAdmin/App/landing.html.twig', ['orgSlug' => $orgSlug]);
     }
     
     public function loginAction($orgSlug, Request $request)
@@ -55,7 +55,7 @@ class BookReaderController extends Controller
                 }
             }
         }
-        return $this->render('@MagentaCBookAdmin/Book/login.html.twig', []);
+        return $this->render('@MagentaCBookAdmin/App/login.html.twig', []);
     }
     
     public function indexAction($orgSlug, $accessCode, $employeeCode, Request $request)
@@ -148,7 +148,7 @@ class BookReaderController extends Controller
         }
         /** @var Book $book */
         $book = $chapter->getBook();
-        return $this->render('@MagentaCBookAdmin/Book/read-chapter.html.twig', [
+        return $this->render('@MagentaCBookAdmin/App/Book/read-chapter.html.twig', [
             'member' => $member,
             'base_book_template' => '@MagentaCBookAdmin/App/base.html.twig',
             'book' => $book,
