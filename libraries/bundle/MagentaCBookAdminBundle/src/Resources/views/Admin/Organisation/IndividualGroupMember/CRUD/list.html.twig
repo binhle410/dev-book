@@ -18,7 +18,7 @@
         $('.member-list').select2('destroy');
         $memberSelect = $('#members-select');
         $memberSelect.change(function (e) {
-          console.log(e);
+          updateMemberSelection();
         })
 
         window.members = [];
@@ -32,9 +32,9 @@
         });
 
         let $msLog = $('.member-selection-log')
-        let flushUrl = '{{ admin.generateUrl('updateMemberSelection',{id: 0, action: 'action'}) }}';
+        let flushUrlTemplate = '{{ admin.generateUrl('updateMemberSelection',{id: 0, action: 'action'}) }}';
         let flushMemberSelection = function (member, action) {
-          flushUrl = flushUrl.replace('member/0/member-selection/action', 'member/' + member.id + '/member-selection/' + action);
+          let flushUrl = flushUrlTemplate.replace('member/0/member-selection/action', 'member/' + member.id + '/member-selection/' + action);
 
 // Assign handlers immediately after making the request,
 // and remember the jqxhr object for this request
@@ -119,13 +119,13 @@
           selectedListLabel: 'Members of this Group',
         });
 
-        $('[name="duallistbox_members[]_helper1"]').change(function (e) {
-          updateMemberSelection();
-        })
-
-        $('[name="duallistbox_members[]_helper2"]').change(function (e) {
-          updateMemberSelection();
-        })
+        // $('[name="duallistbox_members[]_helper1"]').change(function (e) {
+        //   updateMemberSelection();
+        // })
+        //
+        // $('[name="duallistbox_members[]_helper2"]').change(function (e) {
+        //   updateMemberSelection();
+        // })
 
 
       });
