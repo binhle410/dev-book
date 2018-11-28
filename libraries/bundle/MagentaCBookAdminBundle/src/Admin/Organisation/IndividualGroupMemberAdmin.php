@@ -107,10 +107,26 @@ class IndividualGroupMemberAdmin extends BaseAdmin
             : 'IndividualMember'; // shown in the breadcrumb on the create view
     }
     
+    public function getGroupId()
+    {
+        return $groupId = $this->getRequest()->get('groupId');
+    }
+    
     public function createQuery($context = 'list')
     {
+        
         /** @var ProxyQueryInterface $query */
         $query = parent::createQuery($context);
+        
+        /**
+         * @var IndividualGroup $group
+         */
+        $group = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(IndividualGroup::class)->find($this->getGroupId());
+        if (empty($group) || $group->getOrganization() !== $this->getCurrentOrganisation()) {
+            $this->clearResults($query);
+            return $query;
+        }
+        
         if (empty($this->getParentFieldDescription())) {
 //            $this->filterQueryByPosition($query, 'position', '', '');
         }
