@@ -31,17 +31,60 @@
           window.members[memberId] = member;
         });
 
+        let $msLog = $('.member-selection-log')
+        let flushUrl = '{{ admin.generateUrl('updateMemberSelection',{id: 0, action: 'action'}) }}';
+        let flushMemberSelection = function (member, action) {
+          flushUrl = flushUrl.replace('member/0/member-selection/action', 'member/' + member.id + '/member-selection/' + action);
+
+// Assign handlers immediately after making the request,
+// and remember the jqxhr object for this request
+          var jqxhr = $.post(flushUrl, function () {
+
+          })
+            .done(function (e) {
+              let msg = member.name;
+              if (action === 'select') {
+                msg += ' is now a member of this group.<hr/>';
+
+              } else if (action === 'deselect') {
+                msg += ' no longer belongs to this group.<hr/>';
+              }
+              $msLog.prepend(msg);
+            })
+            .fail(function (e) {
+              let msg = 'Error: (' + e.status + ') ' + e.statusText + '. ';
+              msg += 'Failed updating ' + member.name + ' Retrying...';
+              msg += '<hr/>';
+              $msLog.prepend(msg);
+              console.log(e);
+              flushMemberSelection(member, action);
+            })
+            .always(function () {
+
+            });
+
+// Perform other work here ...
+
+// Set another completion function for the request above
+          jqxhr.always(function () {
+          });
+
+
+        }
+
         let updateMemberSelection = function () {
-          console.log('member data', window.members);
+          // console.log('member data', window.members);
 
           $memberSelect.children("option:selected").each(function () {
             let member = {id: $(this).val(), name: $(this).text()};
             let memberId = parseInt($(this).val());
             if (window.selectedMembers.indexOf(memberId) < 0) {
               window.selectedMembers.push(parseInt($(this).val()));
+
               let selectedIndex = window.unselectedMembers.indexOf(memberId);
               if (selectedIndex > -1) {
                 window.unselectedMembers.splice(selectedIndex, 1);
+                flushMemberSelection(member, 'select');
                 console.log('added member', member);
               }
             } else {
@@ -56,6 +99,7 @@
               let deselectedIndex = window.selectedMembers.indexOf(memberId);
               if (deselectedIndex > -1) {
                 window.selectedMembers.splice(deselectedIndex, 1);
+                flushMemberSelection(member, 'deselect');
                 console.log('removed member', member);
               }
             } else {
@@ -63,8 +107,8 @@
             }
           });
 
-          console.log($(this).text() + " selected ", window.selectedMembers);
-          console.log($(this).text() + " unselected ", window.unselectedMembers);
+          // console.log($(this).text() + " selected ", window.selectedMembers);
+          // console.log($(this).text() + " unselected ", window.unselectedMembers);
         };
 
         updateMemberSelection();
@@ -111,17 +155,22 @@
           {% block list_header %}{% endblock %}
 
           {% if admin.datagrid.results|length > 0 %}
-            <form id="demoform" action="#" method="post" class="sonata-ba-list">
-              <select id="members-select" class="member-list" multiple="multiple" size="20"
-                      name="duallistbox_members[]">
-                {% for object in admin.datagrid.results %}
-                  <option
-                      value="{{ object.id }}" {{ object.memberOfGroup(admin.individualGroup)?'selected="selected"':'' }}>{{ object.person.name }}
-                    - {{ object.person.idNumber }}</option>
-                {% endfor %}
-              </select>
-              {#<button type="submit" class="btn btn-primary btn-block">SAVE</button>#}
-            </form>
+            <div class="col-sm-10">
+              <form id="demoform" action="#" method="post" class="sonata-ba-list">
+                <select id="members-select" class="member-list" multiple="multiple" size="20"
+                        name="duallistbox_members[]">
+                  {% for object in admin.datagrid.results %}
+                    <option
+                        value="{{ object.id }}" {{ object.memberOfGroup(admin.individualGroup)?'selected="selected"':'' }}>{{ object.person.name }}
+                      - {{ object.person.idNumber }}</option>
+                  {% endfor %}
+                </select>
+                {#<button type="submit" class="btn btn-primary btn-block">SAVE</button>#}
+              </form>
+            </div>
+            <div class="col-sm-2 member-selection-log">
+
+            </div>
           {% else %}
             {% block no_result_content %}
               <div class="info-box">

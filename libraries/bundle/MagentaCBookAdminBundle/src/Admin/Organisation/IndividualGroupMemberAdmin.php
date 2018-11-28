@@ -149,6 +149,7 @@ class IndividualGroupMemberAdmin extends BaseAdmin
         $collection->remove('create');
         $collection->remove('edit');
         $collection->remove('delete');
+        $collection->add('updateMemberSelection', $this->getRouterIdParameter() . '/member-selection/{action}');
         
     }
     
