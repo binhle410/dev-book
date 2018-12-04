@@ -4,46 +4,33 @@ namespace Magenta\Bundle\CBookAdminBundle\Admin\Organisation;
 
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\CBookAdminBundle\Admin\Book\BookAdmin;
-use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
-use Doctrine\ORM\Query\Expr;
-use Doctrine\ORM\QueryBuilder;
-use Magenta\Bundle\CBookModelBundle\Service\User\UserManager;
 use Magenta\Bundle\CBookModelBundle\Service\User\UserManagerInterface;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
-use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\CoreBundle\Form\Type\DatePickerType;
-use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\MediaBundle\Form\Type\MediaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class OrganisationAdmin extends BaseAdmin
 {
-
-    const CHILDREN = [BookAdmin::class => 'organisation', IndividualMemberAdmin::class=> 'organization'];
+    const CHILDREN = [BookAdmin::class => 'organisation', IndividualMemberAdmin::class => 'organization'];
 
     protected $action;
 
-    protected $datagridValues = array(
+    protected $datagridValues = [
         // display the first page (default = 1)
 //        '_page' => 1,
         // reverse order (default = 'ASC')
         '_sort_order' => 'DESC',
         // name of the ordered field (default = the model's id field, if any)
         '_sort_by' => 'updatedAt',
-    );
+    ];
 
     public function getNewInstance()
     {
@@ -55,7 +42,7 @@ class OrganisationAdmin extends BaseAdmin
 
     /**
      * @param string $name
-     * @param User $object
+     * @param User   $object
      */
     public function isGranted($name, $object = null)
     {
@@ -65,7 +52,7 @@ class OrganisationAdmin extends BaseAdmin
         if (in_array($name, ['CREATE', 'DELETE', 'LIST'])) {
             return $isAdmin;
         }
-        if ($name === 'EDIT') {
+        if ('EDIT' === $name) {
             if ($isAdmin) {
                 return true;
             }
@@ -105,8 +92,7 @@ class OrganisationAdmin extends BaseAdmin
     public function configureRoutes(RouteCollection $collection)
     {
         parent::configureRoutes($collection);
-//		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
-
+        //		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
     }
 
     public function getTemplate($name)
@@ -116,7 +102,6 @@ class OrganisationAdmin extends BaseAdmin
 
     protected function configureShowFields(ShowMapper $showMapper)
     {
-
     }
 
     /**
@@ -125,17 +110,17 @@ class OrganisationAdmin extends BaseAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper->add('_action', 'actions', [
-                'actions' => array(
+                'actions' => [
 //					'impersonate' => array( 'template' => 'admin/user/list__action__impersonate.html.twig' ),
-                    'cbook' => array('template' => '@MagentaCBookAdmin/Admin/Organisation/Action/list__action__cbooks.html.twig'),
-                    'edit' => array(),
-                    'delete' => array(),
+                    'cbook' => ['template' => '@MagentaCBookAdmin/Admin/Organisation/Action/list__action__cbooks.html.twig'],
+                    'edit' => [],
+                    'delete' => [],
 
 //                ,
 //                    'view_description' => array('template' => '::admin/product/description.html.twig')
 //                ,
 //                    'view_tos' => array('template' => '::admin/product/tos.html.twig')
-                )
+                ],
             ]
         );
         $listMapper
@@ -149,7 +134,7 @@ class OrganisationAdmin extends BaseAdmin
 
         $listMapper->remove('impersonating');
         $listMapper->remove('groups');
-//		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
+        //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
     }
 
     protected function configureFormFields(FormMapper $formMapper)
@@ -165,28 +150,27 @@ class OrganisationAdmin extends BaseAdmin
             ->add('code', null, ['label' => 'form.label_code'])
             ->add('regNo', null, ['label' => 'form.label_reg_no'])
             ->add('slug', null, ['label' => 'form.label_slug'])
-            ->add('logo', MediaType::class, array(
+            ->add('logo', MediaType::class, [
                 'provider' => 'sonata.media.provider.image',
                 'context' => 'organisation_logo',
-                'new_on_update' => false
-            ))
-            ->add('appIcon', MediaType::class, array(
+                'new_on_update' => false,
+            ])
+            ->add('appIcon', MediaType::class, [
                 'provider' => 'sonata.media.provider.image',
                 'context' => 'organisation_logo',
-                'new_on_update' => false
-            ))
-
+                'new_on_update' => false,
+            ])
 //                ->add('admin')
             ->end();
 
-//		$adminUserAdmin->g
+        //		$adminUserAdmin->g
         $formMapper->with('Security')
             ->add('linkedToWellness')
             ->add('enabled')
             ->add('adminUsers', ModelAutocompleteType::class, [
                 'required' => false,
                 'property' => 'username',
-                'multiple' => true
+                'multiple' => true,
             ])
             ->end();
     }
@@ -200,8 +184,9 @@ class OrganisationAdmin extends BaseAdmin
         foreach ($ausers as $u) {
             $object->addAdminUser($u);
         }
-        $logo = $object->getLogo();
-        $logo->setOrganization($object);
+        if (!empty($logo = $object->getLogo())) {
+            $logo->setOrganization($object);
+        }
     }
 
     /**
@@ -236,7 +221,6 @@ class OrganisationAdmin extends BaseAdmin
      */
     protected $userManager;
 
-
     /**
      * {@inheritdoc}
      */
@@ -246,9 +230,7 @@ class OrganisationAdmin extends BaseAdmin
             ->add('id')
             ->add('name')//			->add('locked')
         ;
-//			->add('groups')
+        //			->add('groups')
 //		;
     }
-
-
 }
