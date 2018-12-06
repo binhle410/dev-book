@@ -43,6 +43,8 @@ class OrganisationAdmin extends BaseAdmin
     /**
      * @param string $name
      * @param User   $object
+     *
+     * @return bool
      */
     public function isGranted($name, $object = null)
     {
