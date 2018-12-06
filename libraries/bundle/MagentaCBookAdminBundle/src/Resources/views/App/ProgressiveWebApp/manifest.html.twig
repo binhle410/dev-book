@@ -1,17 +1,24 @@
+{%  set appIconId = 1169 %}
+{% set appIconContentType = 'image/png' %}
+{% if org.appIcon is not empty %}
+  {%  set appIconId = org.appIcon.id %}
+	{% set appIconContentType = org.appIcon.contentType %}
+{% endif %}
+
 {
 	"short_name": "Cloudbook",
 	"name": "{{ org.name }} Cloudbook",
 	"icons": [{
-		"src": "{{ publicMediumUrl(org.appIcon.id,'small')| raw }}",
+		"src": "{{ publicMediumUrl(appIconId,'small')| raw }}",
 		"sizes": "192x192",
-		"type": "{{org.appIcon.contentType}}"
+		"type": "{{appIconContentType}}"
 	}, {
-		"src": "{{ publicMediumUrl(org.appIcon.id,'upper_small')| raw }}",
+		"src": "{{ publicMediumUrl(appIconId,'upper_small')| raw }}",
 		"sizes": "256x256",
-		"type": "{{ org.appIcon.contentType }}"
+		"type": "{{ appIconContentType }}"
 	}, {
-		"src": "{{ publicMediumUrl(org.appIcon.id,'medium') | raw }}",
-		"type": "{{ org.appIcon.contentType }}",
+		"src": "{{ publicMediumUrl(appIconId,'medium') | raw }}",
+		"type": "{{ appIconContentType }}",
 		"sizes": "512x512"
 	}],
 	"start_url": "{{ path('magenta_book_index',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode}) }}",
