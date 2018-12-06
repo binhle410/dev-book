@@ -38,7 +38,6 @@
         "aws/aws-sdk-php": "^3.56",
         "sonata-project/classification-bundle": "^3.7.1",
         "knplabs/doctrine-behaviors": "^1.5",
-        "symfony/dotenv": "*",
         "sonata-project/notification-orm-pack": "^1.0",
         "phpoffice/phpspreadsheet": "^1.5",
         "minishlink/web-push": "^4.0"
