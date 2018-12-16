@@ -1,6 +1,6 @@
 magenta_book_pwa_push_notif_read:
   path:      /{orgSlug}/{accessCode}/{employeeCode}/notif/{messageId}/subscription/{subscriptionId}
-  controller: MagentaCBookAdminBundle:BookPWA:savePushSubscription
+  controller: MagentaCBookAdminBundle:BookReader:readNotif
   defaults:   { format: reference }
 
 magenta_book_pwa_push_notif_subscription:

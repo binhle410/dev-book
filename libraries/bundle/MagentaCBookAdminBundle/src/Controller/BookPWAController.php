@@ -16,7 +16,6 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 class BookPWAController extends Controller
 {
     
-    
     public function savePushSubscriptionAction($orgSlug, $accessCode, $employeeCode, Request $request)
     {
         $this->get('magenta_book.individual_service')->checkAccess($accessCode, $employeeCode, $orgSlug);
@@ -59,7 +58,7 @@ class BookPWAController extends Controller
         if (empty($org)) {
             throw new NotFoundHttpException();
         }
-        $response = $this->render('@MagentaCBookAdmin/App/ProgressiveWebApp/manifest.html.twig', [
+        $response = $this->render('@MagentaCBookAdmin/App/ProgressiveWebApp/manifest.js.twig', [
             'org' => $org,
             'orgSlug' => $orgSlug,
             'accessCode' => $accessCode,
