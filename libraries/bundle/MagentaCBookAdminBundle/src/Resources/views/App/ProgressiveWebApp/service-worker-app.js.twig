@@ -48,6 +48,8 @@ self.addEventListener('notificationclick', function (event) {
   url += messageId + '/subscription/' + subscriptionId;
   const promiseChain = clients.openWindow(url);
   event.waitUntil(promiseChain);
+  notification.close();
+
 });
 
 self.addEventListener('push', function (event) {
