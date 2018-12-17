@@ -11,7 +11,6 @@ use Magenta\Bundle\CBookModelBundle\Entity\Classification\CategoryItem\MediaCate
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use Sonata\ClassificationBundle\Model\CategoryInterface;
 use Sonata\MediaBundle\Model\MediaInterface;
 
@@ -29,7 +28,7 @@ abstract class AppMedia extends BaseMedia implements MediaInterface, CategoryIte
      */
     protected $id;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->enabled = true;
@@ -63,7 +62,7 @@ abstract class AppMedia extends BaseMedia implements MediaInterface, CategoryIte
      * )
      * @ORM\OrderBy({"position"="ASC"})
      *
-     * @var \Doctrine\Common\Collections\Collection $bookCategoryItems ;
+     * @var \Doctrine\Common\Collections\Collection ;
      */
     protected $mediaCategoryItems;
 
@@ -164,13 +163,13 @@ abstract class AppMedia extends BaseMedia implements MediaInterface, CategoryIte
     public function getLink()
     {
         if (empty($this->link)) {
-            if (strlen($this->contentUrlPrefix) === 1) {
+            if (1 === strlen($this->contentUrlPrefix)) {
                 $prefix = '';
             } else {
                 $prefix = $this->contentUrlPrefix;
             }
 
-            $this->link = $this->getBaseUrl() . $prefix . $this->contentUrl;
+            $this->link = $this->getBaseUrl().$prefix.$this->contentUrl;
         }
 
         return $this->link;

@@ -65,209 +65,209 @@ doctrine:
 
                 entity_listeners:
                     entities:
-                    #                    Will not work for Mere Interfaces
-                    -
-                        class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Messaging\\Message"
-                        listener:
+                        #                    Will not work for Mere Interfaces
                         -
-                            class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Messaging\\MessageListener"
-                            event:
-                            -
-                                type: postLoad
-                                method: postLoadHandler
+                            class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Messaging\\Message"
+                            listener:
+                                -
+                                    class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Messaging\\MessageListener"
+                                    event:
+                                        -
+                                            type: postLoad
+                                            method: postLoadHandler
 
-                            -
-                                type: postPersist
-                                method: postPersistHandler
-                            -
-                                type: postUpdate
-                                method: postUpdateHandler
-                            -
-                                type: prePersist
-                                method: prePersistHandler
-                            -
-                                type: preUpdate
-                                method: preUpdateHandler
-                            -
-                                type: preRemove
-                                method: preRemoveHandler
-                            -
-                                type: postRemove
-                                method: postRemoveHandler
+                                        -
+                                            type: postPersist
+                                            method: postPersistHandler
+                                        -
+                                            type: postUpdate
+                                            method: postUpdateHandler
+                                        -
+                                            type: prePersist
+                                            method: prePersistHandler
+                                        -
+                                            type: preUpdate
+                                            method: preUpdateHandler
+                                        -
+                                            type: preRemove
+                                            method: preRemoveHandler
+                                        -
+                                            type: postRemove
+                                            method: postRemoveHandler
 
 
-                    -
-                        class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Organisation\\IndividualMember"
-                        listener:
                         -
-                            class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Organisation\\IndividualMemberListener"
-                            event:
-                            -
-                                type: postLoad
-                                method: postLoadHandler
+                            class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Organisation\\IndividualMember"
+                            listener:
+                                -
+                                    class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Organisation\\IndividualMemberListener"
+                                    event:
+                                        -
+                                            type: postLoad
+                                            method: postLoadHandler
 
-                            -
-                                type: postPersist
-                                method: postPersistHandler
-                            -
-                                type: postUpdate
-                                method: postUpdateHandler
-                            -
-                                type: prePersist
-                                method: prePersistHandler
-                            -
-                                type: preUpdate
-                                method: preUpdateHandler
-                            -
-                                type: preRemove
-                                method: preRemoveHandler
-                            -
-                                type: postRemove
-                                method: postRemoveHandler
-                    -
-                        class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Organisation\\Organisation"
-                        listener:
+                                        -
+                                            type: postPersist
+                                            method: postPersistHandler
+                                        -
+                                            type: postUpdate
+                                            method: postUpdateHandler
+                                        -
+                                            type: prePersist
+                                            method: prePersistHandler
+                                        -
+                                            type: preUpdate
+                                            method: preUpdateHandler
+                                        -
+                                            type: preRemove
+                                            method: preRemoveHandler
+                                        -
+                                            type: postRemove
+                                            method: postRemoveHandler
                         -
-                            class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Organisation\\OrganisationListener"
-                            event:
-                            -
-                                type: postLoad
-                                method: postLoadHandler
+                            class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Organisation\\Organisation"
+                            listener:
+                                -
+                                    class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Organisation\\OrganisationListener"
+                                    event:
+                                        -
+                                            type: postLoad
+                                            method: postLoadHandler
 
-                            -
-                                type: postPersist
-                                method: postPersistHandler
-                            -
-                                type: postUpdate
-                                method: postUpdateHandler
-                            -
-                                type: prePersist
-                                method: prePersistHandler
-                            -
-                                type: preUpdate
-                                method: preUpdateHandler
-                            -
-                                type: preRemove
-                                method: preRemoveHandler
-                            -
-                                type: postRemove
-                                method: postRemoveHandler
-                    -
-                        class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Person\\Person"
-                        listener:
+                                        -
+                                            type: postPersist
+                                            method: postPersistHandler
+                                        -
+                                            type: postUpdate
+                                            method: postUpdateHandler
+                                        -
+                                            type: prePersist
+                                            method: prePersistHandler
+                                        -
+                                            type: preUpdate
+                                            method: preUpdateHandler
+                                        -
+                                            type: preRemove
+                                            method: preRemoveHandler
+                                        -
+                                            type: postRemove
+                                            method: postRemoveHandler
                         -
-                            class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Person\\PersonListener"
-                            event:
-                            -
-                                type: postLoad
-                                method: postLoadHandler
+                            class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Person\\Person"
+                            listener:
+                                -
+                                    class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Person\\PersonListener"
+                                    event:
+                                        -
+                                            type: postLoad
+                                            method: postLoadHandler
 
-                            -
-                                type: postPersist
-                                method: postPersistHandler
-                            -
-                                type: postUpdate
-                                method: postUpdateHandler
-                            -
-                                type: prePersist
-                                method: prePersistHandler
-                            -
-                                type: preUpdate
-                                method: preUpdateHandler
-                            -
-                                type: preRemove
-                                method: preRemoveHandler
-                            -
-                                type: postRemove
-                                method: postRemoveHandler
+                                        -
+                                            type: postPersist
+                                            method: postPersistHandler
+                                        -
+                                            type: postUpdate
+                                            method: postUpdateHandler
+                                        -
+                                            type: prePersist
+                                            method: prePersistHandler
+                                        -
+                                            type: preUpdate
+                                            method: preUpdateHandler
+                                        -
+                                            type: preRemove
+                                            method: preRemoveHandler
+                                        -
+                                            type: postRemove
+                                            method: postRemoveHandler
 
-                    -
-                        class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Book\\Book"
-                        listener:
                         -
-                            class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Book\\BookListener"
-                            event:
-                            -
-                                type: postLoad
-                                method: postLoadHandler
+                            class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Book\\Book"
+                            listener:
+                                -
+                                    class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Book\\BookListener"
+                                    event:
+                                        -
+                                            type: postLoad
+                                            method: postLoadHandler
 
-                            -
-                                type: postPersist
-                                method: postPersistHandler
-                            -
-                                type: postUpdate
-                                method: postUpdateHandler
-                            -
-                                type: prePersist
-                                method: prePersistHandler
-                            -
-                                type: preUpdate
-                                method: preUpdateHandler
-                            -
-                                type: preRemove
-                                method: preRemoveHandler
-                            -
-                                type: postRemove
-                                method: postRemoveHandler
+                                        -
+                                            type: postPersist
+                                            method: postPersistHandler
+                                        -
+                                            type: postUpdate
+                                            method: postUpdateHandler
+                                        -
+                                            type: prePersist
+                                            method: prePersistHandler
+                                        -
+                                            type: preUpdate
+                                            method: preUpdateHandler
+                                        -
+                                            type: preRemove
+                                            method: preRemoveHandler
+                                        -
+                                            type: postRemove
+                                            method: postRemoveHandler
 
-                    -
-                        class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Book\\Chapter"
-                        listener:
                         -
-                            class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Book\\ChapterListener"
-                            event:
-                            -
-                                type: postLoad
-                                method: postLoadHandler
+                            class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Book\\Chapter"
+                            listener:
+                                -
+                                    class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Book\\ChapterListener"
+                                    event:
+                                        -
+                                            type: postLoad
+                                            method: postLoadHandler
 
-                            -
-                                type: postPersist
-                                method: postPersistHandler
-                            -
-                                type: postUpdate
-                                method: postUpdateHandler
-                            -
-                                type: prePersist
-                                method: prePersistHandler
-                            -
-                                type: preUpdate
-                                method: preUpdateHandler
-                            -
-                                type: preRemove
-                                method: preRemoveHandler
-                            -
-                                type: postRemove
-                                method: postRemoveHandler
+                                        -
+                                            type: postPersist
+                                            method: postPersistHandler
+                                        -
+                                            type: postUpdate
+                                            method: postUpdateHandler
+                                        -
+                                            type: prePersist
+                                            method: prePersistHandler
+                                        -
+                                            type: preUpdate
+                                            method: preUpdateHandler
+                                        -
+                                            type: preRemove
+                                            method: preRemoveHandler
+                                        -
+                                            type: postRemove
+                                            method: postRemoveHandler
 
 
-                    -
-                        class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Media\\Media"
-                        listener:
                         -
-                            class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Media\\MediaListener"
-                            event:
-                            -
-                                type: postLoad
-                                method: postLoadHandler
+                            class:  "Magenta\\Bundle\\CBookModelBundle\\Entity\\Media\\Media"
+                            listener:
+                                -
+                                    class: "Magenta\\Bundle\\CBookModelBundle\\Doctrine\\Media\\MediaListener"
+                                    event:
+                                        -
+                                            type: postLoad
+                                            method: postLoadHandler
 
-                            -
-                                type: postPersist
-                                method: postPersistHandler
-                            -
-                                type: postUpdate
-                                method: postUpdateHandler
-                            -
-                                type: prePersist
-                                method: prePersistHandler
-                            -
-                                type: preUpdate
-                                method: preUpdateHandler
-                            -
-                                type: preRemove
-                                method: preRemoveHandler
-                            -
-                                type: postRemove
-                                method: postRemoveHandler
+                                        -
+                                            type: postPersist
+                                            method: postPersistHandler
+                                        -
+                                            type: postUpdate
+                                            method: postUpdateHandler
+                                        -
+                                            type: prePersist
+                                            method: prePersistHandler
+                                        -
+                                            type: preUpdate
+                                            method: preUpdateHandler
+                                        -
+                                            type: preRemove
+                                            method: preRemoveHandler
+                                        -
+                                            type: postRemove
+                                            method: postRemoveHandler
 
 security:
     encoders:
@@ -325,24 +325,24 @@ sonata_media:
     contexts:
         content_image:
             providers:
-            - sonata.media.provider.image
+                - sonata.media.provider.image
             formats:
                 small: { width: 100 , quality: 70}
-                big:   { width: 500 , quality: 100}
+                big:   { width: 800 , quality: 100}
             download:
                 strategy: sonata.media.security.public_strategy
                 mode: http
 
         content_file:
             providers:
-            - sonata.media.provider.file
+                - sonata.media.provider.file
             download:
                 strategy: sonata.media.security.public_strategy
                 mode: http
 
         organisation_logo:
             providers:
-            - sonata.media.provider.image
+                - sonata.media.provider.image
             formats:
                 small: { width: 192 , quality: 100}
                 upper_small: { width: 256 , quality: 100}
@@ -353,11 +353,11 @@ sonata_media:
 
         default:
             providers:
-            - sonata.media.provider.dailymotion
-            - sonata.media.provider.youtube
-            - sonata.media.provider.image
-            - sonata.media.provider.file
-            - sonata.media.provider.vimeo
+                - sonata.media.provider.dailymotion
+                - sonata.media.provider.youtube
+                - sonata.media.provider.image
+                - sonata.media.provider.file
+                - sonata.media.provider.vimeo
             formats:
                 small: { width: 100 , quality: 70}
                 big:   { width: 500 , quality: 70}
