@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\AccessControl\ACEntry;
-use Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message;
+use Magenta\Bundle\CBookModelBundle\Entity\Classification\Tag;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
@@ -19,7 +19,6 @@ use Magenta\Bundle\CBookModelBundle\Entity\System\SystemModule;
  */
 class User extends AbstractUser
 {
-    
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_POWER_USER = 'ROLE_POWER_USER';
     
@@ -37,10 +36,41 @@ class User extends AbstractUser
         $this->adminOrganisations = new ArrayCollection();
     }
     
+    public function initiatePerson($emailRequired = true)
+    {
+        if (empty($this->person)) {
+            $this->person = new Person();
+        }
+        $this->person->setEnabled(true);
+        
+        if ($emailRequired) {
+            if (empty($this->email)) {
+                if (empty($this->person->getEmail())) {
+                    //					throw new \InvalidArgumentException('person email is null');
+                    $today = new \DateTime();
+                    if (empty($this->name)) {
+                        $this->name = 'random-' . $today->getTimestamp();
+                    }
+                    $this->email = str_replace(' ', '-', $this->name) . '_' . $today->format('dmY') . '@no-email.com';
+                } else {
+                    $this->email = $this->person->getEmail();
+                }
+            }
+        }
+        
+        $now = new \DateTime();
+        $emailName = explode('@', $this->email)[0];
+        
+        $this->person->setEmail($this->email);
+        $this->person->setUser($this);
+        
+        return $this->person;
+    }
+    
     public static function generateTimestampBasedCode(\DateTime $date = null)
     {
-        if ($date === null) {
-            $timestamp = base_convert((integer)date_timestamp_get(new \DateTime()), 10, 36);
+        if (null === $date) {
+            $timestamp = base_convert((int)date_timestamp_get(new \DateTime()), 10, 36);
         } else {
             $timestamp = base_convert($date->getTimestamp(), 10, 36);
         }
@@ -48,7 +78,7 @@ class User extends AbstractUser
             $timestamp = '0' . $timestamp;
         }
         
-        $tsStr = substr(chunk_split($timestamp, 4, "-"), 0, -1);
+        $tsStr = substr(chunk_split($timestamp, 4, '-'), 0, -1);
         
         return strtoupper($tsStr);
     }
@@ -69,7 +99,7 @@ class User extends AbstractUser
     {
         if (empty($code)) {
             $maxBase36 = '';
-            for ($i = 0; $i < $x; $i++) {
+            for ($i = 0; $i < $x; ++$i) {
                 $maxBase36 .= 'z';
             }
             
@@ -120,7 +150,7 @@ class User extends AbstractUser
     {
         if (empty($code)) {
             $maxRange36 = '';
-            for ($i = 0; $i < $x; $i++) {
+            for ($i = 0; $i < $x; ++$i) {
                 $maxRange36 .= 'Z';
             }
             
@@ -139,16 +169,16 @@ class User extends AbstractUser
     {
         $permission = strtoupper($permission);
         
-        if ($permission === 'EXPORT') {
+        if ('EXPORT' === $permission) {
             return true;
         }
         
         if ($object instanceof DecisionMakingInterface) {
             if ($permission === 'DECISION_' . DecisionMakingInterface::DECISION_APPROVE) {
                 //return $object->getDecisionStatus() === null || $object->getDecisionStatus() === DecisionMakingInterface::STATUS_NEW;
-                return $object->getDecisionStatus() !== DecisionMakingInterface::STATUS_APPROVED;
+                return DecisionMakingInterface::STATUS_APPROVED !== $object->getDecisionStatus();
             } elseif ($permission === 'DECISION_' . DecisionMakingInterface::DECISION_REJECT) {
-                return $object->getDecisionStatus() !== DecisionMakingInterface::STATUS_REJECTED;
+                return DecisionMakingInterface::STATUS_REJECTED !== $object->getDecisionStatus();
                 //return $object->getDecisionStatus() === null || $object->getDecisionStatus() === DecisionMakingInterface::STATUS_NEW;
             }
             // TODO handle these cases
@@ -176,19 +206,19 @@ class User extends AbstractUser
         
         if (!empty($member)) {
             $_permission = $permission;
-            if ($permission === 'LIST') {
+            if ('LIST' === $permission) {
                 $_permission = ACEntry::PERMISSION_READ;
             }
-            if ($permission === 'DELETE') {
+            if ('DELETE' === $permission) {
                 $_permission = ACEntry::PERMISSION_DELETE;
             }
-            if ($permission === 'EDIT') {
+            if ('EDIT' === $permission) {
                 $_permission = ACEntry::PERMISSION_UPDATE;
             }
-            if ($permission === 'CREATE') {
+            if ('CREATE' === $permission) {
                 $_permission = ACEntry::PERMISSION_CREATE;
             }
-            if ($permission === 'VIEW') {
+            if ('VIEW' === $permission) {
                 $_permission = ACEntry::PERMISSION_READ;
             }
             
@@ -208,8 +238,8 @@ class User extends AbstractUser
         
         return false;
     }
-
-//	For UserAdmin
+    
+    //	For UserAdmin
     
     /**
      * @return array
@@ -232,7 +262,7 @@ class User extends AbstractUser
     }
     
     /**
-     * @var Collection $adminOrganisations
+     * @var Collection
      * @ORM\ManyToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="adminUsers")
      * @ORM\JoinTable(name="organisation__organisation__organisations_admin_users",
      *      joinColumns={@ORM\JoinColumn(name="id_user", referencedColumnName="id")},

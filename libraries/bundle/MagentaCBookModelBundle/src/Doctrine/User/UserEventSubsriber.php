@@ -49,6 +49,7 @@ class UserEventSubsriber implements EventSubscriber
         return [
             'prePersist',
             'preUpdate',
+            'postLoad'
         ];
     }
     
@@ -143,6 +144,23 @@ class UserEventSubsriber implements EventSubscriber
         
         if ($om instanceof DocumentManager) {
             $om->getUnitOfWork()->recomputeSingleDocumentChangeSet($meta, $user);
+        }
+    }
+    
+    /**
+     * Post load listener based on doctrine common.
+     *
+     * @param LifecycleEventArgs $args
+     */
+    public function postLoad(LifecycleEventArgs $args)
+    {
+        $object = $args->getObject();
+        if ($object instanceof User) {
+            if (!empty($object->getId()) && empty($person = $object->getPerson())) {
+                $person = $object->initiatePerson();
+                $args->getObjectManager()->persist($person);
+                $args->getObjectManager()->flush($person);
+            }
         }
     }
 }
