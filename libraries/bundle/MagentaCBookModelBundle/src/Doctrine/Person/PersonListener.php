@@ -6,10 +6,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreFlushEventArgs;
-use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
 use Magenta\Bundle\CBookModelBundle\Entity\User\User;
-use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class PersonListener
@@ -21,7 +19,7 @@ class PersonListener
 
     private $personService;
 
-    function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
         $this->personService = $container->get('magenta_book.person_service');
@@ -36,6 +34,12 @@ class PersonListener
 
     private function updateInfo(Person $person, LifecycleEventArgs $event)
     {
+        if (empty($person->getEmail())) {
+            $fname = strtolower($person->getGivenName());
+            $lname = strtolower($person->getFamilyName());
+            $rand = rand(0, 1000);
+            $person->setEmail($fname.'-'.$lname.'-'.$rand.'@no-email.com');
+        }
     }
 
     private function updateInfoBeforeOperation(Person $person, LifecycleEventArgs $event)
@@ -49,7 +53,7 @@ class PersonListener
         $email = $person->getEmail();
         $uow = $manager->getUnitOfWork();
         if (!empty($user = $person->getUser())) {
-            if (($pass = $user->getPlainPassword()) !== null) {
+            if (null !== ($pass = $user->getPlainPassword())) {
                 if (empty($pass)) {
                     $pass = null;
                 }
@@ -135,7 +139,7 @@ class PersonListener
             $pu->addRole(User::ROLE_POWER_USER);
             $pu->setEmail($email);
             $manager->persist($pu);
-//			$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(User::class), $pu);
+            //			$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(User::class), $pu);
         }
     }
 
@@ -147,11 +151,9 @@ class PersonListener
     {
     }
 
-    public
-    function postLoadHandler(
+    public function postLoadHandler(
         Person $person, LifecycleEventArgs $event
-    )
-    {
+    ) {
         /** @var EntityManager $manger */
         $manager = $event->getEntityManager();
         if (!empty($person->getEmail())) {

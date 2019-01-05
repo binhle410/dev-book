@@ -4,11 +4,8 @@ namespace Magenta\Bundle\CBookModelBundle\Doctrine\Organisation;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
-use Magenta\Bundle\CBookModelBundle\Entity\User\User;
-use Magenta\Bundle\CBookModelBundle\Service\User\UserService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class IndividualMemberListener
@@ -18,7 +15,7 @@ class IndividualMemberListener
      */
     private $container;
 
-    function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
@@ -48,11 +45,9 @@ class IndividualMemberListener
         }
     }
 
-    private
-    function updateInfoBeforeOperation(
+    private function updateInfoBeforeOperation(
         IndividualMember $member, LifecycleEventArgs $event
-    )
-    {
+    ) {
         $this->updateInfo($member, $event);
         /** @var Person $person */
         $person = $member->getPerson();
@@ -84,7 +79,7 @@ class IndividualMemberListener
                 $personCS = $uow->getEntityChangeSet($person);
                 if (array_key_exists('name', $personCS)) {
                     $person->setName($personCS['name'][0]);
-//				$uow->getEntityChangeSet($person)['name'][1] = $personCS['name'][0];
+                    //				$uow->getEntityChangeSet($person)['name'][1] = $personCS['name'][0];
                     $uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(Person::class), $person); // Cannot call recomputeSingleEntityChangeSet before computeChangeSet on an entity.
                     $manager->persist($person);
                 }
@@ -93,28 +88,24 @@ class IndividualMemberListener
             $person->removeIndividualMember($member);
             $m_person->addIndividualMember($member);
             $manager->persist($m_person);
-//			$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(Person::class), $person); // Cannot call recomputeSingleEntityChangeSet before computeChangeSet on an entity.
+        //			$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(Person::class), $person); // Cannot call recomputeSingleEntityChangeSet before computeChangeSet on an entity.
 //			$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(Person::class), $m_person); // Cannot call recomputeSingleEntityChangeSet before computeChangeSet on an entity.
 //			$manager->persist($member);
 //			$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(IndividualMember::class), $member); // Cannot call recomputeSingleEntityChangeSet before computeChangeSet on an entity.
+        } elseif (empty($person->getId())) {
+            $manager->persist($person);
         }
     }
 
-    public
-    function preUpdateHandler(
+    public function preUpdateHandler(
         IndividualMember $member, LifecycleEventArgs $event
-    )
-    {
+    ) {
         $this->updateInfoBeforeOperation($member, $event);
-
-
     }
 
-    public
-    function postUpdateHandler(
+    public function postUpdateHandler(
         IndividualMember $member, LifecycleEventArgs $event
-    )
-    {
+    ) {
         $this->updateInfoAfterOperation($member, $event);
         $manager = $event->getEntityManager();
         $uow = $manager->getUnitOfWork();
@@ -122,41 +113,31 @@ class IndividualMemberListener
         $manager->flush($person);
     }
 
-    public
-    function prePersistHandler(
+    public function prePersistHandler(
         IndividualMember $member, LifecycleEventArgs $event
-    )
-    {
+    ) {
         $this->updateInfoBeforeOperation($member, $event);
     }
 
-    public
-    function postPersistHandler(
+    public function postPersistHandler(
         IndividualMember $member, LifecycleEventArgs $event
-    )
-    {
+    ) {
         $this->updateInfoAfterOperation($member, $event);
     }
 
-    public
-    function preRemoveHandler(
+    public function preRemoveHandler(
         IndividualMember $member, LifecycleEventArgs $event
-    )
-    {
+    ) {
     }
 
-    public
-    function postRemoveHandler(
+    public function postRemoveHandler(
         IndividualMember $member, LifecycleEventArgs $event
-    )
-    {
+    ) {
     }
 
-    public
-    function postLoadHandler(
+    public function postLoadHandler(
         IndividualMember $member, LifecycleEventArgs $args
-    )
-    {
+    ) {
         if (empty($member->getPin()) || empty($member->getCode())) {
             $member->initiateCode()->initiatePin();
             $manager = $args->getEntityManager();

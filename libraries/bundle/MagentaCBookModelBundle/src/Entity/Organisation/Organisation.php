@@ -292,6 +292,12 @@ class Organisation extends OrganizationModel
      * @var boolean|null
      * @ORM\Column(type="boolean",nullable=true)
      */
+    protected $authByUsernamePassword;
+    
+    /**
+     * @var boolean|null
+     * @ORM\Column(type="boolean",nullable=true)
+     */
     protected $linkedToWellness;
     
     /**
@@ -554,5 +560,21 @@ class Organisation extends OrganizationModel
     public function setMessages(Collection $messages): void
     {
         $this->messages = $messages;
+    }
+    
+    /**
+     * @return bool|null
+     */
+    public function getAuthByUsernamePassword(): ?bool
+    {
+        return $this->authByUsernamePassword;
+    }
+    
+    /**
+     * @param bool|null $authByUsernamePassword
+     */
+    public function setAuthByUsernamePassword(?bool $authByUsernamePassword): void
+    {
+        $this->authByUsernamePassword = $authByUsernamePassword;
     }
 }

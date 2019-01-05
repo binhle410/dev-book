@@ -188,7 +188,7 @@ class IndividualMemberAdmin extends BaseAdmin
             ->add('person.idNumber', null, ['label' => 'form.label_id_number'])
             ->add('person.birthDate', DatePickerType::class, [
                 'label' => 'form.label_dob',
-                'required' => true,
+                'required' => false,
                 'format' => 'dd-MM-yyyy',
                 'placeholder' => 'dd-mm-yyyy',
                 'datepicker_use_button' => false
