@@ -7,6 +7,7 @@ use Bean\Component\Messaging\IoC\MessageDeliverableInterface;
 use Bean\Component\Organization\Model\IndividualMember as MemberModel;
 
 use Bean\Component\Organization\Model\OrganizationInterface;
+use Bean\Component\Person\Model\PersonInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -47,6 +48,16 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
         $this->messages = new ArrayCollection();
         $this->enabled = true;
     }
+    
+    /**
+     * @return Person|null
+     */
+    public function getPerson(): ?PersonInterface
+    {
+        return $this->person;
+    }
+    
+    
     
     public function readFromNotification(Message $message, Subscription $subscription)
     {

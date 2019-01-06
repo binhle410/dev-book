@@ -2,7 +2,6 @@
 
 namespace Magenta\Bundle\CBookModelBundle\Repository\Organisation;
 
-
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
@@ -14,7 +13,7 @@ class IndividualMemberRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, IndividualMember::class);
     }
-    
+
     public function findHavingOrganisationSubscriptions($orgId)
     {
         $qb = $this->createQueryBuilder('individual_member')
@@ -37,11 +36,13 @@ class IndividualMemberRepository extends ServiceEntityRepository
 //        }
         return $qb->getQuery()->getResult();
     }
-    
+
     /**
      * @param $pin
      * @param $employeeCode
+     *
      * @return IndividualMember
+     *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findOneByPinCodeEmployeeCode($pin, $employeeCode)
@@ -52,13 +53,12 @@ class IndividualMemberRepository extends ServiceEntityRepository
             ->andWhere($expr->like('m.pin', $expr->literal($pin)))
             ->andWhere($expr->like('m.code', $expr->literal($employeeCode)));
 
-//		return $qb->execute();
-//$query = $qb->getQuery()->getSQL();
+        //		return $qb->execute();
+        //$query = $qb->getQuery()->getSQL();
         // to get just one result:
         return $qb->setMaxResults(1)->getQuery()->getOneOrNullResult();
-        
     }
-    
+
     public function findOneByOrganisationCodeNric($code, $nric)
     {
         $qb = $this->createQueryBuilder('m');
@@ -69,8 +69,30 @@ class IndividualMemberRepository extends ServiceEntityRepository
             ->andWhere($expr->like('organisation.code', $expr->literal($code)))
             ->andWhere($expr->like('person.idNumber', $expr->literal($nric)));
 
-//		return $qb->execute();
-        
+        //		return $qb->execute();
+
+        // to get just one result:
+        return $qb->setMaxResults(1)->getQuery()->getOneOrNullResult();
+    }
+
+    public function findOneByOrganisationCodeUsernameEmail($code, $username)
+    {
+        $qb = $this->createQueryBuilder('m');
+        $expr = $qb->expr();
+        $qb
+            ->join('m.person', 'person')
+            ->join('person.user', 'user')
+            ->join('m.organization', 'organisation')
+            ->andWhere($expr->like('organisation.code', $expr->literal($code)))
+            ->andWhere(
+                $expr->orX(
+                    $expr->like('user.username', $expr->literal($username)),
+                    $expr->like('user.email', $expr->literal($username))
+                )
+            );
+
+        //		return $qb->execute();
+
         // to get just one result:
         return $qb->setMaxResults(1)->getQuery()->getOneOrNullResult();
     }

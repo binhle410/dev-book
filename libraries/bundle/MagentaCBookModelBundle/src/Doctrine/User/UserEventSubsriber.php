@@ -157,7 +157,11 @@ class UserEventSubsriber implements EventSubscriber
         $object = $args->getObject();
         if ($object instanceof User) {
             if (!empty($object->getId()) && empty($person = $object->getPerson())) {
-                $person = $object->initiatePerson();
+                $repo = $args->getObjectManager()->getRepository(Person::class);
+                $person = $repo->findOneBy(['email' => $object->getEmail()]);
+                if (empty($person)) {
+                    $person = $object->initiatePerson();
+                }
                 $args->getObjectManager()->persist($person);
                 $args->getObjectManager()->flush($person);
             }

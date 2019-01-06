@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% block javascripts_head %}
+        <script>
+            localStorage.clear();
+        </script>
+    {% endblock javascripts_head %}
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ asset('assets/pk2/css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/pk2/css/paper-kit.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/pk2/css/nucleo-icons.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}"/>
+    <style>
+        .moving-clouds {
+            position: absolute;
+            z-index: 1;
+            bottom: 0;
+            left: 0;
+            width: 250.625em;
+            height: 120.75em;
+            -webkit-animation: cloudLoop 80s linear infinite;
+            animation: cloudLoop 80s linear infinite;
+        }
+
+        @keyframes cloudLoop {
+            0% {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0)
+            }
+            100% {
+                -webkit-transform: translate3d(-50%, 0, 0);
+                transform: translate3d(-50%, 0, 0)
+            }
+        }
+
+        .input-group {
+            margin: 10px 0px;
+        }
+
+        .page-header {
+            background-image: url('{{ asset('assets/images/bg-origami.png') }}');
+            background-color: #605ca8;
+            -webkit-background-size: 600px auto;
+            background-size: 600px auto;
+            align-items: flex-start;
+        }
+
+        /* Header */
+        .main-header, .logo img {
+            background-color: #d2d6de;
+        }
+
+        @media (min-width: 430px) {
+            div.separator {
+                padding-bottom: 23px;
+            }
+        }
+
+        @media (min-width: 600px) {
+            div.separator {
+                padding-bottom: 40px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .page-header.section-dark .content-center {
+                margin-top: 120px;
+            }
+
+            div.separator {
+                padding-bottom: 98px;
+            }
+        }
+
+        /* Alert */
+        .container .alert {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="500">
+    <div class="container">
+        <div class="navbar-translate">
+            {#<a class="navbar-brand" href="http://www.magentapulse.com">Your Books on the Cloud</a>#}
+            <div class="text-center logo"><img width="40%" style="border-radius: 2vw"
+                                               src="https://www.magenta-consulting.com/images/logo.png"/>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="wrapper">
+    <div class="page-header section-dark">
+        <div class="filter"></div>
+        <div class="content-center" style="z-index: 900;">
+            <div class="container">
+                <h2 class="presentation-subtitle text-center">Sign in with your NRIC and Date of Birth to access your
+                    Books on the Cloud</h2>
+                <form class="register-form" method="post"
+                      action="">
+                    {% for errorMsg in app.flashes('error') %}
+                        <div class="alert alert-danger alert-with-icon" data-notify="container">
+                            <div class="container">
+                                <div class="alert-wrapper">
+                                    {#<button type="button" class="close" data-dismiss="alert" aria-label="Close">#}
+                                    {#<i class="nc-icon nc-simple-remove"></i>#}
+                                    {#</button>#}
+                                    <div class="message"><i class="nc-icon nc-bell-55"></i> {{ errorMsg }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="input-group form-group-no-border">
+                              {#<span class="input-group-addon pk-input-group-addon rounded-right-0">#}
+                                  {#<i class="nc-icon nc-shop"></i>#}
+                              {#</span>#}
+                        <input type="hidden" name="type" value="username">
+                    </div>
+                    <div class="input-group form-group-no-border">
+                                <span class="input-group-addon pk-input-group-addon rounded-right-0">
+                                  <i class="nc-icon nc-badge"></i>
+                                </span>
+                        <input type="text" name="username" class="form-control" placeholder="Username/Email">
+                    </div>
+                    <div class="input-group form-group-no-border date">
+                                <span class="input-group-addon pk-input-group-addon">
+                                  <i class="nc-icon nc-calendar-60"></i>
+                                </span>
+                        <input type="password" class="form-control" placeholder="Password" name="password">
+                    </div>
+                    <button type="submit" class="btn btn-danger btn-block btn-round">Login</button>
+                </form>
+                <div class="separator"><p><br/></p></div>
+                <div class="title-brand">
+                    <div class="fog-low">
+                        <img src="{{ asset('img/fog-low.png') }}" alt="">
+                    </div>
+                    <div class="fog-low right">
+                        <img src="{{ asset('img/fog-low.png') }}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="moving-clouds" style="background-image: url('{{ asset('img/clouds.png') }}'); "></div>
+    </div>
+</div>
+</body>
+</html>
