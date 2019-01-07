@@ -10,6 +10,7 @@
 
 namespace Magenta\Bundle\CBookModelBundle\Util\User;
 
+use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Magenta\Bundle\CBookModelBundle\Entity\User\UserInterface;
 use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
@@ -26,6 +27,27 @@ class PasswordUpdater implements PasswordUpdaterInterface
     public function __construct(EncoderFactoryInterface $encoderFactory)
     {
         $this->encoderFactory = $encoderFactory;
+    }
+
+    public function isPasswordValid(User $user, $password)
+    {
+        $plainPassword = $password;
+
+        if (0 === strlen($plainPassword)) {
+            return;
+        }
+
+        $encoder = $this->encoderFactory->getEncoder($user);
+        
+        if ($encoder instanceof BCryptPasswordEncoder) {
+            $salt = null;
+            $user->setSalt(null);
+        } else {
+            $salt = rtrim(str_replace('+', '.', base64_encode(random_bytes(32))), '=');
+            $user->setSalt($salt);
+        }
+
+        return $encoder->isPasswordValid($user->getPassword(), $password, $salt);
     }
 
     public function hashPassword(UserInterface $user)

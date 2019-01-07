@@ -6,16 +6,14 @@ use Doctrine\ORM\QueryBuilder;
 use Magenta\Bundle\CBookAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
-use Magenta\Bundle\CBookModelBundle\Entity\User\User;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelType;
-use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PersonAdmin extends BaseAdmin
 {
-
     public function isGranted($name, $object = null)
     {
 //        return parent::isGranted($name, $object);
@@ -27,7 +25,7 @@ class PersonAdmin extends BaseAdmin
             return false;
         }
 
-        if (!is_array($name) && strtoupper($name) === 'EDIT') {
+        if (!is_array($name) && 'EDIT' === strtoupper($name)) {
             return $this->getLoggedInUser()->getPerson() === $object;
         }
 
@@ -48,24 +46,34 @@ class PersonAdmin extends BaseAdmin
     public function createQuery($context = 'list')
     {
         /**
-         * @var \Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery $query
+         * @var \Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery
          */
         $query = parent::createQuery($context);
 
         if ($this->isAdmin()) {
             return $query;
         } else {
-
             /** @var QueryBuilder $qb */
             $qb = $query->getQueryBuilder();
             $expr = $qb->expr();
             $rootAlias = $qb->getRootAliases()[0];
             $qb
-                ->join($rootAlias . '.individualMembers', 'individual')
+                ->join($rootAlias.'.individualMembers', 'individual')
                 ->join('individual.organization', 'organization');
             $qb->andWhere($expr->eq('organization.id', $this->getCurrentOrganisation()->getId()));
         }
+
         return $query;
+    }
+
+    protected function configureDatagridFilters(DatagridMapper $filter)
+    {
+        $filter
+            ->add('name')
+            ->add('familyName')
+            ->add('givenName')
+            ->add('email')
+        ;
     }
 
     protected function configureFormFields(FormMapper $form)
@@ -84,7 +92,7 @@ class PersonAdmin extends BaseAdmin
             'class' => Organisation::class,
             'multiple' => true,
             'property' => 'name',
-            'btn_add' => false
+            'btn_add' => false,
         ]);
     }
 
@@ -101,6 +109,4 @@ class PersonAdmin extends BaseAdmin
     public function preValidate($object)
     {
     }
-
 }
-

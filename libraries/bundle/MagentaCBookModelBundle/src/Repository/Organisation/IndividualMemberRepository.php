@@ -74,8 +74,8 @@ class IndividualMemberRepository extends ServiceEntityRepository
         // to get just one result:
         return $qb->setMaxResults(1)->getQuery()->getOneOrNullResult();
     }
-
-    public function findOneByOrganisationCodeUsernameEmail($code, $username)
+    
+    public function findOneByOrganisationSlugUsernameEmail($slug, $username)
     {
         $qb = $this->createQueryBuilder('m');
         $expr = $qb->expr();
@@ -83,7 +83,7 @@ class IndividualMemberRepository extends ServiceEntityRepository
             ->join('m.person', 'person')
             ->join('person.user', 'user')
             ->join('m.organization', 'organisation')
-            ->andWhere($expr->like('organisation.code', $expr->literal($code)))
+            ->andWhere($expr->like('organisation.slug', $expr->literal($slug)))
             ->andWhere(
                 $expr->orX(
                     $expr->like('user.username', $expr->literal($username)),

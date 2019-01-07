@@ -16,6 +16,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Magenta\Bundle\CBookModelBundle\Entity\User\UserInterface;
 use Magenta\Bundle\CBookModelBundle\Service\User\AbstractUserManager as BaseUserManager;
 use Magenta\Bundle\CBookModelBundle\Util\User\CanonicalFieldsUpdater;
+use Magenta\Bundle\CBookModelBundle\Util\User\PasswordUpdater;
 use Magenta\Bundle\CBookModelBundle\Util\User\PasswordUpdaterInterface;
 
 class UserManager extends BaseUserManager
@@ -40,7 +41,7 @@ class UserManager extends BaseUserManager
      * @param ObjectManager            $om
      * @param string                   $class
      */
-    public function __construct(PasswordUpdaterInterface $passwordUpdater, CanonicalFieldsUpdater $canonicalFieldsUpdater, ObjectManager $om, $class)
+    public function __construct(PasswordUpdater $passwordUpdater, CanonicalFieldsUpdater $canonicalFieldsUpdater, ObjectManager $om, $class)
     {
         parent::__construct($passwordUpdater, $canonicalFieldsUpdater);
         $this->passwordUpdater = $passwordUpdater;
@@ -50,11 +51,7 @@ class UserManager extends BaseUserManager
 
     public function isPasswordValid(User $user, $password)
     {
-        $_user = new User();
-        $_user->setPlainPassword($password);
-        $this->passwordUpdater->hashPassword($_user);
-
-        return $_user->getPassword() === $user->getPassword();
+        return $this->passwordUpdater->isPasswordValid($user, $password);
     }
 
     public function findUserByOrganisationCodeNric($code, $nric)
