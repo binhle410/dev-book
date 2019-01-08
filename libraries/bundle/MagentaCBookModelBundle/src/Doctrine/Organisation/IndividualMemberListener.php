@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
+use Magenta\Bundle\CBookModelBundle\Entity\User\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class IndividualMemberListener
@@ -15,9 +16,12 @@ class IndividualMemberListener
      */
     private $container;
 
+    private $passwordUpdater;
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->passwordUpdater = $container->get('magenta_user.util.password_updater');
     }
 
     private function updateInfoAfterOperation(IndividualMember $member, LifecycleEventArgs $event)
@@ -88,12 +92,20 @@ class IndividualMemberListener
             $person->removeIndividualMember($member);
             $m_person->addIndividualMember($member);
             $manager->persist($m_person);
-        //			$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(Person::class), $person); // Cannot call recomputeSingleEntityChangeSet before computeChangeSet on an entity.
-//			$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(Person::class), $m_person); // Cannot call recomputeSingleEntityChangeSet before computeChangeSet on an entity.
-//			$manager->persist($member);
-//			$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(IndividualMember::class), $member); // Cannot call recomputeSingleEntityChangeSet before computeChangeSet on an entity.
-        } elseif (empty($person->getId())) {
+            //			$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(Person::class), $person); // Cannot call recomputeSingleEntityChangeSet before computeChangeSet on an entity.
+            //			$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(Person::class), $m_person); // Cannot call recomputeSingleEntityChangeSet before computeChangeSet on an entity.
+            //			$manager->persist($member);
+            //			$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(IndividualMember::class), $member); // Cannot call recomputeSingleEntityChangeSet before computeChangeSet on an entity.
+            $user = $m_person->getUser();
+        } else {
+            $user = $person->getUser();
             $manager->persist($person);
+            $manager->persist($user = $person->getUser());
+        }
+
+        if (!empty($user->getPlainPassword())) {
+            $this->passwordUpdater->hashPassword($user);
+            $manager->persist($user = $person->getUser());
         }
     }
 
@@ -110,7 +122,9 @@ class IndividualMemberListener
         $manager = $event->getEntityManager();
         $uow = $manager->getUnitOfWork();
         $manager->persist($person = $member->getPerson());
+        $manager->persist($user = $person->getUser());
         $manager->flush($person);
+        $manager->flush($user);
     }
 
     public function prePersistHandler(

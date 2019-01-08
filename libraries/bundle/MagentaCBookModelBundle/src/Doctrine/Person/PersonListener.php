@@ -36,7 +36,13 @@ class PersonListener
     {
         if (empty($person->getEmail())) {
             $fname = strtolower($person->getGivenName());
+            if (!empty($fname)) {
+                $fname = str_replace(' ', '-', $fname);
+            }
             $lname = strtolower($person->getFamilyName());
+            if (!empty($lname)) {
+                $lname = str_replace(' ', '-', $lname);
+            }
             $rand = rand(0, 1000);
             $person->setEmail($fname.'-'.$lname.'-'.$rand.'@no-email.com');
         }
@@ -53,6 +59,8 @@ class PersonListener
         $email = $person->getEmail();
         $uow = $manager->getUnitOfWork();
         if (!empty($user = $person->getUser())) {
+            $user->setPerson($person); // to make sure person is persisted with the user
+            
             if (null !== ($pass = $user->getPlainPassword())) {
                 if (empty($pass)) {
                     $pass = null;
