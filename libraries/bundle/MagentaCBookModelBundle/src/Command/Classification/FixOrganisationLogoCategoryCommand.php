@@ -2,21 +2,15 @@
 
 namespace Magenta\Bundle\CBookModelBundle\Command\Classification;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Category;
 use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Service\Classification\CategoryManager;
-use Magenta\Bundle\CBookModelBundle\Service\User\UserManipulator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @author Matthieu Bontemps <matthieu@knplabs.com>
@@ -40,7 +34,6 @@ class FixOrganisationLogoCategoryCommand extends Command
         $this->categoryManager = $categoryManager;
     }
 
-
     /**
      * {@inheritdoc}
      */
@@ -49,7 +42,7 @@ class FixOrganisationLogoCategoryCommand extends Command
         $this
             ->setName(self::$defaultName)
             ->setDescription('Fix Organisation Logo Category.')
-            ->setDefinition(array())
+            ->setDefinition([])
             ->setHelp(<<<'EOT'
 The <info>magenta:classification:fix-organisation-logo-category</info> 
 EOT
@@ -89,7 +82,7 @@ EOT
             if (array_key_exists($org->getId(), $this->rootCategoryByOrgIds)) {
                 $category = $this->rootCategoryByOrgIds[$org->getId()];
                 $m->setCategory($category);
-                $output->writeln('Persisting ' . $m->getName() . ' with new Category ' . $category->getName());
+                $output->writeln('Persisting '.$m->getName().' with new Category '.$category->getName());
                 $this->manager->persist($m);
             }
         }
@@ -97,5 +90,4 @@ EOT
         $this->manager->flush();
         $output->writeln('DONE');
     }
-
 }

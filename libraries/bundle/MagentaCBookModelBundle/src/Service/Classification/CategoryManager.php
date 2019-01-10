@@ -41,6 +41,7 @@ class CategoryManager extends \Sonata\ClassificationBundle\Entity\CategoryManage
             $context->setEnabled(true);
             $context->setCreatedAt(new \DateTime());
             $contextManager->save($context);
+            $manager->flush($context);
         }
 
         $defaultRoot = $catManager->findOneBy(['parent' => null, 'organisation' => null, 'context' => $cid]);
@@ -51,6 +52,7 @@ class CategoryManager extends \Sonata\ClassificationBundle\Entity\CategoryManage
             $category->setName($cname);
             $category->setEnabled(true);
             $manager->persist($category);
+            $manager->flush($category);
         }
 
         $rootCategories = $catManager->findBy(['parent' => null, 'context' => $cid]);
@@ -75,11 +77,10 @@ class CategoryManager extends \Sonata\ClassificationBundle\Entity\CategoryManage
                 $category->setEnabled(true);
                 $category->setOrganization($org);
                 $manager->persist($category);
+                $manager->flush($category);
                 $orgsHavingRootCategory[] = $org->getId();
             }
         }
-
-        $manager->flush();
     }
 
     /**
