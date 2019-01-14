@@ -139,6 +139,51 @@ class BookReaderController extends Controller
             'employeeCode' => $employeeCode,
         ]);
     }
+ 
+    public function messagesAction($orgSlug, $accessCode, $employeeCode, Request $request){
+        try {
+            $this->checkAccess($accessCode, $employeeCode, $orgSlug);
+        } catch (UnauthorizedHttpException $e) {
+            return new RedirectResponse($this->get('router')->generate('magenta_book_login',
+                [
+                    'orgSlug' => $orgSlug,
+                ]));
+        }
+    
+        $registry = $this->getDoctrine();
+    
+        $member = $this->getMemberByPinCodeEmployeeCode($accessCode, $employeeCode);
+//        $books = $member->getBooksToRead();
+    
+        /** @var Organisation $org */
+        $org = $member->getOrganization();
+    
+        $rootCategory = $org->getRootCategoriesByContext($registry->getRepository(Context::class)->find('default'))->first();
+    
+        $registry = $this->getDoctrine();
+        $parentId = $request->query->get('parent');
+        $selectedCategory = null;
+        if (!empty($parentId)) {
+            $catRepo = $registry->getRepository(Category::class);
+            $selectedCategory = $catRepo->find($parentId);
+        }
+    
+        if (empty($selectedCategory)) {
+            $selectedCategory = $rootCategory;
+        }
+    
+        return $this->render('@MagentaCBookAdmin/App/index.html.twig', [
+            'rootCategory' => $rootCategory,
+            'selectedCategory' => $selectedCategory,
+            'member' => $member,
+            'logo' => $member->getOrganization()->getLogo(),
+            'base_book_template' => '@MagentaCBookAdmin/App/base.html.twig',
+//            'books' => $books,
+            'orgSlug' => $orgSlug,
+            'accessCode' => $accessCode,
+            'employeeCode' => $employeeCode,
+        ]);
+    }
     
     public function readBookAction($orgSlug, $accessCode, $employeeCode, $bookId)
     {
