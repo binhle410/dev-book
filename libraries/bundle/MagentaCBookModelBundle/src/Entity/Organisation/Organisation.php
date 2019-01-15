@@ -582,4 +582,20 @@ class Organisation extends OrganizationModel
     {
         $this->authByUsernamePassword = $authByUsernamePassword;
     }
+    
+    /**
+     * @return System|null
+     */
+    public function getSystem(): ?System
+    {
+        return $this->system;
+    }
+    
+    /**
+     * @param System|null $system
+     */
+    public function setSystem(?System $system): void
+    {
+        $this->system = $system;
+    }
 }

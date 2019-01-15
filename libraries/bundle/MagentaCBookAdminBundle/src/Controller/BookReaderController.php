@@ -7,6 +7,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\Book\Chapter;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Category;
 use Magenta\Bundle\CBookModelBundle\Entity\Classification\Context;
 use Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message;
+use Magenta\Bundle\CBookModelBundle\Entity\Messaging\MessageDelivery;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\CBookModelBundle\Entity\System\ProgressiveWebApp\Subscription;
@@ -172,7 +173,7 @@ class BookReaderController extends Controller
             $selectedCategory = $rootCategory;
         }
     
-        return $this->render('@MagentaCBookAdmin/App/index.html.twig', [
+        return $this->render('@MagentaCBookAdmin/App/Messaging/messages.html.twig', [
             'rootCategory' => $rootCategory,
             'selectedCategory' => $selectedCategory,
             'member' => $member,
@@ -267,6 +268,36 @@ class BookReaderController extends Controller
             'base_book_template' => '@MagentaCBookAdmin/App/base.html.twig',
             'logo' => $org->getLogo(),
             'members' => $sortedMembers,
+            'orgSlug' => $orgSlug,
+            'accessCode' => $accessCode,
+            'employeeCode' => $employeeCode,
+        ]);
+    }
+    
+    public function readMessageAction($orgSlug, $accessCode, $employeeCode, $messageDeliveryId, Request $request)
+    {
+        $this->get('magenta_book.individual_service')->checkAccess($accessCode, $employeeCode, $orgSlug);
+        $member = $this->get('magenta_book.individual_service')->getMemberByPinCodeEmployeeCode($accessCode, $employeeCode);
+        $registry = $this->getDoctrine();
+        /** @var MessageDelivery $delivery */
+        $delivery = $registry->getRepository(MessageDelivery::class)->find($messageDeliveryId);
+        if (empty($delivery)) {
+            throw new NotFoundHttpException('delivery not found');
+        }
+        
+        $delivery->setDateRead(new \DateTime());
+        
+        $manager = $this->get('doctrine.orm.default_entity_manager');
+        $manager->persist($delivery);
+        $manager->flush();
+        
+        $org = $member->getOrganization();
+        
+        return $this->render('@MagentaCBookAdmin/App/Messaging/read-message.html.twig', [
+            'message' => $delivery->getMessage(),
+            'member' => $member,
+            'base_book_template' => '@MagentaCBookAdmin/App/base.html.twig',
+            'logo' => $org->getLogo(),
             'orgSlug' => $orgSlug,
             'accessCode' => $accessCode,
             'employeeCode' => $employeeCode,

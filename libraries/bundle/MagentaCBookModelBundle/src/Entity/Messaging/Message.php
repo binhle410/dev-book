@@ -23,6 +23,21 @@ class Message extends \Bean\Component\Messaging\Model\Message implements Organiz
         $this->deliveries = new ArrayCollection();
     }
 
+    public function commitDeliveries()
+    {
+        $deliveries = [];
+        if (self::STATUS_NEW === $this->status) {
+            $members = $this->organisation->getIndividualMembers();
+            /** @var IndividualMember $member */
+            foreach ($members as $member) {
+                $recipient = $member;
+                $delivery = MessageDelivery::createInstance($this, $recipient);
+                $deliveries[] = $delivery;
+            }
+        }
+        return $deliveries;
+    }
+
     public function markStatusAsDeliveryInProgress()
     {
         if (self::STATUS_NEW === $this->status) {

@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Magenta\Bundle\CBookModelBundle\Service\Organisation;
 
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use JMS\Serializer\Tests\Fixtures\DoctrinePHPCR\BlogPost;
 use Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message;
 use Magenta\Bundle\CBookModelBundle\Entity\Messaging\MessageDelivery;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
@@ -61,12 +61,13 @@ class IndividualMemberService extends BaseService
             }
             $this->members[$arrayKey] = $memberRepo->findOneByPinCodeEmployeeCode($accessCode, $employeeCode);
         }
+        
         return $this->members[$arrayKey];
     }
     
     public function notifyOneOrganisationIndividualMembers(DPJob $dp)
     {
-        if ($dp->getType() !== DPJob::TYPE_PWA_PUSH_ORG_INDIVIDUAL || $dp->getStatus() !== DPJob::STATUS_PENDING) {
+        if (DPJob::TYPE_PWA_PUSH_ORG_INDIVIDUAL !== $dp->getType() || DPJob::STATUS_PENDING !== $dp->getStatus()) {
             return;
         }
         $row = 0;
@@ -80,9 +81,7 @@ class IndividualMemberService extends BaseService
             /** @var Message $message */
             $message = $this->registry->getRepository(Message::class)->find((int)$dp->getResourceName());
             
-            if ($dp->getStatus() === DPJob::STATUS_PENDING) {
-                
-                
+            if (DPJob::STATUS_PENDING === $dp->getStatus()) {
                 $members = $memberRepo->findHavingOrganisationSubscriptions((int)$dp->getOwnerId());
                 
                 if (count($members) > 0) {
@@ -95,23 +94,23 @@ class IndividualMemberService extends BaseService
                 $pwaPublicKey = trim(file_get_contents($path));
                 $path = $this->container->getParameter('PWA_PRIVATE_KEY_PATH');
                 $pwaPrivateKey = trim(file_get_contents($path));
-                $auth = array(
-                    'VAPID' => array(
+                $auth = [
+                    'VAPID' => [
                         'subject' => 'mailto:peter@magenta-wellness.com',
                         'publicKey' => $pwaPublicKey,
                         'privateKey' => $pwaPrivateKey, // in the real world, this would be in a secret file
-                    ),
-                );
+                    ],
+                ];
                 $webPush = new WebPush($auth);
 //                $multipleRun = false;
                 /**
-                 * @var IndividualMember $member
+                 * @var IndividualMember
                  */
                 foreach ($members as $member) {
                     if ($member->isMessageDelivered($message)) {
                         continue;
                     }
-                    $row++;
+                    ++$row;
 //                    if ($row > 1000) {
 //                        $multipleRun = true;
 //                        break;
@@ -121,7 +120,7 @@ class IndividualMemberService extends BaseService
                     
                     $preparedSubscriptions = [];
                     /**
-                     * @var Subscription $_sub
+                     * @var Subscription
                      */
                     foreach ($subscriptions as $_sub) {
                         $preparedSub = \Minishlink\WebPush\Subscription::create(
@@ -140,17 +139,22 @@ class IndividualMemberService extends BaseService
                                 'sender-name' => $message->getSender()->getPerson()->getName(),
                                 'message-id' => $message->getId(),
                                 'message-name' => $message->getName(),
-                                'subscription-id' => $_sub->getId()]),
+                                'subscription-id' => $_sub->getId(),]),
                             false
                         );
                     }
-                    
-                    $recipient = $member;
-                    $delivery = MessageDelivery::createInstance($message, $recipient);
-                    $this->manager->persist($delivery);
+
+//                    $recipient = $member;
+//                    $delivery = MessageDelivery::createInstance($message, $recipient);
                 }
                 
                 $res = $webPush->flush();
+                
+                $deliveries = $message->commitDeliveries();
+                foreach ($deliveries as $delivery) {
+                    $this->manager->persist($delivery);
+                }
+                
                 $dp->setStatus(DPJob::STATUS_PENDING);
                 $this->manager->persist($dp);
                 $this->manager->flush();
@@ -160,13 +164,12 @@ class IndividualMemberService extends BaseService
             
             $dp->setStatus(DPJob::STATUS_SUCCESSFUL);
             $this->manager->persist($dp);
-            echo 'try flusing 111  ';
-            
+            echo 'try flusing after setting status to  DPJob::STATUS_SUCCESSFUL  ';
             
             if (!$this->manager->isOpen()) {
                 throw new \Exception('EM is closed before flushed ' . $row);
             } else {
-                echo $row . "rows are still ok before flushing .........  ";
+                echo $row . 'rows are still ok before flushing .........  ';
 //                /**
 //                 * @var IndividualMember $member
 //                 */
@@ -185,7 +188,7 @@ class IndividualMemberService extends BaseService
             $error->setCode($ope->getCode());
             $error->setTrace($ope->getTrace());
             $error->setMessage($ope->getMessage());
-//
+            
             if (!$this->manager->isOpen()) {
                 $this->manager = $this->manager->create(
                     $this->manager->getConnection(),
@@ -237,7 +240,7 @@ class IndividualMemberService extends BaseService
     
     public function importMembers(DPJob $dp)
     {
-        if ($dp->getType() !== DPJob::TYPE_MEMBER_IMPORT || $dp->getIndex() > 0) {
+        if (DPJob::TYPE_MEMBER_IMPORT !== $dp->getType() || $dp->getIndex() > 0) {
             return;
         }
         
@@ -259,7 +262,7 @@ class IndividualMemberService extends BaseService
             if (!$this->manager->isOpen()) {
                 throw new \Exception('EM is closeddddddddddddddd ' . $row);
             }
-            $row++;
+            ++$row;
             $_serialNumber = $ws->getCell('A' . $row)->getValue();
             $_fname = $ws->getCell('B' . $row)->getValue();
             if (empty($_fname) || empty($_serialNumber)) {
@@ -339,13 +342,12 @@ class IndividualMemberService extends BaseService
         $this->manager->persist($dp);
         echo 'try flusing 111  ';
         try {
-            
             if (!$this->manager->isOpen()) {
                 throw new \Exception('EM is closed before flushed ' . $row);
             } else {
-                echo $row . "rows are still ok before flushing .........  ";
+                echo $row . 'rows are still ok before flushing .........  ';
                 /**
-                 * @var IndividualMember $member
+                 * @var IndividualMember
                  */
                 foreach ($importedMembers as $k => $member) {
                     echo ' member ' . $k . ': ' . $member->getPerson()->getEmail();
@@ -362,7 +364,7 @@ class IndividualMemberService extends BaseService
             $error->setCode($ope->getCode());
             $error->setTrace($ope->getTrace());
             $error->setMessage($ope->getMessage());
-//
+            
             if (!$this->manager->isOpen()) {
                 $this->manager = $this->manager->create(
                     $this->manager->getConnection(),
@@ -392,5 +394,4 @@ class IndividualMemberService extends BaseService
             $this->manager->flush();
         }
     }
-    
 }

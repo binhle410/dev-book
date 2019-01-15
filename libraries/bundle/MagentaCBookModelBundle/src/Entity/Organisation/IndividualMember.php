@@ -5,7 +5,6 @@ namespace Magenta\Bundle\CBookModelBundle\Entity\Organisation;
 use Bean\Component\Messaging\IoC\MessageContainerInterface;
 use Bean\Component\Messaging\IoC\MessageDeliverableInterface;
 use Bean\Component\Organization\Model\IndividualMember as MemberModel;
-
 use Bean\Component\Organization\Model\OrganizationInterface;
 use Bean\Component\Person\Model\PersonInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -13,7 +12,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\Book\Book;
-use Magenta\Bundle\CBookModelBundle\Entity\Media\Media;
 use Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message;
 use Magenta\Bundle\CBookModelBundle\Entity\Messaging\MessageDelivery;
 use Magenta\Bundle\CBookModelBundle\Entity\Person\Person;
@@ -27,9 +25,8 @@ use Magenta\Bundle\CBookModelBundle\Entity\User\User;
  */
 class IndividualMember extends MemberModel implements MessageDeliverableInterface, MessageContainerInterface
 {
-    
     private $messageDeliveryCache = [];
-    
+
     /**
      * @var int|null
      * @ORM\Id
@@ -37,7 +34,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     public function __construct()
     {
         parent::__construct();
@@ -48,7 +45,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
         $this->messages = new ArrayCollection();
         $this->enabled = true;
     }
-    
+
     /**
      * @return Person|null
      */
@@ -56,13 +53,11 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         return $this->person;
     }
-    
-    
-    
+
     public function readFromNotification(Message $message, Subscription $subscription)
     {
         /**
-         * @var MessageDelivery $delivery
+         * @var MessageDelivery
          */
         $delivery = $this->getMessageDelivery($message);
         if (empty($delivery)) {
@@ -70,9 +65,10 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
         }
         $delivery->setFirstReadFrom($subscription);
         $delivery->setDateRead(new \DateTime());
+
         return $delivery;
     }
-    
+
     public function deliver(Message $message)
     {
         if (empty($message->getSender())) {
@@ -81,13 +77,15 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
         if (empty($message->getOrganisation())) {
             $message->setOrganization($this->organization);
         }
+
         return $message->deliver();
     }
-    
+
     /**
      * @param Organisation $org
-     * @param Person $person
-     * @param null $email
+     * @param Person       $person
+     * @param null         $email
+     *
      * @return IndividualMember
      */
     public static function createInstance(Organisation $org, Person $person, $email = null)
@@ -95,20 +93,22 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
         $member = new IndividualMember();
         $member->setEnabled(true);
         $org->addIndividualMember($member);
-        
+
         $person->addIndividualMember($member);
         $member->setEmail($email);
+
         return $member;
     }
-    
+
     public function isMessageDelivered(Message $message)
     {
         if (empty($this->getMessageDelivery($message))) {
             return false;
         }
+
         return true;
     }
-    
+
     public function getMessageDelivery(Message $message)
     {
         if (array_key_exists($message->getId(), $this->messageDeliveryCache)) {
@@ -118,16 +118,16 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
         }
         $c = Criteria::create();
         $expr = Criteria::expr();
-        
+
         $c->where($expr->eq('message', $message));
         $deliveries = $this->messageDeliveries->matching($c);
         if ($deliveries->count() > 0) {
             return $this->messageDeliveryCache[$message->getId()] = $deliveries->first();
-            
         }
+
         return null;
     }
-    
+
     public function getMessageDeliveryBySubscription(Message $message, Subscription $subscription)
     {
         if (array_key_exists($message->getId(), $this->messageDeliveryCache)) {
@@ -137,16 +137,16 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
         }
         $c = Criteria::create();
         $expr = Criteria::expr();
-        
+
         $c->where($expr->eq('message', $message));
         $deliveries = $this->messageDeliveries->matching($c);
         if ($deliveries->count() > 0) {
             return $this->messageDeliveryCache[$message->getId()] = $deliveries->first();
-            
         }
+
         return null;
     }
-    
+
     public function getBooksToRead()
     {
         $draftBooks = $this->organization->getDraftBooksHavingPreviousVersions();
@@ -157,25 +157,28 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
                 $books[] = $b;
             }
         }
+
         return $books;
     }
-    
+
     public function initiatePin()
     {
         if (empty($this->pin)) {
             $this->pin = str_replace('O', '0', User::generate4DigitCode());
         }
+
         return $this;
     }
-    
+
     public function initiateCode()
     {
         if (empty($this->code)) {
-            $this->code = str_replace('O', '0', User::generate4DigitCode() . '-' . User::generateTimestampBasedCode());
+            $this->code = str_replace('O', '0', User::generate4DigitCode().'-'.User::generateTimestampBasedCode());
         }
+
         return $this;
     }
-    
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      * @ORM\ManyToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualGroup", inversedBy="members")
@@ -185,141 +188,139 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
      *      )
      */
     protected $groups;
-    
+
     public function addGroup(IndividualGroup $gc)
     {
         $this->groups->add($gc);
     }
-    
+
     public function removeGroup(IndividualGroup $gc)
     {
         $this->groups->removeElement($gc);
     }
-    
+
     public function isMemberOfGroup(IndividualGroup $group)
     {
         return $this->groups->contains($group);
     }
-    
+
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\System\ProgressiveWebApp\Subscription", mappedBy="individualMember")
      */
     protected $subscriptions;
-    
+
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Messaging\MessageDelivery", mappedBy="recipient")
      */
     protected $messageDeliveries;
-    
-    
+
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message", mappedBy="sender")
      */
     protected $messages;
-    
+
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\GroupIndividual", mappedBy="individualMember")
      */
     protected $groupIndividuals;
-    
+
     public function addGroupIndividual(GroupIndividual $gm)
     {
         $this->groupIndividuals->add($gm);
         $gm->setMember($this);
     }
-    
+
     public function removeGroupIndividual(GroupIndividual $gm)
     {
         $this->groupIndividuals->removeElement($gm);
         $gm->setMember(null);
     }
-    
+
     /**
      * @var Organisation
      * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation", inversedBy="individualMembers")
      * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $organization;
-    
+
     /**
      * @var Person|null
      * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Person\Person", inversedBy="individualMembers")
      * @ORM\JoinColumn(name="id_person", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $person;
-    
+
     /**
      * @var ACRole|null
      * @ORM\ManyToOne(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\System\AccessControl\ACRole", inversedBy="individualMembers")
      * @ORM\JoinColumn(name="id_role", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $role;
-    
+
     /**
      * @var \DateTime|null
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $synchronisedAt;
-    
+
     /**
      * @var integer|null
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $wellnessId;
-    
+
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
     protected $department;
-    
+
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
     protected $designation;
-    
+
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
     protected $wellnessPin;
-    
-    
+
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
     protected $wellnessEmployeeCode;
-    
+
     /**
      * @var boolean
      * @ORM\Column(type="boolean", options={"default":true})
      */
     protected $contactable = false;
-    
+
     /**
      * @var string|null
      * @ORM\Column(type="string",nullable=true)
      */
     protected $email;
-    
+
     /**
      * @var string|null
      * @ORM\Column(type="string", length=20,nullable=true, unique=true)
      */
     protected $code;
-    
+
     /**
      * @var string|null
      * @ORM\Column(type="string",nullable=true)
      */
     protected $pin;
-    
+
     /**
      * @return bool
      */
@@ -327,7 +328,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         return $this->contactable;
     }
-    
+
     /**
      * @param bool $contactable
      */
@@ -335,7 +336,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         $this->contactable = $contactable;
     }
-    
+
     /**
      * @return null|string
      */
@@ -343,7 +344,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         return $this->code;
     }
-    
+
     /**
      * @param null|string $code
      */
@@ -351,7 +352,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         $this->code = $code;
     }
-    
+
     /**
      * @return null|string
      */
@@ -359,7 +360,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         return $this->pin;
     }
-    
+
     /**
      * @param null|string $pin
      */
@@ -367,7 +368,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         $this->pin = $pin;
     }
-    
+
     /**
      * @return null|string
      */
@@ -375,7 +376,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         return $this->email;
     }
-    
+
     /**
      * @param null|string $email
      */
@@ -383,7 +384,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         $this->email = $email;
     }
-    
+
     /**
      * @return ACRole|null
      */
@@ -391,7 +392,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         return $this->role;
     }
-    
+
     /**
      * @param ACRole|null $role
      */
@@ -399,7 +400,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         $this->role = $role;
     }
-    
+
     /**
      * @return Collection
      */
@@ -407,7 +408,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         return $this->groupIndividuals;
     }
-    
+
     /**
      * @param Collection $groupIndividuals
      */
@@ -415,7 +416,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         $this->groupIndividuals = $groupIndividuals;
     }
-    
+
     /**
      * @return Collection
      */
@@ -423,7 +424,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         return $this->groups;
     }
-    
+
     /**
      * @param Collection $groups
      */
@@ -431,7 +432,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         $this->groups = $groups;
     }
-    
+
     /**
      * @return Organisation|null
      */
@@ -439,7 +440,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         return $this->organization;
     }
-    
+
     /**
      * @return \DateTime|null
      */
@@ -447,7 +448,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         return $this->synchronisedAt;
     }
-    
+
     /**
      * @param \DateTime|null $synchronisedAt
      */
@@ -455,7 +456,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         $this->synchronisedAt = $synchronisedAt;
     }
-    
+
     /**
      * @return int|null
      */
@@ -463,7 +464,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         return $this->wellnessId;
     }
-    
+
     /**
      * @param int|null $wellnessId
      */
@@ -471,7 +472,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         $this->wellnessId = $wellnessId;
     }
-    
+
     /**
      * @return null|string
      */
@@ -479,7 +480,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         return $this->wellnessPin;
     }
-    
+
     /**
      * @param null|string $wellnessPin
      */
@@ -487,7 +488,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         $this->wellnessPin = $wellnessPin;
     }
-    
+
     /**
      * @return null|string
      */
@@ -495,7 +496,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         return $this->wellnessEmployeeCode;
     }
-    
+
     /**
      * @param null|string $wellnessEmployeeCode
      */
@@ -503,7 +504,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         $this->wellnessEmployeeCode = $wellnessEmployeeCode;
     }
-    
+
     /**
      * @return Collection
      */
@@ -511,7 +512,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         return $this->subscriptions;
     }
-    
+
     /**
      * @param Collection $subscriptions
      */
@@ -519,7 +520,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         $this->subscriptions = $subscriptions;
     }
-    
+
     /**
      * @return Collection
      */
@@ -527,7 +528,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         return $this->messageDeliveries;
     }
-    
+
     /**
      * @param Collection $messageDeliveries
      */
@@ -535,7 +536,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         $this->messageDeliveries = $messageDeliveries;
     }
-    
+
     /**
      * @return Collection
      */
@@ -543,7 +544,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         return $this->messages;
     }
-    
+
     /**
      * @param Collection $messages
      */
@@ -551,7 +552,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         $this->messages = $messages;
     }
-    
+
     /**
      * @return null|string
      */
@@ -559,7 +560,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         return $this->department;
     }
-    
+
     /**
      * @param null|string $department
      */
@@ -567,7 +568,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         $this->department = $department;
     }
-    
+
     /**
      * @return null|string
      */
@@ -575,7 +576,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     {
         return $this->designation;
     }
-    
+
     /**
      * @param null|string $designation
      */

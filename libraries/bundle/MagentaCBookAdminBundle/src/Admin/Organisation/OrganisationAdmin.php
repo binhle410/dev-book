@@ -114,7 +114,7 @@ class OrganisationAdmin extends BaseAdmin
         $listMapper->add('_action', 'actions', [
                 'actions' => [
 //					'impersonate' => array( 'template' => 'admin/user/list__action__impersonate.html.twig' ),
-                    'cbook' => ['template' => '@MagentaCBookAdmin/Admin/Organisation/Action/list__action__cbooks.html.twig'],
+                    'cbook' => ['template' => '@MagentaCBookAdmin/Admin/Organisation/Organisation/Action/list__action__cbooks.html.twig'],
                     'edit' => [],
                     'delete' => [],
 

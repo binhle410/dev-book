@@ -1,0 +1,14 @@
+{% extends '@MagentaCBookAdmin/App/index.html.twig' %}
+{% block body %}
+  <div class="container">
+    <div class="text-center form-group">
+      {% set deliveries = member.messageDeliveries %}
+      {% for delivery in deliveries %}
+      <div class="text-left">
+        {{ delivery.message.name }}
+        <hr style="margin-top:1px;margin-bottom:5px; border-bottom: dashed; border-width: thin;"/>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock body %}

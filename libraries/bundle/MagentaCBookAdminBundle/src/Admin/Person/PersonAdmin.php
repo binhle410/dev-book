@@ -100,7 +100,23 @@ class PersonAdmin extends BaseAdmin
     {
         parent::configureListFields($list);
         $list->addIdentifier('name');
-        $list->add('email');
+        $list->add('email')
+        ;
+        $list->add('_action', 'actions', [
+                'actions' => [
+//					'impersonate' => array( 'template' => 'admin/user/list__action__impersonate.html.twig' ),
+                    'impersontate' => ['template' => '@MagentaCBookAdmin/Admin/Person/Person/Action/list__action__impersonate.html.twig'],
+                    'edit' => [],
+                    'delete' => [],
+
+//                ,
+//                    'view_description' => array('template' => '::admin/product/description.html.twig')
+//                ,
+//                    'view_tos' => array('template' => '::admin/product/tos.html.twig')
+                ],
+            ]
+        );
+            //
     }
 
     /**
