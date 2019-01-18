@@ -213,6 +213,7 @@ class IndividualMember extends MemberModel implements MessageDeliverableInterfac
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Messaging\MessageDelivery", mappedBy="recipient")
+     * @ORM\OrderBy({"id"="DESC"})
      */
     protected $messageDeliveries;
 

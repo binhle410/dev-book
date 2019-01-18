@@ -12,6 +12,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message;
 use Magenta\Bundle\CBookModelBundle\Entity\Messaging\MessageDelivery;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\IndividualMember;
 use Magenta\Bundle\CBookModelBundle\Entity\System\DataProcessing\DPJob;
+use Magenta\Bundle\CBookModelBundle\Service\Organisation\IndividualMemberService;
 use Minishlink\WebPush\Subscription;
 use Minishlink\WebPush\VAPID;
 use Minishlink\WebPush\WebPush;
@@ -43,16 +44,19 @@ class BeanPlaygroundController extends Controller
      */
     public function index(Request $request)
     {
-        $dp = $this->registry->getRepository(DPJob::class)->find(6);
+        $registry = $this->getDoctrine();
+        /** @var DPJob $dp */
+        $dp = $registry->getRepository(DPJob::class)->find(6);
 
         if (!empty($dp) && DPJob::STATUS_PENDING === $dp->getStatus()) {
             try {
-                $this->memberService->notifyOneOrganisationIndividualMembers($dp);
+                $ms = $this->get('magenta_book.individual_service');
+                $ms->notifyOneOrganisationIndividualMembers($dp);
             } catch (\Exception $e) {
             }
         }
 
-        return new JsonResponse([$id]);
+        return new JsonResponse($dp);
     }
 
     /**

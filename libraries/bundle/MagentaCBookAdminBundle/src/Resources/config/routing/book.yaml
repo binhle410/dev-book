@@ -37,6 +37,10 @@ magenta_book_messages:
   path:      /{orgSlug}/{accessCode}/{employeeCode}/messages
   controller: MagentaCBookAdminBundle:BookReader:messages
 
+magenta_book_message_read:
+  path:      /{orgSlug}/{accessCode}/{employeeCode}/messages/{messageDeliveryId}/read
+  controller: MagentaCBookAdminBundle:BookReader:readMessage
+
 magenta_book_reader_book:
   path:      /{orgSlug}/{accessCode}/{employeeCode}/book/{bookId}
   controller: MagentaCBookAdminBundle:BookReader:readBook

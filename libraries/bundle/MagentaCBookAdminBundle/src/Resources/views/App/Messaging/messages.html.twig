@@ -5,7 +5,7 @@
       {% set deliveries = member.messageDeliveries %}
       {% for delivery in deliveries %}
       <div class="text-left">
-        {{ delivery.message.name }}
+        <a href="{{ path('magenta_book_message_read',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode, messageDeliveryId:delivery.id}) }}">{{ delivery.message.name }}</a>
         <hr style="margin-top:1px;margin-bottom:5px; border-bottom: dashed; border-width: thin;"/>
       </div>
       {% endfor %}

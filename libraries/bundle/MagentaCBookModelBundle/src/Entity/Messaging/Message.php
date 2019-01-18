@@ -26,7 +26,7 @@ class Message extends \Bean\Component\Messaging\Model\Message implements Organiz
     public function commitDeliveries()
     {
         $deliveries = [];
-        if (self::STATUS_NEW === $this->status) {
+        if (in_array($this->status, [self::STATUS_NEW, self::STATUS_DELIVERY_IN_PROGRESS])) {
             $members = $this->organisation->getIndividualMembers();
             /** @var IndividualMember $member */
             foreach ($members as $member) {
@@ -35,6 +35,7 @@ class Message extends \Bean\Component\Messaging\Model\Message implements Organiz
                 $deliveries[] = $delivery;
             }
         }
+
         return $deliveries;
     }
 

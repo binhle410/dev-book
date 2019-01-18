@@ -58,6 +58,16 @@
               <p class="">HOME</p>
             </a>
           </li>
+
+
+          <li class="nav-item">
+            <a class="nav-link hand-hover" rel="tooltip" title="Dashboard" data-placement="bottom"
+               href="{{ path('magenta_book_messages', {orgSlug:orgSlug,'accessCode': accessCode, 'employeeCode': employeeCode}) }}">
+              <i class="nc-icon nc-email-85"></i>
+              <p class="">MESSAGES</p>
+            </a>
+          </li>
+
           <li class="nav-item hand-hover">
             <a class="nav-link" rel="tooltip" title="Employee Contacts" data-placement="bottom"
                href="{{ path('magenta_book_contact', {orgSlug:orgSlug,'accessCode': accessCode, 'employeeCode': employeeCode}) }}"

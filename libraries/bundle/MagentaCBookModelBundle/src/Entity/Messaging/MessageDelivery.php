@@ -25,6 +25,11 @@ class MessageDelivery implements MessageDeliveryInterface
 
     use MessageDeliveryInterfaceTrait;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
+    
     public static function createInstance(Message $message, MessageDeliverableInterface $recipient)
     {
         $d = new MessageDelivery();

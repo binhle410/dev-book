@@ -39,8 +39,8 @@ class BookReaderController extends Controller
                 /** @var IndividualMember $member */
                 $member = $memberRepo->findOneByOrganisationSlugUsernameEmail(trim($orgSlug), trim($username));
                 $userManager = $this->get('magenta_user.user_manager');
-                if (empty($member)) {
-                    throw new UnauthorizedHttpException('Member not found');
+                if (empty($member) || !$member->isEnabled()) {
+                    throw new UnauthorizedHttpException('Member not found or not enabled');
                 }
                 if (!empty($password) && $userManager->isPasswordValid($member->getPerson()->getUser(), $password)) {
                     return new RedirectResponse($this->get('router')->generate('magenta_book_index',
@@ -64,7 +64,7 @@ class BookReaderController extends Controller
                         /** @var IndividualMember $member */
                         $member = $memberRepo->findOneByOrganisationCodeNric(trim($orgCode), trim($idNumber));
                         
-                        if (!empty($member) && $member->getPerson()->getBirthDate()->format('Y-m-d') === $dob->format('Y-m-d')) {
+                        if (!empty($member) && $member->getPerson()->getBirthDate()->format('Y-m-d') === $dob->format('Y-m-d') && $member->isEnabled()) {
                             return new RedirectResponse($this->get('router')->generate('magenta_book_index',
                                 [
                                     'orgSlug' => $orgSlug,
