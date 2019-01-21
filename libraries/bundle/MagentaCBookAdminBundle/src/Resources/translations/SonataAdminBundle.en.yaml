@@ -11,3 +11,5 @@ link_action_cancel: Cancel
 export_format_pdf: PDF
 export_format_html: HTML
 
+form:
+    label_btn_add_new_user: Add a new Admin User

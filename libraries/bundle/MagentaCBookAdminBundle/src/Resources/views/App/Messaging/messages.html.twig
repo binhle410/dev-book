@@ -1,11 +1,29 @@
 {% extends '@MagentaCBookAdmin/App/index.html.twig' %}
+{% block stylesheets_app %}
+  {{ parent() }}
+  <style>
+    .message {
+      padding: 5px;
+      border-radius: 5px;
+    }
+    .message.unread {
+      border-color:#f5f6f7;
+      background-color:#f5f6f7;
+    }
+  </style>
+{% endblock %}
+
 {% block body %}
   <div class="container">
     <div class="text-center form-group">
       {% set deliveries = member.messageDeliveries %}
       {% for delivery in deliveries %}
-      <div class="text-left">
-        <a href="{{ path('magenta_book_message_read',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode, messageDeliveryId:delivery.id}) }}">{{ delivery.message.name }}</a>
+
+      <div class="text-left message {{ delivery.dateRead is empty ? 'unread' :'' }}" >
+        <a href="{{ path('magenta_book_message_read',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode, messageDeliveryId:delivery.id}) }}">{{ delivery.message.name }}
+        <br>
+        <span class="text-muted">{{ delivery.createdAt|date('d/m/Y') }}</span>
+        </a>
         <hr style="margin-top:1px;margin-bottom:5px; border-bottom: dashed; border-width: thin;"/>
       </div>
       {% endfor %}

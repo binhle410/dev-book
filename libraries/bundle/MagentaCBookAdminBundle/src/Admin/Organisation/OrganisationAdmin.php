@@ -171,9 +171,14 @@ class OrganisationAdmin extends BaseAdmin
             ->add('authByUsernamePassword', null, ['label' => 'form.label_auth_by_username_password'])
             ->add('enabled')
             ->add('adminUsers', ModelAutocompleteType::class, [
+                'template' => '@MagentaCBookAdmin/Form/sonata_type_model_autocomplete.html.twig',
+                'btn_add' => 'form.label_btn_add_new_user',
                 'required' => false,
                 'property' => 'username',
                 'multiple' => true,
+                'to_string_callback' => function (User $entity, $propery) {
+                return $entity->getUsername();
+                },
             ])
             ->end();
     }

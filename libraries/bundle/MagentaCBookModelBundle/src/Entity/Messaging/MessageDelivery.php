@@ -16,7 +16,7 @@ use Magenta\Bundle\CBookModelBundle\Entity\System\ProgressiveWebApp\Subscription
 class MessageDelivery implements MessageDeliveryInterface
 {
     /**
-     * @var integer|null
+     * @var int|null
      * @ORM\Id
      * @ORM\Column(type="bigint",options={"unsigned":true})
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -29,7 +29,19 @@ class MessageDelivery implements MessageDeliveryInterface
     {
         $this->createdAt = new \DateTime();
     }
-    
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        if (empty($this->createdAt)) {
+            return $this->message->getCreatedAt();
+        }
+
+        return $this->createdAt;
+    }
+
     public static function createInstance(Message $message, MessageDeliverableInterface $recipient)
     {
         $d = new MessageDelivery();
@@ -74,7 +86,7 @@ class MessageDelivery implements MessageDeliveryInterface
     /**
      * The date/time at which the message has been sent to the recipient.
      *
-     * @var \DateTime|null
+     * @var \DateTime
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $createdAt;
@@ -86,7 +98,7 @@ class MessageDelivery implements MessageDeliveryInterface
     protected $updatedAt;
 
     /**
-     * @var boolean|null
+     * @var bool|null
      * @ORM\Column(type="boolean", nullable=true, options={"default":false})
      */
     protected $locked = false;
@@ -121,5 +133,69 @@ class MessageDelivery implements MessageDeliveryInterface
     public function setFirstReadFrom(?Subscription $firstReadFrom): void
     {
         $this->firstReadFrom = $firstReadFrom;
+    }
+
+    /**
+     * @return MessageInterface
+     */
+    public function getMessage(): MessageInterface
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param MessageInterface $message
+     */
+    public function setMessage(MessageInterface $message): void
+    {
+        $this->message = $message;
+    }
+
+    /**
+     * @return MessageDeliverableInterface
+     */
+    public function getRecipient(): MessageDeliverableInterface
+    {
+        return $this->recipient;
+    }
+
+    /**
+     * @param MessageDeliverableInterface $recipient
+     */
+    public function setRecipient(MessageDeliverableInterface $recipient): void
+    {
+        $this->recipient = $recipient;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getDateRead(): ?\DateTime
+    {
+        return $this->dateRead;
+    }
+
+    /**
+     * @param \DateTime|null $dateRead
+     */
+    public function setDateRead(?\DateTime $dateRead): void
+    {
+        $this->dateRead = $dateRead;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getLocked(): ?bool
+    {
+        return $this->locked;
+    }
+
+    /**
+     * @param bool|null $locked
+     */
+    public function setLocked(?bool $locked): void
+    {
+        $this->locked = $locked;
     }
 }
