@@ -280,12 +280,40 @@ This code manages the many-to-[one|many] association field popup
             url: url,
             type: type,
             data: data,
-            success: function(data) {
+            success: function(response) {
                 Admin.log('[{{ id }}|field_dialog_form_action] ajax success');
+                console.log(this);
+                let formData = form.serializeArray();
+                let addedUsername = '';
+                for(let i = 0;i<formData.length;i++){
+                    let formDataField = formData[i];
+                    let fieldName = formDataField.name;
+                    let fieldValue = formDataField.value;
+                    if(fieldName.indexOf('username') > -1){
+                        addedUsername = fieldValue;
+                    }
+                }
+                console.log('data is {{ sonata_admin.admin.uniqid }}', data);
+                // Custom Changes
+                var usedInputRef = window.Select2 ? '#{{ id }}_autocomplete_input' : '#{{ id }}_autocomplete_input_v4';
+                var unusedInputRef = window.Select2 ? '#{{ id }}_autocomplete_input_v4' : '#{{ id }}_autocomplete_input';
+
+                $(unusedInputRef).remove();
+                var autocompleteInput = $(usedInputRef);
+
+                // autocompleteInput.append(newOption).trigger('change');
+                window.sonataAutocompleteModelTypeData.push({id: response.objectId, label: addedUsername });
+                autocompleteInput.select2('data', window.sonataAutocompleteModelTypeData);
+
+                // add hidden input
+                let $hiddenInputWrap = $('#{{ id }}_hidden_inputs_wrap');
+                $hiddenInputWrap.append('<input type="hidden" name="{{ sonata_admin.admin.uniqid }}[adminUsers][]" value="'+response.objectId+'">');
+
+                // End of Custom Changes
 
                 // if the crud action return ok, then the element has been added
                 // so the widget container must be refresh with the last option available
-                if (typeof data != 'string' && data.result == 'ok') {
+                if (typeof response != 'string' && response.result == 'ok') {
                     field_dialog_{{ id }}.modal('hide');
 
                     {% if sonata_admin.edit == 'list' %}
@@ -293,7 +321,7 @@ This code manages the many-to-[one|many] association field popup
                            in this case we update the hidden input, and call the change event to
                            retrieve the post information
                         #}
-                        jQuery('#{{ id }}').val(data.objectId);
+                        jQuery('#{{ id }}').val(response.objectId);
                         jQuery('#{{ id }}').change();
 
                     {% else %}
@@ -316,7 +344,7 @@ This code manages the many-to-[one|many] association field popup
                             type: 'POST',
                             success: function(html) {
                                 jQuery('#field_container_{{ id }}').replaceWith(html);
-                                var newElement = jQuery('#{{ id }} [value="' + data.objectId + '"]');
+                                var newElement = jQuery('#{{ id }} [value="' + response.objectId + '"]');
                                 if (newElement.is("input")) {
                                     newElement.attr('checked', 'checked');
                                 } else {
@@ -333,7 +361,7 @@ let fieldContainer = jQuery('#field_container_{{ id }}');
                 }
 
                 // otherwise, display form error
-                field_dialog_content_{{ id }}.html(data);
+                field_dialog_content_{{ id }}.html(response);
 
                 Admin.shared_setup(field_dialog_{{ id }});
 
