@@ -1,0 +1,29 @@
+{% extends '@SonataDoctrineORMAdmin/CRUD/list_orm_one_to_many.html.twig' %}
+
+{% block field %}
+  {% set route_name = field_description.options.route.name %}
+  {% if field_description.hasassociationadmin and field_description.associationadmin.hasRoute(route_name) %}
+    {% for element in value %}
+      {%- if field_description.associationadmin.hasAccess(route_name, element) -%}
+        {{ block('relation_link') }}
+      {%- else -%}
+        {{ block('relation_value') }}
+      {%- endif -%}
+      {% if not loop.last %}{# , #} {% endif %}
+    {% endfor %}
+  {% else %}
+    {% for element in value %}
+      {{ block('relation_value') }}{% if not loop.last %} {# , #} {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endblock %}
+
+{%- block relation_link -%}
+  {% if element.adminOrganisations.count() > 1 %}
+<a class="btn btn-default disabled" disabled="" href="#">
+  {% else %}
+    <a class="btn btn-default" href="{{ path('sonata_admin_dashboard',{'_switch_user':element.username}) }}">
+  {% endif %}
+    {{- element|render_relation_element(field_description) -}}
+  </a>
+{%- endblock -%}

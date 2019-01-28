@@ -97,11 +97,6 @@ class OrganisationAdmin extends BaseAdmin
         //		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
     }
 
-    public function getTemplate($name)
-    {
-        return parent::getTemplate($name);
-    }
-
     protected function configureShowFields(ShowMapper $showMapper)
     {
     }
@@ -127,6 +122,9 @@ class OrganisationAdmin extends BaseAdmin
         );
         $listMapper
             ->addIdentifier('name')
+            ->add('adminUsers', null, [
+                'label' => 'form.label_admin_users',
+                'template' => '@MagentaCBookAdmin/Admin/Organisation/Organisation/CRUD/Association/list_impersonate__admin_users.html.twig', ])
             ->add('createdAt');
 
         if ($this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
@@ -177,7 +175,7 @@ class OrganisationAdmin extends BaseAdmin
                 'property' => 'username',
                 'multiple' => true,
                 'to_string_callback' => function (User $entity, $propery) {
-                return $entity->getUsername();
+                    return $entity->getUsername();
                 },
             ])
             ->end();

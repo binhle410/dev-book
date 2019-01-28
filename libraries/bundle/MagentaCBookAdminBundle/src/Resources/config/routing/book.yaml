@@ -33,6 +33,12 @@ magenta_book_index:
   controller: MagentaCBookAdminBundle:BookReader:index
   defaults:   { format: reference }
 
+magenta_book_archives:
+  path:      /{orgSlug}/{accessCode}/{employeeCode}/archived-books/{bookId}
+  controller: MagentaCBookAdminBundle:BookReader:bookArchives
+  defaults:   { format: reference }
+
+
 magenta_book_messages:
   path:      /{orgSlug}/{accessCode}/{employeeCode}/messages
   controller: MagentaCBookAdminBundle:BookReader:messages
