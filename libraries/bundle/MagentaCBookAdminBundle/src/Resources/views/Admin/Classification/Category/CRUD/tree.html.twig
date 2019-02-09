@@ -263,9 +263,9 @@
                                        class="item-action"><i
                                                 class="fa fa-trash"> </i></a>
 
-                                    {#<a href="{{ path('magenta_book_archives',{bookId: categoryItem.item.id}) }}"#}
-                                       {#class="item-action"><i#}
-                                            {#class="fa fa-bookmark"> </i></a>#}
+                                    <a target="_blank" href="{{ path('magenta_book_archives_by_admin',{orgSlug: app.user.adminOrganisations.first.slug, adminCode: app.user.id, bookId: categoryItem.item.id}) }}"
+                                       class="item-action"><i
+                                            class="fa fa-bookmark"> </i></a>
                                 {% else %}
                                     {% if categoryItem.type == 'MEDIA' %}
                                         <a href="{{ path('admin_magenta_cbookmodel_classification_categoryitem_mediacategoryitem_delete',{id: categoryItem.id}) }}"
