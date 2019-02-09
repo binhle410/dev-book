@@ -262,6 +262,10 @@
                                     <a href="{{ path('admin_magenta_cbookmodel_classification_categoryitem_bookcategoryitem_delete',{id: categoryItem.id}) }}"
                                        class="item-action"><i
                                                 class="fa fa-trash"> </i></a>
+
+                                    {#<a href="{{ path('magenta_book_archives',{bookId: categoryItem.item.id}) }}"#}
+                                       {#class="item-action"><i#}
+                                            {#class="fa fa-bookmark"> </i></a>#}
                                 {% else %}
                                     {% if categoryItem.type == 'MEDIA' %}
                                         <a href="{{ path('admin_magenta_cbookmodel_classification_categoryitem_mediacategoryitem_delete',{id: categoryItem.id}) }}"

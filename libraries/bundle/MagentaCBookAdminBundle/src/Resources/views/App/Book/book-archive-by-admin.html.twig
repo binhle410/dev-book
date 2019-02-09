@@ -1,0 +1,87 @@
+{% extends base_book_template %}
+{% block stylesheets_app %}
+
+    <style>
+        .navbar .navbar-brand {
+            padding: 0px;
+        }
+
+        /* Link color */
+        a {
+            color: #3e3b6c;
+        }
+
+        a:hover, a:focus {
+            color: #605ca8;
+        }
+
+        .btn-outline-primary {
+            border-color: #605ca8;
+            color: #605ca8;
+        }
+
+        .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active, .btn-outline-primary.active, .open > .btn-outline-primary.dropdown-toggle, .page-item.active .page-link {
+            background-color: #605ca8;
+            border-color: #605ca8;
+        }
+
+        .pagination > .page-item > .page-link, .pagination > .page-item:last-child > .page-link, .pagination > .page-item:first-child > .page-link {
+            color: #605ca8;
+            border-color: #605ca8;
+        }
+
+        .pagination > .page-item.active > .page-link {
+            color: white;
+        }
+
+        .pagination > li.active > a:focus, .pagination > li.active > a:hover {
+            background-color: #3e3b6c;
+            border-color: #3e3b6c;
+        }
+    </style>
+{% endblock %}
+{% block nav_title %}
+    {#<a href="{{ path('magenta_book_index',{orgSlug:orgSlug,accessCode:accessCode,employeeCode:employeeCode}) }}">#}
+        {#<img class="logo" height="40" src="{{ logo is empty?'https://www.magenta-consulting.com/images/logo.png':privateMediumUrl(logo.id,'small') }}"/>#}
+    {#</a>#}
+{% endblock %}
+
+  {% block head_link %} {% endblock %}
+  {% block navbar %} {% endblock %}
+  {% block js_service_worker %} {% endblock %}
+{% block js_remember_url %} {% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% block breadcrumb %}
+            {% import '@MagentaCBookAdmin/App/Classification/macro_category_breadcrumb.html.twig' as bc %}
+            {#{{ bc.create_breadcrumb(orgSlug, accessCode, employeeCode, selectedCategory,0) }}#}
+        {% endblock %}
+        <div class="text-center"><h3>Past editions of the book</h3></div>
+        <table v-if="!reading" class="table table-striped">
+            <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+
+            {% for book in books %}
+                <tr class="hand-hover">
+                    <td>
+
+                        <a href="{{ path('magenta_book_archives_by_admin', {adminCode: adminCode, orgSlug: orgSlug, 'bookId': book.id}) }}">
+                        {{ book.name|raw }}
+                            <br/>
+                            Edition: {{ book.bookEdition }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+{% endblock body %}
