@@ -137,28 +137,28 @@
                     {#class="fa fa-folder"></i> {{ admin.trans('form.label_new_category', {}, admin.translationDomain) }}#}
                     {#</a>#}
                     Directory Tree
-                    {% if not app.request.get('hide_context') and current_context is not empty %}
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                <strong class="text-info">{{ current_context.name }}</strong> <span
-                                        class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                {% for context_id, categories in root_categories %}
-                                    <li>
-                                        <a href="{{ admin.generateUrl('tree', { 'context': context_id }) }}">
-                                            {% if current_context and context_id == current_context.id %}
-                                                <span class="pull-right">
-                                                    <i class="fa fa-check"></i>
-                                                </span>
-                                            {% endif %}
-                                            {{ categories|join(', ') }}
-                                        </a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% endif %}
+                    {#{% if not app.request.get('hide_context') and current_context is not empty %}#}
+                        {#<div class="btn-group">#}
+                            {#<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">#}
+                                {#<strong class="text-info">{{ current_context.name }}</strong> <span#}
+                                        {#class="caret"></span>#}
+                            {#</button>#}
+                            {#<ul class="dropdown-menu" role="menu">#}
+                                {#{% for context_id, categories in root_categories %}#}
+                                    {#<li>#}
+                                        {#<a href="{{ admin.generateUrl('tree', { 'context': context_id }) }}">#}
+                                            {#{% if current_context and context_id == current_context.id %}#}
+                                                {#<span class="pull-right">#}
+                                                    {#<i class="fa fa-check"></i>#}
+                                                {#</span>#}
+                                            {#{% endif %}#}
+                                            {#{{ categories|join(', ') }}#}
+                                        {#</a>#}
+                                    {#</li>#}
+                                {#{% endfor %}#}
+                            {#</ul>#}
+                        {#</div>#}
+                    {#{% endif %}#}
                 </h1>
             </div>
             <div class="box-content">
@@ -188,7 +188,8 @@
                         <hr style="margin-top:1px; margin-bottom:10px;"/>
                     </div>
                 {% endif %}
-                <h1 class="box-title">{{ selectedCategory.name }}</h1>
+                <h1 class="box-title">{{ selectedCategory.name }} <a href="{{ admin.generateUrl('edit',{id: selectedCategory.id}) }}" class="item-action"> <i
+                            class="fa fa-pencil" style="font-size: 12px;"> </i></a></h1>
                 <div class="text-muted">{{ selectedCategory.description }}</div>
                 {#<a href="{{ path('admin_magenta_cbookmodel_book_book_create',{}) }}" class="btn btn-primary"><i class="fa fa-plus"></i> <i class="fa fa-book"></i> New Book</a>#}
             </div>
