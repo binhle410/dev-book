@@ -4,6 +4,8 @@ namespace Magenta\Bundle\CBookModelBundle\Entity\Messaging;
 
 use Bean\Component\Organization\IoC\OrganizationAwareInterface;
 use Bean\Component\Organization\Model\OrganizationInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation;
 
@@ -19,27 +21,28 @@ class Conversation extends \Bean\Component\Messaging\Model\Conversation implemen
      * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $organisation;
-
+    
     /**
      * @ORM\OneToMany(
      *     targetEntity="Magenta\Bundle\CBookModelBundle\Entity\Messaging\Message",
      *     mappedBy="conversation", cascade={"persist"}
      * )
      *
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \Doctrine\Common\Collections\Collection $messages
      */
     protected $messages;
-
+    
+    
     public function getOrganization(): ?OrganizationInterface
     {
         return $this->getOrganisation();
     }
-
+    
     public function setOrganization(?OrganizationInterface $organization)
     {
         $this->setOrganisation($organization);
     }
-
+    
     /**
      * @return Organisation|null
      */
@@ -47,7 +50,7 @@ class Conversation extends \Bean\Component\Messaging\Model\Conversation implemen
     {
         return $this->organisation;
     }
-
+    
     /**
      * @param Organisation|null $organisation
      */
@@ -55,4 +58,8 @@ class Conversation extends \Bean\Component\Messaging\Model\Conversation implemen
     {
         $this->organisation = $organisation;
     }
+    
+    
+    
+    
 }

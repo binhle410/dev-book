@@ -55,8 +55,8 @@ class DPLog
     protected $name;
 
     /**
-     * @var int|null
-     * @ORM\Column(type="int", nullable=true)
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $code;
 
@@ -121,17 +121,17 @@ class DPLog
     }
 
     /**
-     * @return null|int
+     * @return null|string
      */
-    public function getCode(): ?int
+    public function getCode(): ?string
     {
         return $this->code;
     }
 
     /**
-     * @param null|int $code
+     * @param null|string $code
      */
-    public function setCode(?int $code): void
+    public function setCode(?string $code): void
     {
         $this->code = $code;
     }

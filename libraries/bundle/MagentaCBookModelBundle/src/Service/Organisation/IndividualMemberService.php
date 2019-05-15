@@ -103,8 +103,8 @@ class IndividualMemberService extends BaseService
                 ];
                 $webPush = new WebPush($auth);
 //                $multipleRun = false;
-                /**
-                 * @var IndividualMember $member
+                /*
+                 * @var IndividualMember
                  */
                 foreach ($members as $member) {
                     if ($member->isMessageDelivered($message)) {
