@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Bean\Component\Messaging\Model;
@@ -12,13 +13,15 @@ class Conversation extends CreativeWork implements ConversationInterface
 {
     /**
      * NOT part of schema.org
-     * Collection of MessageDeliverableInterface
+     * Collection of MessageDeliverableInterface.
+     *
      * @var \Countable|\IteratorAggregate|\ArrayAccess|array|null
      */
     protected $participants;
 
     /**
-     * NOT part of schema.org
+     * NOT part of schema.org.
+     *
      * @var \Countable|\IteratorAggregate|\ArrayAccess|array|null
      */
     protected $messages;
